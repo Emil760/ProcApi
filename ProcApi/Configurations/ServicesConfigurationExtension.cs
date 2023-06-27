@@ -8,6 +8,7 @@ namespace ProcApi.Configurations
         public static void AddServices(this IServiceCollection services)
         {
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IFileService, FileService>();
         }
     }
 }

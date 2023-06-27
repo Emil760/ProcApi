@@ -2,8 +2,7 @@
 
 namespace ProcApi.Repositories.Abstracts
 {
-    public interface IUserRepository
+    public interface IUserRepository : IGenericRepository<User>
     {
-        Task<IEnumerable<User>> GetUsers();
     }
 }

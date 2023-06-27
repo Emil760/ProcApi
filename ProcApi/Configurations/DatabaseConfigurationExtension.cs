@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProcApi.Configurations.Options;
 using ProcApi.Data.ProcDatabase;
-using System.Text.Json;
 
 namespace ProcApi.Configurations
 {
@@ -9,12 +8,9 @@ namespace ProcApi.Configurations
     {
         public static void AddDatabase(this IServiceCollection services, IConfiguration configuration)
         {
-            var a = configuration.GetSection(nameof(ConnectionStrings));
+            var procConnectionString = configuration.GetSection(nameof(ConnectionStrings)).GetChildren().ElementAt(0).Value;
 
-            var connectionStrings = JsonSerializer.Deserialize<ConnectionStrings>(
-                configuration.GetSection(nameof(ConnectionStrings)));
-
-            services.AddDbContext<ProcDbContext>(options => options.UseSqlServer(connectionStrings.ProcConnectionString));
+            services.AddDbContext<ProcDbContext>(options => options.UseSqlServer(procConnectionString));
         }
     }
 }

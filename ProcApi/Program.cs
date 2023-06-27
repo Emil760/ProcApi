@@ -10,11 +10,13 @@ builder.Services.AddDatabase(builder.Configuration);
 
 builder.Services.AddSwagger();
 
-builder.Services.AddServices();
+builder.Services.AddAutoMapper();
+
+builder.Services.AddSingnalR();
 
 builder.Services.AddRepositories();
 
-builder.Services.AddSingnalR();
+builder.Services.AddServices();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

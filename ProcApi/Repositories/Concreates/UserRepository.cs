@@ -4,18 +4,13 @@ using ProcApi.Repositories.Abstracts;
 
 namespace ProcApi.Repositories.Concreates
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository : GenericRepository<User>, IUserRepository
     {
         private ProcDbContext context;
 
-        public UserRepository(ProcDbContext context)
+        public UserRepository(ProcDbContext context) : base(context)
         {
             this.context = context;
-        }
-
-        public async Task<IEnumerable<User>> GetUsers()
-        {
-            return null;
         }
     }
 }

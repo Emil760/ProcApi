@@ -6,10 +6,14 @@ namespace ProcApi.Configurations
     {
         public static void AddCustomOptions(this IServiceCollection services, IConfiguration configuration)
         {
-            var a = configuration.GetSection(nameof(ConnectionStrings));
-
             services.Configure<ConnectionStrings>(
                 configuration.GetSection(nameof(ConnectionStrings)));
+
+            services.Configure<FilePaths>(
+                configuration.GetSection(nameof(FilePaths)));
+
+            services.Configure<Options.FileOptions>(
+                configuration.GetSection(nameof(Options.FileOptions)));
         }
     }
 }

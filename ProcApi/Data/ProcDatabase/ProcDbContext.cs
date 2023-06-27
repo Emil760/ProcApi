@@ -8,6 +8,7 @@ namespace ProcApi.Data.ProcDatabase
     {
         public ProcDbContext(DbContextOptions<ProcDbContext> options) : base(options)
         {
+
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

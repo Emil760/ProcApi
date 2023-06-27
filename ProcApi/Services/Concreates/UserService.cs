@@ -1,4 +1,5 @@
-﻿using ProcApi.Repositories.Abstracts;
+﻿using AutoMapper;
+using ProcApi.Repositories.Abstracts;
 using ProcApi.Services.Abstracts;
 using ProcApi.ViewModel;
 
@@ -7,20 +8,19 @@ namespace ProcApi.Services.Concreates
     public class UserService : IUserService
     {
         private IUserRepository userRepository;
-        //private IMapper mapper;
+        private IMapper mapper;
 
-        public UserService(IUserRepository userRepository)
+        public UserService(IUserRepository userRepository, IMapper mapper)
         {
             this.userRepository = userRepository;
-            //this.mapper = mapper;
+            this.mapper = mapper;
         }
 
         public async Task<IEnumerable<UserViewModel>> GetUsers()
         {
-            var users = await userRepository.GetUsers();
+            var users = await userRepository.GetAllAsync();
 
-            return null;
-            //return mapper.Map<IEnumerable<UserViewModel>>(users);
+            return mapper.Map<IEnumerable<UserViewModel>>(users);
         }
     }
 }

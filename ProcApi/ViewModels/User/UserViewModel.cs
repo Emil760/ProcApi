@@ -1,4 +1,4 @@
-﻿namespace ProcApi.ViewModel
+﻿namespace ProcApi.ViewModels.User
 {
     public class UserViewModel
     {

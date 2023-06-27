@@ -30,5 +30,17 @@ namespace ProcApi.Repositories.Concreates
                 return await _context.Set<T>().Where(expression).ToListAsync();
             return await _context.Set<T>().ToListAsync();
         }
+
+        public async Task InsertAsync(T entity)
+        {
+            _context.Add(entity);
+
+            await _context.SaveChangesAsync();
+        }
+
+        public void Insert(T entity)
+        {
+            _context.Add(entity);
+        }
     }
 }

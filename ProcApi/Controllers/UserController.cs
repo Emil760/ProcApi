@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ProcApi.DTOs.User;
 using ProcApi.Services.Abstracts;
 
 namespace ProcApi.Controllers
@@ -20,6 +21,12 @@ namespace ProcApi.Controllers
         public async Task<IActionResult> GetAll()
         {
             return Ok(await _userService.GetUsers());
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateUser([FromBody] AddUserDTO dto)
+        {
+            return Ok(await _userService.AddUser(dto));
         }
     }
 }

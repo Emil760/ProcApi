@@ -9,6 +9,9 @@ namespace ProcApi.Configurations
             services.Configure<ConnectionStrings>(
                 configuration.GetSection(nameof(ConnectionStrings)));
 
+            services.Configure<RedisOptions>(
+                configuration.GetSection(nameof(RedisOptions)));
+
             services.Configure<FilePaths>(
                 configuration.GetSection(nameof(FilePaths)));
 

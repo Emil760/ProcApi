@@ -35,7 +35,6 @@
     <Folder Include="Attributes\" />
     <Folder Include="Attributtes\" />
     <Folder Include="Data\ProcDatabase\Migrations\" />
-    <Folder Include="DTOs\" />
   </ItemGroup>
 
 </Project>

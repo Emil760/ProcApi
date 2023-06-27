@@ -1,3 +1,4 @@
+using FluentValidation.AspNetCore;
 using ProcApi.Configurations;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,11 +15,15 @@ builder.Services.AddAutoMapper();
 
 builder.Services.AddSingnalR();
 
+builder.Services.AddRedisCaching(builder.Configuration);
+
 builder.Services.AddRepositories();
 
 builder.Services.AddServices();
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddFluentValidation(config => config.RegisterValidatorsFromAssemblyContaining<Program>());
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using ProcApi.Data.ProcDatabase.Models;
-using ProcApi.ViewModel;
+using ProcApi.DTOs.User;
+using ProcApi.ViewModels.User;
 
 namespace ProcApi.Mappers
 {
@@ -9,6 +10,7 @@ namespace ProcApi.Mappers
         public CommonAutoMapperProfile()
         {
             CreateMap<User, UserViewModel>();
+            CreateMap<AddUserDTO, User>();
         }
     }
 }

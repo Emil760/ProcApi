@@ -1,4 +1,6 @@
-﻿namespace ProcApi.Data.ProcDatabase.Models
+﻿using ProcApi.Data.ProcDatabase.Enums;
+
+namespace ProcApi.Data.ProcDatabase.Models
 {
     public class User
     {
@@ -6,5 +8,6 @@
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public int Age { get; set; }
+        public Gender Gender { get; set; }
     }
 }

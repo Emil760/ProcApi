@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using ProcApi.Comparers;
 using ProcApi.Data.ProcDatabase.Models;
 using ProcApi.DTOs.User;
 using ProcApi.Repositories.Abstracts;
@@ -37,6 +38,8 @@ namespace ProcApi.Services.Concreates
         public async Task<IEnumerable<UserViewModel>> GetUsers()
         {
             var users = await _userRepository.GetAllAsync();
+
+            users = users.OrderByDescending(u => u.Gender, new GenderComparer());
 
             return _mapper.Map<IEnumerable<UserViewModel>>(users);
         }

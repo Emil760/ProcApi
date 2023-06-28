@@ -1,4 +1,6 @@
-﻿namespace ProcApi.ViewModels.User
+﻿using ProcApi.Data.ProcDatabase.Enums;
+
+namespace ProcApi.ViewModels.User
 {
     public class UserViewModel
     {
@@ -6,5 +8,6 @@
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public int Age { get; set; }
+        public Gender Gender { get; set; }
     }
 }

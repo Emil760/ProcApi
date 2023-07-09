@@ -9,8 +9,8 @@ namespace ProcApi.Configurations
         public static void AddRepositories(this IServiceCollection services)
         {
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IChatMessageRepository, ChatMessageRepository>();
         }
     }
 }

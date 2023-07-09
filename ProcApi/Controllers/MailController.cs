@@ -6,7 +6,7 @@ namespace ProcApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class MailController : Controller
+    public class MailController : BaseController
     {
         [HttpPost]
         public IActionResult SendEmail()

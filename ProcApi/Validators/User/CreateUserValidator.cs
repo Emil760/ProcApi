@@ -1,15 +1,31 @@
 ﻿using FluentValidation;
+using Microsoft.Extensions.Localization;
 using ProcApi.DTOs.User;
+using ProcApi.Localization;
 
 namespace ProcApi.Validators.User
 {
     public class CreateUserValidator : AbstractValidator<AddUserDTO>
     {
-        public CreateUserValidator()
+        public CreateUserValidator(IStringLocalizer<SharedResource> localizer)
         {
-            RuleFor(u => u.FirstName).NotEmpty().WithMessage("first name cant be empty");
-            RuleFor(u => u.LastName).NotEmpty().WithMessage("last name cant be empty");
-            RuleFor(u => u.Age).GreaterThan(17).WithMessage("should be greater than 18");
+            RuleFor(u => u.FirstName)
+                .NotEmpty()
+                .WithMessage(localizer["FirstNameCantBeEmpty"])
+                .WithErrorCode("001")
+                .WithSeverity(Severity.Error);
+            RuleFor(u => u.LastName)
+                .NotEmpty()
+                .WithMessage("last name cant be empty")
+                .WithErrorCode("002")
+                .WithSeverity(Severity.Error);
+            RuleFor(u => u.Age)
+                .GreaterThan(17)
+                .WithMessage("Age should be greater than 18")
+                .WithErrorCode("003")
+                .WithSeverity(Severity.Error);
+
+            //this.RaiseValidationException();
         }
     }
 }

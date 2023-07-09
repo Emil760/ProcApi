@@ -1,12 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ProcApi.DTOs.User;
+using ProcApi.Filters;
 using ProcApi.Services.Abstracts;
 
 namespace ProcApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    [CustomValidationFilter]
+    public class UserController : BaseController
     {
         private IUserService _userService;
         private IFileService _fileService;

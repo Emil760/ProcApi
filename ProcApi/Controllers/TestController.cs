@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using ProcApi.Controllers;
 using ProcApi.Services.Concreates;
 
 namespace MyWebApi.Controllers
 {
-    public class TestController : Controller
+    public class TestController : BaseController
     {
         private readonly IHubContext<ChatHub> chatHub;
 

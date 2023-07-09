@@ -1,4 +1,5 @@
-﻿using ProcApi.Services.Abstracts;
+﻿using ProcApi.Filters;
+using ProcApi.Services.Abstracts;
 using ProcApi.Services.Concreates;
 
 namespace ProcApi.Configurations
@@ -9,6 +10,9 @@ namespace ProcApi.Configurations
         {
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IFileService, FileService>();
+            services.AddScoped<IChatService, ChatService>();
+
+            services.AddScoped<CustomValidationFilterAttribute>();
         }
     }
 }

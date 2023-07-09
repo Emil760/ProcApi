@@ -1,11 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ProcApi.Controllers;
 using ProcApi.Services.Abstracts;
 
 namespace Presentation.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TempController : ControllerBase
+    public class TempController : BaseController
     {
         private IUserService userService;
 

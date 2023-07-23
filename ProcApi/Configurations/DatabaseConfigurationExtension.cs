@@ -8,9 +8,21 @@ namespace ProcApi.Configurations
     {
         public static void AddDatabase(this IServiceCollection services, IConfiguration configuration)
         {
-            var procConnectionString = configuration.GetSection(nameof(ConnectionStrings)).GetChildren().ElementAt(0).Value;
+            var databaseOptions = new ProcDatabaseOptions();
 
-            services.AddDbContext<ProcDbContext>(options => options.UseSqlServer(procConnectionString));
+            configuration.GetSection(nameof(ProcDatabaseOptions)).Bind(databaseOptions);
+
+            services.AddDbContext<ProcDbContext>(options =>
+            {
+                options.UseSqlServer(databaseOptions.ConnectionString, sqlServerOptions =>
+                {
+                    sqlServerOptions.EnableRetryOnFailure(databaseOptions.MaxRetryCount);
+                    sqlServerOptions.CommandTimeout(databaseOptions.CommandTimeout);
+                });
+
+                options.EnableDetailedErrors(databaseOptions.EnableDetailedErrors);
+                options.EnableSensitiveDataLogging(databaseOptions.EnableSensetiveDataLogging);
+            });
         }
     }
 }

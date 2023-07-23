@@ -6,8 +6,8 @@ namespace ProcApi.Configurations
     {
         public static void AddCustomOptions(this IServiceCollection services, IConfiguration configuration)
         {
-            services.Configure<ConnectionStrings>(
-                configuration.GetSection(nameof(ConnectionStrings)));
+            services.Configure<ProcDatabaseOptions>(
+                configuration.GetSection(nameof(ProcDatabaseOptions)));
 
             services.Configure<RedisOptions>(
                 configuration.GetSection(nameof(RedisOptions)));

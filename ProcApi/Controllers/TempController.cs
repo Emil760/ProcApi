@@ -25,7 +25,7 @@ namespace Presentation.Controllers
         [HttpGet("Test2")]
         public async Task<IActionResult> GetTemp2()
         {
-            var res = await userService.GetUsers();
+            var res = await userService.GetUsersAsync();
             return Ok(res);
         }
     }

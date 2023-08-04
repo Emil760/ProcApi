@@ -24,7 +24,7 @@ namespace ProcApi.Services.Concreates
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<UserViewModel> AddUser(AddUserDTO dto)
+        public async Task<UserViewModel> AddUserAsync(AddUserDTO dto)
         {
             var user = _mapper.Map<User>(dto);
 
@@ -35,7 +35,14 @@ namespace ProcApi.Services.Concreates
             return _mapper.Map<UserViewModel>(user);
         }
 
-        public async Task<IEnumerable<UserViewModel>> GetUsers()
+        public async Task<UserViewModel> GetByIdAsync(int id)
+        {
+            var user = await _userRepository.GetByIdAsync(id);
+
+            return _mapper.Map<UserViewModel>(user);
+        }
+
+        public async Task<IEnumerable<UserViewModel>> GetUsersAsync()
         {
             var users = await _userRepository.GetAllAsync();
 

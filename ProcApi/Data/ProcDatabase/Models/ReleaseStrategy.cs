@@ -15,11 +15,3 @@ namespace ProcApi.Data.ProcDatabase.Models
         public ApprovalFlowTemplate ApprovalFlowTemplate { get; set; }
     }
 }
-
-//1
-//2
-//3
-//3
-//4
-
-// 1, 2, 3, 4

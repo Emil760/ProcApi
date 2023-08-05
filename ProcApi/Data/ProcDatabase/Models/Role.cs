@@ -1,4 +1,6 @@
-﻿namespace ProcApi.Data.ProcDatabase.Models
+﻿using ProcApi.Data.ProcDatabase.Enums;
+
+namespace ProcApi.Data.ProcDatabase.Models
 {
     public class Role
     {

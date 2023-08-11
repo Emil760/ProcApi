@@ -1,4 +1,5 @@
-﻿using ProcApi.Data.ProcDatabase.Enums;
+﻿using Microsoft.AspNetCore.Components.Web;
+using ProcApi.Data.ProcDatabase.Enums;
 
 namespace ProcApi.Data.ProcDatabase.Models;
 
@@ -19,4 +20,5 @@ public class ControlSet
     public bool IsVisible { get; set; }
     public bool IsEditable { get; set; }
     public bool IsMandatory { get; set; }
+    //public bool IsDef { get; set; }
 }

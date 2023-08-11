@@ -8,6 +8,7 @@ public class Document
     public int DocumentTypeId { get; set; }
     public DocumentType DocumentType { get; set; }
     public DateTime CreatedOn { get; set; }
+    //public DateTime DueDate { get; set; }
     public int CreatedById { get; set; }
     public required User CreatedBy { get; set; }
     public string? DocumentNumber { get; set; }

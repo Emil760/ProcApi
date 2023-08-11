@@ -2,9 +2,12 @@
 
 public enum ActionType
 {
+    SaveAsDraft,
     Submit,
     Approve,
     Return,
     Reject,
-    Revision
+    Revision,
+    KeyUserReturn,
+    KeyUserCancel
 }

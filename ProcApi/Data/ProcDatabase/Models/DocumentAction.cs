@@ -10,6 +10,7 @@ public class DocumentAction
     public int RoleId { get; set; }
     public required Role Role { get; set; }
     public int Order { get; set; }
+    //public DateTime? ActionAssigned { get; set; }
     public DateTime? ActionPerformed { get; set; }
     public bool IsPerformed { get; set; }
 }

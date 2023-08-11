@@ -12,5 +12,5 @@ public class ReleaseStrategy
     public int ActionTypeId { get; set; }
     public ActionType ActionType { get; set; }
     public int? ApprovalFlowTemplateId { get; set; }
-    public ApprovalFlowTemplate ApprovalFlowTemplate { get; set; }
+    public required ApprovalFlowTemplate ApprovalFlowTemplate { get; set; }
 }

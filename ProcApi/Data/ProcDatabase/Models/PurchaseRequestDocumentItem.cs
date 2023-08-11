@@ -1,10 +1,10 @@
 ﻿namespace ProcApi.Data.ProcDatabase.Models
 {
-    public class PurchageRequestDocumentItem
+    public class PurchaseRequestDocumentItem
     {
         public int Id { get; set; }
-        public int PurchageRequestDocumentId { get; set; }
-        public PurchageRequestDocument PurchageRequestDocument { get; set; }
+        public int PurchaseRequestDocumentId { get; set; }
+        public PurchaseRequestDocument PurchaseRequestDocument { get; set; }
         public int UnitOfMeasureId { get; set; }
         public UnitOfMeasure UnitOfMeasure { get; set; }
         public decimal Quantity { get; set; }

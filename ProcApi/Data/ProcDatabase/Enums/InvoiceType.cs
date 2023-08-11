@@ -1,8 +1,7 @@
-﻿namespace ProcApi.Data.ProcDatabase.Enums
+﻿namespace ProcApi.Data.ProcDatabase.Enums;
+
+public enum InvoiceType
 {
-    public enum InvoiceType
-    {
-        PostPayment,
-        DownPayment
-    }
+    PostPayment,
+    DownPayment
 }

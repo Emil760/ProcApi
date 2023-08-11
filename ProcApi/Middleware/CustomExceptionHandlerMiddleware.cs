@@ -1,10 +1,10 @@
 ﻿namespace ProcApi.Middleware
 {
-    public class CustomExeptionHandlerMiddleware
+    public class CustomExceptionHandlerMiddleware
     {
         private readonly RequestDelegate _next;
 
-        public CustomExeptionHandlerMiddleware(RequestDelegate next)
+        public CustomExceptionHandlerMiddleware(RequestDelegate next)
         {
             _next = next;
         }
@@ -35,11 +35,11 @@
         }
     }
 
-    public static class CustomExeptionHandlerMiddlewareExtension
+    public static class CustomExceptionHandlerMiddlewareExtension
     {
-        public static void UseCustomExeptionHandlerMiddleware(this IApplicationBuilder builder)
+        public static void UseCustomExceptionHandlerMiddleware(this IApplicationBuilder builder)
         {
-            builder.UseMiddleware<CustomExeptionHandlerMiddleware>();
+            builder.UseMiddleware<CustomExceptionHandlerMiddleware>();
         }
     }
 

@@ -4,7 +4,7 @@ namespace ProcApi.Configurations
 {
     public static class SignalRConfigurationExtension
     {
-        public static void AddSingnalR(this IServiceCollection services)
+        public static void AddSignalR(this IServiceCollection services)
         {
             //ClientTimeoutInterval.Определяет время, в течение которого клиент должен отправить серверу сообщение.
             //Если в течение данного времени никаких сообщенй от клиента на сервер не пришло, то сервер закрывает соединение.

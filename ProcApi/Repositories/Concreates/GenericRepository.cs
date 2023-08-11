@@ -7,7 +7,7 @@ namespace ProcApi.Repositories.Concreates
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
-        private ProcDbContext _context;
+        private readonly ProcDbContext _context;
 
         public GenericRepository(ProcDbContext context)
         {

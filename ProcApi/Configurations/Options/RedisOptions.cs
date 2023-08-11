@@ -1,7 +1,6 @@
-﻿namespace ProcApi.Configurations.Options
+﻿namespace ProcApi.Configurations.Options;
+
+public class RedisOptions
 {
-    public class RedisOptions
-    {
-        public string ConnectionString { get; set; }
-    }
+    public string ConnectionString { get; set; }
 }

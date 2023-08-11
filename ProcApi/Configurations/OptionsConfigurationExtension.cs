@@ -2,7 +2,7 @@
 
 namespace ProcApi.Configurations
 {
-    public static class OptionsConfigurationExtention
+    public static class OptionsConfigurationExtension
     {
         public static void AddCustomOptions(this IServiceCollection services, IConfiguration configuration)
         {

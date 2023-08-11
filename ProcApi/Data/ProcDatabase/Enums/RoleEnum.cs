@@ -1,12 +1,11 @@
-﻿namespace ProcApi.Data.ProcDatabase.Enums
+﻿namespace ProcApi.Data.ProcDatabase.Enums;
+
+public enum RoleEnum
 {
-    public enum RoleEnum
-    {
-        Admin,
-        WarehouseManager,
-        ProcurementDirector,
-        Reviewer,
-        Finance,
-        User,
-    }
+    Admin,
+    WarehouseManager,
+    ProcurementDirector,
+    Reviewer,
+    Finance,
+    User,
 }

@@ -7,6 +7,6 @@ namespace ProcApi.Services.Abstracts
     {
         Task<UserViewModel> GetByIdAsync(int id);
         Task<IEnumerable<UserViewModel>> GetUsersAsync();
-        Task<UserViewModel> AddUserAsync(AddUserDTO dto); 
+        Task<UserViewModel> AddUserAsync(AddUserDto dto); 
     }
 }

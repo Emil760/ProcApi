@@ -1,7 +1,6 @@
-﻿namespace ProcApi.Configurations.Options
+﻿namespace ProcApi.Configurations.Options;
+
+public class FilePaths
 {
-    public class FilePaths
-    {
-        public string CommonPath { get; set; }
-    }
+    public string CommonPath { get; set; }
 }

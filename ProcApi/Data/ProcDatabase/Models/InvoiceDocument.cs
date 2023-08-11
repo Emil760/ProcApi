@@ -1,13 +1,12 @@
 ﻿using ProcApi.Data.ProcDatabase.Enums;
 
-namespace ProcApi.Data.ProcDatabase.Models
+namespace ProcApi.Data.ProcDatabase.Models;
+
+public class InvoiceDocument
 {
-    public class InvoiceDocument
-    {
-        public int Id { get; set; }
-        public int DocumentId { get; set; }
-        public Document Document { get; set; }
-        //public int InvoiceTypeId { get; set; }
-        //public InvoiceType InvoiceType { get; set; }
-    }
+    public int Id { get; set; }
+    public int DocumentId { get; set; }
+    public Document Document { get; set; }
+    //public int InvoiceTypeId { get; set; }
+    //public InvoiceType InvoiceType { get; set; }
 }

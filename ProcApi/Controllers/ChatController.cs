@@ -9,7 +9,7 @@ namespace ProcApi.Controllers
     [Route("[controller]")]
     public class ChatController : BaseController
     {
-        IHubContext<ChatHub> _hubContext;
+        private readonly IHubContext<ChatHub> _hubContext;
         private readonly IChatService _chatService;
 
         public ChatController(IHubContext<ChatHub> hubContext,
@@ -39,6 +39,7 @@ namespace ProcApi.Controllers
                 return BadRequest(ex.Message + "\n" + ex.InnerException?.Message);
                 throw;
             }
+
             return Ok();
         }
 

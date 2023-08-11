@@ -10,8 +10,8 @@ namespace ProcApi.Controllers
     [CustomValidationFilter]
     public class UserController : BaseController
     {
-        private IUserService _userService;
-        private IFileService _fileService;
+        private readonly IUserService _userService;
+        private readonly IFileService _fileService;
 
         public UserController(IUserService userService, IFileService fileService)
         {
@@ -26,7 +26,7 @@ namespace ProcApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateUser([FromBody] AddUserDTO dto)
+        public async Task<IActionResult> CreateUser([FromBody] AddUserDto dto)
         {
             return Ok(await _userService.AddUserAsync(dto));
         }

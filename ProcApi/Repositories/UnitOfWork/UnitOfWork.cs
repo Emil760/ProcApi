@@ -4,7 +4,7 @@ namespace ProcApi.Repositories.UnitOfWork
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private ProcDbContext _context;
+        private readonly ProcDbContext _context;
 
         public UnitOfWork(ProcDbContext context)
         {

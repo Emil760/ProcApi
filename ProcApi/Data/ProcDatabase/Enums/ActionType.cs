@@ -1,11 +1,10 @@
-﻿namespace ProcApi.Data.ProcDatabase.Enums
+﻿namespace ProcApi.Data.ProcDatabase.Enums;
+
+public enum ActionType
 {
-    public enum ActionType
-    {
-        Submit,
-        Approve,
-        Return,
-        Reject,
-        Revision
-    }
+    Submit,
+    Approve,
+    Return,
+    Reject,
+    Revision
 }

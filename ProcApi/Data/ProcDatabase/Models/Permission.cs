@@ -1,9 +1,8 @@
-﻿namespace ProcApi.Data.ProcDatabase.Models
+﻿namespace ProcApi.Data.ProcDatabase.Models;
+
+public class Permission
 {
-    public class Permission
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public ICollection<Role> Roles { get; set; }
-    }
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public ICollection<Role> Roles { get; set; }
 }

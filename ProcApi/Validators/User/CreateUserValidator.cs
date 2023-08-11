@@ -5,7 +5,7 @@ using ProcApi.Localization;
 
 namespace ProcApi.Validators.User
 {
-    public class CreateUserValidator : AbstractValidator<AddUserDTO>
+    public class CreateUserValidator : AbstractValidator<AddUserDto>
     {
         public CreateUserValidator(IStringLocalizer<SharedResource> localizer)
         {

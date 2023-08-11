@@ -1,6 +1,5 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
-using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 using ProcApi.Configurations;
 using ProcApi.Middleware;
@@ -17,7 +16,7 @@ builder.Services.AddSwagger();
 
 builder.Services.AddAutoMapper();
 
-builder.Services.AddSingnalR();
+SignalRConfigurationExtension.AddSignalR(builder.Services);
 
 builder.Services.AddRedisCaching(builder.Configuration);
 
@@ -70,6 +69,6 @@ app.UseCustomLocalization();
 
 app.MapControllers();
 
-app.UseCustomExeptionHandlerMiddleware();
+app.UseCustomExceptionHandlerMiddleware();
 
 app.Run();

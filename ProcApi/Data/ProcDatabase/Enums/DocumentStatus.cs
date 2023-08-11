@@ -1,17 +1,16 @@
-﻿namespace ProcApi.Data.ProcDatabase.Enums
+﻿namespace ProcApi.Data.ProcDatabase.Enums;
+
+public enum DocumentStatus
 {
-    public enum DocumentStatus
-    {
-        #region Requests
-        PurchaseRequestDraft,
+    #region Requests
+    PurchaseRequestDraft,
 
-        ServiceRequestDraft,
-        #endregion
+    ServiceRequestDraft,
+    #endregion
 
-        #region Invoices
-        PostPaymentInvoiceDraft,
+    #region Invoices
+    PostPaymentInvoiceDraft,
 
-        DownPaymentInvoiceDraft
-        #endregion
-    }
+    DownPaymentInvoiceDraft
+    #endregion
 }

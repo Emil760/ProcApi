@@ -1,10 +1,9 @@
-﻿namespace ProcApi.Data.ProcDatabase.Enums
+﻿namespace ProcApi.Data.ProcDatabase.Enums;
+
+public enum DocumentType
 {
-    public enum DocumentType
-    {
-        PurchaseRequest,
-        ServiceRequest,
-        DownPaymentInvoice,
-        PostPaymentInvoice,
-    }
+    PurchaseRequest,
+    ServiceRequest,
+    DownPaymentInvoice,
+    PostPaymentInvoice,
 }

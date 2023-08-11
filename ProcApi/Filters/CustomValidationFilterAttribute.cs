@@ -14,7 +14,7 @@ namespace ProcApi.Filters
         {
             if (!context.ModelState.IsValid)
             {
-                List<ErrorViewModel> errors = new List<ErrorViewModel>();
+                var errors = new List<ErrorViewModel>();
 
                 foreach (var error in context.ModelState.Values)
                 {

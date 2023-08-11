@@ -2,13 +2,13 @@
 using ProcApi.Controllers;
 using ProcApi.Services.Abstracts;
 
-namespace Presentation.Controllers
+namespace ProcApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class TempController : BaseController
     {
-        private IUserService userService;
+        private readonly IUserService userService;
 
         public TempController(IUserService userService)
         {

@@ -1,10 +1,9 @@
 ﻿using ProcApi.Data.ProcDatabase.Enums;
 
-namespace ProcApi.ViewModels.User;
+namespace ProcApi.DTOs.User;
 
-public class UserViewModel
+public class AddUserDto
 {
-    public int Id { get; set; }
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public int Age { get; set; }

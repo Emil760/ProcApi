@@ -14,8 +14,8 @@ namespace ProcApi.Configurations
             {
                 var supportedCultures = new List<CultureInfo>
                 {
-                    new CultureInfo("az-Latn-AZ") ,
-                    new CultureInfo("en-US")
+                    new("az-Latn-AZ") ,
+                    new ("en-US")
                 };
 
                 options.DefaultRequestCulture = new RequestCulture("en-US");

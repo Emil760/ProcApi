@@ -1,7 +1,6 @@
-﻿namespace ProcApi.Configurations.Options
+﻿namespace ProcApi.Configurations.Options;
+
+public class FileOptions
 {
-    public class FileOptions
-    {
-        public int CommonMaxLenght { get; set; }
-    }
+    public int CommonMaxLenght { get; set; }
 }

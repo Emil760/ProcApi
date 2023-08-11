@@ -1,4 +1,5 @@
-﻿using ProcApi.Configurations.Options;
+﻿using ProcApi.Caches;
+using ProcApi.Configurations.Options;
 
 namespace ProcApi.Configurations
 {

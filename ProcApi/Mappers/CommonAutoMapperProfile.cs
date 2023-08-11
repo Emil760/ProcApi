@@ -10,7 +10,7 @@ namespace ProcApi.Mappers
         public CommonAutoMapperProfile()
         {
             CreateMap<User, UserViewModel>();
-            CreateMap<AddUserDTO, User>();
+            CreateMap<AddUserDto, User>();
         }
     }
 }

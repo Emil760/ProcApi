@@ -8,7 +8,7 @@ namespace ProcApi.Services.Concreates
     {
         private readonly IUserRepository _userRepository;
         private readonly IChatMessageRepository _chatMessageRepository;
-        private SemaphoreSlim _semaphore = new SemaphoreSlim(1);
+        private readonly SemaphoreSlim _semaphore = new SemaphoreSlim(1);
 
         public ChatService(IUserRepository userRepository,
             IChatMessageRepository chatMessageRepository)
@@ -26,16 +26,14 @@ namespace ProcApi.Services.Concreates
             var users = await _userRepository.GetAllByConditionAsync(u => u.Id != userId);
 
             foreach (var user in users)
-            {
                 sendTasks.Add(SendMessage(from, user, message));
-            }
-
+            
             await Task.WhenAll(sendTasks);
         }
 
         private async Task SendMessage(User from, User to, string message)
         {
-            var chatMessage = new ChatMessage()
+            var chatMessage = new ChatMessage
             {
                 From = from,
                 To = to,

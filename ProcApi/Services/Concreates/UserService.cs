@@ -11,9 +11,9 @@ namespace ProcApi.Services.Concreates
 {
     public class UserService : IUserService
     {
-        private IUserRepository _userRepository;
-        private IMapper _mapper;
-        private IUnitOfWork _unitOfWork;
+        private readonly IUserRepository _userRepository;
+        private readonly IMapper _mapper;
+        private readonly IUnitOfWork _unitOfWork;
 
         public UserService(IUserRepository userRepository,
             IMapper mapper,
@@ -24,7 +24,7 @@ namespace ProcApi.Services.Concreates
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<UserViewModel> AddUserAsync(AddUserDTO dto)
+        public async Task<UserViewModel> AddUserAsync(AddUserDto dto)
         {
             var user = _mapper.Map<User>(dto);
 

@@ -1,9 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR;
-using ProcApi.Controllers;
+﻿using Microsoft.AspNetCore.SignalR;
 using ProcApi.Services.Concreates;
 
-namespace MyWebApi.Controllers
+namespace ProcApi.Controllers
 {
     public class TestController : BaseController
     {

@@ -11,7 +11,7 @@ namespace ProcApi.Data.ProcDatabase.Models
         public int RoleId { get; set; }
         public Role Role { get; set; }
         public int? UserId { get; set; }
-        public User User { get; set; }
+        public User? User { get; set; }
         public bool IsInitial { get; set; }
         public bool IsCreator { get; set; }
     }

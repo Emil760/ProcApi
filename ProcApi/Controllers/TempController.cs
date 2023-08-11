@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 using ProcApi.Controllers;
 using ProcApi.Services.Abstracts;
 
@@ -16,14 +17,20 @@ namespace ProcApi.Controllers
         }
 
         [HttpGet("Test")]
-        public IActionResult GetTemp()
+        public async Task<IActionResult> GetTemp()
+        {
+            return Ok("");
+        }
+
+        [HttpGet("Test2")]
+        public IActionResult GetTemp2()
         {
             var a = HttpContext.Request.Cookies["cook2"];
             return Ok(a);
         }
 
-        [HttpGet("Test2")]
-        public async Task<IActionResult> GetTemp2()
+        [HttpGet("Test3")]
+        public async Task<IActionResult> GetTemp3()
         {
             var res = await userService.GetUsersAsync();
             return Ok(res);

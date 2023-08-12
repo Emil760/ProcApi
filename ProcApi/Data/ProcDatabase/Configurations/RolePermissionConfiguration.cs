@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using ProcApi.Data.ProcDatabase.Models;
+using ProcApi.Enums;
 
 namespace ProcApi.Data.ProcDatabase.Configurations;
 
@@ -8,14 +9,17 @@ public class RolePermissionConfiguration : IEntityTypeConfiguration<RolePermissi
 {
     public void Configure(EntityTypeBuilder<RolePermission> builder)
     {
-        builder.HasOne(rp => rp.Role)
-            .WithMany(r => r.RolePermissions)
-            .HasForeignKey(rp => rp.RoleId)
-            .OnDelete(DeleteBehavior.Cascade);
+        builder.HasKey(rp => new { rp.RoleId, rp.PermissionId });
 
-        builder.HasOne(rp => rp.Permission)
-            .WithMany(p => p.RolePermissions)
-            .HasForeignKey(rp => rp.PermissionId)
-            .OnDelete(DeleteBehavior.Cascade);
+        builder.HasData(Seed());
+    }
+
+    private IEnumerable<RolePermission> Seed()
+    {
+        return new[]
+        {
+            new RolePermission() { RoleId = (int)Roles.Admin, PermissionId = (int)Permissions.CanActivateUser },
+            //new RolePermission() {RoleId = (int)Roles.Admin, PermissionId = (int)Permissions.CanActivateUser },
+        };
     }
 }

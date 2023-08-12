@@ -2,7 +2,7 @@
 
 public enum Permissions
 {
-    CanCreateUser,
+    CanCreateUser = 1,
     CanDeleteUser,
     CanEditUser,
     CanActivateUser

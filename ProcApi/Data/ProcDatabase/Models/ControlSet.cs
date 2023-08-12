@@ -17,8 +17,8 @@ public class ControlSet
     public DocumentStatus DocumentStatus { get; set; }
     public int RoleId { get; set; }
     public required Role Role { get; set; }
-    public bool IsVisible { get; set; }
-    public bool IsEditable { get; set; }
-    public bool IsMandatory { get; set; }
+    public required bool IsVisible { get; set; }
+    public required bool IsEditable { get; set; }
+    public required bool IsMandatory { get; set; }
     //public bool IsDef { get; set; }
 }

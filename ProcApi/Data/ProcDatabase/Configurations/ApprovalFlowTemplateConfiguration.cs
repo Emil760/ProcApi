@@ -14,12 +14,12 @@ namespace ProcApi.Data.ProcDatabase.Configurations
             //     .OnDelete(DeleteBehavior.SetNull);
 
             builder.Property(aft => aft.IsCreator)
-                .HasColumnType("boolean")
+                .HasColumnType("bit")
                 .IsRequired()
                 .HasDefaultValue(false);
 
             builder.Property(aft => aft.IsInitial)
-                .HasColumnType("boolean")
+                .HasColumnType("bit")
                 .IsRequired()
                 .HasDefaultValue(false);
         }

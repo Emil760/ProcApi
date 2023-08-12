@@ -1,6 +1,6 @@
 ﻿namespace ProcApi.Data.ProcDatabase.Models;
 
-public class Configuration
+public class FeatureConfiguration
 {
     public int Id { get; set; }
     public required string Name { get; set; }

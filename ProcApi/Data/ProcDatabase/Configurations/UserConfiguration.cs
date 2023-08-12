@@ -17,32 +17,32 @@ namespace ProcApi.Data.ProcDatabase.Configurations
             builder.HasMany(u => u.FromDelegations)
                 .WithOne(fd => fd.FromUser)
                 .HasForeignKey(d => d.FromUserId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasMany(u => u.ToDelegations)
                 .WithOne(td => td.ToUser)
                 .HasForeignKey(d => d.ToUserId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasMany(u => u.FromChatMessages)
                 .WithOne(cm => cm.From)
                 .HasForeignKey(cm => cm.FromId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasMany(u => u.ToChatMessages)
                 .WithOne(cm => cm.To)
                 .HasForeignKey(cm => cm.ToId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasMany(u => u.Documents)
                 .WithOne(d => d.CreatedBy)
                 .HasForeignKey(d => d.Id)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasMany(u => u.DocumentActions)
                 .WithOne(da => da.User)
                 .HasForeignKey(da => da.UserId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

@@ -17,6 +17,9 @@ namespace ProcApi.Configurations
 
             services.Configure<Options.FileOptions>(
                 configuration.GetSection(nameof(Options.FileOptions)));
+
+            services.Configure<JwtOptions>(
+                configuration.GetSection(nameof(JwtOptions)));
         }
     }
 }

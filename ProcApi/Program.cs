@@ -20,7 +20,7 @@ builder.Services.AddCustomSignalR();
 
 builder.Services.AddRedisCaching(builder.Configuration);
 
-builder.Services.AddCustomAuthentication();
+builder.Services.AddCustomAuthentication(builder.Configuration);
 
 builder.Services.AddCustomLocalization();
 
@@ -64,6 +64,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

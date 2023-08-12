@@ -22,5 +22,19 @@ namespace ProcApi.Repositories.Concreates
         {
             return await GetById(context, id);
         }
+
+        public async Task<string?> ExistsByLogin(string login)
+        {
+            return await context.Users.Where(u => u.Login == login)
+                .Select(u => u.Login)
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task<User?> FindWithPasswordHashByLogin(string login)
+        {
+            return await context.Users
+                .Include(u => u.UserPassword)
+                .FirstOrDefaultAsync(u => u.Login == login);
+        }
     }
 }

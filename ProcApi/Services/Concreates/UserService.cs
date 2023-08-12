@@ -35,6 +35,12 @@ namespace ProcApi.Services.Concreates
             return _mapper.Map<UserViewModel>(user);
         }
 
+        public async Task<bool> AlreadyExists(string login)
+        {
+            var userLogin = await _userRepository.ExistsByLogin(login);
+            return userLogin is not null;
+        }
+
         public async Task<UserViewModel> GetByIdAsync(int id)
         {
             var user = await _userRepository.GetByIdAsync(id);

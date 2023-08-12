@@ -11,6 +11,7 @@ namespace ProcApi.Configurations
         public static void AddServices(this IServiceCollection services)
         {
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<IFileService, FileService>();
             services.AddScoped<IChatService, ChatService>();
             services.AddScoped<IApprovalFlowService, ApprovalFlowService>();

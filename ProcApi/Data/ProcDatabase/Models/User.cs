@@ -17,4 +17,7 @@ public class User
 
     public ICollection<Delegation> FromDelegations { get; set; }
     public ICollection<Delegation> ToDelegations { get; set; }
+    
+    public ICollection<Document> Documents { get; set; }
+    public ICollection<DocumentAction> DocumentActions { get; set; }
 }

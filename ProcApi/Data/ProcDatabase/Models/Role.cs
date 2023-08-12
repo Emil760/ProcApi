@@ -6,5 +6,5 @@ public class Role
 {
     public int Id { get; set; }
     public required string Name { get; set; }
-    ICollection<Permission> Permissions { get; set; }
+    public ICollection<RolePermission> RolePermissions { get; set; }
 }

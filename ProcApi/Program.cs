@@ -16,9 +16,11 @@ builder.Services.AddSwagger();
 
 builder.Services.AddAutoMapper();
 
-SignalRConfigurationExtension.AddSignalR(builder.Services);
+builder.Services.AddCustomSignalR();
 
 builder.Services.AddRedisCaching(builder.Configuration);
+
+builder.Services.AddCustomAuthentication();
 
 builder.Services.AddCustomLocalization();
 

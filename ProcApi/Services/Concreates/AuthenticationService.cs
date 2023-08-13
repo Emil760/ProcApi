@@ -11,7 +11,6 @@ using ProcApi.Data.ProcDatabase.Models;
 using ProcApi.DTOs.Authentication;
 using ProcApi.Enums;
 using ProcApi.Repositories.Abstracts;
-using ProcApi.Repositories.UnitOfWork;
 using ProcApi.Services.Abstracts;
 
 namespace ProcApi.Services.Concreates;
@@ -22,23 +21,20 @@ public class AuthenticationService : IAuthenticationService
     private readonly IUserService _userService;
     private readonly IUserRepository _userRepository;
     private readonly JwtOptions _jwtOptions;
+    private readonly PasswordOptions _passwordOptions;
 
-    private readonly IUnitOfWork _unitOfWork;
     private readonly ProcDbContext _context;
-
-    private readonly int keySize = 128;
-    private readonly int iteration = 350000;
 
     public AuthenticationService(IUserService userService,
         IUserRepository userRepository,
         IOptions<JwtOptions> jwtOptions,
-        IUnitOfWork unitOfWork,
+        IOptions<PasswordOptions> passwordOptions,
         ProcDbContext context)
     {
         _userService = userService;
         _userRepository = userRepository;
         _jwtOptions = jwtOptions.Value;
-        _unitOfWork = unitOfWork;
+        _passwordOptions = passwordOptions.Value;
         _context = context;
     }
 
@@ -93,19 +89,19 @@ public class AuthenticationService : IAuthenticationService
         if (!passwordMatch)
             throw new Exception("wrong password");
 
-        return await GenerateJwtToken(user);
+        return GenerateJwtToken(user);
     }
 
     private string GenerateHashPassword(string password, out byte[] salt)
     {
-        salt = RandomNumberGenerator.GetBytes(keySize);
+        salt = RandomNumberGenerator.GetBytes(_passwordOptions.KeySize);
 
         var hash = Rfc2898DeriveBytes.Pbkdf2(
             Encoding.UTF8.GetBytes(password),
             salt,
-            iteration,
+            _passwordOptions.Iteration,
             HashAlgorithmName.SHA512,
-            keySize
+            _passwordOptions.KeySize
         );
 
         return Convert.ToHexString(hash);
@@ -115,19 +111,19 @@ public class AuthenticationService : IAuthenticationService
     {
         var hashToCompare = Rfc2898DeriveBytes.Pbkdf2(password,
             Convert.FromHexString(userPassword.Salt),
-            iteration,
+            _passwordOptions.Iteration,
             HashAlgorithmName.SHA512,
-            keySize);
+            _passwordOptions.KeySize);
 
         return CryptographicOperations.FixedTimeEquals(hashToCompare,
             Convert.FromHexString(userPassword.PasswordHash));
     }
 
-    private async Task<string> GenerateJwtToken(User user)
+    private string GenerateJwtToken(User user)
     {
         var claims = new Claim[]
         {
-            new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString())
+            new(JwtRegisteredClaimNames.Sub, user.Id.ToString())
         };
 
         var signingCredentials = new SigningCredentials(

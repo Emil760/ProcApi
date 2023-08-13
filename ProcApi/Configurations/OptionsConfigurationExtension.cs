@@ -20,6 +20,9 @@ namespace ProcApi.Configurations
 
             services.Configure<JwtOptions>(
                 configuration.GetSection(nameof(JwtOptions)));
+
+            services.Configure<PasswordOptions>(
+                configuration.GetSection(nameof(PasswordOptions)));
         }
     }
 }

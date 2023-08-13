@@ -1,11 +1,10 @@
 ﻿using ProcApi.Enums;
 
-namespace ProcApi.ViewModels
+namespace ProcApi.ViewModels;
+
+public class ErrorViewModel
 {
-    public class ErrorViewModel
-    {
-        public string ErrorCode { get; set; }
-        public string Messgae { get; set; }
-        public MessageType MessageType { get; set; }
-    }
+    public string ErrorCode { get; set; }
+    public string Messgae { get; set; }
+    public MessageType MessageType { get; set; }
 }

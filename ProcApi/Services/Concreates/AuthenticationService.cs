@@ -2,31 +2,44 @@
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using ProcApi.Configurations.Options;
+using ProcApi.Data.ProcDatabase;
 using ProcApi.Data.ProcDatabase.Models;
 using ProcApi.DTOs.Authentication;
+using ProcApi.Enums;
 using ProcApi.Repositories.Abstracts;
+using ProcApi.Repositories.UnitOfWork;
 using ProcApi.Services.Abstracts;
 
 namespace ProcApi.Services.Concreates;
 
+//TODO cant attach entity throw UnitOfWork instead using context
 public class AuthenticationService : IAuthenticationService
 {
     private readonly IUserService _userService;
     private readonly IUserRepository _userRepository;
     private readonly JwtOptions _jwtOptions;
+
+    private readonly IUnitOfWork _unitOfWork;
+    private readonly ProcDbContext _context;
+
     private readonly int keySize = 128;
     private readonly int iteration = 350000;
 
     public AuthenticationService(IUserService userService,
         IUserRepository userRepository,
-        IOptions<JwtOptions> jwtOptions)
+        IOptions<JwtOptions> jwtOptions,
+        IUnitOfWork unitOfWork,
+        ProcDbContext context)
     {
         _userService = userService;
         _userRepository = userRepository;
         _jwtOptions = jwtOptions.Value;
+        _unitOfWork = unitOfWork;
+        _context = context;
     }
 
     public async Task Register(RegistrationDto dto)
@@ -45,12 +58,24 @@ public class AuthenticationService : IAuthenticationService
             LastModified = DateTime.Now
         };
 
+        var roles = new Role[]
+        {
+            new() { Id = (int)Roles.User }
+        };
+
+        foreach (var role in roles)
+        {
+            _context.Attach(role);
+            _context.Entry(role).State = EntityState.Unchanged;
+        }
+
         var user = new User()
         {
             Login = dto.Login,
             FirstName = dto.FirstName,
             Gender = dto.Gender,
-            UserPassword = passwordModel
+            UserPassword = passwordModel,
+            Roles = roles
         };
 
         await _userRepository.InsertAsync(user);

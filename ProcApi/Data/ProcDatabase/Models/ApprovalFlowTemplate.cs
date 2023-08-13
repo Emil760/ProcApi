@@ -9,7 +9,7 @@ public class ApprovalFlowTemplate
     public DocumentType DocumentType { get; set; }
     public int Order { get; set; }
     public int RoleId { get; set; }
-    public required Role Role { get; set; }
+    public Role Role { get; set; }
     public int? UserId { get; set; }
     public User? User { get; set; }
     public bool IsInitial { get; set; }

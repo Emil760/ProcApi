@@ -9,6 +9,11 @@ namespace ProcApi.Data.ProcDatabase.Configurations
     {
         public void Configure(EntityTypeBuilder<Permission> builder)
         {
+            builder.Property(p => p.Name)
+                .HasColumnType("nvarchar")
+                .HasMaxLength(300)
+                .IsRequired();
+
             builder.HasMany(r => r.Roles)
                 .WithMany()
                 .UsingEntity<RolePermission>();

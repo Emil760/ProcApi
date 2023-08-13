@@ -8,6 +8,14 @@ namespace ProcApi.Data.ProcDatabase.Configurations
     {
         public void Configure(EntityTypeBuilder<ControlSet> builder)
         {
+            builder.Property(cs => cs.Name)
+                .HasColumnType("nvarchar")
+                .HasMaxLength(300);
+
+            builder.Property(cs => cs.Description)
+                .HasColumnType("nvarchar")
+                .HasMaxLength(300);
+
             builder.Property(cs => cs.IsVisible)
                 .HasColumnType("bit")
                 .IsRequired()

@@ -1,4 +1,5 @@
-﻿using ProcApi.Data.ProcDatabase;
+﻿using Microsoft.EntityFrameworkCore;
+using ProcApi.Data.ProcDatabase;
 
 namespace ProcApi.Repositories.UnitOfWork
 {
@@ -14,6 +15,16 @@ namespace ProcApi.Repositories.UnitOfWork
         public async Task SaveChangesAsync()
         {
             await _context.SaveChangesAsync();
+        }
+
+        public void Attach(object entity)
+        {
+            _context.Attach(entity);
+        }
+
+        public void MakeUnchanged(object entity)
+        {
+            _context.Entry(entity).State = EntityState.Unchanged;
         }
     }
 }

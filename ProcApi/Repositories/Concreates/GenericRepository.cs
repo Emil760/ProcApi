@@ -24,7 +24,7 @@ namespace ProcApi.Repositories.Concreates
             return await _context.Set<T>().ToListAsync();
         }
 
-        public virtual async Task<IEnumerable<T>> GetAllByConditionAsync(Expression<Func<T, bool>> expression)
+        public virtual async Task<IEnumerable<T>> GetAllByConditionAsync(Expression<Func<T, bool>>? expression)
         {
             if (expression != null)
                 return await _context.Set<T>().Where(expression).ToListAsync();

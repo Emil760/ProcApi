@@ -14,6 +14,10 @@ namespace ProcApi.Data.ProcDatabase.Configurations
                 .IsRequired(true)
                 .HasDefaultValue(Gender.Unknown);
 
+            builder.HasMany(u => u.Roles)
+                .WithMany()
+                .UsingEntity<UserRole>();
+
             builder.HasMany(u => u.FromDelegations)
                 .WithOne(fd => fd.FromUser)
                 .HasForeignKey(d => d.FromUserId)

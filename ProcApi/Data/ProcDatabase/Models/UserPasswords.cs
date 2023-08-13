@@ -4,7 +4,7 @@ public class UserPassword
 {
     public int UserId { get; set; }
     public User User { get; set; }
-    public required string PasswordHash { get; set; }
-    public required string Salt { get; set; }
-    public required DateTime LastModified { get; set; }
+    public string PasswordHash { get; set; }
+    public string Salt { get; set; }
+    public DateTime LastModified { get; set; }
 }

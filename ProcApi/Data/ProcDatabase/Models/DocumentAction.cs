@@ -4,11 +4,11 @@ public class DocumentAction
 {
     public int Id { get; set; }
     public int DocumentId { get; set; }
-    public required Document Document { get; set; }
+    public Document Document { get; set; }
     public int UserId { get; set; }
     public required User User { get; set; }
     public int RoleId { get; set; }
-    public required Role Role { get; set; }
+    public Role Role { get; set; }
     public int Order { get; set; }
     //public DateTime? ActionAssigned { get; set; }
     public DateTime? ActionPerformed { get; set; }

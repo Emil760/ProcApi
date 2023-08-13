@@ -34,6 +34,7 @@
 
   <ItemGroup>
     <Folder Include="Attributes\" />
+    <Folder Include="Constants\" />
     <Folder Include="Data\ProcDatabase\Migrations\" />
     <Folder Include="Resources\" />
   </ItemGroup>

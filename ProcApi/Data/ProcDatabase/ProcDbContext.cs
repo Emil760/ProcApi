@@ -36,5 +36,6 @@ namespace ProcApi.Data.ProcDatabase
         public DbSet<Permission> Permissions { get; set; }
         public DbSet<UnitOfMeasure> UnitOfMeasures { get; set; }
         public DbSet<FeatureConfiguration> Configurations { get; set; }
+        public DbSet<UserRole> UserRoles { get; set; }
     }
 }

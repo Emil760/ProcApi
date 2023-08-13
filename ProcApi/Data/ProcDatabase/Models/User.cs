@@ -5,11 +5,13 @@ namespace ProcApi.Data.ProcDatabase.Models;
 public class User
 {
     public int Id { get; set; }
-    public required string Login { get; set; }
-    public required string FirstName { get; set; }
+    public string Login { get; set; }
+    public string FirstName { get; set; }
     public Gender Gender { get; set; }
     
     public UserPassword UserPassword { get; set; }
+    
+    public ICollection<Role> Roles { get; set; }
 
     //public ICollection<ApprovalFlowTemplate> ApprovalFlowTemplates { get; set; }
 

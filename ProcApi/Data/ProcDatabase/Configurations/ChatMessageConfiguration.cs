@@ -8,6 +8,10 @@ namespace ProcApi.Data.ProcDatabase.Configurations
     {
         public void Configure(EntityTypeBuilder<ChatMessage> builder)
         {
+            builder.Property(cm => cm.Message)
+                .HasColumnType("nvarchar")
+                .HasMaxLength(4000);
+
             builder.HasOne(cm => cm.From)
                 .WithMany(cm => cm.FromChatMessages)
                 .HasForeignKey(cm => cm.FromId)

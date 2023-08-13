@@ -9,9 +9,18 @@ namespace ProcApi.Data.ProcDatabase.Configurations
     {
         public void Configure(EntityTypeBuilder<Role> builder)
         {
+            builder.Property(r => r.Name)
+                .HasColumnType("nvarchar")
+                .HasMaxLength(300)
+                .IsRequired();
+
             builder.HasMany(r => r.Permissions)
                 .WithMany()
                 .UsingEntity<RolePermission>();
+
+            builder.HasMany(r => r.Users)
+                .WithMany()
+                .UsingEntity<UserRole>();
 
             var roles = Enum.GetValues<Roles>()
                 .Select(r => new Role() { Id = (int)r, Name = r.ToString() });

@@ -10,7 +10,7 @@ public class Document
     public DateTime CreatedOn { get; set; }
     //public DateTime DueDate { get; set; }
     public int CreatedById { get; set; }
-    public required User CreatedBy { get; set; }
+    public User CreatedBy { get; set; }
     public string? DocumentNumber { get; set; }
     public int DocumentStatusId { get; set; }
     public DocumentStatus DocumentStatus { get; set; }

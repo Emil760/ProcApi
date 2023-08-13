@@ -1,13 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ProcApi.Attributes;
 using ProcApi.DTOs.User;
-using ProcApi.Filters;
+using ProcApi.Enums;
 using ProcApi.Services.Abstracts;
 
 namespace ProcApi.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]
-    [CustomValidationFilter]
     public class UserController : BaseController
     {
         private readonly IUserService _userService;
@@ -25,6 +24,7 @@ namespace ProcApi.Controllers
             return Ok(await _userService.GetUsersAsync());
         }
 
+        [HasPermission(Permissions.CanCreateUser)]
         [HttpPost]
         public async Task<IActionResult> CreateUser([FromBody] AddUserDto dto)
         {

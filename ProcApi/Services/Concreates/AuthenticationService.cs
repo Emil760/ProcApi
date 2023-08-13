@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using ProcApi.Configurations.Options;
+using ProcApi.Constants;
 using ProcApi.Data.ProcDatabase;
 using ProcApi.Data.ProcDatabase.Models;
 using ProcApi.DTOs.Authentication;
@@ -89,7 +90,7 @@ public class AuthenticationService : IAuthenticationService
         if (!passwordMatch)
             throw new Exception("wrong password");
 
-        return GenerateJwtToken(user);
+        return await GenerateJwtToken(user);
     }
 
     private string GenerateHashPassword(string password, out byte[] salt)
@@ -119,12 +120,17 @@ public class AuthenticationService : IAuthenticationService
             Convert.FromHexString(userPassword.PasswordHash));
     }
 
-    private string GenerateJwtToken(User user)
+    private async Task<string> GenerateJwtToken(User user)
     {
-        var claims = new Claim[]
+        var claims = new List<Claim>()
         {
             new(JwtRegisteredClaimNames.Sub, user.Id.ToString())
         };
+
+        var permissions = await _userRepository.GetPermissions(user.Id);
+
+        foreach (var permission in permissions)
+            claims.Add(new Claim(ClaimKeys.Permission, permission));
 
         var signingCredentials = new SigningCredentials(
             new SymmetricSecurityKey(

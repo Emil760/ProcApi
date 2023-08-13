@@ -5,6 +5,7 @@ namespace ProcApi.Controllers
 {
     //[CustomValidationFilter]
     [Authorize]
+    [ApiController]
     public class BaseController : ControllerBase
     {
         public BaseController()

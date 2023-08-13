@@ -36,5 +36,16 @@ namespace ProcApi.Repositories.Concreates
                 .Include(u => u.UserPassword)
                 .FirstOrDefaultAsync(u => u.Login == login);
         }
+
+        public async Task<IEnumerable<string>> GetPermissions(int id)
+        {
+            return await context.Users
+                .Where(u => u.Id == id)
+                .SelectMany(u => u.Roles)
+                .SelectMany(r => r.Permissions)
+                .Select(p => p.Name)
+                .Distinct()
+                .ToListAsync();
+        }
     }
 }

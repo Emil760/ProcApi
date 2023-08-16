@@ -1,6 +1,9 @@
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
+using NLog.Web;
 using ProcApi.Configurations;
 using ProcApi.Middleware;
 
@@ -28,23 +31,10 @@ builder.Services.AddRepositories();
 
 builder.Services.AddServices();
 
-//builder.Services.AddControllers()
-//    .AddFluentValidation(config =>
-//    {   
-//        config.RegisterValidatorsFromAssemblyContaining<Program>();
-//        config.ValidatorFactory = null;
-//        config.ValidatorFactoryType = null;
-//        config.ValidatorOptions.MessageFormatterFactory = null;
-//        config.ValidatorOptions.LanguageManager.Enabled = false;
-//        config.ValidatorOptions.ErrorCodeResolver = null;
-//    });
+builder.Services.AddControllers()
+    .AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
-builder.Services.AddControllers();
-
-builder.Services.AddFluentValidationAutoValidation(config =>
-{
-    config.DisableDataAnnotationsValidation = true;
-})
+builder.Services.AddFluentValidationAutoValidation(config => { config.DisableDataAnnotationsValidation = true; })
     .AddFluentValidationClientsideAdapters()
     //.AddFluentValidationRulesToSwagger()
     .AddValidatorsFromAssemblyContaining<Program>();
@@ -54,7 +44,9 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.Configure<ApiBehaviorOptions>(options => options.SuppressModelStateInvalidFilter = true);
 
-var app = builder.Build(); 
+builder.Host.UseNLog();
+
+var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

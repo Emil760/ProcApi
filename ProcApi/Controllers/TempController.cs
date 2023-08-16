@@ -1,25 +1,32 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using ProcApi.Controllers;
+using ProcApi.Repositories.Abstracts;
 using ProcApi.Services.Abstracts;
 
 namespace ProcApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [AllowAnonymous]
     public class TempController : BaseController
     {
-        private readonly IUserService userService;
+        private readonly IUserService _userService;
+        private readonly IUserRepository _userRepository;
 
-        public TempController(IUserService userService)
+        public TempController(IUserService userService,
+            IUserRepository userRepository)
         {
-            this.userService = userService;
+            _userService = userService;
+            _userRepository = userRepository;
         }
 
         [HttpGet("Test")]
         public async Task<IActionResult> GetTemp()
         {
-            return Ok("");
+            var aa = await _userRepository.GetWithRoles(9);
+            return Ok(aa);
         }
 
         [HttpGet("Test2")]
@@ -32,7 +39,7 @@ namespace ProcApi.Controllers
         [HttpGet("Test3")]
         public async Task<IActionResult> GetTemp3()
         {
-            var res = await userService.GetUsersAsync();
+            var res = await _userService.GetUsersAsync();
             return Ok(res);
         }
     }

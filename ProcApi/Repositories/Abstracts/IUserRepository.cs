@@ -8,5 +8,6 @@ namespace ProcApi.Repositories.Abstracts
         Task<string?> ExistsByLogin(string login);
         Task<User?> FindWithPasswordHashByLogin(string login);
         Task<IEnumerable<string>> GetPermissions(int id);
+        Task<User?> GetWithRoles(int id);
     }
 }

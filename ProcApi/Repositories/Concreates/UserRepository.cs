@@ -47,5 +47,13 @@ namespace ProcApi.Repositories.Concreates
                 .Distinct()
                 .ToListAsync();
         }
+
+        public async Task<User?> GetWithRoles(int id)
+        {
+            return await context.Users
+                .Include(u => u.Roles)
+                .Where(u => u.Id == id)
+                .FirstOrDefaultAsync();
+        }
     }
 }

@@ -2,10 +2,8 @@
 
 namespace ProcApi.DTOs.User;
 
-public class AddUserDto
-{
-    public string FirstName { get; set; }
-    public string LastName { get; set; }
-    public int Age { get; set; }
-    public Gender Gender { get; set; }
-}
+public record AddUserDto(string FirstName,
+    string LastName,
+    int Age,
+    Gender Gender
+);

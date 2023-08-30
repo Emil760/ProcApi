@@ -20,7 +20,8 @@ public class RolePermissionConfiguration : IEntityTypeConfiguration<RolePermissi
         {
             new RolePermission() { RoleId = (int)Roles.Admin, PermissionId = (int)Permissions.CanDeleteUser },
             new RolePermission() { RoleId = (int)Roles.User, PermissionId = (int)Permissions.CanActivateUser },
-            new RolePermission() { RoleId = (int)Roles.User, PermissionId = (int)Permissions.CanEditUser }
+            new RolePermission() { RoleId = (int)Roles.User, PermissionId = (int)Permissions.CanEditUser },
+            new RolePermission() { RoleId = (int) Roles.Requester, PermissionId = (int) Permissions.CanCreatePurchaseRequestDocument }
         };
     }
 }

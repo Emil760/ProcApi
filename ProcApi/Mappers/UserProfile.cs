@@ -1,13 +1,12 @@
-﻿using AutoMapper;
-using ProcApi.Data.ProcDatabase.Models;
+﻿using ProcApi.Data.ProcDatabase.Models;
 using ProcApi.DTOs.User;
 using ProcApi.ViewModels.User;
 
 namespace ProcApi.Mappers
 {
-    public class CommonAutoMapperProfile : Profile
+    public class UserProfile : CommonProfile
     {
-        public CommonAutoMapperProfile()
+        public UserProfile()
         {
             CreateMap<User, UserViewModel>();
             CreateMap<AddUserDto, User>();

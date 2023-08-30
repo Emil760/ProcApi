@@ -6,7 +6,7 @@ public class DocumentAction
     public int DocumentId { get; set; }
     public Document Document { get; set; }
     public int UserId { get; set; }
-    public required User User { get; set; }
+    public User User { get; set; }
     public int RoleId { get; set; }
     public Role Role { get; set; }
     public int Order { get; set; }

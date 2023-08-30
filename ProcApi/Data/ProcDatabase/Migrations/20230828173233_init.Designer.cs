@@ -12,8 +12,8 @@ using ProcApi.Data.ProcDatabase;
 namespace ProcApi.Data.ProcDatabase.Migrations
 {
     [DbContext(typeof(ProcDbContext))]
-    [Migration("20230812212513_role2")]
-    partial class role2
+    [Migration("20230828173233_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -32,9 +32,6 @@ namespace ProcApi.Data.ProcDatabase.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("DocumentType")
-                        .HasColumnType("int");
 
                     b.Property<int>("DocumentTypeId")
                         .HasColumnType("int");
@@ -80,7 +77,8 @@ namespace ProcApi.Data.ProcDatabase.Migrations
 
                     b.Property<string>("Message")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(4000)
+                        .HasColumnType("nvarchar");
 
                     b.Property<int>("ToId")
                         .HasColumnType("int");
@@ -102,22 +100,14 @@ namespace ProcApi.Data.ProcDatabase.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("ActionType")
-                        .HasColumnType("int");
-
                     b.Property<int?>("ActionTypeId")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("DocumentStatus")
-                        .HasColumnType("int");
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar");
 
                     b.Property<int>("DocumentStatusId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("DocumentType")
                         .HasColumnType("int");
 
                     b.Property<int>("DocumentTypeId")
@@ -140,7 +130,8 @@ namespace ProcApi.Data.ProcDatabase.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar");
 
                     b.Property<int>("RoleId")
                         .HasColumnType("int");
@@ -191,7 +182,8 @@ namespace ProcApi.Data.ProcDatabase.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar");
 
                     b.HasKey("Id");
 
@@ -201,7 +193,10 @@ namespace ProcApi.Data.ProcDatabase.Migrations
             modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.Document", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("CreatedById")
                         .HasColumnType("int");
@@ -210,21 +205,18 @@ namespace ProcApi.Data.ProcDatabase.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("DocumentNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("DocumentStatus")
-                        .HasColumnType("int");
+                        .HasMaxLength(30)
+                        .HasColumnType("varchar");
 
                     b.Property<int>("DocumentStatusId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("DocumentType")
                         .HasColumnType("int");
 
                     b.Property<int>("DocumentTypeId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CreatedById");
 
                     b.ToTable("Documents");
                 });
@@ -277,7 +269,8 @@ namespace ProcApi.Data.ProcDatabase.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(300)
+                        .HasColumnType("varchar");
 
                     b.Property<bool>("IsEnabled")
                         .ValueGeneratedOnAdd()
@@ -286,7 +279,8 @@ namespace ProcApi.Data.ProcDatabase.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(300)
+                        .HasColumnType("varchar");
 
                     b.HasKey("Id");
 
@@ -348,6 +342,11 @@ namespace ProcApi.Data.ProcDatabase.Migrations
                         {
                             Id = 4,
                             Name = "CanActivateUser"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "CanCreatePurchaseRequestDocument"
                         });
                 });
 
@@ -361,7 +360,8 @@ namespace ProcApi.Data.ProcDatabase.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar");
 
                     b.HasKey("Id");
 
@@ -372,6 +372,10 @@ namespace ProcApi.Data.ProcDatabase.Migrations
                 {
                     b.Property<int>("DocumentId")
                         .HasColumnType("int");
+
+                    b.Property<string>("DeliveryAddress")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -428,22 +432,13 @@ namespace ProcApi.Data.ProcDatabase.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("ActionType")
-                        .HasColumnType("int");
-
                     b.Property<int>("ActionTypeId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ActiveStatus")
                         .HasColumnType("int");
 
                     b.Property<int>("ActiveStatusId")
                         .HasColumnType("int");
 
                     b.Property<int>("ApprovalFlowTemplateId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("AssignStatus")
                         .HasColumnType("int");
 
                     b.Property<int>("AssignStatusId")
@@ -483,6 +478,36 @@ namespace ProcApi.Data.ProcDatabase.Migrations
                         {
                             Id = 2,
                             Name = "Admin"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Requester"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Warehouse"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "Coordinator"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Name = "Finance"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Name = "HeadDepartment"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Name = "ProcurementDirector"
                         });
                 });
 
@@ -504,7 +529,22 @@ namespace ProcApi.Data.ProcDatabase.Migrations
                         new
                         {
                             RoleId = 2,
+                            PermissionId = 2
+                        },
+                        new
+                        {
+                            RoleId = 1,
                             PermissionId = 4
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            PermissionId = 3
+                        },
+                        new
+                        {
+                            RoleId = 3,
+                            PermissionId = 5
                         });
                 });
 
@@ -657,7 +697,7 @@ namespace ProcApi.Data.ProcDatabase.Migrations
                 {
                     b.HasOne("ProcApi.Data.ProcDatabase.Models.User", "CreatedBy")
                         .WithMany("Documents")
-                        .HasForeignKey("Id")
+                        .HasForeignKey("CreatedById")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
@@ -667,7 +707,7 @@ namespace ProcApi.Data.ProcDatabase.Migrations
             modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.DocumentAction", b =>
                 {
                     b.HasOne("ProcApi.Data.ProcDatabase.Models.Document", "Document")
-                        .WithMany()
+                        .WithMany("DocumentActions")
                         .HasForeignKey("DocumentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -717,7 +757,7 @@ namespace ProcApi.Data.ProcDatabase.Migrations
                         .IsRequired();
 
                     b.HasOne("ProcApi.Data.ProcDatabase.Models.Department", "RequestedForDepartment")
-                        .WithMany()
+                        .WithMany("PurchaseRequestDocuments")
                         .HasForeignKey("RequestedForDepartmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -806,6 +846,16 @@ namespace ProcApi.Data.ProcDatabase.Migrations
                     b.Navigation("Role");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.Department", b =>
+                {
+                    b.Navigation("PurchaseRequestDocuments");
+                });
+
+            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.Document", b =>
+                {
+                    b.Navigation("DocumentActions");
                 });
 
             modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.User", b =>

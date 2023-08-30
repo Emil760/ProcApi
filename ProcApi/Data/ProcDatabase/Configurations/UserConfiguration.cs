@@ -11,7 +11,7 @@ namespace ProcApi.Data.ProcDatabase.Configurations
         {
             builder.Property(u => u.Gender)
                 .HasColumnType("int")
-                .IsRequired(true)
+                .IsRequired()
                 .HasDefaultValue(Gender.Unknown);
 
             builder.HasMany(u => u.Roles)
@@ -40,7 +40,7 @@ namespace ProcApi.Data.ProcDatabase.Configurations
 
             builder.HasMany(u => u.Documents)
                 .WithOne(d => d.CreatedBy)
-                .HasForeignKey(d => d.Id)
+                .HasForeignKey(d => d.CreatedById)
                 .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasMany(u => u.DocumentActions)

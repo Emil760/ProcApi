@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.SignalR;
+using ProcApi.Constants;
 
 namespace ProcApi.Services.Concreates
 {
@@ -88,14 +89,7 @@ namespace ProcApi.Services.Concreates
 
         public async Task Send(string message, string userName)
         {
-            await Clients.All.SendAsync("Send", message, userName);
+            await Clients.All.SendAsync(WebSocketActions.SEND, message, userName);
         }
-    }
-
-    public struct WebSocketActions
-    {
-        public static readonly string MESSAGE_RECEIVED = "messageReceived";
-        public static readonly string USER_LEFT = "userLeft";
-        public static readonly string USER_JOINED = "userJoined";
     }
 }

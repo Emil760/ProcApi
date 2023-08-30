@@ -10,9 +10,24 @@ namespace ProcApi.Data.ProcDatabase.Configurations
         {
             builder.HasKey(prd => prd.DocumentId);
 
+            builder.Property(prd => prd.DocumentId)
+                .ValueGeneratedNever();
+
             builder.HasOne(prd => prd.Document)
                 .WithOne()
-                .HasForeignKey<PurchaseRequestDocument>(prd => prd.DocumentId);
+                .HasForeignKey<PurchaseRequestDocument>(d => d.DocumentId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasOne(prd => prd.RequestedForDepartment)
+                .WithMany()
+                .HasForeignKey(prd => prd.RequestedForDepartmentId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasOne(prd => prd.Project)
+                .WithMany()
+                .HasForeignKey(prd => prd.ProjectId)
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

@@ -1,15 +1,11 @@
-using System.Text.Json;
 using System.Text.Json.Serialization;
 using FluentValidation;
 using FluentValidation.AspNetCore;
-using Microsoft.AspNetCore.Mvc;
 using NLog.Web;
 using ProcApi.Configurations;
 using ProcApi.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
 
 builder.Services.AddCustomOptions(builder.Configuration);
 
@@ -35,20 +31,14 @@ builder.Services.AddControllers()
     .AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
 builder.Services.AddFluentValidationAutoValidation(config => { config.DisableDataAnnotationsValidation = true; })
-    .AddFluentValidationClientsideAdapters()
-    //.AddFluentValidationRulesToSwagger()
     .AddValidatorsFromAssemblyContaining<Program>();
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-
-builder.Services.Configure<ApiBehaviorOptions>(options => options.SuppressModelStateInvalidFilter = true);
 
 builder.Host.UseNLog();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

@@ -9,7 +9,9 @@ namespace ProcApi.Configurations
         {
             services.AddSingleton(provider => new MapperConfiguration(cfg =>
             {
-                cfg.AddProfile(new CommonAutoMapperProfile());
+                cfg.AddProfile(new CommonProfile());
+                cfg.AddProfile(new UserProfile());
+                cfg.AddProfile(new PurchaseRequestProfile());
             }).CreateMapper());
         }
     }

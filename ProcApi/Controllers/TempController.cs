@@ -25,8 +25,7 @@ namespace ProcApi.Controllers
         [HttpGet("Test")]
         public async Task<IActionResult> GetTemp()
         {
-            var aa = await _userRepository.GetWithRoles(9);
-            return Ok(aa);
+            return Ok();
         }
 
         [HttpGet("Test2")]

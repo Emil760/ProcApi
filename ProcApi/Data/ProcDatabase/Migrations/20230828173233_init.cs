@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace ProcApi.Data.ProcDatabase.Migrations
 {
     /// <inheritdoc />
@@ -17,8 +19,8 @@ namespace ProcApi.Data.ProcDatabase.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "varchar(300)", maxLength: 300, nullable: false),
+                    Description = table.Column<string>(type: "varchar(300)", maxLength: 300, nullable: true),
                     IsEnabled = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
                 },
                 constraints: table =>
@@ -32,7 +34,7 @@ namespace ProcApi.Data.ProcDatabase.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -45,7 +47,7 @@ namespace ProcApi.Data.ProcDatabase.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -58,7 +60,7 @@ namespace ProcApi.Data.ProcDatabase.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -71,7 +73,7 @@ namespace ProcApi.Data.ProcDatabase.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -97,9 +99,8 @@ namespace ProcApi.Data.ProcDatabase.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Login = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Age = table.Column<int>(type: "int", nullable: false),
                     Gender = table.Column<int>(type: "int", nullable: false, defaultValue: 2)
                 },
                 constraints: table =>
@@ -113,14 +114,11 @@ namespace ProcApi.Data.ProcDatabase.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: true),
                     ActionTypeId = table.Column<int>(type: "int", nullable: true),
-                    ActionType = table.Column<int>(type: "int", nullable: false),
                     DocumentTypeId = table.Column<int>(type: "int", nullable: false),
-                    DocumentType = table.Column<int>(type: "int", nullable: false),
                     DocumentStatusId = table.Column<int>(type: "int", nullable: false),
-                    DocumentStatus = table.Column<int>(type: "int", nullable: false),
                     RoleId = table.Column<int>(type: "int", nullable: false),
                     IsVisible = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
                     IsEditable = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
@@ -141,14 +139,12 @@ namespace ProcApi.Data.ProcDatabase.Migrations
                 name: "RolePermissions",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
                     RoleId = table.Column<int>(type: "int", nullable: false),
                     PermissionId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RolePermissions", x => x.Id);
+                    table.PrimaryKey("PK_RolePermissions", x => new { x.RoleId, x.PermissionId });
                     table.ForeignKey(
                         name: "FK_RolePermissions_Permissions_PermissionId",
                         column: x => x.PermissionId,
@@ -170,7 +166,6 @@ namespace ProcApi.Data.ProcDatabase.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     DocumentTypeId = table.Column<int>(type: "int", nullable: false),
-                    DocumentType = table.Column<int>(type: "int", nullable: false),
                     Order = table.Column<int>(type: "int", nullable: false),
                     RoleId = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: true),
@@ -201,7 +196,7 @@ namespace ProcApi.Data.ProcDatabase.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FromId = table.Column<int>(type: "int", nullable: false),
                     ToId = table.Column<int>(type: "int", nullable: false),
-                    Message = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Message = table.Column<string>(type: "nvarchar(4000)", maxLength: 4000, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -248,23 +243,66 @@ namespace ProcApi.Data.ProcDatabase.Migrations
                 name: "Documents",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     DocumentTypeId = table.Column<int>(type: "int", nullable: false),
-                    DocumentType = table.Column<int>(type: "int", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedById = table.Column<int>(type: "int", nullable: false),
-                    DocumentNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DocumentStatusId = table.Column<int>(type: "int", nullable: false),
-                    DocumentStatus = table.Column<int>(type: "int", nullable: false)
+                    DocumentNumber = table.Column<string>(type: "varchar(30)", maxLength: 30, nullable: true),
+                    DocumentStatusId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Documents", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Documents_Users_Id",
-                        column: x => x.Id,
+                        name: "FK_Documents_Users_CreatedById",
+                        column: x => x.CreatedById,
                         principalTable: "Users",
                         principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserPassword",
+                columns: table => new
+                {
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Salt = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LastModified = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserPassword", x => x.UserId);
+                    table.ForeignKey(
+                        name: "FK_UserPassword_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserRoles",
+                columns: table => new
+                {
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    RoleId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserRoles", x => new { x.UserId, x.RoleId });
+                    table.ForeignKey(
+                        name: "FK_UserRoles_Roles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "Roles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserRoles_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -274,11 +312,8 @@ namespace ProcApi.Data.ProcDatabase.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ActiveStatusId = table.Column<int>(type: "int", nullable: false),
-                    ActiveStatus = table.Column<int>(type: "int", nullable: false),
                     AssignStatusId = table.Column<int>(type: "int", nullable: false),
-                    AssignStatus = table.Column<int>(type: "int", nullable: false),
                     ActionTypeId = table.Column<int>(type: "int", nullable: false),
-                    ActionType = table.Column<int>(type: "int", nullable: false),
                     ApprovalFlowTemplateId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -351,8 +386,9 @@ namespace ProcApi.Data.ProcDatabase.Migrations
                 columns: table => new
                 {
                     DocumentId = table.Column<int>(type: "int", nullable: false),
-                    RequestedForDepartmentId = table.Column<int>(type: "int", nullable: false),
+                    DeliveryAddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RequestedForDepartmentId = table.Column<int>(type: "int", nullable: false),
                     ProjectId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -406,6 +442,44 @@ namespace ProcApi.Data.ProcDatabase.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                table: "Permissions",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "CanCreateUser" },
+                    { 2, "CanDeleteUser" },
+                    { 3, "CanEditUser" },
+                    { 4, "CanActivateUser" },
+                    { 5, "CanCreatePurchaseRequestDocument" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Roles",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "User" },
+                    { 2, "Admin" },
+                    { 3, "Requester" },
+                    { 4, "Warehouse" },
+                    { 5, "Coordinator" },
+                    { 6, "Finance" },
+                    { 7, "HeadDepartment" },
+                    { 8, "ProcurementDirector" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "RolePermissions",
+                columns: new[] { "PermissionId", "RoleId" },
+                values: new object[,]
+                {
+                    { 3, 1 },
+                    { 4, 1 },
+                    { 2, 2 },
+                    { 5, 3 }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_ApprovalFlowTemplates_RoleId",
                 table: "ApprovalFlowTemplates",
@@ -457,6 +531,11 @@ namespace ProcApi.Data.ProcDatabase.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Documents_CreatedById",
+                table: "Documents",
+                column: "CreatedById");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_InvoiceDocuments_DocumentId",
                 table: "InvoiceDocuments",
                 column: "DocumentId");
@@ -492,8 +571,8 @@ namespace ProcApi.Data.ProcDatabase.Migrations
                 column: "PermissionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RolePermissions_RoleId",
-                table: "RolePermissions",
+                name: "IX_UserRoles_RoleId",
+                table: "UserRoles",
                 column: "RoleId");
         }
 
@@ -526,6 +605,12 @@ namespace ProcApi.Data.ProcDatabase.Migrations
 
             migrationBuilder.DropTable(
                 name: "RolePermissions");
+
+            migrationBuilder.DropTable(
+                name: "UserPassword");
+
+            migrationBuilder.DropTable(
+                name: "UserRoles");
 
             migrationBuilder.DropTable(
                 name: "PurchaseRequestDocuments");

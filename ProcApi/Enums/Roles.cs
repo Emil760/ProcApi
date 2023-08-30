@@ -3,5 +3,11 @@
 public enum Roles
 {
     User = 1,
-    Admin
+    Admin,
+    Requester,
+    Warehouse,
+    Coordinator,
+    Finance,
+    HeadDepartment,
+    ProcurementDirector
 }

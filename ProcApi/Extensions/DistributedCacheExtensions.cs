@@ -12,7 +12,8 @@ namespace ProcApi.Extensions
             return SetAsync(cache, key, value, _distributedCacheEntryOptions);
         }
 
-        public static Task SetAsync<T>(this IDistributedCache cache, string key, T value, DistributedCacheEntryOptions options)
+        public static Task SetAsync<T>(this IDistributedCache cache, string key, T value,
+            DistributedCacheEntryOptions options)
         {
             var bytes = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(value, _serializerOptions));
             return cache.SetAsync(key, bytes, options);
@@ -22,9 +23,8 @@ namespace ProcApi.Extensions
         {
             var bytes = await cache.GetAsync(key);
             if (bytes is null)
-            {
                 return default(T);
-            }
+
             return JsonSerializer.Deserialize<T>(bytes);
         }
 
@@ -50,7 +50,8 @@ namespace ProcApi.Extensions
             SlidingExpiration = TimeSpan.FromHours(1)
         };
 
-        public static void AddStackExchangeRedisCacheService(this IServiceCollection services, IConfiguration configuration)
+        public static void AddStackExchangeRedisCacheService(this IServiceCollection services,
+            IConfiguration configuration)
         {
             services.AddStackExchangeRedisCache(options =>
             {

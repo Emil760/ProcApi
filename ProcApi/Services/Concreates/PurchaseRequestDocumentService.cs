@@ -1,8 +1,4 @@
-﻿using Microsoft.Identity.Client;
-using ProcApi.Data.ProcDatabase.Enums;
-using ProcApi.DTOs.Documents;
-using ProcApi.Services.Abstracts;
-using System.Runtime.CompilerServices;
+﻿using ProcApi.Services.Abstracts;
 
 namespace ProcApi.Services.Concreates
 {

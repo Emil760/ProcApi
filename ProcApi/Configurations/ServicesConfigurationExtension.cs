@@ -17,6 +17,7 @@ namespace ProcApi.Configurations
             services.AddScoped<IFileService, FileService>();
             services.AddScoped<IChatService, ChatService>();
             services.AddScoped<IApprovalFlowService, ApprovalFlowService>();
+            services.AddScoped<IDocumentService, DocumentService>();
             services.AddScoped<IPurchaseRequestDocumentService, PurchaseRequestDocumentService>();
             services.AddScoped<IPurchaseRequestDocumentApprovalService, PurchaseRequestDocumentApprovalService>();
 

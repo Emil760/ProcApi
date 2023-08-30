@@ -5,8 +5,7 @@ namespace ProcApi.Data.ProcDatabase.Models;
 public class ApprovalFlowTemplate
 {
     public int Id { get; set; }
-    public int DocumentTypeId { get; set; }
-    public DocumentType DocumentType { get; set; }
+    public DocumentType DocumentTypeId { get; set; }
     public int Order { get; set; }
     public int RoleId { get; set; }
     public Role Role { get; set; }

@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.IdentityModel.JsonWebTokens;
+﻿using Microsoft.AspNetCore.Authorization;
 using ProcApi.Constants;
 
 namespace ProcApi.Handlers.Authorization;

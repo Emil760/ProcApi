@@ -11,6 +11,10 @@ namespace ProcApi.Configurations
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IChatMessageRepository, ChatMessageRepository>();
+            services.AddScoped<IDocumentRepository, DocumentRepository>();
+            services.AddScoped<IDocumentActionRepository, DocumentActionRepository>();
+            services.AddScoped<IApprovalFlowTemplateRepository, ApprovalFlowTemplateRepository>();
+            services.AddScoped<IPurchaseRequestDocumentRepository, PurchaseRequestDocumentRepository>();
         }
     }
 }

@@ -7,14 +7,14 @@ namespace ProcApi.Repositories.Concreates
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
-        private readonly ProcDbContext _context;
+        protected readonly ProcDbContext _context;
 
         public GenericRepository(ProcDbContext context)
         {
             _context = context;
         }
 
-        public virtual async Task<T> GetByIdAsync(object id)
+        public virtual async Task<T?> GetByIdAsync(object id)
         {
             return await _context.Set<T>().FindAsync(id);
         }
@@ -38,9 +38,23 @@ namespace ProcApi.Repositories.Concreates
             await _context.SaveChangesAsync();
         }
 
+        public async Task InsertAsync(IEnumerable<T> entities)
+        {
+            foreach (var entity in entities)
+                _context.Add(entity);
+
+            await _context.SaveChangesAsync();
+        }
+
         public void Insert(T entity)
         {
             _context.Add(entity);
+        }
+
+        public void Insert(IEnumerable<T> entities)
+        {
+            foreach (var entity in entities)
+                _context.Add(entity);
         }
     }
 }

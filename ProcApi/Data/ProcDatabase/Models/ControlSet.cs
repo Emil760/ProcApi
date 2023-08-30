@@ -9,12 +9,9 @@ public class ControlSet
     public string Name { get; set; }
     public string? Description { get; set; }
     //public string ActionCode { get; set; }
-    public int? ActionTypeId { get; set; }
-    public ActionType ActionType { get; set; }
-    public int DocumentTypeId { get; set; }
-    public DocumentType DocumentType { get; set; }
-    public int DocumentStatusId { get; set; }
-    public DocumentStatus DocumentStatus { get; set; }
+    public ActionType? ActionTypeId { get; set; }
+    public DocumentType DocumentTypeId { get; set; }
+    public DocumentStatus DocumentStatusId { get; set; }
     public int RoleId { get; set; }
     public Role Role { get; set; }
     public bool IsVisible { get; set; }

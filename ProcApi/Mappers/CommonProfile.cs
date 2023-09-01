@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using ProcApi.Data.ProcDatabase.Models;
 using ProcApi.DTOs.Documents;
+using ProcApi.DTOs.Documents.Base;
+using ProcApi.DTOs.Documents.Responses;
 
 namespace ProcApi.Mappers;
 
@@ -18,7 +20,7 @@ public class CommonProfile : Profile
             .ForMember(dest => dest.DocumentType,
                 opt => opt.MapFrom(src => src.DocumentStatusId));
 
-        CreateMap<DocumentAction, DocumentMemberDto>()
+        CreateMap<DocumentAction, DocumentMemberResponseDto>()
             .ForMember(dest => dest.MemberName,
                 opt => opt.MapFrom(src => src.User.FirstName))
             .ForMember(dest => dest.ActionPerformed,

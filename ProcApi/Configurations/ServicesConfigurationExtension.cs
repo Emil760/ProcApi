@@ -1,6 +1,5 @@
 ﻿using ProcApi.Caches.Abstracts;
 using ProcApi.Caches.Concreates;
-using ProcApi.Filters;
 using ProcApi.Repositories.UnitOfWork;
 using ProcApi.Services.Abstracts;
 using ProcApi.Services.Concreates;
@@ -22,8 +21,6 @@ namespace ProcApi.Configurations
             services.AddScoped<IPurchaseRequestDocumentApprovalService, PurchaseRequestDocumentApprovalService>();
 
             services.AddScoped<IUserCachedService, UserCachedService>();
-
-            services.AddScoped<CustomValidationFilterAttribute>();
         }
     }
 }

@@ -13,6 +13,10 @@ namespace ProcApi.Data.ProcDatabase.Configurations
             builder.Property(prd => prd.DocumentId)
                 .ValueGeneratedNever();
 
+            builder.Property(prd => prd.Description)
+                .HasMaxLength(4000)
+                .HasDefaultValue("");
+
             builder.HasOne(prd => prd.Document)
                 .WithOne()
                 .HasForeignKey<PurchaseRequestDocument>(d => d.DocumentId)

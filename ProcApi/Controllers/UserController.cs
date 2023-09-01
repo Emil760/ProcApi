@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ProcApi.Attributes;
-using ProcApi.DTOs.User;
+using ProcApi.DTOs.User.Requests;
 using ProcApi.Enums;
 using ProcApi.Services.Abstracts;
 

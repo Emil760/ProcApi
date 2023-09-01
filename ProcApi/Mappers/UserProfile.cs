@@ -1,6 +1,6 @@
 ﻿using ProcApi.Data.ProcDatabase.Models;
-using ProcApi.DTOs.User;
-using ProcApi.ViewModels.User;
+using ProcApi.DTOs.User.Requests;
+using ProcApi.DTOs.User.Responses;
 
 namespace ProcApi.Mappers
 {
@@ -8,7 +8,7 @@ namespace ProcApi.Mappers
     {
         public UserProfile()
         {
-            CreateMap<User, UserViewModel>();
+            CreateMap<User, UserResponseDto>();
             CreateMap<AddUserDto, User>();
         }
     }

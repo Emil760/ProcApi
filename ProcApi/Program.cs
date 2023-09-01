@@ -45,6 +45,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCustomExceptionHandlerMiddleware();
+
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
@@ -54,7 +56,5 @@ app.UseAuthorization();
 app.UseCustomLocalization();
 
 app.MapControllers();
-
-app.UseCustomExceptionHandlerMiddleware();
 
 app.Run();

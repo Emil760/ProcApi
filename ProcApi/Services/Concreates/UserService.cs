@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 using ProcApi.Comparers;
 using ProcApi.Data.ProcDatabase.Models;
-using ProcApi.DTOs.User;
+using ProcApi.DTOs.User.Requests;
+using ProcApi.DTOs.User.Responses;
 using ProcApi.Repositories.Abstracts;
 using ProcApi.Repositories.UnitOfWork;
 using ProcApi.Services.Abstracts;
-using ProcApi.ViewModels.User;
 
 namespace ProcApi.Services.Concreates
 {
@@ -24,7 +24,7 @@ namespace ProcApi.Services.Concreates
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<UserViewModel> AddUserAsync(AddUserDto dto)
+        public async Task<UserResponseDto> AddUserAsync(AddUserDto dto)
         {
             var user = _mapper.Map<User>(dto);
 
@@ -32,7 +32,7 @@ namespace ProcApi.Services.Concreates
 
             await _unitOfWork.SaveChangesAsync();
 
-            return _mapper.Map<UserViewModel>(user);
+            return _mapper.Map<UserResponseDto>(user);
         }
 
         public async Task<bool> AlreadyExists(string login)
@@ -41,20 +41,20 @@ namespace ProcApi.Services.Concreates
             return userLogin is not null;
         }
 
-        public async Task<UserViewModel> GetByIdAsync(int id)
+        public async Task<UserResponseDto> GetByIdAsync(int id)
         {
             var user = await _userRepository.GetByIdAsync(id);
 
-            return _mapper.Map<UserViewModel>(user);
+            return _mapper.Map<UserResponseDto>(user);
         }
 
-        public async Task<IEnumerable<UserViewModel>> GetUsersAsync()
+        public async Task<IEnumerable<UserResponseDto>> GetUsersAsync()
         {
             var users = await _userRepository.GetAllAsync();
 
             users = users.OrderByDescending(u => u.Gender, new GenderComparer());
 
-            return _mapper.Map<IEnumerable<UserViewModel>>(users);
+            return _mapper.Map<IEnumerable<UserResponseDto>>(users);
         }
     }
 }

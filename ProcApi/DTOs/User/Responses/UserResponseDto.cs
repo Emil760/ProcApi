@@ -1,8 +1,8 @@
 ﻿using ProcApi.Data.ProcDatabase.Enums;
 
-namespace ProcApi.ViewModels.User;
+namespace ProcApi.DTOs.User.Responses;
 
-public class UserViewModel
+public class UserResponseDto
 {
     public int Id { get; set; }
     public string FirstName { get; set; }

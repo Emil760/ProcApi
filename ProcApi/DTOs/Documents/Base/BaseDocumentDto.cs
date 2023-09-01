@@ -1,6 +1,6 @@
 ﻿using ProcApi.Data.ProcDatabase.Enums;
 
-namespace ProcApi.DTOs.Documents;
+namespace ProcApi.DTOs.Documents.Base;
 
 public record BaseDocumentDto(
     int DocumentId,

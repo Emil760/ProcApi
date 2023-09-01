@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.Localization;
-using ProcApi.DTOs.User;
+using ProcApi.DTOs.User.Requests;
 using ProcApi.Localization;
 
 namespace ProcApi.Validators.User;

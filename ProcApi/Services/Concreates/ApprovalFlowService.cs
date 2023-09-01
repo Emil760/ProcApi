@@ -1,6 +1,7 @@
 ﻿using ProcApi.Data.ProcDatabase.Enums;
 using ProcApi.Data.ProcDatabase.Models;
 using ProcApi.DTOs.User;
+using ProcApi.DTOs.User.Base;
 using ProcApi.Repositories.Abstracts;
 using ProcApi.Services.Abstracts;
 
@@ -15,7 +16,7 @@ namespace ProcApi.Services.Concreates
             _flowTemplateRepository = flowTemplateRepository;
         }
 
-        public async Task<IEnumerable<DocumentAction>> CreateApprovals(UserInfoDro userInfoDro, Document document, DocumentType type)
+        public async Task<IEnumerable<DocumentAction>> CreateApprovals(UserInfo userInfo, Document document, DocumentType type)
         {
             var flowTemplates = await _flowTemplateRepository.GetInitialByDocumentType(type);
 
@@ -33,7 +34,7 @@ namespace ProcApi.Services.Concreates
                 {
                     Document = document,
                     RoleId = flowTemplate.RoleId,
-                    UserId = flowTemplate.IsCreator ? userInfoDro.UserId : flowTemplate.UserId.Value,
+                    UserId = flowTemplate.IsCreator ? userInfo.UserId : flowTemplate.UserId.Value,
                     Order = flowTemplate.Order,
                     IsPerformed = false,
                     ActionPerformed = null,

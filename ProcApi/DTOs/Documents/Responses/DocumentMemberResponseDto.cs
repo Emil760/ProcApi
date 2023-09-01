@@ -1,8 +1,8 @@
 ﻿using ProcApi.Enums;
 
-namespace ProcApi.DTOs.Documents;
+namespace ProcApi.DTOs.Documents.Responses;
 
-public record DocumentMemberDto(
+public record DocumentMemberResponseDto(
     string MemberName,
     Roles RoleId,
     DateTime ActionPerformed,

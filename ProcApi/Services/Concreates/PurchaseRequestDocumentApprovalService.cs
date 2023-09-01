@@ -2,8 +2,12 @@
 using ProcApi.Data.ProcDatabase.Enums;
 using ProcApi.Data.ProcDatabase.Models;
 using ProcApi.DTOs.Documents;
-using ProcApi.DTOs.Documents.PurchaseRequestDocument;
+using ProcApi.DTOs.Documents.Requests;
+using ProcApi.DTOs.PurchaseRequestDocument;
+using ProcApi.DTOs.PurchaseRequestDocument.Requests;
+using ProcApi.DTOs.PurchaseRequestDocument.Response;
 using ProcApi.DTOs.User;
+using ProcApi.DTOs.User.Base;
 using ProcApi.Repositories.Abstracts;
 using ProcApi.Repositories.UnitOfWork;
 using ProcApi.Services.Abstracts;
@@ -46,24 +50,28 @@ public class PurchaseRequestDocumentApprovalService : IPurchaseRequestDocumentAp
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<PurchaseRequestDocumentDto> CreateDocument(UserInfoDro userInfoDro,
-        CreatePurchaseRequestDocumentDto dto)
+    public async Task<PurchaseRequestDocumentResponseDto> CreateDocument(UserInfo userInfo,
+        CreatePurchaseRequestDocumentRequestDto requestDto)
     {
-        var document = _documentService.CreateDocument(userInfoDro.UserId,
+        var document = _documentService.CreateDocument(userInfo.UserId,
             DocumentType.PurchaseRequest,
             DocumentStatus.PurchaseRequestDraft);
 
-        var documentActions = await _approvalFlowService.CreateApprovals(userInfoDro,
+        var documentActions = await _approvalFlowService.CreateApprovals(userInfo,
             document,
             DocumentType.PurchaseRequest);
 
         document.DocumentActions = documentActions.ToList();
 
+        var itemModels = _mapper.Map<ICollection<PurchaseRequestDocumentItem>>(requestDto.Items);
+
         var purchaseRequestDocument = new PurchaseRequestDocument()
         {
             Document = document,
-            RequestedForDepartmentId = dto.DepartmentId,
-            DeliveryAddress = dto.DeliveryAddress
+            Description = requestDto.Description,
+            RequestedForDepartmentId = requestDto.DepartmentId,
+            DeliveryAddress = requestDto.DeliveryAddress,
+            Items = itemModels
         };
 
         _purchaseRequestDocumentRepository.Insert(purchaseRequestDocument);
@@ -76,9 +84,9 @@ public class PurchaseRequestDocumentApprovalService : IPurchaseRequestDocumentAp
         return null;
     }
 
-    public async Task PerformAction(ActionPerformDto dto)
+    public async Task PerformAction(ActionPerformRequestDto requestDto)
     {
-        var action = _actionDictionary[dto.ActionType];
+        var action = _actionDictionary[requestDto.ActionType];
 
         await action.Invoke();
     }

@@ -1,14 +1,16 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProcApi.DTOs.Documents;
-using ProcApi.DTOs.Documents.PurchaseRequestDocument;
+using ProcApi.DTOs.Documents.Requests;
+using ProcApi.DTOs.PurchaseRequestDocument;
+using ProcApi.DTOs.PurchaseRequestDocument.Requests;
 using ProcApi.DTOs.User;
+using ProcApi.DTOs.User.Base;
 using ProcApi.Services.Abstracts;
 
 namespace ProcApi.Controllers
 {
     [Route("pr")]
-    [ApiController]
     public class PurchaseRequestDocumentController : BaseController
     {
         private readonly IPurchaseRequestDocumentService _purchaseRequestDocumentService;
@@ -21,14 +23,6 @@ namespace ProcApi.Controllers
             _purchaseRequestDocumentApprovalService = purchaseRequestDocumentApprovalService;
         }
 
-        [HttpPost("perform-action")]
-        public async Task<IActionResult> PerformAction([FromBody] ActionPerformDto dto)
-        {
-            await _purchaseRequestDocumentApprovalService.PerformAction(dto);
-            return Ok();
-        }
-
-
         [HttpGet]
         public async Task<IActionResult> GetDocucment()
         {
@@ -38,10 +32,23 @@ namespace ProcApi.Controllers
         // [HasPermission(Permissions.CanCreatePurchaseRequestDocument)]
         [AllowAnonymous]
         [HttpPost("create-document")]
-        public async Task<IActionResult> CreateDocument([FromBody] CreatePurchaseRequestDocumentDto dto)
+        public async Task<IActionResult> CreateDocument([FromBody] CreatePurchaseRequestDocumentRequestDto requestDto)
         {
-            UserInfoDro = new UserInfoDro(15, "az");
-            return Ok(await _purchaseRequestDocumentApprovalService.CreateDocument(UserInfoDro, dto));
+            UserInfo = new UserInfo(15, "az");
+            return Ok(await _purchaseRequestDocumentApprovalService.CreateDocument(UserInfo, requestDto));
+        }
+
+        [HttpPost("perform-action")]
+        public async Task<IActionResult> PerformAction([FromBody] ActionPerformRequestDto requestDto)
+        {
+            await _purchaseRequestDocumentApprovalService.PerformAction(requestDto);
+            return Ok();
+        }
+
+        [HttpGet("items")]
+        public async Task<IActionResult> GetItems([FromQuery] int docId)
+        {
+            return Ok();
         }
     }
 }

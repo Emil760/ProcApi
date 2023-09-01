@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
 using ProcApi.Caches.Abstracts;
+using ProcApi.DTOs.User.Responses;
 using ProcApi.Extensions;
 using ProcApi.Services.Abstracts;
-using ProcApi.ViewModels.User;
 
 namespace ProcApi.Caches.Concreates
 {
@@ -18,10 +18,10 @@ namespace ProcApi.Caches.Concreates
             _cache = cache;
         }
 
-        public async Task<UserViewModel> GetByIdAsync(int id)
+        public async Task<UserResponseDto> GetByIdAsync(int id)
         {
             var key = CacheKeys.GetUserKey(id);
-            var user = await _cache.GetAsync<UserViewModel>(key);
+            var user = await _cache.GetAsync<UserResponseDto>(key);
 
             if (user is null)
             {

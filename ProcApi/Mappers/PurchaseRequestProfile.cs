@@ -1,5 +1,7 @@
 ﻿using ProcApi.Data.ProcDatabase.Models;
-using ProcApi.DTOs.Documents.PurchaseRequestDocument;
+using ProcApi.DTOs.PurchaseRequestDocument;
+using ProcApi.DTOs.PurchaseRequestDocument.Requests;
+using ProcApi.DTOs.PurchaseRequestDocument.Response;
 
 namespace ProcApi.Mappers;
 
@@ -7,10 +9,12 @@ public class PurchaseRequestProfile : CommonProfile
 {
     public PurchaseRequestProfile()
     {
-        CreateMap<CreatePurchaseRequestDocumentDto, PurchaseRequestDocument>();
+        CreateMap<CreatePurchaseRequestDocumentItemRequestDto, PurchaseRequestDocumentItem>();
+        
+        CreateMap<CreatePurchaseRequestDocumentRequestDto, PurchaseRequestDocument>();
 
-        CreateMap<PurchaseRequestDocument, PurchaseRequestDocumentDto>()
-            .ForMember(dest => dest.DocumentDto,
+        CreateMap<PurchaseRequestDocument, PurchaseRequestDocumentResponseDto>()
+            .ForMember(dest => dest.BaseDocumentDto,
                 opt => opt.MapFrom(src => src.Document))
             .ForMember(dest => dest.MemberDtos,
                 opt => opt.MapFrom(src => src.Document.DocumentActions));

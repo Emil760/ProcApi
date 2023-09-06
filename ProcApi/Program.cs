@@ -15,7 +15,7 @@ builder.Services.AddSwagger();
 
 builder.Services.AddAutoMapper();
 
-builder.Services.AddCustomSignalR();
+builder.Services.AddCustomSignalR(builder.Configuration);
 
 builder.Services.AddRedisCaching(builder.Configuration);
 

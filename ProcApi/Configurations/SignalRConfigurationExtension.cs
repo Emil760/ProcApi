@@ -1,8 +1,10 @@
-﻿namespace ProcApi.Configurations
+﻿using Microsoft.AspNetCore.SignalR.StackExchangeRedis;
+
+namespace ProcApi.Configurations
 {
     public static class SignalRConfigurationExtension
     {
-        public static void AddCustomSignalR(this IServiceCollection services)
+        public static void AddCustomSignalR(this IServiceCollection services, IConfiguration configuration)
         {
             //ClientTimeoutInterval.Определяет время, в течение которого клиент должен отправить серверу сообщение.
             //Если в течение данного времени никаких сообщенй от клиента на сервер не пришло, то сервер закрывает соединение.
@@ -21,11 +23,14 @@
 
             //EnableDetailedErrors при значении true возвращает клиенту детальное описание возникшей ошибки(при ее возникновении).
             //Поскольку подобные сообщения могут содержать критически важную для безопасности информацию, то по умолчанию имеет значение false.
+
+            var connectionString = configuration.GetSection(nameof(RedisOptions)).GetChildren().ElementAt(0).Value;
+
             services.AddSignalR(options =>
             {
                 options.EnableDetailedErrors = true;
                 options.KeepAliveInterval = System.TimeSpan.FromMinutes(10);
-            });
+            }).AddStackExchangeRedis(connectionString);
         }
     }
 }

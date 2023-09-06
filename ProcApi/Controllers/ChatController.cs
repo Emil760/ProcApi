@@ -30,16 +30,7 @@ namespace ProcApi.Controllers
         [HttpPost("SendBulk")]
         public async Task<IActionResult> SendBulk(int userId, string message)
         {
-            try
-            {
-                await _chatService.SendBulk(userId, message);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message + "\n" + ex.InnerException?.Message);
-                throw;
-            }
-
+            await _chatService.SendBulk(userId, message);
             return Ok();
         }
 

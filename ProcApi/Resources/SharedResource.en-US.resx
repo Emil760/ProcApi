@@ -129,4 +129,7 @@
   <data name="DepartmentCantBeEmpty" xml:space="preserve">
     <value>Department cant be empty</value>
   </data>
+  <data name="UnitOfMeasureCantBeEmpty" xml:space="preserve">
+    <value>Unit of measure cant be empty</value>
+  </data>
 </root>

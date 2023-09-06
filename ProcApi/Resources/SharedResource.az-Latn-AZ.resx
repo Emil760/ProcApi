@@ -129,4 +129,7 @@
   <data name="ShouldHaveItem" xml:space="preserve">
     <value>Ən azı bir məhsul olmalıdır</value>
   </data>
+  <data name="UnitOfMeasureCantBeEmpty" xml:space="preserve">
+    <value>Ölcu vaxidi bos ola bilmez</value>
+  </data>
 </root>

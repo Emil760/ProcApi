@@ -7,6 +7,6 @@ namespace ProcApi.Services.Abstracts
 {
     public interface IApprovalFlowService
     {
-        Task<IEnumerable<DocumentAction>> CreateApprovals(UserInfo userInfo, Document document, DocumentType documentType);
+        Task<IEnumerable<DocumentAction>> CreateApprovals(UserInfo? userInfo, Document document, DocumentType documentType);
     }
 }

@@ -8,8 +8,10 @@ public class User
     public string Login { get; set; }
     public string FirstName { get; set; }
     public Gender Gender { get; set; }
-    
+
     public UserPassword UserPassword { get; set; }
+
+    public UserSetting UserSetting { get; set; }
     
     public ICollection<Role> Roles { get; set; }
 

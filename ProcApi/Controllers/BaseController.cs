@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ProcApi.DTOs.User;
 using ProcApi.DTOs.User.Base;
+using ProcApi.Utility;
 
 namespace ProcApi.Controllers
 {
@@ -9,7 +9,7 @@ namespace ProcApi.Controllers
     [ApiController]
     public class BaseController : ControllerBase
     {
-        public UserInfo UserInfo { get; set; }
+        protected UserInfo? UserInfo => JwtUtility.GetUserInfo(Request.Headers["Authorization"]);
 
         public BaseController()
         {

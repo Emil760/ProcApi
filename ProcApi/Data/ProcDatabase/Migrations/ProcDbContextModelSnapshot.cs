@@ -58,7 +58,7 @@ namespace ProcApi.Data.ProcDatabase.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("ApprovalFlowTemplates", (string)null);
+                    b.ToTable("ApprovalFlowTemplates");
                 });
 
             modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.ChatMessage", b =>
@@ -86,7 +86,7 @@ namespace ProcApi.Data.ProcDatabase.Migrations
 
                     b.HasIndex("ToId");
 
-                    b.ToTable("ChatMessages", (string)null);
+                    b.ToTable("ChatMessages");
                 });
 
             modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.ControlSet", b =>
@@ -137,7 +137,7 @@ namespace ProcApi.Data.ProcDatabase.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("ControlSets", (string)null);
+                    b.ToTable("ControlSets");
                 });
 
             modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.Delegation", b =>
@@ -166,7 +166,7 @@ namespace ProcApi.Data.ProcDatabase.Migrations
 
                     b.HasIndex("ToUserId");
 
-                    b.ToTable("Delegations", (string)null);
+                    b.ToTable("Delegations");
                 });
 
             modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.Department", b =>
@@ -184,7 +184,7 @@ namespace ProcApi.Data.ProcDatabase.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Departments", (string)null);
+                    b.ToTable("Departments");
                 });
 
             modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.Document", b =>
@@ -215,7 +215,7 @@ namespace ProcApi.Data.ProcDatabase.Migrations
 
                     b.HasIndex("CreatedById");
 
-                    b.ToTable("Documents", (string)null);
+                    b.ToTable("Documents");
                 });
 
             modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.DocumentAction", b =>
@@ -254,7 +254,7 @@ namespace ProcApi.Data.ProcDatabase.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("DocumentActions", (string)null);
+                    b.ToTable("DocumentActions");
                 });
 
             modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.FeatureConfiguration", b =>
@@ -281,7 +281,7 @@ namespace ProcApi.Data.ProcDatabase.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Configurations", (string)null);
+                    b.ToTable("Configurations");
                 });
 
             modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.InvoiceDocument", b =>
@@ -299,7 +299,7 @@ namespace ProcApi.Data.ProcDatabase.Migrations
 
                     b.HasIndex("DocumentId");
 
-                    b.ToTable("InvoiceDocuments", (string)null);
+                    b.ToTable("InvoiceDocuments");
                 });
 
             modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.Permission", b =>
@@ -317,7 +317,7 @@ namespace ProcApi.Data.ProcDatabase.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Permissions", (string)null);
+                    b.ToTable("Permissions");
 
                     b.HasData(
                         new
@@ -362,7 +362,7 @@ namespace ProcApi.Data.ProcDatabase.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Projects", (string)null);
+                    b.ToTable("Projects");
                 });
 
             modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.PurchaseRequestDocument", b =>
@@ -393,7 +393,7 @@ namespace ProcApi.Data.ProcDatabase.Migrations
 
                     b.HasIndex("RequestedForDepartmentId");
 
-                    b.ToTable("PurchaseRequestDocuments", (string)null);
+                    b.ToTable("PurchaseRequestDocuments");
                 });
 
             modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.PurchaseRequestDocumentItem", b =>
@@ -426,7 +426,7 @@ namespace ProcApi.Data.ProcDatabase.Migrations
 
                     b.HasIndex("UnitOfMeasureId");
 
-                    b.ToTable("PurchaseRequestDocumentItems", (string)null);
+                    b.ToTable("PurchaseRequestDocumentItems");
                 });
 
             modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.ReleaseStrategy", b =>
@@ -453,7 +453,7 @@ namespace ProcApi.Data.ProcDatabase.Migrations
 
                     b.HasIndex("ApprovalFlowTemplateId");
 
-                    b.ToTable("ReleaseStrategies", (string)null);
+                    b.ToTable("ReleaseStrategies");
                 });
 
             modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.Role", b =>
@@ -471,7 +471,7 @@ namespace ProcApi.Data.ProcDatabase.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Roles", (string)null);
+                    b.ToTable("Roles");
 
                     b.HasData(
                         new
@@ -528,7 +528,7 @@ namespace ProcApi.Data.ProcDatabase.Migrations
 
                     b.HasIndex("PermissionId");
 
-                    b.ToTable("RolePermissions", (string)null);
+                    b.ToTable("RolePermissions");
 
                     b.HasData(
                         new
@@ -567,7 +567,7 @@ namespace ProcApi.Data.ProcDatabase.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("UnitOfMeasures", (string)null);
+                    b.ToTable("UnitOfMeasures");
                 });
 
             modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.UnitOfMeasureConverter", b =>
@@ -598,7 +598,7 @@ namespace ProcApi.Data.ProcDatabase.Migrations
 
                     b.HasIndex("TargetUnitOfMeasureId");
 
-                    b.ToTable("UnitOfMeasureConverter", (string)null);
+                    b.ToTable("UnitOfMeasureConverter");
                 });
 
             modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.User", b =>
@@ -624,7 +624,7 @@ namespace ProcApi.Data.ProcDatabase.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.UserPassword", b =>
@@ -645,7 +645,7 @@ namespace ProcApi.Data.ProcDatabase.Migrations
 
                     b.HasKey("UserId");
 
-                    b.ToTable("UserPassword", (string)null);
+                    b.ToTable("UserPassword");
                 });
 
             modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.UserRole", b =>
@@ -660,7 +660,21 @@ namespace ProcApi.Data.ProcDatabase.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("UserRoles", (string)null);
+                    b.ToTable("UserRoles");
+                });
+
+            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.UserSetting", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Language")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("UserSettings");
                 });
 
             modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.ApprovalFlowTemplate", b =>
@@ -902,6 +916,17 @@ namespace ProcApi.Data.ProcDatabase.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.UserSetting", b =>
+                {
+                    b.HasOne("ProcApi.Data.ProcDatabase.Models.User", "User")
+                        .WithOne("UserSetting")
+                        .HasForeignKey("ProcApi.Data.ProcDatabase.Models.UserSetting", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.Document", b =>
                 {
                     b.Navigation("DocumentActions");
@@ -932,6 +957,9 @@ namespace ProcApi.Data.ProcDatabase.Migrations
                     b.Navigation("ToDelegations");
 
                     b.Navigation("UserPassword")
+                        .IsRequired();
+
+                    b.Navigation("UserSetting")
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

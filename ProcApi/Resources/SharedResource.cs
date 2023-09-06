@@ -1,4 +1,4 @@
-﻿namespace ProcApi.Localization
+﻿namespace ProcApi.Resources
 {
     public class SharedResource
     {

@@ -26,6 +26,9 @@ namespace ProcApi.Configurations
 
             services.Configure<RabbitMqOptions>(
                 configuration.GetSection(nameof(RabbitMqOptions)));
+            
+            services.Configure<UserOptions>(
+                configuration.GetSection(nameof(UserOptions)));
         }
     }
 }

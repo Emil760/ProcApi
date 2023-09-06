@@ -16,7 +16,7 @@ namespace ProcApi.Services.Concreates
             _flowTemplateRepository = flowTemplateRepository;
         }
 
-        public async Task<IEnumerable<DocumentAction>> CreateApprovals(UserInfo userInfo, Document document, DocumentType type)
+        public async Task<IEnumerable<DocumentAction>> CreateApprovals(UserInfo? userInfo, Document document, DocumentType type)
         {
             var flowTemplates = await _flowTemplateRepository.GetInitialByDocumentType(type);
 

@@ -31,7 +31,7 @@ namespace ProcApi.Services.Concreates
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<PurchaseRequestDocumentResponseDto> CreateDocument(UserInfo userInfo,
+        public async Task<PurchaseRequestDocumentResponseDto> CreateDocument(UserInfo? userInfo,
             CreatePurchaseRequestDocumentRequestDto requestDto)
         {
             var document = _documentService.CreateDocument(userInfo.UserId,
@@ -58,9 +58,6 @@ namespace ProcApi.Services.Concreates
             _purchaseRequestDocumentRepository.Insert(purchaseRequestDocument);
 
             await _unitOfWork.SaveChangesAsync();
-
-            // var purchaseRequestDocumentDto = new PurchaseRequestDocumentDto();
-            // return _mapper.Map(purchaseRequestDocument, purchaseRequestDocumentDto);
 
             return _mapper.Map<PurchaseRequestDocumentResponseDto>(purchaseRequestDocument);
         }

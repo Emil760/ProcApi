@@ -1,11 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ProcApi.DTOs.Documents;
+using ProcApi.Attributes;
 using ProcApi.DTOs.Documents.Requests;
-using ProcApi.DTOs.PurchaseRequestDocument;
 using ProcApi.DTOs.PurchaseRequestDocument.Requests;
-using ProcApi.DTOs.User;
-using ProcApi.DTOs.User.Base;
+using ProcApi.Enums;
 using ProcApi.Services.Abstracts;
 
 namespace ProcApi.Controllers
@@ -29,12 +27,11 @@ namespace ProcApi.Controllers
             return Ok();
         }
 
-        // [HasPermission(Permissions.CanCreatePurchaseRequestDocument)]
+        [HasPermission(Permissions.CanCreatePurchaseRequestDocument)]
         [AllowAnonymous]
         [HttpPost("create-document")]
         public async Task<IActionResult> CreateDocument([FromBody] CreatePurchaseRequestDocumentRequestDto requestDto)
         {
-            UserInfo = new UserInfo() { UserId = 15, Language = "az" };
             return Ok(await _purchaseRequestDocumentService.CreateDocument(UserInfo, requestDto));
         }
 

@@ -3,7 +3,7 @@
 public enum DocumentStatus
 {
     #region Requests
-    PurchaseRequestDraft,
+    PurchaseRequestDraft = 1,
 
     ServiceRequestDraft,
     #endregion

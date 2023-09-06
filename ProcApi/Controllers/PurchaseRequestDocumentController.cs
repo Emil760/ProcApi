@@ -34,8 +34,8 @@ namespace ProcApi.Controllers
         [HttpPost("create-document")]
         public async Task<IActionResult> CreateDocument([FromBody] CreatePurchaseRequestDocumentRequestDto requestDto)
         {
-            UserInfo = new UserInfo(15, "az");
-            return Ok(await _purchaseRequestDocumentApprovalService.CreateDocument(UserInfo, requestDto));
+            UserInfo = new UserInfo() { UserId = 15, Language = "az" };
+            return Ok(await _purchaseRequestDocumentService.CreateDocument(UserInfo, requestDto));
         }
 
         [HttpPost("perform-action")]

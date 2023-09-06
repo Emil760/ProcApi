@@ -2,6 +2,6 @@
 
 public enum InvoiceType
 {
-    PostPayment,
+    PostPayment = 1,
     DownPayment
 }

@@ -23,6 +23,9 @@ namespace ProcApi.Configurations
 
             services.Configure<PasswordOptions>(
                 configuration.GetSection(nameof(PasswordOptions)));
+
+            services.Configure<RabbitMqOptions>(
+                configuration.GetSection(nameof(RabbitMqOptions)));
         }
     }
 }

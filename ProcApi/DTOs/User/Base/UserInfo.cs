@@ -1,6 +1,7 @@
 ﻿namespace ProcApi.DTOs.User.Base;
 
-public record UserInfo(
-    int UserId,
-    string Language
-);
+public class UserInfo
+{
+    public int UserId { get; set; }
+    public string Language { get; set; }
+}

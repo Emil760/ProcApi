@@ -18,7 +18,9 @@ public class CommonProfile : Profile
             .ForMember(dest => dest.DocumentStatus,
                 opt => opt.MapFrom(src => src.DocumentStatusId))
             .ForMember(dest => dest.DocumentType,
-                opt => opt.MapFrom(src => src.DocumentStatusId));
+                opt => opt.MapFrom(src => src.DocumentTypeId))
+            .ForMember(dest => dest.CreatedOn,
+                opt => opt.MapFrom(src => src.CreatedOn));
 
         CreateMap<DocumentAction, DocumentMemberResponseDto>()
             .ForMember(dest => dest.MemberName,

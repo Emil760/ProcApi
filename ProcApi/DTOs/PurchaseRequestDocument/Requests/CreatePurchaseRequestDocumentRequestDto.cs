@@ -1,8 +1,9 @@
 ﻿namespace ProcApi.DTOs.PurchaseRequestDocument.Requests;
 
-public record CreatePurchaseRequestDocumentRequestDto(
-    IEnumerable<CreatePurchaseRequestDocumentItemRequestDto> Items,
-    string DeliveryAddress,
-    int DepartmentId,
-    string Description
-);
+public class CreatePurchaseRequestDocumentRequestDto
+{
+    public IEnumerable<CreatePurchaseRequestDocumentItemRequestDto> Items { get; set; }
+    public string DeliveryAddress { get; set; }
+    public int DepartmentId { get; set; }
+    public string Description { get; set; }
+}

@@ -2,7 +2,8 @@
 
 namespace ProcApi.DTOs.Documents.Requests;
 
-public record ActionPerformRequestDto(
-    int DocId,
-    ActionType ActionType
-);
+public class ActionPerformRequestDto
+{
+    public int DocId { get; set; }
+    public ActionType ActionType { get; set; }
+}

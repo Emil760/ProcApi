@@ -2,9 +2,11 @@
 
 namespace ProcApi.DTOs.Documents.Base;
 
-public record BaseDocumentDto(
-    int DocumentId,
-    DocumentType DocumentType,
-    DocumentStatus DocumentStatus,
-    string DocumentNumber
-);
+public class BaseDocumentDto
+{
+    public int DocumentId { get; set; }
+    public DocumentType DocumentType { get; set; }
+    public DocumentStatus DocumentStatus { get; set; }
+    public string DocumentNumber { get; set; }
+    public DateTime CreatedOn { get; set; }
+}

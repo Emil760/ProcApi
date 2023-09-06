@@ -2,9 +2,10 @@
 
 namespace ProcApi.DTOs.Documents.Responses;
 
-public record DocumentMemberResponseDto(
-    string MemberName,
-    Roles RoleId,
-    DateTime ActionPerformed,
-    bool IsPerformed
-);
+public class DocumentMemberResponseDto
+{
+    public string MemberName { get; set; }
+    public Roles RoleId { get; set; }
+    public DateTime? ActionPerformed { get; set; }
+    public bool IsPerformed { get; set; }
+}

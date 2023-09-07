@@ -1,7 +1,15 @@
-﻿namespace ProcApi.Middleware
+﻿using ProcApi.Handlers.Exception;
+using ProcApi.Handlers.Exceptions;
+
+namespace ProcApi.Middleware
 {
     public class CustomExceptionHandlerMiddleware
     {
+        private static readonly Dictionary<Type, IExceptionHandler> _handlers = new Dictionary<Type, IExceptionHandler>()
+        {
+            { typeof(Exception), new GeneralExceptionHandler()}
+        };
+
         private readonly RequestDelegate _next;
 
         public CustomExceptionHandlerMiddleware(RequestDelegate next)
@@ -13,7 +21,7 @@
         {
             try
             {
-                if(context.Response.StatusCode == 400)
+                if (context.Response.StatusCode == 400)
                 {
                     var a = context.Response.Body;
 

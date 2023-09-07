@@ -20,6 +20,8 @@ namespace ProcApi.Data.ProcDatabase
 
         public DbSet<User> Users { get; set; }
         public DbSet<UserSetting> UserSettings { get; set; }
+        public DbSet<Group> Groups { get; set; }
+        public DbSet<GroupUser> GroupUsers { get; set; }
         public DbSet<ChatMessage> ChatMessages { get; set; }
         public DbSet<ApprovalFlowTemplate> ApprovalFlowTemplates { get; set; }
         public DbSet<ControlSet> ControlSets { get; set; }

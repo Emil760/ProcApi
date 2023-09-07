@@ -35,9 +35,9 @@ namespace ProcApi.Services.Concreates
         {
             var chatMessage = new ChatMessage
             {
-                From = from,
-                To = to,
-                Message = message
+                // From = from,
+                // To = to,
+                // Message = message
             };
 
             await _semaphore.WaitAsync();

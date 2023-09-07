@@ -1,11 +1,10 @@
 ﻿namespace ProcApi.Data.ProcDatabase.Models;
 
-public class ChatMessage
+public class GroupUser
 {
     public int Id { get; set; }
     public int GroupId { get; set; }
     public Group Group { get; set; }
-    public int SenderId { get; set; }
-    public User Sender { get; set; }
-    public string SendedMessage { get; set; }
+    public int UserId { get; set; }
+    public User User { get; set; }
 }

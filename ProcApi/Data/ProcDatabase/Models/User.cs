@@ -12,17 +12,16 @@ public class User
     public UserPassword UserPassword { get; set; }
 
     public UserSetting UserSetting { get; set; }
-    
+
     public ICollection<Role> Roles { get; set; }
 
     //public ICollection<ApprovalFlowTemplate> ApprovalFlowTemplates { get; set; }
-
-    public ICollection<ChatMessage> FromChatMessages { get; set; }
-    public ICollection<ChatMessage> ToChatMessages { get; set; }
+    public ICollection<Group> Groups { get; set; }
+    public ICollection<ChatMessage> ChatMessages { get; set; }
 
     public ICollection<Delegation> FromDelegations { get; set; }
     public ICollection<Delegation> ToDelegations { get; set; }
-    
+
     public ICollection<Document> Documents { get; set; }
     public ICollection<DocumentAction> DocumentActions { get; set; }
 }

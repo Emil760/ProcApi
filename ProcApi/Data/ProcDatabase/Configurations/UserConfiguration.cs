@@ -28,16 +28,6 @@ namespace ProcApi.Data.ProcDatabase.Configurations
                 .HasForeignKey(d => d.ToUserId)
                 .OnDelete(DeleteBehavior.NoAction);
 
-            builder.HasMany(u => u.FromChatMessages)
-                .WithOne(cm => cm.From)
-                .HasForeignKey(cm => cm.FromId)
-                .OnDelete(DeleteBehavior.NoAction);
-
-            builder.HasMany(u => u.ToChatMessages)
-                .WithOne(cm => cm.To)
-                .HasForeignKey(cm => cm.ToId)
-                .OnDelete(DeleteBehavior.NoAction);
-
             builder.HasMany(u => u.Documents)
                 .WithOne(d => d.CreatedBy)
                 .HasForeignKey(d => d.CreatedById)
@@ -47,6 +37,10 @@ namespace ProcApi.Data.ProcDatabase.Configurations
                 .WithOne(da => da.User)
                 .HasForeignKey(da => da.UserId)
                 .OnDelete(DeleteBehavior.NoAction);
+
+            builder.HasMany(u => u.Groups)
+                .WithMany()
+                .UsingEntity<GroupUser>();
         }
     }
 }

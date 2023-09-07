@@ -1,6 +1,8 @@
-﻿namespace ProcApi.Handlers.Exception
+﻿using ProcApi.Handlers.Exceptions;
+
+namespace ProcApi.Handlers.Exception
 {
-    public class GeneralExceptionHandler
+    public class GeneralExceptionHandler : IExceptionHandler
     {
     }
 }

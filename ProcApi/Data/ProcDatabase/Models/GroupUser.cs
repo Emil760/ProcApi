@@ -1,10 +1,10 @@
-﻿namespace ProcApi.Data.ProcDatabase.Models;
+﻿using ProcApi.Data.ProcDatabase.Enums;
 
-public class GroupUser
+namespace ProcApi.Data.ProcDatabase.Models;
+
+public class GroupUser : ChatUser
 {
-    public int Id { get; set; }
     public int GroupId { get; set; }
     public Group Group { get; set; }
-    public int UserId { get; set; }
-    public User User { get; set; }
+    public ChatRole ChatRole { get; set; }
 }

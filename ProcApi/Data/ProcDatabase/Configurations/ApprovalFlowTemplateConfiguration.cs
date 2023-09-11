@@ -8,18 +8,13 @@ namespace ProcApi.Data.ProcDatabase.Configurations
     {
         public void Configure(EntityTypeBuilder<ApprovalFlowTemplate> builder)
         {
-            // builder.HasOne(aft => aft.User)
-            //     .WithMany(u => u.ApprovalFlowTemplates)
-            //     .HasForeignKey(aft => aft.UserId)
-            //     .OnDelete(DeleteBehavior.SetNull);
-
             builder.Property(aft => aft.IsCreator)
-                .HasColumnType("bit")
+                .HasColumnType("boolean")
                 .IsRequired()
                 .HasDefaultValue(false);
 
             builder.Property(aft => aft.IsInitial)
-                .HasColumnType("bit")
+                .HasColumnType("boolean")
                 .IsRequired()
                 .HasDefaultValue(false);
         }

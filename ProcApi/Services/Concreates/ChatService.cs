@@ -1,5 +1,11 @@
-﻿using ProcApi.Data.ProcDatabase.Models;
+﻿using AutoMapper;
+using ProcApi.Constants;
+using ProcApi.Data.ProcDatabase.Enums;
+using ProcApi.Data.ProcDatabase.Models;
+using ProcApi.DTOs.Base;
+using ProcApi.DTOs.Chat.Responses;
 using ProcApi.Repositories.Abstracts;
+using ProcApi.Repositories.UnitOfWork;
 using ProcApi.Services.Abstracts;
 
 namespace ProcApi.Services.Concreates
@@ -7,55 +13,71 @@ namespace ProcApi.Services.Concreates
     public class ChatService : IChatService
     {
         private readonly IUserRepository _userRepository;
-        private readonly IChatMessageRepository _chatMessageRepository;
-        private readonly SemaphoreSlim _semaphore = new SemaphoreSlim(1);
+        private readonly IChatUserRepository _chatUserRepository;
+        private readonly IChatRepository _chatRepository;
+        private readonly IConnectedUsersService _connectedUsersService;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IMapper _mapper;
+        private readonly IUnitOfWork _unitOfWork;
 
         public ChatService(IUserRepository userRepository,
-            IChatMessageRepository chatMessageRepository)
+            IChatUserRepository chatUserRepository,
+            IChatRepository chatRepository,
+            IConnectedUsersService connectedUsersService,
+            IHttpContextAccessor httpContextAccessor,
+            IMapper mapper,
+            IUnitOfWork unitOfWork)
         {
             _userRepository = userRepository;
-            _chatMessageRepository = chatMessageRepository;
+            _chatUserRepository = chatUserRepository;
+            _chatRepository = chatRepository;
+            _connectedUsersService = connectedUsersService;
+            _httpContextAccessor = httpContextAccessor;
+            _mapper = mapper;
+            _unitOfWork = unitOfWork;
         }
 
-        public async Task SendBulk(int userId, string message)
+        public async Task ConnectAsync(int userId, string connectionId)
         {
-            var from = await _userRepository.GetByIdAsync(userId);
-
-            var sendTasks = new List<Task>();
-
-            var users = await _userRepository.GetAllByConditionAsync(u => u.Id != userId);
-
-            foreach (var user in users)
-                sendTasks.Add(SendMessage(from, user, message));
-            
-            await Task.WhenAll(sendTasks);
+            await _connectedUsersService.AddUserAsync(userId, connectionId);
         }
 
-        private async Task SendMessage(User from, User to, string message)
+        public async Task<Chat> CreateChatBetweenUsersAsync(IEnumerable<int> userIds)
         {
-            var chatMessage = new ChatMessage
+            var chat = new Chat()
             {
-                // From = from,
-                // To = to,
-                // Message = message
+                ChatType = ChatType.Contact
             };
 
-            await _semaphore.WaitAsync();
+            foreach (var userId in userIds)
+            {
+                var userChat = new ChatUser()
+                {
+                    Chat = chat,
+                    UserId = userId
+                };
 
-            try
-            {
-                await _chatMessageRepository.InsertAsync(chatMessage);
+                _chatUserRepository.Insert(userChat);
             }
-            catch (Exception)
-            {
 
-                throw;
-            }
-            finally
-            {
-                _semaphore.Release();
-            }
+            await _unitOfWork.SaveChangesAsync();
+            return chat;
         }
 
+        public async Task<IEnumerable<ChatUserResponseDto>> GetUsersAsync(PaginationRequestDto dto)
+        {
+            var usersPaginated = await _userRepository.GetAllPaginated(dto);
+            
+            _httpContextAccessor.HttpContext.Response.Headers.Add(HeaderKeys.XPagination, usersPaginated.ToString());
+
+            return _mapper.Map<IEnumerable<ChatUserResponseDto>>(usersPaginated.ResultSet);
+        }
+
+        public async Task<IEnumerable<ChatResponseDto>> GetChatsAsync(int userId)
+        {
+            var chats = await _chatRepository.GetChatsByUserIdAsync(userId);
+
+            return _mapper.Map<IEnumerable<ChatResponseDto>>(chats);
+        }
     }
 }

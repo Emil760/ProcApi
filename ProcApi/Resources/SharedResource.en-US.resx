@@ -132,4 +132,13 @@
   <data name="UnitOfMeasureCantBeEmpty" xml:space="preserve">
     <value>Unit of measure cant be empty</value>
   </data>
+  <data name="GroupNameCantBeEmpty" xml:space="preserve">
+    <value>Group name cant be empty</value>
+  </data>
+  <data name="MessageCantBeEmpty" xml:space="preserve">
+    <value>Message cant be empty</value>
+  </data>
+  <data name="ChatReceiverNotSet" xml:space="preserve">
+    <value>Receiver user was not set</value>
+  </data>
 </root>

@@ -8,9 +8,9 @@ namespace ProcApi.Data.ProcDatabase.Configurations
     {
         public void Configure(EntityTypeBuilder<ChatMessage> builder)
         {
-            builder.HasOne(cm => cm.Group)
+            builder.HasOne(cm => cm.Chat)
                 .WithMany(g => g.ChatMessages)
-                .HasForeignKey(cm => cm.GroupId)
+                .HasForeignKey(cm => cm.ChatId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasOne(cm => cm.Sender)
@@ -18,22 +18,13 @@ namespace ProcApi.Data.ProcDatabase.Configurations
                 .HasForeignKey(cm => cm.SenderId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            builder.Property(cm => cm.SendedMessage)
-                .HasColumnType("json");
+            builder.Property(cm => cm.Message)
+                .HasColumnType("varchar")
+                .HasMaxLength(2000)
+                .IsRequired();
 
-            // builder.Property(cm => cm.Message)
-            //     .HasColumnType("nvarchar")
-            //     .HasMaxLength(4000);
-            //
-            // builder.HasOne(cm => cm.From)
-            //     .WithMany(cm => cm.FromChatMessages)
-            //     .HasForeignKey(cm => cm.FromId)
-            //     .OnDelete(DeleteBehavior.NoAction);
-            //
-            // builder.HasOne(cm => cm.To)
-            //     .WithMany(cm => cm.ToChatMessages)
-            //     .HasForeignKey(cm => cm.ToId)
-            //     .OnDelete(DeleteBehavior.NoAction);
+            builder.Property(cm => cm.ReceivedInfos)
+                .HasColumnType("jsonb");
         }
     }
 }

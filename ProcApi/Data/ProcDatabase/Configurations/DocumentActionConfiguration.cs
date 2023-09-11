@@ -9,7 +9,7 @@ namespace ProcApi.Data.ProcDatabase.Configurations
         public void Configure(EntityTypeBuilder<DocumentAction> builder)
         {
             builder.Property(da => da.IsPerformed)
-                .HasColumnType("bit")
+                .HasColumnType("boolean")
                 .IsRequired()
                 .HasDefaultValue(false);
 

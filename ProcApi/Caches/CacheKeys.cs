@@ -3,6 +3,7 @@
     public static class CacheKeys
     {
         public const string BASE_USER_KEY = "user";
+        public const string CONNECTED_USERS = "connected_users";
 
         public static string GetUserKey(object id)
         {

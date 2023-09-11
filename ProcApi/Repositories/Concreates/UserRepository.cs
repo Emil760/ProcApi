@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProcApi.Data.ProcDatabase;
 using ProcApi.Data.ProcDatabase.Models;
+using ProcApi.DTOs.Base;
 using ProcApi.Repositories.Abstracts;
+using ProcApi.Utility;
 
 namespace ProcApi.Repositories.Concreates
 {
@@ -51,6 +53,15 @@ namespace ProcApi.Repositories.Concreates
                 .Include(u => u.Roles)
                 .Where(u => u.Id == id)
                 .FirstOrDefaultAsync();
+        }
+
+        public async Task<Paginator<User>> GetAllPaginated(PaginationRequestDto dto)
+        {
+            var query = _context.Users
+                .Where(u => u.FirstName.Contains(dto.Search))
+                .AsQueryable();
+
+            return await Paginator<User>.FromQuery(query, dto.PageNumber, dto.PageSize);
         }
     }
 }

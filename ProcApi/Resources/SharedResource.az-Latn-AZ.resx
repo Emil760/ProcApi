@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="FirstNameCantBeEmpty" xml:space="preserve">
-    <value>Ad bosh ola bilmez</value>
+    <value>Ad bosh ola bilməz</value>
   </data>
   <data name="DeliveryAddressCantBeEmpty" xml:space="preserve">
     <value>Çatdırılma ünvanı boş ola bilməz</value>
@@ -130,6 +130,15 @@
     <value>Ən azı bir məhsul olmalıdır</value>
   </data>
   <data name="UnitOfMeasureCantBeEmpty" xml:space="preserve">
-    <value>Ölcu vaxidi bos ola bilmez</value>
+    <value>Ölcu vaxidi boş ola bilməz</value>
+  </data>
+  <data name="GroupNameCantBeEmpty" xml:space="preserve">
+    <value>Grupun adı boş ola bilməz</value>
+  </data>
+  <data name="ChatReceiverNotSet" xml:space="preserve">
+    <value>Qəbuledici istifadəçi təyin edilməyib</value>
+  </data>
+  <data name="MessageCantBeEmpty" xml:space="preserve">
+    <value>Mesaj boş ola bilməz</value>
   </data>
 </root>

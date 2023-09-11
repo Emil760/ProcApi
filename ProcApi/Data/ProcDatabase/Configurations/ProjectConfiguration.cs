@@ -9,7 +9,7 @@ public class ProjectConfiguration : IEntityTypeConfiguration<Project>
     public void Configure(EntityTypeBuilder<Project> builder)
     {
         builder.Property(p => p.Name)
-            .HasColumnType("nvarchar")
+            .HasColumnType("varchar")
             .HasMaxLength(300)
             .IsRequired();
     }

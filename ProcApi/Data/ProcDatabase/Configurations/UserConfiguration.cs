@@ -37,10 +37,6 @@ namespace ProcApi.Data.ProcDatabase.Configurations
                 .WithOne(da => da.User)
                 .HasForeignKey(da => da.UserId)
                 .OnDelete(DeleteBehavior.NoAction);
-
-            builder.HasMany(u => u.Groups)
-                .WithMany()
-                .UsingEntity<GroupUser>();
         }
     }
 }

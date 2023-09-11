@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR;
+using ProcApi.DTOs.Base;
 using ProcApi.Services.Abstracts;
-using ProcApi.Services.Concreates;
 
 namespace ProcApi.Controllers
 {
@@ -9,35 +8,30 @@ namespace ProcApi.Controllers
     [Route("[controller]")]
     public class ChatController : BaseController
     {
-        private readonly IHubContext<ChatHub> _hubContext;
         private readonly IChatService _chatService;
 
-        public ChatController(IHubContext<ChatHub> hubContext,
-            IChatService chatService)
+        public ChatController(IChatService chatService)
         {
-            _hubContext = hubContext;
             _chatService = chatService;
         }
 
-        [HttpPost("Send")]
-        public async Task<IActionResult> Send(string connectionId, string message, string name)
+        [HttpPost("Connect")]
+        public async Task<IActionResult> ConnectAsync(string connectionId)
         {
-            await _hubContext.Clients.All.SendAsync("Send", message, name);
-            await _hubContext.Clients.AllExcept(connectionId).SendAsync("Send", message, "Me");
-            return Ok();
-        }
-
-        [HttpPost("SendBulk")]
-        public async Task<IActionResult> SendBulk(int userId, string message)
-        {
-            await _chatService.SendBulk(userId, message);
+            await _chatService.ConnectAsync(UserInfo.UserId, connectionId);
             return Ok();
         }
 
         [HttpGet("GetAllUsers")]
-        public IActionResult GetAllClients()
+        public async Task<IActionResult> GetAllClientsAsync([FromQuery] PaginationRequestDto dto)
         {
-            return Ok(_hubContext.Clients);
+            return Ok(await _chatService.GetUsersAsync(dto));
+        }
+
+        [HttpGet("GetChats")]
+        public async Task<IActionResult> GetChatsAsync()
+        {
+            return Ok();
         }
     }
 }

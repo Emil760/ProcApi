@@ -19,7 +19,7 @@ namespace ProcApi.Extensions
             return cache.SetAsync(key, bytes, options);
         }
 
-        public static async Task<T> GetAsync<T>(this IDistributedCache cache, string key)
+        public static async Task<T?> GetAsync<T>(this IDistributedCache cache, string key)
         {
             var bytes = await cache.GetAsync(key);
             if (bytes is null)

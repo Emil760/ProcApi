@@ -17,11 +17,8 @@ public class PurchaseRequestProfile : CommonProfile
         CreateMap<PurchaseRequestDocumentItem, PurchaseRequestDocumentItemResponseDto>();
 
         CreateMap<PurchaseRequestDocument, PurchaseRequestDocumentResponseDto>()
-            .ForMember(dest => dest.BaseDocumentDto,
-                opt => opt.MapFrom(src => src.Document))
-            .ForMember(dest => dest.MembersDto,
-                opt => opt.MapFrom(src => src.Document.DocumentActions))
-            .ForMember(dest => dest.ItemsDto,
-                opt => opt.MapFrom(src => src.Items));
+            .ForMember(dest => dest.BaseDocumentDto, opt => opt.MapFrom(src => src.Document))
+            .ForMember(dest => dest.MembersDto, opt => opt.MapFrom(src => src.Document.DocumentActions))
+            .ForMember(dest => dest.ItemsDto, opt => opt.MapFrom(src => src.Items));
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.SignalR.StackExchangeRedis;
+using ProcApi.Services.Concreates;
 
 namespace ProcApi.Configurations
 {
@@ -31,6 +32,11 @@ namespace ProcApi.Configurations
                 options.EnableDetailedErrors = true;
                 options.KeepAliveInterval = System.TimeSpan.FromMinutes(10);
             }).AddStackExchangeRedis(connectionString);
+        }
+
+        public static void MapHubs(this WebApplication builder)
+        {
+            builder.MapHub<ChatHub>("hub-chat");
         }
     }
 }

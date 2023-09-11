@@ -10,17 +10,25 @@ namespace ProcApi.Configurations
     {
         public static void AddServices(this IServiceCollection services)
         {
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
-            services.AddScoped<IFileService, FileService>();
+
+            services.AddSingleton<IConnectedUsersService, ConnectedUserService>();
             services.AddScoped<IChatService, ChatService>();
+            services.AddScoped<IChatMessageService, ChatMessageService>();
+            services.AddScoped<IChatGroupService, ChatGroupService>();
+
             services.AddScoped<IApprovalFlowService, ApprovalFlowService>();
+
             services.AddScoped<IDocumentService, DocumentService>();
             services.AddScoped<IPurchaseRequestDocumentService, PurchaseRequestDocumentService>();
             services.AddScoped<IPurchaseRequestDocumentApprovalService, PurchaseRequestDocumentApprovalService>();
 
+            services.AddScoped<IFileService, FileService>();
+
             services.AddScoped<IUserCachedService, UserCachedService>();
+
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
     }
 }

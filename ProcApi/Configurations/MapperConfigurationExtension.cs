@@ -12,6 +12,7 @@ namespace ProcApi.Configurations
                 cfg.AddProfile(new CommonProfile());
                 cfg.AddProfile(new UserProfile());
                 cfg.AddProfile(new PurchaseRequestProfile());
+                cfg.AddProfile(new ChatProfile());
             }).CreateMapper());
         }
     }

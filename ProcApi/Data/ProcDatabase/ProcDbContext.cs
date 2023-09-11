@@ -8,7 +8,6 @@ namespace ProcApi.Data.ProcDatabase
     {
         public ProcDbContext(DbContextOptions<ProcDbContext> options) : base(options)
         {
-
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -20,6 +19,8 @@ namespace ProcApi.Data.ProcDatabase
 
         public DbSet<User> Users { get; set; }
         public DbSet<UserSetting> UserSettings { get; set; }
+        public DbSet<Chat> Chats { get; set; }
+        public DbSet<ChatUser> ChatUsers { get; set; }
         public DbSet<Group> Groups { get; set; }
         public DbSet<GroupUser> GroupUsers { get; set; }
         public DbSet<ChatMessage> ChatMessages { get; set; }

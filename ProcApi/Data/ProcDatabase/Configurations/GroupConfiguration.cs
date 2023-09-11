@@ -8,13 +8,22 @@ public class GroupConfiguration : IEntityTypeConfiguration<Group>
 {
     public void Configure(EntityTypeBuilder<Group> builder)
     {
+        builder.HasKey(g => g.ChatId);
+
+        builder.HasOne(g => g.Chat)
+            .WithOne()
+            .HasForeignKey<Group>(g => g.ChatId)
+            .OnDelete(DeleteBehavior.Cascade);
+        
         builder.Property(g => g.Name)
-            .HasColumnType("nvarchar")
+            .HasColumnType("varchar")
             .HasMaxLength(300)
             .IsRequired();
 
-        builder.HasMany(g => g.Users)
-            .WithMany()
-            .UsingEntity<GroupUser>();
+        builder.Property(g => g.Description)
+            .HasColumnType("varchar")
+            .HasMaxLength(300)
+            .HasDefaultValue("")
+            .IsRequired();
     }
 }

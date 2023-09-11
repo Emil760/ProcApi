@@ -57,4 +57,6 @@ app.UseCustomLocalization();
 
 app.MapControllers();
 
+app.MapHubs();
+
 app.Run();

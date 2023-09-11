@@ -2,17 +2,18 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ProcApi.Data.ProcDatabase;
+using ProcApi.Data.ProcDatabase.Models;
 
 #nullable disable
 
 namespace ProcApi.Data.ProcDatabase.Migrations
 {
     [DbContext(typeof(ProcDbContext))]
-    [Migration("20230828173233_init")]
+    [Migration("20230911061628_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -21,39 +22,39 @@ namespace ProcApi.Data.ProcDatabase.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "7.0.9")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+                .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
             modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.ApprovalFlowTemplate", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("DocumentTypeId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<bool>("IsCreator")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
+                        .HasColumnType("boolean")
                         .HasDefaultValue(false);
 
                     b.Property<bool>("IsInitial")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
+                        .HasColumnType("boolean")
                         .HasDefaultValue(false);
 
                     b.Property<int>("Order")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<int>("RoleId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<int?>("UserId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -64,77 +65,128 @@ namespace ProcApi.Data.ProcDatabase.Migrations
                     b.ToTable("ApprovalFlowTemplates");
                 });
 
+            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.Chat", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ChatType")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Chats");
+                });
+
             modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.ChatMessage", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("FromId")
-                        .HasColumnType("int");
+                    b.Property<int>("ChatId")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Message")
                         .IsRequired()
-                        .HasMaxLength(4000)
-                        .HasColumnType("nvarchar");
+                        .HasMaxLength(2000)
+                        .HasColumnType("varchar");
 
-                    b.Property<int>("ToId")
-                        .HasColumnType("int");
+                    b.Property<ReceivedInfo>("ReceivedInfo")
+                        .IsRequired()
+                        .HasColumnType("jsonb");
+
+                    b.Property<int>("SenderId")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FromId");
+                    b.HasIndex("ChatId");
 
-                    b.HasIndex("ToId");
+                    b.HasIndex("SenderId");
 
                     b.ToTable("ChatMessages");
+                });
+
+            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.ChatUser", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ChatId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ChatId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ChatUsers");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("ChatUser");
+
+                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.ControlSet", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int?>("ActionTypeId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<string>("Description")
                         .HasMaxLength(300)
-                        .HasColumnType("nvarchar");
+                        .HasColumnType("varchar");
 
                     b.Property<int>("DocumentStatusId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<int>("DocumentTypeId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<bool>("IsEditable")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
+                        .HasColumnType("boolean")
                         .HasDefaultValue(false);
 
                     b.Property<bool>("IsMandatory")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
+                        .HasColumnType("boolean")
                         .HasDefaultValue(false);
 
                     b.Property<bool>("IsVisible")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
+                        .HasColumnType("boolean")
                         .HasDefaultValue(false);
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(300)
-                        .HasColumnType("nvarchar");
+                        .HasColumnType("varchar");
 
                     b.Property<int>("RoleId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -147,21 +199,21 @@ namespace ProcApi.Data.ProcDatabase.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("EndDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("FromUserId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("ToUserId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -176,14 +228,14 @@ namespace ProcApi.Data.ProcDatabase.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(300)
-                        .HasColumnType("nvarchar");
+                        .HasColumnType("varchar");
 
                     b.HasKey("Id");
 
@@ -194,25 +246,25 @@ namespace ProcApi.Data.ProcDatabase.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("CreatedById")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("DocumentNumber")
                         .HasMaxLength(30)
                         .HasColumnType("varchar");
 
                     b.Property<int>("DocumentStatusId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<int>("DocumentTypeId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -225,29 +277,29 @@ namespace ProcApi.Data.ProcDatabase.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime?>("ActionPerformed")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("DocumentId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<bool>("IsPerformed")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
+                        .HasColumnType("boolean")
                         .HasDefaultValue(false);
 
                     b.Property<int>("Order")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<int>("RoleId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<int>("UserId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -264,9 +316,9 @@ namespace ProcApi.Data.ProcDatabase.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Description")
                         .HasMaxLength(300)
@@ -274,7 +326,7 @@ namespace ProcApi.Data.ProcDatabase.Migrations
 
                     b.Property<bool>("IsEnabled")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
+                        .HasColumnType("boolean")
                         .HasDefaultValue(false);
 
                     b.Property<string>("Name")
@@ -287,16 +339,38 @@ namespace ProcApi.Data.ProcDatabase.Migrations
                     b.ToTable("Configurations");
                 });
 
+            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.Group", b =>
+                {
+                    b.Property<int>("ChatId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(300)
+                        .HasColumnType("varchar")
+                        .HasDefaultValue("");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("varchar");
+
+                    b.HasKey("ChatId");
+
+                    b.ToTable("Groups");
+                });
+
             modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.InvoiceDocument", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("DocumentId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -309,14 +383,14 @@ namespace ProcApi.Data.ProcDatabase.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(300)
-                        .HasColumnType("nvarchar");
+                        .HasColumnType("varchar");
 
                     b.HasKey("Id");
 
@@ -354,14 +428,14 @@ namespace ProcApi.Data.ProcDatabase.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(300)
-                        .HasColumnType("nvarchar");
+                        .HasColumnType("varchar");
 
                     b.HasKey("Id");
 
@@ -371,20 +445,24 @@ namespace ProcApi.Data.ProcDatabase.Migrations
             modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.PurchaseRequestDocument", b =>
                 {
                     b.Property<int>("DocumentId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<string>("DeliveryAddress")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(4000)
+                        .HasColumnType("character varying(4000)")
+                        .HasDefaultValue("");
 
-                    b.Property<int>("ProjectId")
-                        .HasColumnType("int");
+                    b.Property<int?>("ProjectId")
+                        .HasColumnType("integer");
 
                     b.Property<int>("RequestedForDepartmentId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.HasKey("DocumentId");
 
@@ -399,21 +477,25 @@ namespace ProcApi.Data.ProcDatabase.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("numeric");
 
                     b.Property<int>("PurchaseRequestDocumentId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<decimal>("Quantity")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("numeric");
 
                     b.Property<int>("UnitOfMeasureId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -428,21 +510,21 @@ namespace ProcApi.Data.ProcDatabase.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("ActionTypeId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<int>("ActiveStatusId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<int>("ApprovalFlowTemplateId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<int>("AssignStatusId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -455,14 +537,14 @@ namespace ProcApi.Data.ProcDatabase.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(300)
-                        .HasColumnType("nvarchar");
+                        .HasColumnType("varchar");
 
                     b.HasKey("Id");
 
@@ -514,10 +596,10 @@ namespace ProcApi.Data.ProcDatabase.Migrations
             modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.RolePermission", b =>
                 {
                     b.Property<int>("RoleId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<int>("PermissionId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.HasKey("RoleId", "PermissionId");
 
@@ -552,30 +634,61 @@ namespace ProcApi.Data.ProcDatabase.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
                     b.ToTable("UnitOfMeasures");
                 });
 
+            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.UnitOfMeasureConverter", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false);
+
+                    b.Property<int>("SourceUnitOfMeasureId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("TargetUnitOfMeasureId")
+                        .HasColumnType("integer");
+
+                    b.Property<float>("Value")
+                        .HasColumnType("real");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SourceUnitOfMeasureId");
+
+                    b.HasIndex("TargetUnitOfMeasureId");
+
+                    b.ToTable("UnitOfMeasureConverter");
+                });
+
             modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<int>("Gender")
                         .ValueGeneratedOnAdd()
@@ -584,7 +697,7 @@ namespace ProcApi.Data.ProcDatabase.Migrations
 
                     b.Property<string>("Login")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -594,18 +707,18 @@ namespace ProcApi.Data.ProcDatabase.Migrations
             modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.UserPassword", b =>
                 {
                     b.Property<int>("UserId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<DateTime>("LastModified")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Salt")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.HasKey("UserId");
 
@@ -615,16 +728,45 @@ namespace ProcApi.Data.ProcDatabase.Migrations
             modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.UserRole", b =>
                 {
                     b.Property<int>("UserId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<int>("RoleId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.HasKey("UserId", "RoleId");
 
                     b.HasIndex("RoleId");
 
                     b.ToTable("UserRoles");
+                });
+
+            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.UserSetting", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Language")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("UserSettings");
+                });
+
+            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.GroupUser", b =>
+                {
+                    b.HasBaseType("ProcApi.Data.ProcDatabase.Models.ChatUser");
+
+                    b.Property<int>("ChatRole")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("GroupId")
+                        .HasColumnType("integer");
+
+                    b.HasIndex("GroupId");
+
+                    b.HasDiscriminator().HasValue("GroupUser");
                 });
 
             modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.ApprovalFlowTemplate", b =>
@@ -646,21 +788,40 @@ namespace ProcApi.Data.ProcDatabase.Migrations
 
             modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.ChatMessage", b =>
                 {
-                    b.HasOne("ProcApi.Data.ProcDatabase.Models.User", "From")
-                        .WithMany("FromChatMessages")
-                        .HasForeignKey("FromId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                    b.HasOne("ProcApi.Data.ProcDatabase.Models.Chat", "Chat")
+                        .WithMany("ChatMessages")
+                        .HasForeignKey("ChatId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ProcApi.Data.ProcDatabase.Models.User", "To")
-                        .WithMany("ToChatMessages")
-                        .HasForeignKey("ToId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                    b.HasOne("ProcApi.Data.ProcDatabase.Models.User", "Sender")
+                        .WithMany("ChatMessages")
+                        .HasForeignKey("SenderId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("From");
+                    b.Navigation("Chat");
 
-                    b.Navigation("To");
+                    b.Navigation("Sender");
+                });
+
+            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.ChatUser", b =>
+                {
+                    b.HasOne("ProcApi.Data.ProcDatabase.Models.Chat", "Chat")
+                        .WithMany("ChatUsers")
+                        .HasForeignKey("ChatId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ProcApi.Data.ProcDatabase.Models.User", "User")
+                        .WithMany("ChatUsers")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Chat");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.ControlSet", b =>
@@ -731,6 +892,17 @@ namespace ProcApi.Data.ProcDatabase.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.Group", b =>
+                {
+                    b.HasOne("ProcApi.Data.ProcDatabase.Models.Chat", "Chat")
+                        .WithOne()
+                        .HasForeignKey("ProcApi.Data.ProcDatabase.Models.Group", "ChatId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Chat");
+                });
+
             modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.InvoiceDocument", b =>
                 {
                     b.HasOne("ProcApi.Data.ProcDatabase.Models.Document", "Document")
@@ -753,11 +925,10 @@ namespace ProcApi.Data.ProcDatabase.Migrations
                     b.HasOne("ProcApi.Data.ProcDatabase.Models.Project", "Project")
                         .WithMany()
                         .HasForeignKey("ProjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("ProcApi.Data.ProcDatabase.Models.Department", "RequestedForDepartment")
-                        .WithMany("PurchaseRequestDocuments")
+                        .WithMany()
                         .HasForeignKey("RequestedForDepartmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -772,7 +943,7 @@ namespace ProcApi.Data.ProcDatabase.Migrations
             modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.PurchaseRequestDocumentItem", b =>
                 {
                     b.HasOne("ProcApi.Data.ProcDatabase.Models.PurchaseRequestDocument", "PurchaseRequestDocument")
-                        .WithMany()
+                        .WithMany("Items")
                         .HasForeignKey("PurchaseRequestDocumentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -818,6 +989,25 @@ namespace ProcApi.Data.ProcDatabase.Migrations
                     b.Navigation("Role");
                 });
 
+            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.UnitOfMeasureConverter", b =>
+                {
+                    b.HasOne("ProcApi.Data.ProcDatabase.Models.UnitOfMeasure", "SourceUnitOfMeasure")
+                        .WithMany()
+                        .HasForeignKey("SourceUnitOfMeasureId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("ProcApi.Data.ProcDatabase.Models.UnitOfMeasure", "TargetUnitOfMeasure")
+                        .WithMany("Converters")
+                        .HasForeignKey("TargetUnitOfMeasureId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("SourceUnitOfMeasure");
+
+                    b.Navigation("TargetUnitOfMeasure");
+                });
+
             modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.UserPassword", b =>
                 {
                     b.HasOne("ProcApi.Data.ProcDatabase.Models.User", "User")
@@ -848,9 +1038,33 @@ namespace ProcApi.Data.ProcDatabase.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.Department", b =>
+            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.UserSetting", b =>
                 {
-                    b.Navigation("PurchaseRequestDocuments");
+                    b.HasOne("ProcApi.Data.ProcDatabase.Models.User", "User")
+                        .WithOne("UserSetting")
+                        .HasForeignKey("ProcApi.Data.ProcDatabase.Models.UserSetting", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.GroupUser", b =>
+                {
+                    b.HasOne("ProcApi.Data.ProcDatabase.Models.Group", "Group")
+                        .WithMany("GroupUsers")
+                        .HasForeignKey("GroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Group");
+                });
+
+            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.Chat", b =>
+                {
+                    b.Navigation("ChatMessages");
+
+                    b.Navigation("ChatUsers");
                 });
 
             modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.Document", b =>
@@ -858,21 +1072,39 @@ namespace ProcApi.Data.ProcDatabase.Migrations
                     b.Navigation("DocumentActions");
                 });
 
+            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.Group", b =>
+                {
+                    b.Navigation("GroupUsers");
+                });
+
+            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.PurchaseRequestDocument", b =>
+                {
+                    b.Navigation("Items");
+                });
+
+            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.UnitOfMeasure", b =>
+                {
+                    b.Navigation("Converters");
+                });
+
             modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.User", b =>
                 {
+                    b.Navigation("ChatMessages");
+
+                    b.Navigation("ChatUsers");
+
                     b.Navigation("DocumentActions");
 
                     b.Navigation("Documents");
 
-                    b.Navigation("FromChatMessages");
-
                     b.Navigation("FromDelegations");
-
-                    b.Navigation("ToChatMessages");
 
                     b.Navigation("ToDelegations");
 
                     b.Navigation("UserPassword")
+                        .IsRequired();
+
+                    b.Navigation("UserSetting")
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

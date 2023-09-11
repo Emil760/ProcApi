@@ -1,10 +1,28 @@
 ﻿using Microsoft.AspNetCore.SignalR;
-using ProcApi.Constants;
+using ProcApi.Services.Abstracts;
 
 namespace ProcApi.Services.Concreates
 {
-    public class ChatHub : Hub
+    public class ChatHub : Hub<IChatClient>
     {
+        private readonly IConnectedUsersService _connectedUsersService;
+
+        public ChatHub(IConnectedUsersService connectedUsersService)
+        {
+            _connectedUsersService = connectedUsersService;
+        }
+
+        public override Task OnConnectedAsync()
+        {
+            return base.OnConnectedAsync();
+        }
+
+        public override async Task OnDisconnectedAsync(Exception? exception)
+        {
+            await _connectedUsersService.RemoveConnectionIdAsync(Context.ConnectionId);
+            await base.OnDisconnectedAsync(exception);
+        }
+
         //ConnectionId: возвращает уникальный идентификатор подключения в виде строки.
 
         //ConnectionAborted: возвращает объект CancellationToken, который извещает о закрытии подключения
@@ -63,33 +81,5 @@ namespace ProcApi.Services.Concreates
         //User(string userId) : вызывает метод у пользователя по id
 
         //Users(IReadOnlyList<string> userIds) : вызывает метод у пользователей, id которых передаются в метод
-
-        static readonly Dictionary<string, string> Users = new Dictionary<string, string>();
-
-        public async Task Register(string username)
-        {
-            if (Users.ContainsKey(username))
-            {
-                Users.Add(username, Context.ConnectionId);
-            }
-
-            await Clients.All.SendAsync(WebSocketActions.USER_JOINED, username);
-        }
-
-        public async Task Leave(string username)
-        {
-            Users.Remove(username);
-            await Clients.All.SendAsync(WebSocketActions.USER_LEFT, username);
-        }
-
-        //public async Task Send(string username, string message)
-        //{
-        //    await Clients.All.SendAsync(WebSocketActions.MESSAGE_RECEIVED, username, message);
-        //}
-
-        public async Task Send(string message, string userName)
-        {
-            await Clients.All.SendAsync(WebSocketActions.SEND, message, userName);
-        }
     }
 }

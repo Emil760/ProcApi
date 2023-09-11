@@ -18,7 +18,7 @@ namespace ProcApi.Data.ProcDatabase.Configurations
                 .HasMaxLength(300);
 
             builder.Property(fc => fc.IsEnabled)
-                .HasColumnType("bit")
+                .HasColumnType("boolean")
                 .IsRequired()
                 .HasDefaultValue(false);
         }

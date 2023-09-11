@@ -10,7 +10,7 @@ namespace ProcApi.Data.ProcDatabase.Configurations
         public void Configure(EntityTypeBuilder<Permission> builder)
         {
             builder.Property(p => p.Name)
-                .HasColumnType("nvarchar")
+                .HasColumnType("varchar")
                 .HasMaxLength(300)
                 .IsRequired();
 

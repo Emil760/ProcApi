@@ -14,7 +14,7 @@ namespace ProcApi.Configurations
 
             services.AddDbContext<ProcDbContext>(options =>
             {
-                options.UseSqlServer(databaseOptions.ConnectionString, sqlServerOptions =>
+                options.UseNpgsql(databaseOptions.ConnectionString, sqlServerOptions =>
                 {
                     sqlServerOptions.EnableRetryOnFailure(databaseOptions.MaxRetryCount);
                     sqlServerOptions.CommandTimeout(databaseOptions.CommandTimeout);

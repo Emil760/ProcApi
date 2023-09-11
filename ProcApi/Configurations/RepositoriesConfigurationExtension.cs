@@ -1,4 +1,5 @@
-﻿using ProcApi.Repositories.Abstracts;
+﻿using Microsoft.Win32;
+using ProcApi.Repositories.Abstracts;
 using ProcApi.Repositories.Concreates;
 using ProcApi.Repositories.UnitOfWork;
 
@@ -16,6 +17,10 @@ namespace ProcApi.Configurations
             services.AddScoped<IDocumentActionRepository, DocumentActionRepository>();
             services.AddScoped<IApprovalFlowTemplateRepository, ApprovalFlowTemplateRepository>();
             services.AddScoped<IPurchaseRequestDocumentRepository, PurchaseRequestDocumentRepository>();
+            services.AddScoped<IChatRepository, ChatRepository>();
+            services.AddScoped<IChatUserRepository, ChatUserRepository>();
+            services.AddScoped<IGroupRepository, GroupRepository>();
+            services.AddScoped<IGroupUserRepository, GroupUserRepository>();
         }
     }
 }

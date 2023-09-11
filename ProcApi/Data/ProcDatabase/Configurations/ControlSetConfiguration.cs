@@ -9,25 +9,25 @@ namespace ProcApi.Data.ProcDatabase.Configurations
         public void Configure(EntityTypeBuilder<ControlSet> builder)
         {
             builder.Property(cs => cs.Name)
-                .HasColumnType("nvarchar")
+                .HasColumnType("varchar")
                 .HasMaxLength(300);
 
             builder.Property(cs => cs.Description)
-                .HasColumnType("nvarchar")
+                .HasColumnType("varchar")
                 .HasMaxLength(300);
 
             builder.Property(cs => cs.IsVisible)
-                .HasColumnType("bit")
+                .HasColumnType("boolean")
                 .IsRequired()
                 .HasDefaultValue(false);
 
             builder.Property(cs => cs.IsEditable)
-                .HasColumnType("bit")
+                .HasColumnType("boolean")
                 .IsRequired()
                 .HasDefaultValue(false);
 
             builder.Property(cs => cs.IsMandatory)
-                .HasColumnType("bit")
+                .HasColumnType("boolean")
                 .IsRequired()
                 .HasDefaultValue(false);
         }

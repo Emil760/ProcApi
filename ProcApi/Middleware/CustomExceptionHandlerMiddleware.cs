@@ -1,8 +1,21 @@
-﻿namespace ProcApi.Middleware
+﻿using ProcApi.Exceptions;
+using ProcApi.Handlers.Exception;
+using ProcApi.Handlers.Exceptions;
+
+namespace ProcApi.Middleware
 {
     public class CustomExceptionHandlerMiddleware
     {
+        private static readonly Dictionary<Type, IExceptionHandler> _handlers = new Dictionary<Type, IExceptionHandler>()
+        {
+            { typeof(Exception), new GeneralExceptionHandler() },
+            { typeof(NotFoundException), new NotFoundExceptionHandler() },
+            { typeof(ValidationExceptipn), new ValidationExceptionHandler() }
+        };
+
         private readonly RequestDelegate _next;
+
+        private int a;
 
         public CustomExceptionHandlerMiddleware(RequestDelegate next)
         {
@@ -13,7 +26,7 @@
         {
             try
             {
-                if(context.Response.StatusCode == 400)
+                if (context.Response.StatusCode == 400)
                 {
                     var a = context.Response.Body;
 
@@ -30,7 +43,7 @@
             }
             catch (Exception ex)
             {
-                throw;
+                _handlers[ex.GetType()].Handle();
             }
         }
     }

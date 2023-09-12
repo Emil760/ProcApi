@@ -1,5 +1,4 @@
-﻿using ProcApi.Data.ProcDatabase.Enums;
-using ProcApi.Data.ProcDatabase.Models;
+﻿using ProcApi.Data.ProcDatabase.Models;
 using ProcApi.DTOs.Chat.Responses;
 using ProcApi.DTOs.Chat.Signals;
 
@@ -24,12 +23,19 @@ public class ChatProfile : CommonProfile
             .ForMember(dest => dest.ReadTime, opt => opt.MapFrom(src => src.ReceivedInfo.ReadTime))
             .ForMember(dest => dest.IsRead, opt => opt.MapFrom(src => src.ReceivedInfo.IsRead));
 
-        // CreateMap<Chat, ChatResponseDto>()
-        //     .ForMember(dest => dest.ChatId, otp => otp.MapFrom(src => src.Id))
-        //     .ForMember(dest => dest.Name,
-        //         otp => otp.MapFrom(src =>
-        //             src.GroupId == null ? src.ChatUsers.Single().User.FirstName : src.Group!.Name))
-        //     .ForMember(dest => dest.ChatType,
-        //         opt => opt.MapFrom(src => src.GroupId == null ? ChatType.Contact : ChatType.Group));
+        CreateMap<GroupUser, GroupUserResponseDto>()
+            .ForMember(dest => dest.ChatUserId, opt => opt.MapFrom(src => src.ChatUserId))
+            .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.ChatUser.UserId))
+            .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.ChatUser.User.FirstName))
+            .ForMember(dest => dest.ChatRole, opt => opt.MapFrom(src => src.ChatRole));
+
+        CreateMap<Group, CreatedGroupResponseDto>()
+            .ForMember(dest => dest.ChatId, opt => opt.MapFrom(src => src.ChatId))
+            .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+            .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
+            .ForMember(dest => dest.Users, opt => opt.MapFrom(src => src.GroupUsers));
+
+        CreateMap<Group, GroupCreatedSignalDto>()
+            .ForMember(dest => dest.Users, opt => opt.MapFrom(src => src.GroupUsers));
     }
 }

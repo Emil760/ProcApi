@@ -63,5 +63,12 @@ namespace ProcApi.Repositories.Concreates
 
             return await Paginator<User>.FromQuery(query, dto.PageNumber, dto.PageSize);
         }
+
+        public async Task<IEnumerable<User>> GetAllAsync(IEnumerable<int> userIds)
+        {
+            return await _context.Users
+                .Where(u => userIds.Contains(u.Id))
+                .ToListAsync();
+        }
     }
 }

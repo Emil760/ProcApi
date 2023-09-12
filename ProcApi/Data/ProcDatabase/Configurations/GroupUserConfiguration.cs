@@ -8,9 +8,11 @@ public class GroupUserConfiguration : IEntityTypeConfiguration<GroupUser>
 {
     public void Configure(EntityTypeBuilder<GroupUser> builder)
     {
-        builder.HasOne(gu => gu.Group)
-            .WithMany(g => g.GroupUsers)
-            .HasForeignKey(gu => gu.GroupId)
+        builder.HasKey(gu => gu.ChatUserId);
+
+        builder.HasOne(gu => gu.ChatUser)
+            .WithOne()
+            .HasForeignKey<GroupUser>(gu => gu.ChatUserId)
             .OnDelete(DeleteBehavior.Cascade);
     }
 }

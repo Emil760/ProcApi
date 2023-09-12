@@ -14,7 +14,7 @@ public class GroupConfiguration : IEntityTypeConfiguration<Group>
             .WithOne()
             .HasForeignKey<Group>(g => g.ChatId)
             .OnDelete(DeleteBehavior.Cascade);
-        
+
         builder.Property(g => g.Name)
             .HasColumnType("varchar")
             .HasMaxLength(300)
@@ -25,5 +25,10 @@ public class GroupConfiguration : IEntityTypeConfiguration<Group>
             .HasMaxLength(300)
             .HasDefaultValue("")
             .IsRequired();
+
+        builder.HasMany(g => g.GroupUsers)
+            .WithOne(gu => gu.Group)
+            .HasForeignKey(gu => gu.GroupId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

@@ -11,6 +11,7 @@ namespace ProcApi.Repositories.Abstracts
         Task<User?> FindWithPasswordHashByLogin(string login);
         Task<IEnumerable<string>> GetPermissions(int id);
         Task<User?> GetWithRoles(int id);
+        Task<IEnumerable<User>> GetAllAsync(IEnumerable<int> userIds);
         Task<Paginator<User>> GetAllPaginated(PaginationRequestDto dto);
     }
 }

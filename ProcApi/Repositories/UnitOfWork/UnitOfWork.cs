@@ -26,5 +26,18 @@ namespace ProcApi.Repositories.UnitOfWork
         {
             _context.Entry(entity).State = EntityState.Unchanged;
         }
+
+        public void MarkAdd(object entity)
+        {
+            _context.Entry(entity).State = EntityState.Added;
+        }
+
+        public void MarkBulkAdd(IEnumerable<object> entities)
+        {
+            foreach (var entity in entities)
+            {
+                MarkAdd(entity);
+            }
+        }
     }
 }

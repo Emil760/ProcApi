@@ -88,7 +88,7 @@ public class ChatMessageService : IChatMessageService
         foreach (var connectionId in connectionIds)
         {
             await _chatHub.Clients.Client(connectionId)
-                .SendUserMessage(sendMessage);
+                .SendUserMessageAsync(sendMessage);
         }
     }
 
@@ -122,7 +122,7 @@ public class ChatMessageService : IChatMessageService
         {
             var markAsReadSignalDto = _mapper.Map<MarkAsReadSignalDto>((receiverId, receivedInfo, chatMessage));
             await _chatHub.Clients.Client(connectionId)
-                .MarkAsRead(markAsReadSignalDto);
+                .MarkAsReadAsync(markAsReadSignalDto);
         }
     }
 }

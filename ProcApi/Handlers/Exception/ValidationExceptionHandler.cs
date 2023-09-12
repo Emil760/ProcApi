@@ -1,12 +1,18 @@
-﻿using ProcApi.Handlers.Exceptions;
+﻿using System.Net.Mime;
+using ProcApi.DTOs.Exception;
 
 namespace ProcApi.Handlers.Exception
 {
     public class ValidationExceptionHandler : IExceptionHandler
     {
-        public void Handle()
+        public ExceptionResultDto Handle(System.Exception exception)
         {
-            throw new NotImplementedException();
+            return new ExceptionResultDto()
+            {
+                ContentType = MediaTypeNames.Application.Json,
+                StatusCode = 404,
+                Message = exception.Message
+            };
         }
     }
 }

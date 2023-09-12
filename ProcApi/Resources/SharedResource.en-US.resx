@@ -141,4 +141,7 @@
   <data name="ChatReceiverNotSet" xml:space="preserve">
     <value>Receiver user was not set</value>
   </data>
+  <data name="InternalServerError" xml:space="preserve">
+    <value>Internal Server Error</value>
+  </data>
 </root>

@@ -1,9 +1,9 @@
 using System.Text.Json.Serialization;
 using FluentValidation;
 using FluentValidation.AspNetCore;
-using NLog.Web;
 using ProcApi.Configurations;
 using ProcApi.Middleware;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,7 +35,9 @@ builder.Services.AddFluentValidationAutoValidation(config => { config.DisableDat
 
 builder.Services.AddEndpointsApiExplorer();
 
-builder.Host.UseNLog();
+builder.Services.AddHttpContextAccessor();
+
+builder.Host.UseSerilog((context, configuration) => configuration.ReadFrom.Configuration(context.Configuration));
 
 var app = builder.Build();
 

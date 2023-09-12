@@ -1,7 +1,9 @@
-﻿namespace ProcApi.Handlers.Exceptions
+﻿using ProcApi.DTOs.Exception;
+
+namespace ProcApi.Handlers.Exception
 {
     public interface IExceptionHandler
     {
-        public void Handle();
+        public ExceptionResultDto Handle(System.Exception exception);
     }
 }

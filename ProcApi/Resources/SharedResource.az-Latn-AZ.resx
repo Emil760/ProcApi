@@ -141,4 +141,7 @@
   <data name="MessageCantBeEmpty" xml:space="preserve">
     <value>Mesaj boş ola bilməz</value>
   </data>
+  <data name="InternalServerError" xml:space="preserve">
+    <value>Daxili Server Xətası</value>
+  </data>
 </root>

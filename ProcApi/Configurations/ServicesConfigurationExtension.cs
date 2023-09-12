@@ -1,5 +1,6 @@
 ﻿using ProcApi.Caches.Abstracts;
 using ProcApi.Caches.Concreates;
+using ProcApi.Handlers.Exception;
 using ProcApi.Repositories.UnitOfWork;
 using ProcApi.Services.Abstracts;
 using ProcApi.Services.Concreates;
@@ -29,6 +30,12 @@ namespace ProcApi.Configurations
             services.AddScoped<IUserCachedService, UserCachedService>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            services.AddScoped<ExceptionHandlerCoordinator>();
+            services.AddScoped<GeneralExceptionHandler>();
+            services.AddScoped<UnauthorizedExceptionHandler>();
+            services.AddScoped<NotFoundExceptionHandler>();
+            services.AddScoped<ValidationExceptionHandler>();
         }
     }
 }

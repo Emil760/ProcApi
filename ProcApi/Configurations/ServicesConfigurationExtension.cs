@@ -19,6 +19,8 @@ namespace ProcApi.Configurations
             services.AddScoped<IChatMessageService, ChatMessageService>();
             services.AddScoped<IChatGroupService, ChatGroupService>();
 
+            services.AddScoped<IGroupChatSignalService, GroupChatSignalService>();
+
             services.AddScoped<IApprovalFlowService, ApprovalFlowService>();
 
             services.AddScoped<IDocumentService, DocumentService>();

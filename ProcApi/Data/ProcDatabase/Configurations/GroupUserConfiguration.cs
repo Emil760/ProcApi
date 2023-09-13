@@ -14,5 +14,10 @@ public class GroupUserConfiguration : IEntityTypeConfiguration<GroupUser>
             .WithOne()
             .HasForeignKey<GroupUser>(gu => gu.ChatUserId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        builder.Property(gu => gu.IsLeaved)
+            .HasColumnType("boolean")
+            .IsRequired()
+            .HasDefaultValue(false);
     }
 }

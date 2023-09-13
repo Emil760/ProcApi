@@ -144,4 +144,10 @@
   <data name="InternalServerError" xml:space="preserve">
     <value>Internal Server Error</value>
   </data>
+  <data name="UserIsNotAdmin" xml:space="preserve">
+    <value>User is not admin</value>
+  </data>
+  <data name="UserNotFoundInGroup" xml:space="preserve">
+    <value>User not found in group</value>
+  </data>
 </root>

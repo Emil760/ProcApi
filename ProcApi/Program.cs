@@ -39,6 +39,8 @@ builder.Services.AddHttpContextAccessor();
 
 builder.Host.UseSerilog((context, configuration) => configuration.ReadFrom.Configuration(context.Configuration));
 
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())

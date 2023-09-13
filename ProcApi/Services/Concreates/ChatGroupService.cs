@@ -60,7 +60,7 @@ public class ChatGroupService : IChatGroupService
             ChatType = ChatType.Group
         };
 
-        await _chatRepository.InsertAsync(chat);
+        //await _chatRepository.InsertAsync(chat);
 
         var group = new Group()
         {
@@ -79,7 +79,7 @@ public class ChatGroupService : IChatGroupService
         };
 
         var groupUsers = new List<GroupUser> { creatorUser };
-        groupUsers.AddRange(await AddGroupUsersAsync(chat.Id, dto.UserIds));
+        groupUsers.AddRange(await AddGroupUsersAsync(chat, dto.UserIds));
         group.GroupUsers = groupUsers;
 
         _groupRepository.Insert(group);
@@ -143,7 +143,7 @@ public class ChatGroupService : IChatGroupService
         //_groupChatSignalService.SignalUserLeavedGroup(groupId, userId);
     }
 
-    private async Task<List<GroupUser>> AddGroupUsersAsync(int chatId, IEnumerable<int> userIds)
+    private async Task<List<GroupUser>> AddGroupUsersAsync(Chat chat, IEnumerable<int> userIds)
     {
         var groupUsers = new List<GroupUser>();
 
@@ -155,7 +155,7 @@ public class ChatGroupService : IChatGroupService
             {
                 ChatUser = new ChatUser()
                 {
-                    ChatId = chatId,
+                    Chat = chat,
                     User = user
                 },
                 ChatRole = ChatRole.User,

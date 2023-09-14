@@ -25,9 +25,9 @@ namespace ProcApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetDocucment()
+        public async Task<IActionResult> GetDocumentAsync([FromQuery] int docId)
         {
-            return Ok();
+            return Ok(await _purchaseRequestDocumentService.GetDocument(docId));
         }
 
         [HasPermission(Permissions.CanCreatePurchaseRequestDocument)]

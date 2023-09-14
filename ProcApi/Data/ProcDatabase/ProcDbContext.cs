@@ -32,7 +32,7 @@ namespace ProcApi.Data.ProcDatabase
         public DbSet<DocumentAction> DocumentActions { get; set; }
         public DbSet<InvoiceDocument> InvoiceDocuments { get; set; }
         public DbSet<Project> Projects { get; set; }
-        public DbSet<PurchaseRequestDocument> PurchaseRequestDocuments { get; set; }
+        public DbSet<PurchaseRequestDocument?> PurchaseRequestDocuments { get; set; }
         public DbSet<PurchaseRequestDocumentItem> PurchaseRequestDocumentItems { get; set; }
         public DbSet<ReleaseStrategy> ReleaseStrategies { get; set; }
         public DbSet<Role> Roles { get; set; }

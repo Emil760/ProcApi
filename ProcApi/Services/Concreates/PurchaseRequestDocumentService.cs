@@ -31,6 +31,13 @@ namespace ProcApi.Services.Concreates
             _unitOfWork = unitOfWork;
         }
 
+        public async Task<PurchaseRequestDocumentResponseDto> GetDocument(int docId)
+        {
+            var document = await _purchaseRequestDocumentRepository.GetDocumentWithActionsAndItems(docId);
+            
+            return _mapper.Map<PurchaseRequestDocumentResponseDto>(document);
+        }
+
         public async Task<PurchaseRequestDocumentResponseDto> CreateDocument(UserInfo userInfo,
             CreatePurchaseRequestDocumentRequestDto requestDto)
         {

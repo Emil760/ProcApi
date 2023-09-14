@@ -6,6 +6,7 @@ namespace ProcApi.Services.Abstracts
 {
     public interface IPurchaseRequestDocumentService
     {
+        Task<PurchaseRequestDocumentResponseDto> GetDocument(int docId);
         Task<PurchaseRequestDocumentResponseDto> CreateDocument(UserInfo userInfo,
             CreatePurchaseRequestDocumentRequestDto requestDto);
     }

@@ -14,6 +14,8 @@ namespace ProcApi.Services.Concreates;
 
 public class ChatGroupService : IChatGroupService
 {
+    //TODO remove comments
+    private readonly IGroupChatSignalService _groupChatSignalService;
     private readonly IGroupRepository _groupRepository;
     private readonly IUserRepository _userRepository;
     private readonly IGroupUserRepository _groupUserRepository;
@@ -21,14 +23,15 @@ public class ChatGroupService : IChatGroupService
     private readonly IMapper _mapper;
     private readonly IStringLocalizer<SharedResource> _localizer;
 
-    public ChatGroupService(IGroupRepository groupRepository,
+    public ChatGroupService(IGroupChatSignalService groupChatSignalService,
+        IGroupRepository groupRepository,
         IUserRepository userRepository,
         IGroupUserRepository groupUserRepository,
         IUnitOfWork unitOfWork,
         IMapper mapper,
-        IStringLocalizer<SharedResource> localizer
-        )
+        IStringLocalizer<SharedResource> localizer)
     {
+        _groupChatSignalService = groupChatSignalService;
         _userRepository = userRepository;
         _groupRepository = groupRepository;
         _groupUserRepository = groupUserRepository;
@@ -61,7 +64,7 @@ public class ChatGroupService : IChatGroupService
         };
 
         var groupUsers = new List<GroupUser> { creatorUser };
-        groupUsers.AddRange(await AddGroupUsersAsync(chat, dto.UserIds));
+        groupUsers.AddRange(await AddGroupUsersAsync(chat.Id, dto.UserIds));
         group.GroupUsers = groupUsers;
 
         _groupRepository.Insert(group);
@@ -125,7 +128,7 @@ public class ChatGroupService : IChatGroupService
         //_groupChatSignalService.SignalUserLeavedGroup(groupId, userId);
     }
 
-    private async Task<List<GroupUser>> AddGroupUsersAsync(Chat chat, IEnumerable<int> userIds)
+    private async Task<List<GroupUser>> AddGroupUsersAsync(int chatId, IEnumerable<int> userIds)
     {
         var groupUsers = new List<GroupUser>();
 
@@ -137,7 +140,7 @@ public class ChatGroupService : IChatGroupService
             {
                 ChatUser = new ChatUser()
                 {
-                    Chat = chat,
+                    ChatId = chatId,
                     User = user
                 },
                 ChatRole = ChatRole.User,

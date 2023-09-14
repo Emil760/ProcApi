@@ -55,9 +55,7 @@ namespace ProcApi.Services.Concreates
                 Items = itemModels
             };
 
-            _purchaseRequestDocumentRepository.Insert(purchaseRequestDocument);
-
-            await _unitOfWork.SaveChangesAsync();
+            await _purchaseRequestDocumentRepository.InsertAsync(purchaseRequestDocument);
 
             return _mapper.Map<PurchaseRequestDocumentResponseDto>(purchaseRequestDocument);
         }

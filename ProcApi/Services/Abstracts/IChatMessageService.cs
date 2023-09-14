@@ -6,5 +6,6 @@ namespace ProcApi.Services.Abstracts;
 public interface IChatMessageService
 {
     Task SendMessageToUserAsync(int senderUserId, SendChatUserMessageRequestDto dto);
-    Task<MarkAdReadResponseDto> MarkAsReadAsync(int messageId, int receiverId);
+    Task SendMessageToGroupAsync(int senderUserId, SendGroupMessageRequestDto dto);
+    Task<MarkAdReadResponseDto?> MarkAsReadAsync(int messageId, int receiverId);
 }

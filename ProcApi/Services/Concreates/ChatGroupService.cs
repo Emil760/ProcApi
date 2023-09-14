@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Localization;
-using ProcApi.Data.ProcDatabase;
 using ProcApi.Data.ProcDatabase.Enums;
 using ProcApi.Data.ProcDatabase.Models;
 using ProcApi.DTOs.Chat.Request;
@@ -16,41 +14,27 @@ namespace ProcApi.Services.Concreates;
 
 public class ChatGroupService : IChatGroupService
 {
-    private readonly IHubContext<ChatHub, IChatClient> _hubContext;
-    private readonly IGroupChatSignalService _groupChatSignalService;
-    private readonly IConnectedUsersService _connectedUsersService;
     private readonly IGroupRepository _groupRepository;
     private readonly IUserRepository _userRepository;
-    private readonly IChatRepository _chatRepository;
     private readonly IGroupUserRepository _groupUserRepository;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
     private readonly IStringLocalizer<SharedResource> _localizer;
-    private readonly ProcDbContext _context;
 
-    public ChatGroupService(IHubContext<ChatHub, IChatClient> hubContext,
-        IGroupChatSignalService groupChatSignalService,
-        IConnectedUsersService connectedUsersService,
-        IGroupRepository groupRepository,
+    public ChatGroupService(IGroupRepository groupRepository,
         IUserRepository userRepository,
-        IChatRepository chatRepository,
         IGroupUserRepository groupUserRepository,
         IUnitOfWork unitOfWork,
         IMapper mapper,
-        IStringLocalizer<SharedResource> localizer,
-        ProcDbContext context)
+        IStringLocalizer<SharedResource> localizer
+        )
     {
-        _hubContext = hubContext;
-        _groupChatSignalService = groupChatSignalService;
-        _connectedUsersService = connectedUsersService;
         _userRepository = userRepository;
         _groupRepository = groupRepository;
-        _chatRepository = chatRepository;
         _groupUserRepository = groupUserRepository;
         _unitOfWork = unitOfWork;
         _mapper = mapper;
         _localizer = localizer;
-        _context = context;
     }
 
     public async Task<CreatedGroupResponseDto> CreateGroupAsync(int creatorUserId, CreateGroupRequestDto dto)
@@ -59,8 +43,6 @@ public class ChatGroupService : IChatGroupService
         {
             ChatType = ChatType.Group
         };
-
-        await _chatRepository.InsertAsync(chat);
 
         var group = new Group()
         {
@@ -79,7 +61,7 @@ public class ChatGroupService : IChatGroupService
         };
 
         var groupUsers = new List<GroupUser> { creatorUser };
-        groupUsers.AddRange(await AddGroupUsersAsync(chat.Id, dto.UserIds));
+        groupUsers.AddRange(await AddGroupUsersAsync(chat, dto.UserIds));
         group.GroupUsers = groupUsers;
 
         _groupRepository.Insert(group);
@@ -143,7 +125,7 @@ public class ChatGroupService : IChatGroupService
         //_groupChatSignalService.SignalUserLeavedGroup(groupId, userId);
     }
 
-    private async Task<List<GroupUser>> AddGroupUsersAsync(int chatId, IEnumerable<int> userIds)
+    private async Task<List<GroupUser>> AddGroupUsersAsync(Chat chat, IEnumerable<int> userIds)
     {
         var groupUsers = new List<GroupUser>();
 
@@ -155,7 +137,7 @@ public class ChatGroupService : IChatGroupService
             {
                 ChatUser = new ChatUser()
                 {
-                    ChatId = chatId,
+                    Chat = chat,
                     User = user
                 },
                 ChatRole = ChatRole.User,

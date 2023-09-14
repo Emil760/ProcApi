@@ -31,7 +31,7 @@ namespace ProcApi.Controllers
         [HttpGet("GetChats")]
         public async Task<IActionResult> GetChatsAsync()
         {
-            return Ok();
+            return Ok(await _chatService.GetChatsAsync(UserInfo.UserId));
         }
     }
 }

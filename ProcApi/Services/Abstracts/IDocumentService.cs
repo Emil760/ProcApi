@@ -1,6 +1,5 @@
 ﻿using ProcApi.Data.ProcDatabase.Enums;
 using ProcApi.Data.ProcDatabase.Models;
-using ProcApi.DTOs.Documents;
 
 namespace ProcApi.Services.Abstracts;
 

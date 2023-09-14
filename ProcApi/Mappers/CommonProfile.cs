@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using ProcApi.Data.ProcDatabase.Models;
-using ProcApi.DTOs.Documents;
 using ProcApi.DTOs.Documents.Base;
 using ProcApi.DTOs.Documents.Responses;
 

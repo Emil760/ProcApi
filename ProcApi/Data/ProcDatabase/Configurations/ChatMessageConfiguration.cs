@@ -23,8 +23,14 @@ namespace ProcApi.Data.ProcDatabase.Configurations
                 .HasMaxLength(2000)
                 .IsRequired();
 
+            builder.Property(cm => cm.SendTime)
+                .HasColumnType("timestamp without time zone")
+                .IsRequired()
+                .HasDefaultValue(DateTime.Now);
+
             builder.Property(cm => cm.ReceivedInfos)
-                .HasColumnType("jsonb");
+                .HasColumnType("jsonb")
+                .IsRequired(false);
         }
     }
 }

@@ -15,7 +15,7 @@ public static class JwtUtility
         string localization,
         JwtOptions jwtOptions)
     {
-        var claims = new List<Claim>()
+        var claims = new List<Claim>
         {
             new(JwtRegisteredClaimNames.Sub, userId.ToString()),
             new(ClaimKeys.Localization, localization)
@@ -41,13 +41,13 @@ public static class JwtUtility
             .WriteToken(token);
     }
 
-    public static UserInfo? GetUserInfo(string? jwtToken)
+    public static UserInfo GetUserInfo(string? jwtToken)
     {
         if (jwtToken is null)
         {
-            return new UserInfo()
+            return new UserInfo
             {
-                UserId = 0,
+                UserId = 0
             };
         }
 
@@ -55,9 +55,9 @@ public static class JwtUtility
         var handler = new JwtSecurityTokenHandler();
         var token = handler.ReadToken(jwtToken) as JwtSecurityToken;
 
-        return new UserInfo()
+        return new UserInfo
         {
-            UserId = int.Parse(token?.Claims.Single(c => c.Type == JwtRegisteredClaimNames.Sub).Value),
+            UserId = int.Parse(token?.Claims.Single(c => c.Type == JwtRegisteredClaimNames.Sub).Value)
         };
     }
 }

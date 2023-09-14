@@ -16,9 +16,16 @@ public class ChatMessageController : BaseController
     }
 
     [HttpPost("SendUserChatMessage")]
-    public async Task<IActionResult> SendAsync([FromBody] SendChatUserMessageRequestDto dto)
+    public async Task<IActionResult> SendUserAsync([FromBody] SendChatUserMessageRequestDto dto)
     {
         await _chatMessageService.SendMessageToUserAsync(UserInfo.UserId, dto);
+        return Ok();
+    }
+    
+    [HttpPost("SendGroupMessage")]
+    public async Task<IActionResult> SendGroupAsync([FromBody] SendGroupMessageRequestDto dto)
+    {
+        await _chatMessageService.SendMessageToGroupAsync(UserInfo.UserId, dto);
         return Ok();
     }
 

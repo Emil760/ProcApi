@@ -8,5 +8,6 @@ public class ChatMessage
     public int SenderId { get; set; }
     public User Sender { get; set; }
     public string Message { get; set; }
-    public IEnumerable<ReceivedInfo> ReceivedInfos { get; set; }
+    public DateTime SendTime { get; set; }
+    public ICollection<ReceivedInfo>? ReceivedInfos { get; set; }
 }

@@ -1,38 +1,39 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Localization;
 using ProcApi.Data.ProcDatabase.Models;
 using ProcApi.DTOs.Chat.Request;
 using ProcApi.DTOs.Chat.Responses;
-using ProcApi.DTOs.Chat.Signals;
+using ProcApi.Exceptions;
 using ProcApi.Repositories.Abstracts;
 using ProcApi.Repositories.UnitOfWork;
+using ProcApi.Resources;
 using ProcApi.Services.Abstracts;
 
 namespace ProcApi.Services.Concreates;
 
 public class ChatMessageService : IChatMessageService
 {
-    private readonly IHubContext<ChatHub, IChatClient> _chatHub;
+    private readonly IChatMessageSignalService _chatMessageSignalService;
     private readonly IChatService _chatService;
-    private readonly IConnectedUsersService _connectedUsersService;
     private readonly IChatMessageRepository _chatMessageRepository;
     private readonly IChatRepository _chatRepository;
+    private readonly IStringLocalizer<SharedResource> _localizer;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
 
-    public ChatMessageService(IHubContext<ChatHub, IChatClient> chatHub,
+    public ChatMessageService(IChatMessageSignalService chatMessageSignalService,
         IChatService chatService,
-        IConnectedUsersService connectedUsersService,
         IChatMessageRepository chatMessageRepository,
         IChatRepository chatRepository,
+        IStringLocalizer<SharedResource> localizer,
         IUnitOfWork unitOfWork,
         IMapper mapper)
     {
-        _chatHub = chatHub;
         _chatService = chatService;
-        _connectedUsersService = connectedUsersService;
         _chatMessageRepository = chatMessageRepository;
         _chatRepository = chatRepository;
+        _chatMessageSignalService = chatMessageSignalService;
+        _localizer = localizer;
         _unitOfWork = unitOfWork;
         _mapper = mapper;
     }
@@ -46,83 +47,75 @@ public class ChatMessageService : IChatMessageService
         if (chat is null)
             chat = await _chatService.CreateChatBetweenUsersAsync(userIds);
 
-        SaveMessage(chat, senderUserId, dto.ReceiverUserId, dto.Message);
+        var chatMessage = CreateMessage(chat, senderUserId, dto.Message);
+
+        _chatMessageRepository.Insert(chatMessage);
 
         await _unitOfWork.SaveChangesAsync();
 
-        SendSignalMessageAsync(chat, senderUserId, dto.ReceiverUserId, dto.Message);
+        _chatMessageSignalService.SendUserSignalMessageAsync(chatMessage, new List<int>() { dto.ReceiverUserId });
     }
 
-    private void SaveMessage(Chat chat, int senderUserId, int receiverUserId, string message)
+    public async Task SendMessageToGroupAsync(int senderUserId, SendGroupMessageRequestDto dto)
     {
-        var chatMessage = new ChatMessage()
+        var chat = await _chatRepository.FindWithChatUsersExceptCurrUserByChatIdAsync(dto.ChatId, senderUserId);
+
+        if (chat is null)
+            throw new ValidationException(_localizer["ChatNotFound"]);
+
+        var chatMessage = CreateMessage(chat, senderUserId, dto.Message);
+
+        _chatMessageRepository.Insert(chatMessage);
+
+        await _unitOfWork.SaveChangesAsync();
+
+        var userIds = chat.ChatUsers.Select(cu => cu.UserId);
+
+        _chatMessageSignalService.SendUserSignalMessageAsync(chatMessage, userIds);
+    }
+
+    private ChatMessage CreateMessage(Chat chat, int senderUserId, string message)
+    {
+        return new ChatMessage()
         {
             ChatId = chat.Id,
             Message = message,
+            SendTime = DateTime.Now,
             SenderId = senderUserId,
-            ReceivedInfos = new List<ReceivedInfo>()
-            {
-                new()
-                {
-                    ReceiverId = receiverUserId,
-                    IsRead = false,
-                    ReadTime = null
-                }
-            }
         };
-
-        _chatMessageRepository.Insert(chatMessage);
     }
 
-    private async Task SendSignalMessageAsync(Chat chat, int senderUserId, int receiverUserId, string message)
+    public async Task<MarkAdReadResponseDto?> MarkAsReadAsync(int messageId, int receiverId)
     {
-        var connectionIds = await _connectedUsersService.GetConnectionsAsync(receiverUserId);
-
-        var sendMessage = new SendMessageSignalDto()
-        {
-            ChatId = chat.Id,
-            SenderId = senderUserId,
-            Message = message
-        };
-
-        foreach (var connectionId in connectionIds)
-        {
-            await _chatHub.Clients.Client(connectionId)
-                .SendUserMessageAsync(sendMessage);
-        }
-    }
-
-    public async Task<MarkAdReadResponseDto> MarkAsReadAsync(int messageId, int receiverId)
-    {
-        var chatMessage = await _chatMessageRepository.GetWithChatUsersByIdAsync(messageId);
+        var chatMessage =
+            await _chatMessageRepository.GetWithChatUsersExceptCurrentUserByIdAsync(messageId, receiverId);
 
         if (chatMessage is null)
             throw new Exception("Message not found");
 
-        var receiverInfo = chatMessage.ReceivedInfos.Single(ri => ri.ReceiverId == receiverId);
-        receiverInfo.IsRead = true;
-        receiverInfo.ReadTime = DateTime.Now;
+        ReceivedInfo? receivedInfo = null;
+
+        if (chatMessage.ReceivedInfos is not null)
+            receivedInfo = chatMessage.ReceivedInfos.SingleOrDefault(ri => ri.ReceiverId == receiverId);
+        else
+            chatMessage.ReceivedInfos = new List<ReceivedInfo>();
+
+        if (receivedInfo is not null)
+            return null;
+
+        var receiverInfo = new ReceivedInfo()
+        {
+            ReceiverId = receiverId,
+            IsRead = true,
+            ReadTime = DateTime.Now
+        };
+
+        chatMessage.ReceivedInfos.Add(receiverInfo);
 
         await _chatMessageRepository.InsertAsync(chatMessage);
 
-        SignalMarkAsReadAsync(receiverId, receiverInfo, chatMessage);
+        _chatMessageSignalService.SignalMarkAsReadAsync(receiverInfo, chatMessage);
 
         return _mapper.Map<MarkAdReadResponseDto>((chatMessage, receiverInfo));
-    }
-
-    private async Task SignalMarkAsReadAsync(int receiverId, ReceivedInfo receivedInfo, ChatMessage chatMessage)
-    {
-        var userIds = chatMessage.Chat.ChatUsers
-            .Where(cu => cu.UserId != receiverId)
-            .Select(cu => cu.UserId);
-
-        var connectionIds = await _connectedUsersService.GetConnectionsAsync(userIds);
-
-        foreach (var connectionId in connectionIds)
-        {
-            var markAsReadSignalDto = _mapper.Map<MarkAsReadSignalDto>((receiverId, receivedInfo, chatMessage));
-            await _chatHub.Clients.Client(connectionId)
-                .MarkAsReadAsync(markAsReadSignalDto);
-        }
     }
 }

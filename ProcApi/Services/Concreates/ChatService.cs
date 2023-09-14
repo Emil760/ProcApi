@@ -13,8 +13,8 @@ namespace ProcApi.Services.Concreates
     public class ChatService : IChatService
     {
         private readonly IUserRepository _userRepository;
+        private readonly IGroupRepository _groupRepository;
         private readonly IChatUserRepository _chatUserRepository;
-        private readonly IChatRepository _chatRepository;
         private readonly IConnectedUsersService _connectedUsersService;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IMapper _mapper;
@@ -22,19 +22,18 @@ namespace ProcApi.Services.Concreates
 
         public ChatService(IUserRepository userRepository,
             IChatUserRepository chatUserRepository,
-            IChatRepository chatRepository,
             IConnectedUsersService connectedUsersService,
             IHttpContextAccessor httpContextAccessor,
             IMapper mapper,
-            IUnitOfWork unitOfWork)
+            IUnitOfWork unitOfWork, IGroupRepository groupRepository)
         {
             _userRepository = userRepository;
             _chatUserRepository = chatUserRepository;
-            _chatRepository = chatRepository;
             _connectedUsersService = connectedUsersService;
             _httpContextAccessor = httpContextAccessor;
             _mapper = mapper;
             _unitOfWork = unitOfWork;
+            _groupRepository = groupRepository;
         }
 
         public async Task ConnectAsync(int userId, string connectionId)
@@ -67,7 +66,7 @@ namespace ProcApi.Services.Concreates
         public async Task<IEnumerable<ChatUserResponseDto>> GetUsersAsync(PaginationRequestDto dto)
         {
             var usersPaginated = await _userRepository.GetAllPaginated(dto);
-            
+
             _httpContextAccessor.HttpContext.Response.Headers.Add(HeaderKeys.XPagination, usersPaginated.ToString());
 
             return _mapper.Map<IEnumerable<ChatUserResponseDto>>(usersPaginated.ResultSet);
@@ -75,9 +74,18 @@ namespace ProcApi.Services.Concreates
 
         public async Task<IEnumerable<ChatResponseDto>> GetChatsAsync(int userId)
         {
-            var chats = await _chatRepository.GetChatsByUserIdAsync(userId);
+            var tasks = new List<Task>();
+            var userTask = _chatUserRepository.GetAllWithLastMessageByUserIdAsync(userId);
+            var groupTask = _groupRepository.GetAllWithLastMessageByUserId(userId);
 
-            return _mapper.Map<IEnumerable<ChatResponseDto>>(chats);
+            await Task.WhenAll(userTask, groupTask);
+
+            var chats = new List<ChatResponseDto>();
+
+            chats.AddRange(_mapper.Map<IEnumerable<ChatResponseDto>>(userTask.Result));
+            chats.AddRange(_mapper.Map<IEnumerable<ChatResponseDto>>(groupTask.Result));
+
+            return chats;
         }
     }
 }

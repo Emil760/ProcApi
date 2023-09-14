@@ -12,13 +12,16 @@ namespace ProcApi.Controllers
     public class PurchaseRequestDocumentController : BaseController
     {
         private readonly IPurchaseRequestDocumentService _purchaseRequestDocumentService;
+        private readonly IPurchaseRequestDocumentItemsService _purchaseRequestDocumentItemsService;
         private readonly IPurchaseRequestDocumentApprovalService _purchaseRequestDocumentApprovalService;
 
         public PurchaseRequestDocumentController(IPurchaseRequestDocumentService purchaseRequestDocumentService,
-            IPurchaseRequestDocumentApprovalService purchaseRequestDocumentApprovalService)
+            IPurchaseRequestDocumentApprovalService purchaseRequestDocumentApprovalService,
+            IPurchaseRequestDocumentItemsService purchaseRequestDocumentItemsService)
         {
             _purchaseRequestDocumentService = purchaseRequestDocumentService;
             _purchaseRequestDocumentApprovalService = purchaseRequestDocumentApprovalService;
+            _purchaseRequestDocumentItemsService = purchaseRequestDocumentItemsService;
         }
 
         [HttpGet]
@@ -45,7 +48,7 @@ namespace ProcApi.Controllers
         [HttpGet("items")]
         public async Task<IActionResult> GetItems([FromQuery] int docId)
         {
-            return Ok();
+            return Ok(await _purchaseRequestDocumentItemsService.GetAllItemsAsync(docId));
         }
     }
 }

@@ -1,6 +1,4 @@
 ﻿using ProcApi.Data.ProcDatabase.Models;
-using ProcApi.DTOs.Documents.Base;
-using ProcApi.DTOs.PurchaseRequestDocument;
 using ProcApi.DTOs.PurchaseRequestDocument.Requests;
 using ProcApi.DTOs.PurchaseRequestDocument.Response;
 

@@ -1,6 +1,4 @@
-﻿using Npgsql.Replication.PgOutput.Messages;
-
-namespace ProcApi.Repositories.UnitOfWork
+﻿namespace ProcApi.Repositories.UnitOfWork
 {
     public interface IUnitOfWork
     {

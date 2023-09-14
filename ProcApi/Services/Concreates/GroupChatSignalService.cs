@@ -31,9 +31,7 @@ public class GroupChatSignalService : IGroupChatSignalService
         var userIds = group.GroupUsers
             .Where(gu => gu.ChatUserId != creatorUserId)
             .Select(gu => gu.ChatUserId);
-
-        var a = _mapper.Map<GroupCreatedSignalDto>(group);
-
+        
         var connectionIds = await _connectedUsersService.GetConnectionsAsync(userIds);
 
         foreach (var connectionId in connectionIds)

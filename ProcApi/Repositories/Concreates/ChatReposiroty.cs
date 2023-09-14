@@ -19,17 +19,11 @@ public class ChatRepository : GenericRepository<Chat>, IChatRepository
             .SingleOrDefaultAsync();
     }
 
-    public async Task<IEnumerable<Chat>> GetChatsByUserIdAsync(int userId)
+    public async Task<Chat?> FindWithChatUsersExceptCurrUserByChatIdAsync(int chatId, int userId)
     {
-        // return await _context.Chats
-        //     .Include(c => c.Group)
-        //     .Include(c => c.ChatUsers.Where(cu => cu.UserId == userId))
-        //     .ThenInclude(cu => cu.User)
-        //     .Where(c => c.Group.GroupUsers.Any(cu => cu.UserId == userId)
-        //                 && c.ChatUsers.Any(cu => cu.UserId != userId))
-        //     .ToListAsync();
-        
-        //TODO
-        return null;
+        return await _context.Chats
+            .Include(c => c.ChatUsers.Where(cu => cu.UserId != userId))
+            .Where(c => c.Id == chatId)
+            .SingleOrDefaultAsync();
     }
 }

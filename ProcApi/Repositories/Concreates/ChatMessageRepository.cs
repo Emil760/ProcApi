@@ -11,10 +11,10 @@ namespace ProcApi.Repositories.Concreates
         {
         }
 
-        public async Task<ChatMessage?> GetWithChatUsersByIdAsync(int id)
+        public async Task<ChatMessage?> GetWithChatUsersExceptCurrentUserByIdAsync(int id, int userId)
         {
             return await _context.ChatMessages
-                .Include(cm => cm.Chat.ChatUsers)
+                .Include(cm => cm.Chat.ChatUsers.Where(cu => cu.UserId != userId))
                 .SingleOrDefaultAsync(cm => cm.Id == id);
         }
     }

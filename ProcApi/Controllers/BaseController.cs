@@ -9,7 +9,7 @@ namespace ProcApi.Controllers
     [ApiController]
     public class BaseController : ControllerBase
     {
-        protected UserInfo? UserInfo => JwtUtility.GetUserInfo(Request.Headers["Authorization"]);
+        protected UserInfo UserInfo => JwtUtility.GetUserInfo(Request.Headers["Authorization"]);
 
         public BaseController()
         {

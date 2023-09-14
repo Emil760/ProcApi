@@ -12,7 +12,7 @@ namespace ProcApi.Data.ProcDatabase.Configurations
                 .HasColumnType("boolean")
                 .IsRequired()
                 .HasDefaultValue(false);
-
+            
             builder.HasOne(da => da.Document)
                 .WithMany(d => d.DocumentActions)
                 .HasForeignKey(da => da.DocumentId)

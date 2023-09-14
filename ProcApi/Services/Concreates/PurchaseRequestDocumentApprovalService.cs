@@ -9,12 +9,13 @@ public class PurchaseRequestDocumentApprovalService : IPurchaseRequestDocumentAp
     private readonly Dictionary<ActionType, Func<Task>> _actionDictionary = new()
     {
         { ActionType.Approve, Approve },
-        { ActionType.SaveAsDraft, SaveAsDraft }
+        { ActionType.SaveAsDraft, SaveAsDraft },
+        { ActionType.Return, Return },
+        { ActionType.Reject, Reject }
     };
 
     public PurchaseRequestDocumentApprovalService()
     {
-        
     }
 
     public async Task PerformAction(ActionPerformRequestDto requestDto)
@@ -32,11 +33,11 @@ public class PurchaseRequestDocumentApprovalService : IPurchaseRequestDocumentAp
     {
     }
 
-    public async Task Return()
+    public static async Task Return()
     {
     }
 
-    public async Task Reject()
+    public static async Task Reject()
     {
     }
 

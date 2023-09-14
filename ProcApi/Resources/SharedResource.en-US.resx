@@ -150,4 +150,7 @@
   <data name="UserNotFoundInGroup" xml:space="preserve">
     <value>User not found in group</value>
   </data>
+  <data name="ChatNotFound" xml:space="preserve">
+    <value>Chat not found</value>
+  </data>
 </root>

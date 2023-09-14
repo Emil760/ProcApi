@@ -10,15 +10,19 @@ namespace ProcApi.Services.Concreates
     public class ApprovalFlowService : IApprovalFlowService
     {
         private readonly IApprovalFlowTemplateRepository _flowTemplateRepository;
+        private readonly IUserRepository _userRepository;
 
-        public ApprovalFlowService(IApprovalFlowTemplateRepository flowTemplateRepository)
+        public ApprovalFlowService(IApprovalFlowTemplateRepository flowTemplateRepository, 
+            IUserRepository userRepository)
         {
             _flowTemplateRepository = flowTemplateRepository;
+            _userRepository = userRepository;
         }
 
-        public async Task<IEnumerable<DocumentAction>> CreateApprovals(UserInfo? userInfo, Document document, DocumentType type)
+        public async Task<IEnumerable<DocumentAction>> CreateApprovals(UserInfo userInfo, Document document, DocumentType type)
         {
-            var flowTemplates = await _flowTemplateRepository.GetInitialByDocumentType(type);
+            var flowTemplates = await _flowTemplateRepository.GetInitialWithUserByDocumentType(type);
+            var currentUser = await _userRepository.GetByIdAsync(userInfo.UserId);
 
             if (!flowTemplates.Any())
                 throw new Exception("no flow template was found");
@@ -35,6 +39,7 @@ namespace ProcApi.Services.Concreates
                     Document = document,
                     RoleId = flowTemplate.RoleId,
                     UserId = flowTemplate.IsCreator ? userInfo.UserId : flowTemplate.UserId.Value,
+                    User = flowTemplate.IsCreator ? currentUser : flowTemplate.User,
                     Order = flowTemplate.Order,
                     IsPerformed = false,
                     ActionPerformed = null,

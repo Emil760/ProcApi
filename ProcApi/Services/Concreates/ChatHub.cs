@@ -12,11 +12,6 @@ namespace ProcApi.Services.Concreates
             _connectedUsersService = connectedUsersService;
         }
 
-        public override Task OnConnectedAsync()
-        {
-            return base.OnConnectedAsync();
-        }
-
         public override async Task OnDisconnectedAsync(Exception? exception)
         {
             await _connectedUsersService.RemoveConnectionIdAsync(Context.ConnectionId);

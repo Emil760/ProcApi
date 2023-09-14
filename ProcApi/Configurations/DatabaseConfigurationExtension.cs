@@ -23,6 +23,9 @@ namespace ProcApi.Configurations
                 options.EnableDetailedErrors(databaseOptions.EnableDetailedErrors);
                 options.EnableSensitiveDataLogging(databaseOptions.EnableSensetiveDataLogging);
             });
+            
+            //TODO
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
         }
     }
 }

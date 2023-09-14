@@ -150,4 +150,7 @@
   <data name="UserNotFoundInGroup" xml:space="preserve">
     <value>İstifadəçi qrupda tapılmadı</value>
   </data>
+  <data name="ChatNotFound" xml:space="preserve">
+    <value>Chat tapılmadı</value>
+  </data>
 </root>

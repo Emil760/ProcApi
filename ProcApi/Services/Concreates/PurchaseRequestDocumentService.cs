@@ -31,7 +31,7 @@ namespace ProcApi.Services.Concreates
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<PurchaseRequestDocumentResponseDto> CreateDocument(UserInfo? userInfo,
+        public async Task<PurchaseRequestDocumentResponseDto> CreateDocument(UserInfo userInfo,
             CreatePurchaseRequestDocumentRequestDto requestDto)
         {
             var document = _documentService.CreateDocument(userInfo.UserId,

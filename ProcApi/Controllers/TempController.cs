@@ -1,11 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.HttpResults;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ProcApi.Controllers;
 using ProcApi.Exceptions;
-using ProcApi.Repositories.Abstracts;
-using ProcApi.Services.Abstracts;
 using ValidationException = ProcApi.Exceptions.ValidationException;
 
 namespace ProcApi.Controllers
@@ -15,25 +10,29 @@ namespace ProcApi.Controllers
     [AllowAnonymous]
     public class TempController : BaseController
     {
-        private readonly IUserService _userService;
-        private readonly IUserRepository _userRepository;
         private readonly ILogger<TempController> _logger;
 
-        public TempController(IUserService userService,
-            IUserRepository userRepository,
-            ILogger<TempController> logger)
+        public TempController(ILogger<TempController> logger)
         {
-            _userService = userService;
-            _userRepository = userRepository;
             _logger = logger;
         }
 
         [HttpGet("Test")]
         public async Task<IActionResult> GetTemp()
         {
-            _logger.LogInformation("aaaa");
-            throw new Exception("a1");
-            return Ok();
+            var tasks = new List<Task>();
+            var task1 = Te1();
+            var task2 = Te2();
+            
+            tasks.Add(task1);
+            tasks.Add(task2);
+
+            await Task.WhenAll(tasks);
+
+            var a = task1.Result;
+            var b = task2.Result;
+
+            return Ok(a + "\t" + b);
         }
 
         [HttpGet("Test2")]
@@ -48,6 +47,18 @@ namespace ProcApi.Controllers
         {
             throw new ValidationException("a3");
             return Ok();
+        }
+
+        private async Task<int> Te1()
+        {
+            await Task.Delay(100);
+            return 100;
+        }
+        
+        private async Task<string> Te2()
+        {
+            await Task.Delay(200);
+            return "hello";
         }
     }
 }

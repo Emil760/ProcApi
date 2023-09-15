@@ -153,4 +153,10 @@
   <data name="ChatNotFound" xml:space="preserve">
     <value>Chat not found</value>
   </data>
+  <data name="UserNotFound" xml:space="preserve">
+    <value>User not found</value>
+  </data>
+  <data name="UserHasNoRoleForOperation" xml:space="preserve">
+    <value>User has no role for this operation</value>
+  </data>
 </root>

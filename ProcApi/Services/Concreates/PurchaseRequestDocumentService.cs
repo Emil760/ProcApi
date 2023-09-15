@@ -5,7 +5,6 @@ using ProcApi.DTOs.PurchaseRequestDocument.Requests;
 using ProcApi.DTOs.PurchaseRequestDocument.Response;
 using ProcApi.DTOs.User.Base;
 using ProcApi.Repositories.Abstracts;
-using ProcApi.Repositories.UnitOfWork;
 using ProcApi.Services.Abstracts;
 
 namespace ProcApi.Services.Concreates
@@ -13,58 +12,47 @@ namespace ProcApi.Services.Concreates
     public class PurchaseRequestDocumentService : IPurchaseRequestDocumentService
     {
         private readonly IDocumentService _documentService;
-        private readonly IApprovalFlowService _approvalFlowService;
+        private readonly IApprovalsService _approvalsService;
         private readonly IPurchaseRequestDocumentRepository _purchaseRequestDocumentRepository;
         private readonly IMapper _mapper;
-        private readonly IUnitOfWork _unitOfWork;
+
 
         public PurchaseRequestDocumentService(IDocumentService documentService,
-            IApprovalFlowService approvalFlowService,
+            IApprovalsService approvalsService,
             IPurchaseRequestDocumentRepository purchaseRequestDocumentRepository,
-            IMapper mapper,
-            IUnitOfWork unitOfWork)
+            IMapper mapper
+        )
         {
             _documentService = documentService;
-            _approvalFlowService = approvalFlowService;
+            _approvalsService = approvalsService;
             _purchaseRequestDocumentRepository = purchaseRequestDocumentRepository;
             _mapper = mapper;
-            _unitOfWork = unitOfWork;
         }
 
         public async Task<PurchaseRequestDocumentResponseDto> GetDocument(int docId)
         {
             var document = await _purchaseRequestDocumentRepository.GetDocumentWithActionsAndItems(docId);
-            
+
             return _mapper.Map<PurchaseRequestDocumentResponseDto>(document);
         }
 
-        public async Task<PurchaseRequestDocumentResponseDto> CreateDocument(UserInfo userInfo,
-            CreatePurchaseRequestDocumentRequestDto requestDto)
+        public async Task SaveDocument(UserInfo userInfo, CreatePurchaseRequestDocumentRequestDto dto)
         {
-            var document = _documentService.CreateDocument(userInfo.UserId,
-                DocumentType.PurchaseRequest,
-                DocumentStatus.PurchaseRequestDraft);
+            var document = await _purchaseRequestDocumentRepository.GetDocumentWithItems(dto.DocumentId);
 
-            var documentActions = await _approvalFlowService.CreateApprovals(userInfo,
-                document,
-                DocumentType.PurchaseRequest);
+            if (document is null)
+                await CreateDocument(dto);
+            else
+                await UpdateDocument(document, dto);
+        }
 
-            document.DocumentActions = documentActions.ToList();
+        private async Task CreateDocument(CreatePurchaseRequestDocumentRequestDto dto)
+        {
+        }
 
-            var itemModels = _mapper.Map<ICollection<PurchaseRequestDocumentItem>>(requestDto.Items);
-
-            var purchaseRequestDocument = new PurchaseRequestDocument()
-            {
-                Document = document,
-                Description = requestDto.Description,
-                RequestedForDepartmentId = requestDto.DepartmentId,
-                DeliveryAddress = requestDto.DeliveryAddress,
-                Items = itemModels
-            };
-
-            await _purchaseRequestDocumentRepository.InsertAsync(purchaseRequestDocument);
-
-            return _mapper.Map<PurchaseRequestDocumentResponseDto>(purchaseRequestDocument);
+        private async Task UpdateDocument(PurchaseRequestDocument purchaseRequestDocument,
+            CreatePurchaseRequestDocumentRequestDto dto)
+        {
         }
     }
 }

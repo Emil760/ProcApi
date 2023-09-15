@@ -22,6 +22,13 @@ namespace ProcApi.Repositories.Concreates
             return await GetById(_context, id);
         }
 
+        public async Task<User?> FindWithRolesById(int id)
+        {
+            return await _context.Users
+                .Include(u => u.Roles)
+                .SingleOrDefaultAsync(u => u.Id == id);
+        }
+
         public async Task<string?> ExistsByLogin(string login)
         {
             return await _context.Users.Where(u => u.Login == login)

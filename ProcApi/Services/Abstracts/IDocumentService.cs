@@ -1,9 +1,10 @@
 ﻿using ProcApi.Data.ProcDatabase.Enums;
-using ProcApi.Data.ProcDatabase.Models;
+using ProcApi.DTOs.Documents.Responses;
+using ProcApi.DTOs.User.Base;
 
 namespace ProcApi.Services.Abstracts;
 
 public interface IDocumentService
 {
-    Document CreateDocument(int userId, DocumentType type, DocumentStatus status);
+    Task<DocumentResponseDto> CreateDocumentWithApprovals(UserInfo userInfo, DocumentType type, DocumentStatus status);
 }

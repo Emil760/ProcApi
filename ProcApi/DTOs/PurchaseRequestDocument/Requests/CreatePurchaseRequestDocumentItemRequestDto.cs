@@ -1,9 +1,9 @@
-﻿namespace ProcApi.DTOs.PurchaseRequestDocument.Requests;
+﻿using ProcApi.DTOs.PurchaseRequestDocument.Base;
+using ProcApi.Enums;
 
-public class CreatePurchaseRequestDocumentItemRequestDto
+namespace ProcApi.DTOs.PurchaseRequestDocument.Requests;
+
+public class CreatePurchaseRequestDocumentItemRequestDto : PurchaseRequestDocumentItemDto
 {
-    public string Name { get; set; }
-    public double Quantity { get; set; }
-    public double Price { get; set; }
-    public int UnitOfMeasureId { get; set; }
+    public ActionState State { get; set; }
 }

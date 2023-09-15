@@ -7,6 +7,7 @@ namespace ProcApi.Repositories.Abstracts
     public interface IUserRepository : IGenericRepository<User>
     {
         Task<User> GetByIdCompiled(int id);
+        Task<User?> FindWithRolesById(int id);
         Task<string?> ExistsByLogin(string login);
         Task<User?> FindWithPasswordHashByLogin(string login);
         Task<IEnumerable<string>> GetPermissions(int id);

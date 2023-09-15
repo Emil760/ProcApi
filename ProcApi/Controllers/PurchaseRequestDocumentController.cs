@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProcApi.Attributes;
+using ProcApi.Data.ProcDatabase.Enums;
 using ProcApi.DTOs.Documents.Requests;
 using ProcApi.DTOs.PurchaseRequestDocument.Requests;
 using ProcApi.Enums;
@@ -11,17 +12,20 @@ namespace ProcApi.Controllers
     [Route("pr")]
     public class PurchaseRequestDocumentController : BaseController
     {
+        private readonly IDocumentService _documentService;
         private readonly IPurchaseRequestDocumentService _purchaseRequestDocumentService;
         private readonly IPurchaseRequestDocumentItemsService _purchaseRequestDocumentItemsService;
         private readonly IPurchaseRequestDocumentApprovalService _purchaseRequestDocumentApprovalService;
 
         public PurchaseRequestDocumentController(IPurchaseRequestDocumentService purchaseRequestDocumentService,
             IPurchaseRequestDocumentApprovalService purchaseRequestDocumentApprovalService,
-            IPurchaseRequestDocumentItemsService purchaseRequestDocumentItemsService)
+            IPurchaseRequestDocumentItemsService purchaseRequestDocumentItemsService,
+            IDocumentService documentService)
         {
             _purchaseRequestDocumentService = purchaseRequestDocumentService;
             _purchaseRequestDocumentApprovalService = purchaseRequestDocumentApprovalService;
             _purchaseRequestDocumentItemsService = purchaseRequestDocumentItemsService;
+            _documentService = documentService;
         }
 
         [HttpGet]
@@ -30,12 +34,20 @@ namespace ProcApi.Controllers
             return Ok(await _purchaseRequestDocumentService.GetDocument(docId));
         }
 
-        [HasPermission(Permissions.CanCreatePurchaseRequestDocument)]
-        [AllowAnonymous]
+        //TODO
+        //[HasPermission(Permissions.CanCreatePurchaseRequestDocument)]
         [HttpPost("create-document")]
-        public async Task<IActionResult> CreateDocument([FromBody] CreatePurchaseRequestDocumentRequestDto requestDto)
+        public async Task<IActionResult> CreateDocument()
         {
-            return Ok(await _purchaseRequestDocumentService.CreateDocument(UserInfo, requestDto));
+            return Ok(await _documentService.CreateDocumentWithApprovals(UserInfo,
+                DocumentType.PurchaseRequest,
+                DocumentStatus.PurchaseRequestDraft));
+        }
+
+        [HttpPost("save")]
+        public async Task<IActionResult> Save([FromBody] CreatePurchaseRequestDocumentRequestDto dto)
+        {
+            return Ok();
         }
 
         [HttpPost("perform-action")]

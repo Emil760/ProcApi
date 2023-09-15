@@ -153,4 +153,10 @@
   <data name="ChatNotFound" xml:space="preserve">
     <value>Chat tapılmadı</value>
   </data>
+  <data name="UserHasNoRoleForOperation" xml:space="preserve">
+    <value>İstifadəçinin bu əməliyyat üçün heç bir rolu yoxdur</value>
+  </data>
+  <data name="UserNotFound" xml:space="preserve">
+    <value>İstifadəçi tapılmadı</value>
+  </data>
 </root>

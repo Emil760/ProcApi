@@ -23,7 +23,7 @@ namespace ProcApi.Configurations
             services.AddScoped<IChatMessageSignalService, ChatMessageSignalService>();
             services.AddScoped<IGroupChatSignalService, GroupChatSignalService>();
 
-            services.AddScoped<IApprovalFlowService, ApprovalFlowService>();
+            services.AddScoped<IApprovalsService, ApprovalsService>();
 
             services.AddScoped<IDocumentService, DocumentService>();
             

@@ -14,8 +14,8 @@ public class ExceptionHandlerCoordinator
     {
         _handlers[typeof(System.Exception)] = generalExceptionHandler;
         _handlers[typeof(NotFoundException)] = notFoundExceptionHandler;
-        _handlers[typeof(ValidationExceptionHandler)] = validationExceptionHandler;
-        _handlers[typeof(UnauthorizedExceptionHandler)] = unauthorizedExceptionHandler;
+        _handlers[typeof(ValidationException)] = validationExceptionHandler;
+        _handlers[typeof(UnauthorizedException)] = unauthorizedExceptionHandler;
     }
 
     public ExceptionResultDto Handle(System.Exception exception)

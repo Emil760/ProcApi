@@ -26,6 +26,9 @@ namespace ProcApi.Configurations
             services.AddScoped<IChatUserRepository, ChatUserRepository>();
             services.AddScoped<IGroupRepository, GroupRepository>();
             services.AddScoped<IGroupUserRepository, GroupUserRepository>();
+
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<IMaterialRepository, MaterialRepository>();
         }
     }
 }

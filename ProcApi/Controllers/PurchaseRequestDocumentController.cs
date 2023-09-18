@@ -1,10 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using ProcApi.Attributes;
+﻿using Microsoft.AspNetCore.Mvc;
 using ProcApi.Data.ProcDatabase.Enums;
 using ProcApi.DTOs.Documents.Requests;
 using ProcApi.DTOs.PurchaseRequestDocument.Requests;
-using ProcApi.Enums;
 using ProcApi.Services.Abstracts;
 
 namespace ProcApi.Controllers

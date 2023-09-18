@@ -26,7 +26,7 @@ namespace ProcApi.Data.ProcDatabase.Configurations
             builder.Property(cm => cm.SendTime)
                 .HasColumnType("timestamp without time zone")
                 .IsRequired()
-                .HasDefaultValue(DateTime.Now);
+                .HasDefaultValueSql("CURRENT_DATE");
 
             builder.Property(cm => cm.ReceivedInfos)
                 .HasColumnType("jsonb")

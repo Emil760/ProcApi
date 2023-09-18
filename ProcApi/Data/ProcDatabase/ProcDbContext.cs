@@ -1,10 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Reflection;
+using Microsoft.EntityFrameworkCore;
 using ProcApi.Data.ProcDatabase.Models;
-using System.Reflection;
+using ProcApi.Data.ProcDatabase.ResultSets;
 
 namespace ProcApi.Data.ProcDatabase
 {
-    public class ProcDbContext : DbContext
+    public partial class ProcDbContext : DbContext
     {
         public ProcDbContext(DbContextOptions<ProcDbContext> options) : base(options)
         {
@@ -32,7 +33,7 @@ namespace ProcApi.Data.ProcDatabase
         public DbSet<DocumentAction> DocumentActions { get; set; }
         public DbSet<InvoiceDocument> InvoiceDocuments { get; set; }
         public DbSet<Project> Projects { get; set; }
-        public DbSet<PurchaseRequestDocument?> PurchaseRequestDocuments { get; set; }
+        public DbSet<PurchaseRequestDocument> PurchaseRequestDocuments { get; set; }
         public DbSet<PurchaseRequestDocumentItem> PurchaseRequestDocumentItems { get; set; }
         public DbSet<ReleaseStrategy> ReleaseStrategies { get; set; }
         public DbSet<Role> Roles { get; set; }
@@ -41,5 +42,14 @@ namespace ProcApi.Data.ProcDatabase
         public DbSet<UnitOfMeasure> UnitOfMeasures { get; set; }
         public DbSet<FeatureConfiguration> Configurations { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
+        public DbSet<Material?> Materials { get; set; }
+        public DbSet<Category> Categories { get; set; }
+    }
+
+    public partial class ProcDbContext : DbContext
+    {
+        [DbFunction(Name = "get_categories_by_level", Schema = "public", IsBuiltIn = false)]
+        public IQueryable<CategoryResultSet> GetCategoriesByLevel(int level)
+            => FromExpression(() => GetCategoriesByLevel(level));
     }
 }

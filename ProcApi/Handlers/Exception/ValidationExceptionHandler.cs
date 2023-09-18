@@ -10,7 +10,7 @@ namespace ProcApi.Handlers.Exception
             return new ExceptionResultDto()
             {
                 ContentType = MediaTypeNames.Application.Json,
-                StatusCode = 404,
+                StatusCode = 400,
                 Message = exception.Message
             };
         }

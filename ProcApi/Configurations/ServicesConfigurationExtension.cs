@@ -26,10 +26,13 @@ namespace ProcApi.Configurations
             services.AddScoped<IApprovalsService, ApprovalsService>();
 
             services.AddScoped<IDocumentService, DocumentService>();
-            
+
             services.AddScoped<IPurchaseRequestDocumentService, PurchaseRequestDocumentService>();
             services.AddScoped<IPurchaseRequestDocumentItemsService, PurchaseRequestDocumentItemsService>();
             services.AddScoped<IPurchaseRequestDocumentApprovalService, PurchaseRequestDocumentApprovalService>();
+
+            services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<IMaterialService, MaterialService>();
 
             services.AddScoped<IFileService, FileService>();
 

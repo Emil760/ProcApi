@@ -1,8 +1,8 @@
 ﻿using ProcApi.DTOs.Documents.Requests;
 
-namespace ProcApi.Services.Abstracts;
+namespace ProcApi.Handlers;
 
-public interface IPurchaseRequestDocumentApprovalService
+public interface IActionHandler
 {
     Task PerformAction(ActionPerformRequestDto dto);
 }

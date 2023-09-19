@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProcApi.Data.ProcDatabase;
 using ProcApi.Data.ProcDatabase.Models;
+using ProcApi.Data.ProcDatabase.ResultSets;
 using ProcApi.DTOs.Base;
 using ProcApi.Repositories.Abstracts;
 using ProcApi.Utility;
@@ -44,5 +45,11 @@ public class MaterialRepository : GenericRepository<Material>, IMaterialReposito
     {
         return await _context.Materials.SingleOrDefaultAsync(m => m.Name == name
                                                                   || m.Code == code);
+    }
+
+    public async Task<IEnumerable<MaterialResultSet>> GetWithCategories(int id)
+    {
+        return await _context.GetMaterialWithCategories(id)
+            .ToListAsync();
     }
 }

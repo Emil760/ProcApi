@@ -7,7 +7,7 @@ namespace ProcApi.Services.Abstracts;
 public interface IMaterialService
 {
     Task<IEnumerable<MaterialResponseDto>> GetAllAsync(PaginationRequestDto dto);
-    Task<MaterialResponseDto> Get(int id);
+    Task<TreeMaterialResponseDto> GetAsync(int id);
     Task<MaterialResponseDto> CreateMaterial(CreateMaterialRequestDto dto);
     Task<MaterialResponseDto> EditMaterial(int id, EditMaterialRequestDto dto);
 }

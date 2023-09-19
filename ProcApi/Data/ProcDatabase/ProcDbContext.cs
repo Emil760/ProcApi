@@ -42,7 +42,7 @@ namespace ProcApi.Data.ProcDatabase
         public DbSet<UnitOfMeasure> UnitOfMeasures { get; set; }
         public DbSet<FeatureConfiguration> Configurations { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
-        public DbSet<Material?> Materials { get; set; }
+        public DbSet<Material> Materials { get; set; }  
         public DbSet<Category> Categories { get; set; }
     }
 
@@ -51,5 +51,9 @@ namespace ProcApi.Data.ProcDatabase
         [DbFunction(Name = "get_categories_by_level", Schema = "public", IsBuiltIn = false)]
         public IQueryable<CategoryResultSet> GetCategoriesByLevel(int level)
             => FromExpression(() => GetCategoriesByLevel(level));
+
+        [DbFunction(Name = "get_material_with_categories", Schema = "public", IsBuiltIn = false)]
+        public IQueryable<MaterialResultSet> GetMaterialWithCategories(int materialId)
+            => FromExpression(() => GetMaterialWithCategories(materialId));
     }
 }

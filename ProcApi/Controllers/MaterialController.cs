@@ -25,7 +25,7 @@ public class MaterialController : BaseController
     [HttpGet]
     public async Task<IActionResult> GetAsync([FromQuery] int id)
     {
-        return Ok();
+        return Ok(await _materialService.GetAsync(id));
     }
 
     [HttpPost]

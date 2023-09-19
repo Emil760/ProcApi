@@ -3,6 +3,7 @@ using Microsoft.Extensions.Localization;
 using ProcApi.Constants;
 using ProcApi.Data.ProcDatabase.Models;
 using ProcApi.DTOs.Base;
+using ProcApi.DTOs.Category.Responses;
 using ProcApi.DTOs.Material.Base;
 using ProcApi.DTOs.Material.Request;
 using ProcApi.DTOs.Material.Responses;
@@ -43,14 +44,36 @@ public class MaterialService : IMaterialService
         return _mapper.Map<IEnumerable<MaterialResponseDto>>(materialsPaginated.ResultSet);
     }
 
-    public async Task<MaterialResponseDto> Get(int id)
+    public async Task<TreeMaterialResponseDto> GetAsync(int id)
     {
-        var material = await _materialRepository.GetByIdAsync(id);
+        var materialResultSets = await _materialRepository.GetWithCategories(id);
 
-        if (material is null)
+        if (!materialResultSets.Any())
             throw new NotFoundException(_localizer["MaterialNotFound"]);
 
-        return _mapper.Map<MaterialResponseDto>(material);
+        var categories = new List<TreeCategoryResponseDto>();
+
+        foreach (var item in materialResultSets)
+        {
+            categories.Add(new TreeCategoryResponseDto()
+            {
+                Id = item.CategoryId,
+                Name = item.CategoryName,
+                Level = item.Level
+            });
+        }
+
+        var materialResultSet = materialResultSets.First();
+
+        var material = new TreeMaterialResponseDto()
+        {
+            Id = materialResultSet.Id,
+            Code = materialResultSet.Code,
+            Name = materialResultSet.Name,
+            TreeCategories = categories
+        };
+
+        return material;
     }
 
     public async Task<MaterialResponseDto> CreateMaterial(CreateMaterialRequestDto dto)

@@ -6,18 +6,18 @@ using ProcApi.Data.ProcDatabase.Procedures;
 namespace ProcApi.Data.ProcDatabase.Migrations
 {
     /// <inheritdoc />
-    public partial class material7 : Migration
+    public partial class material8 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            ProceduresMigrationHelper.CreateGetCategoriesByLevelV1(migrationBuilder);
+            ProceduresMigrationHelper.CreateGetMaterialWithCategoriesV1(migrationBuilder);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            ProceduresMigrationHelper.DropGetCategoriesByLevelV1(migrationBuilder);
+            ProceduresMigrationHelper.DropGetMaterialWithCategoriesV1(migrationBuilder);
         }
     }
 }

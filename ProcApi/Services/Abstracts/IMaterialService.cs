@@ -10,4 +10,5 @@ public interface IMaterialService
     Task<TreeMaterialResponseDto> GetAsync(int id);
     Task<MaterialResponseDto> CreateMaterial(CreateMaterialRequestDto dto);
     Task<MaterialResponseDto> EditMaterial(int id, EditMaterialRequestDto dto);
+    Task DeleteMaterial(int id);
 }

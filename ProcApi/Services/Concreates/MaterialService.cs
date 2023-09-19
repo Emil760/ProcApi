@@ -46,7 +46,7 @@ public class MaterialService : IMaterialService
 
     public async Task<TreeMaterialResponseDto> GetAsync(int id)
     {
-        var materialResultSets = await _materialRepository.GetWithCategories(id);
+        var materialResultSets = (await _materialRepository.GetWithCategories(id)).ToList();
 
         if (!materialResultSets.Any())
             throw new NotFoundException(_localizer["MaterialNotFound"]);
@@ -105,6 +105,16 @@ public class MaterialService : IMaterialService
         await _materialRepository.InsertAsync(material);
 
         return _mapper.Map<MaterialResponseDto>(material);
+    }
+
+    public async Task DeleteMaterial(int id)
+    {
+        var material = await _materialRepository.GetByIdAsync(id);
+
+        if (material is null)
+            throw new NotFoundException(_localizer["MaterialNotFound"]);
+
+        await _materialRepository.DeleteByIdAsync(material);
     }
 
     private async Task<Category> ValidateCategory(int categoryId)

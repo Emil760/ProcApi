@@ -43,6 +43,7 @@ public class MaterialController : BaseController
     [HttpDelete]
     public async Task<IActionResult> DeleteAsync([FromQuery] int id)
     {
+        await _materialService.DeleteMaterial(id);
         return Ok();
     }
 }

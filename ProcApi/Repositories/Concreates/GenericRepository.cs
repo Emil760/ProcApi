@@ -56,5 +56,16 @@ namespace ProcApi.Repositories.Concreates
             foreach (var entity in entities)
                 _context.Add(entity);
         }
+
+        public void DeleteById(T entity)
+        {
+            _context.Entry(entity).State = EntityState.Deleted;
+        }
+
+        public async Task DeleteByIdAsync(T entity)
+        {
+            _context.Entry(entity).State = EntityState.Deleted;
+            await _context.SaveChangesAsync();
+        }
     }
 }

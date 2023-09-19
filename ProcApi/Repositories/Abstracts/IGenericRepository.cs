@@ -11,5 +11,7 @@ namespace ProcApi.Repositories.Abstracts
         Task InsertAsync(IEnumerable<T> entities);
         void Insert(T entity);
         void Insert(IEnumerable<T> entities);
+        void DeleteById(T entity);
+        Task DeleteByIdAsync(T entity);
     }
 }

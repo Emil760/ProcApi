@@ -9,5 +9,6 @@ public enum Roles
     Coordinator,
     Finance,
     HeadDepartment,
-    ProcurementDirector
+    ProcurementDirector,
+    Buyer
 }

@@ -1,6 +1,5 @@
 ﻿using ProcApi.Caches.Abstracts;
 using ProcApi.Caches.Concreates;
-using ProcApi.Data.ProcDatabase.Configurations;
 using ProcApi.Handlers.Exception;
 using ProcApi.Handlers.PurchaseRequestDocument;
 using ProcApi.Repositories.UnitOfWork;
@@ -35,6 +34,7 @@ namespace ProcApi.Configurations
             services.AddScoped<PurchaseRequestApproveHandler>();
             services.AddScoped<PurchaseRequestRejectHandler>();
             services.AddScoped<PurchaseRequestReturnHandler>();
+            services.AddScoped<PurchaseRequestSubmitHandler>();
 
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IMaterialService, MaterialService>();

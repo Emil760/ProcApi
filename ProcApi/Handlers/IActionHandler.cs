@@ -4,5 +4,5 @@ namespace ProcApi.Handlers;
 
 public interface IActionHandler
 {
-    Task PerformAction(ActionPerformRequestDto dto);
+    Task PerformAction(ActionPerformRequestDto dto, int userId);
 }

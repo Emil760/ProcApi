@@ -2,7 +2,7 @@
 
 namespace ProcApi.Handlers.PurchaseRequestDocument;
 
-public class PurchaseRequestReturnHandler : IActionHandler
+public class PurchaseRequestSubmitHandler : IActionHandler
 {
     public Task PerformAction(ActionPerformRequestDto dto, int userId)
     {

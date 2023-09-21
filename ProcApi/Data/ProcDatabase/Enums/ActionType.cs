@@ -2,7 +2,7 @@
 
 public enum ActionType
 {
-    SaveAsDraft,
+    SaveAsDraft = 1,
     Submit,
     Approve,
     Return,

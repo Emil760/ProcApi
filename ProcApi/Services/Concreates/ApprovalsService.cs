@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Localization;
 using ProcApi.Data.ProcDatabase.Enums;
 using ProcApi.Data.ProcDatabase.Models;
+using ProcApi.DTOs.Documents.Requests;
 using ProcApi.Exceptions;
 using ProcApi.Repositories.Abstracts;
 using ProcApi.Resources;
@@ -12,14 +13,20 @@ namespace ProcApi.Services.Concreates
     {
         private readonly IApprovalFlowTemplateRepository _flowTemplateRepository;
         private readonly IUserRepository _userRepository;
+        private readonly IDocumentRepository _documentRepository;
+        private readonly IReleaseStrategyRepository _releaseStrategyRepository;
         private readonly IStringLocalizer<SharedResource> _localizer;
 
         public ApprovalsService(IApprovalFlowTemplateRepository flowTemplateRepository,
             IUserRepository userRepository,
+            IDocumentRepository documentRepository,
+            IReleaseStrategyRepository releaseStrategyRepository,
             IStringLocalizer<SharedResource> localizer)
         {
             _flowTemplateRepository = flowTemplateRepository;
             _userRepository = userRepository;
+            _documentRepository = documentRepository;
+            _releaseStrategyRepository = releaseStrategyRepository;
             _localizer = localizer;
         }
 
@@ -80,6 +87,27 @@ namespace ProcApi.Services.Concreates
                 IsPerformed = false,
                 ActionPerformed = null,
             };
+        }
+
+        public async Task CanPerformAction(ActionPerformRequestDto dto, int userId)
+        {
+            var document = await _documentRepository.GetWithActions(dto.DocId);
+
+            if (document is null)
+                throw new NotFoundException(_localizer["DocumentNotFound"]);
+
+            var user = await _userRepository.GetWithRoles(userId);
+
+            if (user is null)
+                throw new NotFoundException(_localizer["UserNotFound"]);
+
+            var releaseStrategy =
+                await _releaseStrategyRepository.GetWithFlowTemplate(document.DocumentStatusId, dto.ActionType);
+
+            var roleIds = user.Roles.Select(r => r.Id);
+
+            if (!roleIds.Contains(releaseStrategy.ApprovalFlowTemplate.RoleId))
+                throw new ValidationException(_localizer["UserCantPerformAction"]);
         }
     }
 }

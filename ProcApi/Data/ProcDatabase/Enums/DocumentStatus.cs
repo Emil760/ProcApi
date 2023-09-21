@@ -4,18 +4,20 @@ public enum DocumentStatus
 {
     #region Requests
     PurchaseRequestDraft = 100,
-    PurchaseRequestWaitingFinance = 101,
-    PurchaseRequestApproved = 102,
-    PurchaseRequestCanceled = 103,
-    PurchaseRequestRejected = 104,
-    PurchaseRequestWaitingForHeadOfProcurement = 105,
+    PurchaseRequestWaitingForBuyer = 101,
+    PurchaseRequestWaitingFinance = 102,
+    PurchaseRequestWaitingForHeadOfProcurement = 103,
+    PurchaseRequestApproved = 104,
+    PurchaseRequestCanceled = 105,
+    PurchaseRequestRejected = 106,
 
     ServiceRequestDraft = 200,
-    ServiceRequestWaitingFinance = 201,
-    ServiceRequestApproved = 202,
-    ServiceRequestCanceled = 203,
-    ServiceRequestRejected = 204,
-    ServiceRequestWaitingForHeadOfProcurement = 205,
+    ServiceRequestWaitingForBuyer = 201,
+    ServiceRequestWaitingFinance = 202,
+    ServiceRequestWaitingForHeadOfProcurement = 203,
+    ServiceRequestApproved = 204,
+    ServiceRequestCanceled = 205,
+    ServiceRequestRejected = 206,
     #endregion
 
     #region Invoices

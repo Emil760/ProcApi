@@ -50,7 +50,7 @@ namespace ProcApi.Controllers
         [HttpPost("perform-action")]
         public async Task<IActionResult> PerformAction([FromBody] ActionPerformRequestDto requestDto)
         {
-            await _purchaseRequestDocumentApprovalService.PerformAction(requestDto);
+            await _purchaseRequestDocumentApprovalService.PerformAction(requestDto, UserInfo);
             return Ok();
         }
 

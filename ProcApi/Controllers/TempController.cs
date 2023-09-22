@@ -20,19 +20,7 @@ namespace ProcApi.Controllers
         [HttpGet("Test")]
         public async Task<IActionResult> GetTemp()
         {
-            var tasks = new List<Task>();
-            var task1 = Te1();
-            var task2 = Te2();
-            
-            tasks.Add(task1);
-            tasks.Add(task2);
-
-            await Task.WhenAll(tasks);
-
-            var a = task1.Result;
-            var b = task2.Result;
-
-            return Ok(a + "\t" + b);
+            return Ok();
         }
 
         [HttpGet("Test2")]
@@ -54,11 +42,18 @@ namespace ProcApi.Controllers
             await Task.Delay(100);
             return 100;
         }
-        
+
         private async Task<string> Te2()
         {
             await Task.Delay(200);
             return "hello";
         }
     }
+}
+
+public class Product
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public string Description { get; set; }
 }

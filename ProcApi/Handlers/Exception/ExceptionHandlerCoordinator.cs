@@ -6,12 +6,15 @@ namespace ProcApi.Handlers.Exception;
 public class ExceptionHandlerCoordinator
 {
     private readonly Dictionary<Type, IExceptionHandler> _handlers = new();
+    private readonly GeneralExceptionHandler _generalExceptionHandler;
 
     public ExceptionHandlerCoordinator(GeneralExceptionHandler generalExceptionHandler,
         NotFoundExceptionHandler notFoundExceptionHandler,
         ValidationExceptionHandler validationExceptionHandler,
         UnauthorizedExceptionHandler unauthorizedExceptionHandler)
     {
+        _generalExceptionHandler = generalExceptionHandler;
+        
         _handlers[typeof(System.Exception)] = generalExceptionHandler;
         _handlers[typeof(NotFoundException)] = notFoundExceptionHandler;
         _handlers[typeof(ValidationException)] = validationExceptionHandler;
@@ -20,6 +23,8 @@ public class ExceptionHandlerCoordinator
 
     public ExceptionResultDto Handle(System.Exception exception)
     {
-        return _handlers[exception.GetType()].Handle(exception);
+        if (_handlers.TryGetValue(exception.GetType(), out var handler))
+            return _handlers[exception.GetType()].Handle(exception);
+        return _generalExceptionHandler.Handle(exception);
     }
 }

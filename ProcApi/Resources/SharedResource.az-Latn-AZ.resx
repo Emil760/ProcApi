@@ -159,4 +159,13 @@
   <data name="UserNotFound" xml:space="preserve">
     <value>İstifadəçi tapılmadı</value>
   </data>
+  <data name="ActionAlreadyPerformed" xml:space="preserve">
+    <value>Əməliyyat artıq istifadəçi tərəfindən həyata keçirilir</value>
+  </data>
+  <data name="DocumentNotFound" xml:space="preserve">
+    <value>Sənəd tapılmadı</value>
+  </data>
+  <data name="UserCantPerformAction" xml:space="preserve">
+    <value>İstifadəçi əməliyyat edə bilməz</value>
+  </data>
 </root>

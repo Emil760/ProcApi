@@ -1,19 +1,19 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.Localization;
 using ProcApi.DTOs.PurchaseRequestDocument.Requests;
+using ProcApi.Enums;
 using ProcApi.Resources;
 
 namespace ProcApi.Validators.PurchaseRequestDocument;
 
-public class CreatePurchaseRequestDocumentValidator : SavePurchaseRequestDocumentValidator<CreatePRRequestDto>
+public class UpdatePurchaseRequestDocumentValidator : SavePurchaseRequestDocumentValidator<UpdatePRRequestDto>
 {
-    public CreatePurchaseRequestDocumentValidator(IStringLocalizer<SharedResource> localizer) : base(localizer)
+    public UpdatePurchaseRequestDocumentValidator(IStringLocalizer<SharedResource> localizer) : base(localizer)
     {
         RuleFor(x => x.Items)
             .Cascade(CascadeMode.Stop)
-            .NotNull()
-            .WithMessage(localizer["ShouldHaveItem"])
-            .Must(i => i.Any())
+            .Must(x => !(x.Count() == x.Count(i => i.State == ActionState.Deleted)
+                        && !x.Any(i => i.State == ActionState.Added)))
             .WithMessage(localizer["ShouldHaveItem"]);
 
         RuleForEach(x => x.Items)

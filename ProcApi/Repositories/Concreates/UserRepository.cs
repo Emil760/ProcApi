@@ -54,6 +54,14 @@ namespace ProcApi.Repositories.Concreates
                 .ToListAsync();
         }
 
+        public async Task<IEnumerable<int>> GetRoles(int id)
+        {
+            return await _context.Users
+                .Where(u => u.Id == id)
+                .SelectMany(u => u.Roles.Select(r => r.Id))
+                .ToListAsync();
+        }
+
         public async Task<User?> GetWithRoles(int id)
         {
             return await _context.Users

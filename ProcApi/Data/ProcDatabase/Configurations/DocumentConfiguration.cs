@@ -10,11 +10,11 @@ public class DocumentConfiguration : IEntityTypeConfiguration<Document>
     {
         builder.HasKey(d => d.Id);
 
-        builder.Property(d => d.DocumentNumber)
+        builder.Property(d => d.Number)
             .HasColumnType("varchar")
             .HasMaxLength(30);
 
-        builder.HasMany(d => d.DocumentActions)
+        builder.HasMany(d => d.Actions)
             .WithOne(da => da.Document)
             .HasForeignKey(da => da.DocumentId)
             .OnDelete(DeleteBehavior.Cascade);

@@ -3,7 +3,8 @@ using ProcApi.Enums;
 
 namespace ProcApi.DTOs.PurchaseRequestDocument.Requests;
 
-public class CreatePurchaseRequestDocumentItemRequestDto : PurchaseRequestDocumentItemDto
+public class CreatePRItemRequestDto : PRItemDto
 {
+    public int Id { get; set; }
     public ActionState State { get; set; }
 }

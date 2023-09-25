@@ -1,4 +1,5 @@
-﻿using ProcApi.Data.ProcDatabase;
+﻿using Microsoft.EntityFrameworkCore;
+using ProcApi.Data.ProcDatabase;
 using ProcApi.Data.ProcDatabase.Models;
 using ProcApi.Repositories.Abstracts;
 
@@ -8,5 +9,10 @@ public class DocumentActionRepository : GenericRepository<DocumentAction>, IDocu
 {
     public DocumentActionRepository(ProcDbContext context) : base(context)
     {
+    }
+
+    public async Task<IEnumerable<DocumentAction>> GetByDocId(int docId)
+    {
+        return await _context.DocumentActions.Where(da => da.DocumentId == docId).ToListAsync();
     }
 }

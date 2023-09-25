@@ -1,4 +1,5 @@
-﻿using ProcApi.Data.ProcDatabase.Models;
+﻿using ProcApi.Data.ProcDatabase.Enums;
+using ProcApi.Data.ProcDatabase.Models;
 using ProcApi.DTOs.Base;
 using ProcApi.Utility;
 
@@ -11,6 +12,7 @@ namespace ProcApi.Repositories.Abstracts
         Task<string?> ExistsByLogin(string login);
         Task<User?> FindWithPasswordHashByLogin(string login);
         Task<IEnumerable<string>> GetPermissions(int id);
+        Task<IEnumerable<int>> GetRoles(int id);
         Task<User?> GetWithRoles(int id);
         Task<IEnumerable<User>> GetAllAsync(IEnumerable<int> userIds);
         Task<Paginator<User>> GetAllPaginated(PaginationRequestDto dto);

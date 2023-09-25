@@ -159,4 +159,13 @@
   <data name="UserHasNoRoleForOperation" xml:space="preserve">
     <value>User has no role for this operation</value>
   </data>
+  <data name="DocumentNotFound" xml:space="preserve">
+    <value>Document not found</value>
+  </data>
+  <data name="UserCantPerformAction" xml:space="preserve">
+    <value>User cannot perform action</value>
+  </data>
+  <data name="ActionAlreadyPerformed" xml:space="preserve">
+    <value>Action already performed by user</value>
+  </data>
 </root>

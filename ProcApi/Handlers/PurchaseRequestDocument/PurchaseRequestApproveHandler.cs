@@ -14,6 +14,6 @@ public class PurchaseRequestApproveHandler : IActionHandler
 
     public async Task PerformAction(ActionPerformRequestDto dto, int userId)
     {
-        await _approvalsService.CanPerformAction(dto, userId);
+        await _approvalsService.CanPerformActionAndApprove(dto, userId);
     }
 }

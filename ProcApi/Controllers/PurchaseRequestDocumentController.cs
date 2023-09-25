@@ -31,8 +31,6 @@ namespace ProcApi.Controllers
             return Ok(await _purchaseRequestDocumentService.GetDocument(docId));
         }
 
-        //TODO
-        //[HasPermission(Permissions.CanCreatePurchaseRequestDocument)]
         [HttpPost("create-document")]
         public async Task<IActionResult> CreateDocument()
         {
@@ -41,10 +39,16 @@ namespace ProcApi.Controllers
                 DocumentStatus.PurchaseRequestDraft));
         }
 
-        [HttpPost("save")]
-        public async Task<IActionResult> Save([FromBody] CreatePurchaseRequestDocumentRequestDto dto)
+        [HttpPost("create")]
+        public async Task<IActionResult> SaveAsync([FromBody] CreatePRRequestDto dto)
         {
-            return Ok();
+            return Ok(await _purchaseRequestDocumentService.CreateDocument(dto));
+        }
+
+        [HttpPost("update")]
+        public async Task<IActionResult> UpdateAsync([FromBody] UpdatePRRequestDto dto)
+        {
+            return Ok(await _purchaseRequestDocumentService.UpdateDocument(dto));
         }
 
         [HttpPost("perform-action")]

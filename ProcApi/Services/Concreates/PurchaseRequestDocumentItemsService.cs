@@ -18,10 +18,10 @@ public class PurchaseRequestDocumentItemsService : IPurchaseRequestDocumentItems
         _mapper = mapper;
     }
 
-    public async Task<IEnumerable<PurchaseRequestDocumentItemResponseDto>> GetAllItemsAsync(int docId)
+    public async Task<IEnumerable<PRItemResponseDto>> GetAllItemsAsync(int docId)
     {
         var items = await _purchaseRequestDocumentItemsRepository.GetAllByDocIdAsync(docId);
 
-        return _mapper.Map<IEnumerable<PurchaseRequestDocumentItemResponseDto>>(items);
+        return _mapper.Map<IEnumerable<PRItemResponseDto>>(items);
     }
 }

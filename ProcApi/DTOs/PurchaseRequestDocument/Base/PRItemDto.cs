@@ -1,8 +1,7 @@
 ﻿namespace ProcApi.DTOs.PurchaseRequestDocument.Base;
 
-public class PurchaseRequestDocumentItemDto
+public class PRItemDto
 {
-    public int Id { get; set; }
     public string Name { get; set; }
     public double Quantity { get; set; }
     public double Price { get; set; }

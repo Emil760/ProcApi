@@ -1,6 +1,6 @@
 ﻿namespace ProcApi.DTOs.PurchaseRequestDocument.Response;
 
-public class PurchaseRequestDocumentItemResponseDto
+public class PRItemResponseDto
 {
     public int Id { get; set; }
     public string Name { get; set; }

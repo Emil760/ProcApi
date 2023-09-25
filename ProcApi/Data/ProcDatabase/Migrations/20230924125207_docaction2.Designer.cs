@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ProcApi.Data.ProcDatabase;
@@ -13,9 +14,11 @@ using ProcApi.Data.ProcDatabase.Models;
 namespace ProcApi.Data.ProcDatabase.Migrations
 {
     [DbContext(typeof(ProcDbContext))]
-    partial class ProcDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230924125207_docaction2")]
+    partial class docaction2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -273,14 +276,14 @@ namespace ProcApi.Data.ProcDatabase.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<string>("Number")
+                    b.Property<string>("DocumentNumber")
                         .HasMaxLength(30)
                         .HasColumnType("varchar");
 
-                    b.Property<int>("StatusId")
+                    b.Property<int>("DocumentStatusId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("TypeId")
+                    b.Property<int>("DocumentTypeId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
@@ -998,7 +1001,7 @@ namespace ProcApi.Data.ProcDatabase.Migrations
             modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.DocumentAction", b =>
                 {
                     b.HasOne("ProcApi.Data.ProcDatabase.Models.Document", "Document")
-                        .WithMany("Actions")
+                        .WithMany("DocumentActions")
                         .HasForeignKey("DocumentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1223,7 +1226,7 @@ namespace ProcApi.Data.ProcDatabase.Migrations
 
             modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.Document", b =>
                 {
-                    b.Navigation("Actions");
+                    b.Navigation("DocumentActions");
                 });
 
             modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.Group", b =>

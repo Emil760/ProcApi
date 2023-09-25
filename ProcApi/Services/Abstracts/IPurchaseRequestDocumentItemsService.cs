@@ -4,5 +4,5 @@ namespace ProcApi.Services.Abstracts;
 
 public interface IPurchaseRequestDocumentItemsService
 {
-    Task<IEnumerable<PurchaseRequestDocumentItemResponseDto>> GetAllItemsAsync(int docId);
+    Task<IEnumerable<PRItemResponseDto>> GetAllItemsAsync(int docId);
 }

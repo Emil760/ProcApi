@@ -17,6 +17,7 @@ namespace ProcApi.Configurations
             services.AddScoped<IDocumentRepository, DocumentRepository>();
             services.AddScoped<IDocumentActionRepository, DocumentActionRepository>();
             services.AddScoped<IApprovalFlowTemplateRepository, ApprovalFlowTemplateRepository>();
+            services.AddScoped<IReleaseStrategyRepository, ReleaseStrategyRepository>();
 
             services.AddScoped<IPurchaseRequestDocumentRepository, PurchaseRequestDocumentRepository>();
             services.AddScoped<IPurchaseRequestDocumentItemsRepository, PurchaseRequestDocumentItemsRepository>();

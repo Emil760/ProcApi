@@ -18,4 +18,12 @@ public class ReleaseStrategyRepository : GenericRepository<ReleaseStrategy>, IRe
             .Include(rs => rs.ApprovalFlowTemplate)
             .SingleOrDefaultAsync(rs => rs.ActiveStatusId == status && rs.ActionTypeId == actionType);
     }
+
+    public async Task<int> GetRoleFromApprovalFlowTemplate(DocumentStatus status, ActionType actionType)
+    {
+        return await _context.ReleaseStrategies
+            .Where(rs => rs.ActiveStatusId == status && rs.ActionTypeId == actionType)
+            .Select(r => r.ApprovalFlowTemplate.RoleId)
+            .SingleOrDefaultAsync();
+    }
 }

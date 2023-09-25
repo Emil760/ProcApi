@@ -12,4 +12,6 @@ public class DocumentAction
     public int Order { get; set; }
     public DateTime? ActionPerformed { get; set; }
     public bool IsPerformed { get; set; }
+    public DateTime? ActionAssigned { get; set; }
+    public bool IsAssigned { get; set; }
 }

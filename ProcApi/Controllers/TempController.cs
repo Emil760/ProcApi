@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProcApi.Exceptions;
+using ProcApi.Repositories.Abstracts;
 using ValidationException = ProcApi.Exceptions.ValidationException;
 
 namespace ProcApi.Controllers
@@ -11,16 +12,18 @@ namespace ProcApi.Controllers
     public class TempController : BaseController
     {
         private readonly ILogger<TempController> _logger;
+        private readonly IDocumentRepository _documentRepository;
 
-        public TempController(ILogger<TempController> logger)
+        public TempController(ILogger<TempController> logger, IDocumentRepository documentRepository)
         {
             _logger = logger;
+            _documentRepository = documentRepository;
         }
 
         [HttpGet("Test")]
         public async Task<IActionResult> GetTemp()
         {
-            return Ok();
+            return Ok(await _documentRepository.GetStatus(4));
         }
 
         [HttpGet("Test2")]
@@ -49,11 +52,4 @@ namespace ProcApi.Controllers
             return "hello";
         }
     }
-}
-
-public class Product
-{
-    public int Id { get; set; }
-    public string Name { get; set; }
-    public string Description { get; set; }
 }

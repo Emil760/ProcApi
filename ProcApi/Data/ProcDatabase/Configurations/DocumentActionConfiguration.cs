@@ -12,9 +12,14 @@ namespace ProcApi.Data.ProcDatabase.Configurations
                 .HasColumnType("boolean")
                 .IsRequired()
                 .HasDefaultValue(false);
-            
+
+            builder.Property(da => da.IsAssigned)
+                .HasColumnType("boolean")
+                .IsRequired()
+                .HasDefaultValue(true);
+
             builder.HasOne(da => da.Document)
-                .WithMany(d => d.DocumentActions)
+                .WithMany(d => d.Actions)
                 .HasForeignKey(da => da.DocumentId)
                 .OnDelete(DeleteBehavior.Cascade);
         }

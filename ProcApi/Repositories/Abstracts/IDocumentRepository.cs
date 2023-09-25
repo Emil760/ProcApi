@@ -5,6 +5,6 @@ namespace ProcApi.Repositories.Abstracts;
 
 public interface IDocumentRepository : IGenericRepository<Document>
 {
-    Task<Document?> GetWithActions(int docId);
+    Task<Document?> GetWithActionsAsync(int docId);
     Task<DocumentStatus> GetStatus(int docId);
 }

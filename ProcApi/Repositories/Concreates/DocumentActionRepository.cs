@@ -11,7 +11,7 @@ public class DocumentActionRepository : GenericRepository<DocumentAction>, IDocu
     {
     }
 
-    public async Task<IEnumerable<DocumentAction>> GetByDocId(int docId)
+    public async Task<IEnumerable<DocumentAction>> GetByDocIdAsync(int docId)
     {
         return await _context.DocumentActions.Where(da => da.DocumentId == docId).ToListAsync();
     }

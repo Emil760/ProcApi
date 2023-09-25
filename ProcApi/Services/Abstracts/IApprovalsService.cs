@@ -8,6 +8,7 @@ namespace ProcApi.Services.Abstracts
     {
         Task<IEnumerable<DocumentAction>> InitApprovals(int userId, DocumentType documentType);
         Task CanPerformAction(ActionPerformRequestDto dto, int userId);
-        Task CanPerformActionAndApprove(ActionPerformRequestDto dto, int userId);
+        Task ApproveDocumentAsync(ActionPerformRequestDto dto, int userId);
+        Task ReturnDocumentAsync(ActionPerformRequestDto dto);
     }
 }

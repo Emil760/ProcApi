@@ -5,6 +5,7 @@ namespace ProcApi.Repositories.Abstracts;
 
 public interface IReleaseStrategyRepository : IGenericRepository<ReleaseStrategy>
 {
-    Task<ReleaseStrategy?> GetWithFlowTemplate(DocumentStatus status, ActionType actionType);
-    Task<int> GetRoleFromApprovalFlowTemplate(DocumentStatus status, ActionType actionType);
+    Task<ReleaseStrategy?> GetWithFlowTemplateAsync(DocumentStatus status, ActionType actionType);
+    Task<int> GetCurrentRoleForApproveAsync(DocumentStatus status, ActionType actionType);
+    Task<int> GetCurrentRoleForApproveAsync(int docId, ActionType actionType);
 }

@@ -4,6 +4,7 @@ using ProcApi.Data.ProcDatabase.Models;
 using ProcApi.DTOs.Documents.Requests;
 using ProcApi.Exceptions;
 using ProcApi.Repositories.Abstracts;
+using ProcApi.Repositories.UnitOfWork;
 using ProcApi.Resources;
 using ProcApi.Services.Abstracts;
 
@@ -16,18 +17,21 @@ namespace ProcApi.Services.Concreates
         private readonly IDocumentRepository _documentRepository;
         private readonly IReleaseStrategyRepository _releaseStrategyRepository;
         private readonly IStringLocalizer<SharedResource> _localizer;
+        private readonly IUnitOfWork _unitOfWork;
 
         public ApprovalsService(IApprovalFlowTemplateRepository flowTemplateRepository,
             IUserRepository userRepository,
             IDocumentRepository documentRepository,
             IReleaseStrategyRepository releaseStrategyRepository,
-            IStringLocalizer<SharedResource> localizer)
+            IStringLocalizer<SharedResource> localizer,
+            IUnitOfWork unitOfWork)
         {
             _flowTemplateRepository = flowTemplateRepository;
             _userRepository = userRepository;
             _documentRepository = documentRepository;
             _releaseStrategyRepository = releaseStrategyRepository;
             _localizer = localizer;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<IEnumerable<DocumentAction>> InitApprovals(int userId, DocumentType type)
@@ -95,61 +99,80 @@ namespace ProcApi.Services.Concreates
 
         public async Task CanPerformAction(ActionPerformRequestDto dto, int userId)
         {
-            var documentStatus = await _documentRepository.GetStatus(dto.DocId);
-            if (documentStatus == 0)
-                throw new NotFoundException(_localizer["DocumentNotFound"]);
+            var document = await _documentRepository.GetWithActionsAsync(dto.DocId);
 
-            var userRoles = await _userRepository.GetRoles(userId);
-            if (!userRoles.Any())
-                throw new NotFoundException(_localizer["UserNotFound"]);
-
-            var releaseStrategy =
-                await _releaseStrategyRepository.GetWithFlowTemplate(documentStatus, dto.ActionType);
-            if (releaseStrategy is null)
-                throw new Exception(
-                    $"Release strategy not found for Status:{documentStatus} ActionType:{dto.ActionType}");
-
-            if (!userRoles.Contains(releaseStrategy.ApprovalFlowTemplate.RoleId))
-                throw new ValidationException(_localizer["UserCantPerformAction"]);
-        }
-
-        public async Task CanPerformActionAndApprove(ActionPerformRequestDto dto, int userId)
-        {
-            var document = await _documentRepository.GetWithActions(dto.DocId);
             if (document is null)
                 throw new NotFoundException(_localizer["DocumentNotFound"]);
 
+            var releaseStrategy =
+                await _releaseStrategyRepository.GetWithFlowTemplateAsync(document.StatusId, dto.ActionType);
+
+            if (releaseStrategy is null)
+                throw new Exception(
+                    $"Release strategy not found for Status:{document.Id} ActionType:{dto.ActionType}");
+
             var userRoles = await _userRepository.GetRoles(userId);
+
             if (!userRoles.Any())
                 throw new NotFoundException(_localizer["UserNotFound"]);
 
-            var roleToApprove = await _releaseStrategyRepository.GetRoleFromApprovalFlowTemplate(
-                document.StatusId,
-                dto.ActionType);
-            if (roleToApprove == 0)
-                throw new Exception(
-                    $"Release strategy not found for Status:{document.StatusId} ActionType:{dto.ActionType}");
-
-            if (!userRoles.Contains(roleToApprove))
+            if (!userRoles.Contains(releaseStrategy.ApprovalFlowTemplate.RoleId))
                 throw new ValidationException(_localizer["UserCantPerformAction"]);
 
-            CanApproveDocument(document.Actions, userId, roleToApprove);
-        }
+            var currentAssignedUser = document.Actions
+                .SingleOrDefault(da => da.UserId == userId
+                                       && da.RoleId == releaseStrategy.ApprovalFlowTemplate.RoleId
+                                       && da.IsAssigned
+                                       && !da.IsPerformed);
 
-        private void CanApproveDocument(IEnumerable<DocumentAction> documentActions, int userId, int roleId)
-        {
-            if (documentActions.Any(da => da.UserId == userId && da.RoleId == roleId && da.IsPerformed))
+            if (currentAssignedUser is null)
                 throw new ValidationException(_localizer["ActionAlreadyPerformed"]);
 
-            var alreadyPerformedCount = documentActions.Count(da => da.IsPerformed);
+            var alreadyPerformedCount = document.Actions.Count(da => da.IsPerformed);
 
-            var currentAssignedUser =
-                documentActions.Single(da => da.UserId == userId && da.RoleId == roleId && da.IsAssigned);
-
-            var performedCount = documentActions.Count(da => da.Order < currentAssignedUser.Order);
+            var performedCount = document.Actions.Count(da => da.Order < currentAssignedUser.Order);
 
             if (alreadyPerformedCount != performedCount)
                 throw new ValidationException(_localizer["ActionAlreadyPerformed"]);
+        }
+
+        public async Task ApproveDocumentAsync(ActionPerformRequestDto dto, int userId)
+        {
+            var document = await _documentRepository.GetWithActionsAsync(dto.DocId);
+
+            var releaseStrategy =
+                await _releaseStrategyRepository.GetWithFlowTemplateAsync(document.StatusId, dto.ActionType);
+
+            var currentDocAction = document.Actions
+                .Single(da => da.UserId == userId
+                              && da.RoleId == releaseStrategy.ApprovalFlowTemplate.RoleId
+                              && da.IsAssigned
+                              && !da.IsPerformed);
+
+            currentDocAction.ActionPerformed = DateTime.Now;
+            currentDocAction.IsPerformed = true;
+
+            document.StatusId = releaseStrategy.AssignStatusId;
+
+            await _unitOfWork.SaveChangesAsync();
+        }
+
+        public async Task ReturnDocumentAsync(ActionPerformRequestDto dto)
+        {
+            var document = await _documentRepository.GetWithActionsAsync(dto.DocId);
+
+            var releaseStrategy =
+                await _releaseStrategyRepository.GetWithFlowTemplateAsync(document.StatusId, dto.ActionType);
+
+            foreach (var docAction in document.Actions)
+            {
+                docAction.IsPerformed = false;
+                docAction.ActionPerformed = null;
+            }
+
+            document.StatusId = releaseStrategy.AssignStatusId;
+
+            await _unitOfWork.SaveChangesAsync();
         }
     }
 }

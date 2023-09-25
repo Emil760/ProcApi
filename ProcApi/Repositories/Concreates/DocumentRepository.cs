@@ -12,7 +12,7 @@ public class DocumentRepository : GenericRepository<Document>, IDocumentReposito
     {
     }
 
-    public async Task<Document?> GetWithActions(int docId)
+    public async Task<Document?> GetWithActionsAsync(int docId)
     {
         return await _context.Documents
             .Include(d => d.Actions)

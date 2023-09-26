@@ -31,7 +31,7 @@ namespace ProcApi.Handlers.Exception
 
                 return new ExceptionResultDto()
                 {
-                    ContentType = MediaTypeNames.Application.Json,
+                    ContentType = MediaTypeNames.Text.Plain,
                     StatusCode = 500,
                     Message = _localizer["InternalServerError"]
                 };
@@ -43,7 +43,7 @@ namespace ProcApi.Handlers.Exception
 
                 return new ExceptionResultDto()
                 {
-                    ContentType = MediaTypeNames.Application.Json,
+                    ContentType = MediaTypeNames.Text.Plain,
                     StatusCode = 500,
                     Message = exception.Message + "." + exception.InnerException?.Message
                 };

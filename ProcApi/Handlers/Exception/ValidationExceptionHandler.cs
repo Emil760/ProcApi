@@ -9,7 +9,7 @@ namespace ProcApi.Handlers.Exception
         {
             return new ExceptionResultDto()
             {
-                ContentType = MediaTypeNames.Application.Json,
+                ContentType = MediaTypeNames.Text.Plain,
                 StatusCode = 400,
                 Message = exception.Message
             };

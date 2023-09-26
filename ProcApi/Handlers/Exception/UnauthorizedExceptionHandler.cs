@@ -9,7 +9,7 @@ public class UnauthorizedExceptionHandler : IExceptionHandler
     {
         return new ExceptionResultDto()
         {
-            ContentType = MediaTypeNames.Application.Json,
+            ContentType = MediaTypeNames.Text.Plain,
             StatusCode = 401,
             Message = exception.Message
         };

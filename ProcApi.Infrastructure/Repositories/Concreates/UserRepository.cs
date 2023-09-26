@@ -1,0 +1,89 @@
+﻿using Microsoft.EntityFrameworkCore;
+using ProcApi.Domain.Entities;
+using ProcApi.Domain.Models;
+using ProcApi.Infrastructure.Data;
+using ProcApi.Infrastructure.Repositories.Abstracts;
+using ProcApi.Infrastructure.Utility;
+
+namespace ProcApi.Infrastructure.Repositories.Concreates
+{
+    public class UserRepository : GenericRepository<User>, IUserRepository
+    {
+        private static readonly Func<ProcDbContext, int, Task<User>> GetById =
+            EF.CompileAsyncQuery((ProcDbContext context, int id) =>
+                context.Set<User>().FirstOrDefault(u => u.Id == id));
+
+        public UserRepository(ProcDbContext context) : base(context)
+        {
+        }
+
+        public async Task<User> GetByIdCompiled(int id)
+        {
+            return await GetById(_context, id);
+        }
+
+        public async Task<User?> FindWithRolesById(int id)
+        {
+            return await _context.Users
+                .Include(u => u.Roles)
+                .SingleOrDefaultAsync(u => u.Id == id);
+        }
+
+        public async Task<string?> ExistsByLogin(string login)
+        {
+            return await _context.Users.Where(u => u.Login == login)
+                .Select(u => u.Login)
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task<User?> FindWithPasswordHashByLogin(string login)
+        {
+            return await _context.Users
+                .Include(u => u.UserPassword)
+                .FirstOrDefaultAsync(u => u.Login == login);
+        }
+
+        public async Task<IEnumerable<string>> GetPermissions(int id)
+        {
+            return await _context.Users
+                .Where(u => u.Id == id)
+                .SelectMany(u => u.Roles)
+                .SelectMany(r => r.Permissions)
+                .Select(p => p.Name)
+                .Distinct()
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<int>> GetRoles(int id)
+        {
+            return await _context.Users
+                .Where(u => u.Id == id)
+                .SelectMany(u => u.Roles.Select(r => r.Id))
+                .ToListAsync();
+        }
+
+        public async Task<User?> GetWithRoles(int id)
+        {
+            return await _context.Users
+                .Include(u => u.Roles)
+                .Where(u => u.Id == id)
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task<Paginator<User>> GetAllPaginated(PaginationModel pagination)
+        {
+            var query = _context.Users
+                .Where(u => u.FirstName.Contains(pagination.Search))
+                .AsQueryable();
+
+            return await Paginator<User>.FromQuery(query, pagination.PageNumber, pagination.PageSize);
+        }
+
+        public async Task<IEnumerable<User>> GetAllAsync(IEnumerable<int> userIds)
+        {
+            return await _context.Users
+                .Where(u => userIds.Contains(u.Id))
+                .ToListAsync();
+        }
+    }
+}

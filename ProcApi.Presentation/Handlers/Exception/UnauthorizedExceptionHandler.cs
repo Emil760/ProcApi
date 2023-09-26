@@ -7,7 +7,7 @@ public class UnauthorizedExceptionHandler : IExceptionHandler
 {
     public ExceptionModel Handle(System.Exception exception)
     {
-        return new ExceptionModel()
+        return new ExceptionModel
         {
             ContentType = MediaTypeNames.Text.Plain,
             StatusCode = 401,

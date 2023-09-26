@@ -49,5 +49,5 @@ namespace ProcApi.Infrastructure.Extensions
         {
             SlidingExpiration = TimeSpan.FromHours(1)
         };
-    };
+    }
 }

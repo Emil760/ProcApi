@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace ProcApi.Data.ProcDatabase.Procedures;
+namespace ProcApi.Infrastructure.Procedures;
 
 public static class ProceduresMigrationHelper
 {

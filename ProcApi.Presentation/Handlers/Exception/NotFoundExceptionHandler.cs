@@ -7,7 +7,7 @@ namespace ProcApi.Presentation.Handlers.Exception
     {
         public ExceptionModel Handle(System.Exception exception)
         {
-            return new ExceptionModel()
+            return new ExceptionModel
             {
                 ContentType = MediaTypeNames.Text.Plain,
                 StatusCode = 400,

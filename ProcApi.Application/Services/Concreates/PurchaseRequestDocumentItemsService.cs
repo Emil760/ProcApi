@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
+using ProcApi.Application.DTOs.PurchaseRequestDocument.Response;
 using ProcApi.Application.Services.Abstracts;
-using ProcApi.DTOs.PurchaseRequestDocument.Response;
 using ProcApi.Infrastructure.Repositories.Abstracts;
 
 namespace ProcApi.Application.Services.Concreates;

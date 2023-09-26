@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.Localization;
-using ProcApi.DTOs.Material.Base;
-using ProcApi.Resources;
+using ProcApi.Application.DTOs.Material.Base;
+using ProcApi.Infrastructure.Resources;
 
 namespace ProcApi.Application.Validators.Material;
 

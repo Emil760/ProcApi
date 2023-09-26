@@ -1,4 +1,4 @@
-﻿namespace ProcApi.DTOs.PurchaseRequestDocument.Base;
+﻿namespace ProcApi.Application.DTOs.PurchaseRequestDocument.Base;
 
 public class PRDto
 {

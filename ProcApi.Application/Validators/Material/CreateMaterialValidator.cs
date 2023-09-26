@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Localization;
-using ProcApi.DTOs.Material.Request;
-using ProcApi.Resources;
+using ProcApi.Application.DTOs.Material.Request;
+using ProcApi.Infrastructure.Resources;
 
 namespace ProcApi.Application.Validators.Material;
 

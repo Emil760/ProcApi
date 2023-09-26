@@ -1,6 +1,6 @@
-﻿using ProcApi.Domain.Models;
-using ProcApi.DTOs.Material.Request;
-using ProcApi.DTOs.Material.Responses;
+﻿using ProcApi.Application.DTOs.Material.Request;
+using ProcApi.Application.DTOs.Material.Responses;
+using ProcApi.Domain.Models;
 
 namespace ProcApi.Application.Services.Abstracts;
 

@@ -7,7 +7,7 @@ using ProcApi.Domain.Entities;
 using ProcApi.Domain.Exceptions;
 using ProcApi.Infrastructure.Repositories.Abstracts;
 using ProcApi.Infrastructure.Repositories.UnitOfWork;
-using ProcApi.Resources;
+using ProcApi.Infrastructure.Resources;
 
 namespace ProcApi.Application.Services.Concreates;
 
@@ -53,7 +53,7 @@ public class ChatMessageService : IChatMessageService
 
         await _unitOfWork.SaveChangesAsync();
 
-        _chatMessageSignalService.SendUserSignalMessageAsync(chatMessage, new List<int>() { dto.ReceiverUserId });
+        _chatMessageSignalService.SendUserSignalMessageAsync(chatMessage, new List<int> { dto.ReceiverUserId });
     }
 
     public async Task SendMessageToGroupAsync(int senderUserId, SendGroupMessageRequestDto dto)

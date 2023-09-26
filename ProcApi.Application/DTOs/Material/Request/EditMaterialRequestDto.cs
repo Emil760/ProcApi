@@ -1,6 +1,6 @@
-﻿using ProcApi.DTOs.Material.Base;
+﻿using ProcApi.Application.DTOs.Material.Base;
 
-namespace ProcApi.DTOs.Material.Request;
+namespace ProcApi.Application.DTOs.Material.Request;
 
 public class EditMaterialRequestDto : SaveMaterialDto
 {

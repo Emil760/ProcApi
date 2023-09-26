@@ -21,7 +21,7 @@ namespace ProcApi.Presentation.Configurations
                 });
 
                 options.EnableDetailedErrors(databaseOptions.EnableDetailedErrors);
-                options.EnableSensitiveDataLogging(databaseOptions.EnableSensetiveDataLogging);
+                options.EnableSensitiveDataLogging(databaseOptions.EnableSensitiveDataLogging);
             });
             
             //TODO

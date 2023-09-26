@@ -10,12 +10,10 @@ namespace ProcApi.Presentation.Controllers
     public class UserController : BaseController
     {
         private readonly IUserService _userService;
-        private readonly IFileService _fileService;
 
-        public UserController(IUserService userService, IFileService fileService)
+        public UserController(IUserService userService)
         {
             _userService = userService;
-            _fileService = fileService;
         }
 
         [HttpGet("GetAll")]

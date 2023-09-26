@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.Localization;
 using ProcApi.Application.DTOs.Chat.Request;
-using ProcApi.Resources;
+using ProcApi.Infrastructure.Resources;
 
 namespace ProcApi.Application.Validators.Chat;
 

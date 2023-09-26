@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ProcApi.Application.DTOs.Documents.Requests;
+using ProcApi.Application.DTOs.PurchaseRequestDocument.Requests;
 using ProcApi.Application.Services.Abstracts;
 using ProcApi.Domain.Enums;
-using ProcApi.DTOs.PurchaseRequestDocument.Requests;
 
 namespace ProcApi.Presentation.Controllers
 {

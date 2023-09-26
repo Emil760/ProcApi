@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ProcApi.Application.DTOs.Material.Request;
 using ProcApi.Application.Services.Abstracts;
 using ProcApi.Domain.Models;
-using ProcApi.DTOs.Material.Request;
 
 namespace ProcApi.Presentation.Controllers;
 

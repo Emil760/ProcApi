@@ -8,13 +8,12 @@ using ProcApi.Domain.Enums;
 using ProcApi.Domain.Exceptions;
 using ProcApi.Infrastructure.Repositories.Abstracts;
 using ProcApi.Infrastructure.Repositories.UnitOfWork;
-using ProcApi.Resources;
+using ProcApi.Infrastructure.Resources;
 
 namespace ProcApi.Application.Services.Concreates;
 
 public class ChatGroupService : IChatGroupService
 {
-    //TODO remove comments
     private readonly IGroupChatSignalService _groupChatSignalService;
     private readonly IGroupRepository _groupRepository;
     private readonly IUserRepository _userRepository;
@@ -42,20 +41,20 @@ public class ChatGroupService : IChatGroupService
 
     public async Task<CreatedGroupResponseDto> CreateGroupAsync(int creatorUserId, CreateGroupRequestDto dto)
     {
-        var chat = new Chat()
+        var chat = new Chat
         {
             ChatType = ChatType.Group
         };
 
-        var group = new Group()
+        var group = new Group
         {
             Name = dto.Name,
             Chat = chat,
         };
 
-        var creatorUser = new GroupUser()
+        var creatorUser = new GroupUser
         {
-            ChatUser = new ChatUser()
+            ChatUser = new ChatUser
             {
                 Chat = chat,
                 UserId = creatorUserId
@@ -71,7 +70,7 @@ public class ChatGroupService : IChatGroupService
 
         await _unitOfWork.SaveChangesAsync();
 
-        //_groupChatSignalService.SignalGroupCreatedAsync(creatorUserId, group);
+        _groupChatSignalService.SignalGroupCreatedAsync(creatorUserId, group);
 
         return _mapper.Map<CreatedGroupResponseDto>(group);
     }
@@ -92,7 +91,7 @@ public class ChatGroupService : IChatGroupService
 
         await _groupUserRepository.InsertAsync(user);
 
-        //_groupChatSignalService.SignalUserPromotedRoleAsync(currentUserId, userId, groupId, ChatRole.Admin);
+        _groupChatSignalService.SignalUserPromotedRoleAsync(currentUserId, userId, groupId, ChatRole.Admin);
     }
 
     public async Task RemoveAdminAsync(int currentUserId, int groupId, int userId)
@@ -111,7 +110,7 @@ public class ChatGroupService : IChatGroupService
 
         await _groupUserRepository.InsertAsync(user);
 
-        //_groupChatSignalService.SignalUserPromotedRoleAsync(currentUserId, userId, groupId, ChatRole.User);
+        _groupChatSignalService.SignalUserPromotedRoleAsync(currentUserId, userId, groupId, ChatRole.User);
     }
 
     public async Task LeaveGroup(int groupId, int userId)
@@ -125,7 +124,7 @@ public class ChatGroupService : IChatGroupService
 
         await _groupUserRepository.InsertAsync(user);
 
-        //_groupChatSignalService.SignalUserLeavedGroup(groupId, userId);
+        _groupChatSignalService.SignalUserLeavedGroup(groupId, userId);
     }
 
     private async Task<List<GroupUser>> AddGroupUsersAsync(int chatId, IEnumerable<int> userIds)
@@ -136,9 +135,9 @@ public class ChatGroupService : IChatGroupService
 
         foreach (var user in users)
         {
-            groupUsers.Add(new GroupUser()
+            groupUsers.Add(new GroupUser
             {
-                ChatUser = new ChatUser()
+                ChatUser = new ChatUser
                 {
                     ChatId = chatId,
                     User = user

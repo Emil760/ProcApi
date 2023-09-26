@@ -1,6 +1,6 @@
-﻿using ProcApi.Domain.Entities;
-using ProcApi.DTOs.PurchaseRequestDocument.Requests;
-using ProcApi.DTOs.PurchaseRequestDocument.Response;
+﻿using ProcApi.Application.DTOs.PurchaseRequestDocument.Requests;
+using ProcApi.Application.DTOs.PurchaseRequestDocument.Response;
+using ProcApi.Domain.Entities;
 
 namespace ProcApi.Application.Mappers
 {

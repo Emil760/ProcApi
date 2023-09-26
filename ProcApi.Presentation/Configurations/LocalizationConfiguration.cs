@@ -32,7 +32,7 @@ namespace ProcApi.Presentation.Configurations
         public static void UseCustomLocalization(this IApplicationBuilder app)
         {
             var locOptions = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
-            app.UseRequestLocalization(locOptions.Value);
+            app.UseRequestLocalization(locOptions!.Value);
         }
     }
 }

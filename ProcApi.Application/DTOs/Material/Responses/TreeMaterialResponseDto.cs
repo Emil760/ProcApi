@@ -1,7 +1,7 @@
 ﻿using ProcApi.Application.DTOs.Category.Responses;
-using ProcApi.DTOs.Material.Base;
+using ProcApi.Application.DTOs.Material.Base;
 
-namespace ProcApi.DTOs.Material.Responses;
+namespace ProcApi.Application.DTOs.Material.Responses;
 
 public class TreeMaterialResponseDto : MaterialDto
 {

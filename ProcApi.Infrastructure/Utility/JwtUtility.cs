@@ -2,8 +2,8 @@
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using System.Text;
-using ProcApi.Application.Constants;
 using ProcApi.Domain.Models;
+using ProcApi.Infrastructure.Constants;
 using ProcApi.Infrastructure.Options;
 
 namespace ProcApi.Infrastructure.Utility;

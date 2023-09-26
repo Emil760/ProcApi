@@ -6,5 +6,5 @@ public class ProcDatabaseOptions
     public int MaxRetryCount { get; set; }
     public int CommandTimeout { get; set; }
     public bool EnableDetailedErrors { get; set; }
-    public bool EnableSensetiveDataLogging { get; set; }
+    public bool EnableSensitiveDataLogging { get; set; }
 }

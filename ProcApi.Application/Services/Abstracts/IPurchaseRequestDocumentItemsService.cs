@@ -1,4 +1,4 @@
-﻿using ProcApi.DTOs.PurchaseRequestDocument.Response;
+﻿using ProcApi.Application.DTOs.PurchaseRequestDocument.Response;
 
 namespace ProcApi.Application.Services.Abstracts;
 

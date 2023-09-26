@@ -1,3 +1,0 @@
-﻿
-namespace ProcApi.DTOs.Exception;
-

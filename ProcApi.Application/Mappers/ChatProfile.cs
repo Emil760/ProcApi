@@ -10,15 +10,15 @@ public class ChatProfile : CommonProfile
     {
         CreateMap<User, ChatUserResponseDto>();
 
-        CreateMap<Domain.Entities.ChatMessage, SendMessageSignalDto>();
+        CreateMap<ChatMessage, SendMessageSignalDto>();
 
-        CreateMap<(Domain.Entities.ChatMessage ChatMessage, Domain.Entities.ReceivedInfo ReceivedInfo), MarkAdReadResponseDto>()
+        CreateMap<(ChatMessage ChatMessage, ReceivedInfo ReceivedInfo), MarkAdReadResponseDto>()
             .ForMember(dest => dest.MessageId, opt => opt.MapFrom(src => src.ChatMessage.Id))
             .ForMember(dest => dest.ReceiverId, opt => opt.MapFrom(src => src.ReceivedInfo.ReceiverId))
             .ForMember(dest => dest.ReadTime, opt => opt.MapFrom(src => src.ReceivedInfo.ReadTime))
             .ForMember(dest => dest.IsRead, opt => opt.MapFrom(src => src.ReceivedInfo.IsRead));
 
-        CreateMap<(Domain.Entities.ReceivedInfo ReceivedInfo, Domain.Entities.ChatMessage ChatMessage), MarkAsReadSignalDto>()
+        CreateMap<(ReceivedInfo ReceivedInfo, ChatMessage ChatMessage), MarkAsReadSignalDto>()
             .ForMember(dest => dest.ReceiverId, opt => opt.MapFrom(src => src.ReceivedInfo.ReceiverId))
             .ForMember(dest => dest.ChatId, opt => opt.MapFrom(src => src.ChatMessage.ChatId))
             .ForMember(dest => dest.MessageId, opt => opt.MapFrom(src => src.ChatMessage.Id))
@@ -57,6 +57,5 @@ public class ChatProfile : CommonProfile
                     ? null
                     : src.Chat.ChatMessages.FirstOrDefault()))
             .ForMember(dest => dest.ChatType, opt => opt.MapFrom(src => src.Chat.ChatType));
-        ;
     }
 }

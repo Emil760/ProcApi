@@ -47,7 +47,7 @@ public class AuthenticationService : IAuthenticationService
 
         var hashPassword = PasswordUtility.GenerateHashPassword(dto.Password, out var salt, _passwordOptions);
 
-        var passwordModel = new UserPassword()
+        var passwordModel = new UserPassword
         {
             PasswordHash = hashPassword,
             Salt = Convert.ToHexString(salt),
@@ -62,12 +62,12 @@ public class AuthenticationService : IAuthenticationService
             _context.Entry(role).State = EntityState.Unchanged;
         }
 
-        var userSetting = new UserSetting()
+        var userSetting = new UserSetting
         {
             Language = _userOptions.DefaultLanguage
         };
 
-        var user = new User()
+        var user = new User
         {
             Login = dto.Login,
             FirstName = dto.FirstName,

@@ -1,6 +1,6 @@
-﻿namespace ProcApi.Application.Constants;
+﻿namespace ProcApi.Infrastructure.Constants;
 
-public class HeaderKeys
+public static class HeaderKeys
 {
     public const string XPagination = "X-Pagination";
 }

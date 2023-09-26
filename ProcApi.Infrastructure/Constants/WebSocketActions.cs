@@ -1,4 +1,4 @@
-﻿namespace ProcApi.Application.Constants;
+﻿namespace ProcApi.Infrastructure.Constants;
 
 public class WebSocketActions
 {

@@ -23,7 +23,7 @@ namespace ProcApi.Infrastructure.ModelConfigurations
                 .UsingEntity<UserRole>();
 
             var roles = Enum.GetValues<Roles>()
-                .Select(r => new Role() { Id = (int)r, Name = r.ToString() });
+                .Select(r => new Role { Id = (int)r, Name = r.ToString() });
 
             builder.HasData(roles);
         }

@@ -1,17 +1,17 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Localization;
-using ProcApi.Application.Constants;
 using ProcApi.Application.DTOs.Category.Responses;
+using ProcApi.Application.DTOs.Material.Base;
+using ProcApi.Application.DTOs.Material.Request;
+using ProcApi.Application.DTOs.Material.Responses;
 using ProcApi.Application.Services.Abstracts;
 using ProcApi.Domain.Entities;
 using ProcApi.Domain.Exceptions;
 using ProcApi.Domain.Models;
-using ProcApi.DTOs.Material.Base;
-using ProcApi.DTOs.Material.Request;
-using ProcApi.DTOs.Material.Responses;
+using ProcApi.Infrastructure.Constants;
 using ProcApi.Infrastructure.Repositories.Abstracts;
-using ProcApi.Resources;
+using ProcApi.Infrastructure.Resources;
 
 namespace ProcApi.Application.Services.Concreates;
 
@@ -40,7 +40,7 @@ public class MaterialService : IMaterialService
     {
         var materialsPaginated = await _materialRepository.GetAllPaginated(pagination);
 
-        _httpContextAccessor.HttpContext.Response.Headers.Add(HeaderKeys.XPagination, materialsPaginated.ToString());
+        _httpContextAccessor.HttpContext!.Response.Headers.Add(HeaderKeys.XPagination, materialsPaginated.ToString());
 
         return _mapper.Map<IEnumerable<MaterialResponseDto>>(materialsPaginated.ResultSet);
     }

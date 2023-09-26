@@ -1,9 +1,9 @@
 ﻿using ProcApi.Application.DTOs.Documents.Requests;
+using ProcApi.Application.Handlers;
+using ProcApi.Application.Handlers.PurchaseRequestDocument;
 using ProcApi.Application.Services.Abstracts;
 using ProcApi.Domain.Enums;
 using ProcApi.Domain.Models;
-using ProcApi.Handlers;
-using ProcApi.Handlers.PurchaseRequestDocument;
 
 namespace ProcApi.Application.Services.Concreates;
 

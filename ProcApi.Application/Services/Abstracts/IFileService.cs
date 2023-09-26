@@ -1,6 +1,5 @@
-﻿namespace ProcApi.Application.Services.Abstracts
+﻿namespace ProcApi.Application.Services.Abstracts;
+
+public interface IFileService
 {
-    public interface IFileService
-    {
-    }
 }

@@ -10,9 +10,5 @@ namespace ProcApi.Presentation.Controllers
     public class BaseController : ControllerBase
     {
         protected UserInfoModel UserInfo => JwtUtility.GetUserInfo(Request.Headers["Authorization"]);
-
-        public BaseController()
-        {
-        }
     }
 }

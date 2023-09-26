@@ -1,6 +1,6 @@
-﻿using ProcApi.Domain.Entities;
-using ProcApi.DTOs.Material.Request;
-using ProcApi.DTOs.Material.Responses;
+﻿using ProcApi.Application.DTOs.Material.Request;
+using ProcApi.Application.DTOs.Material.Responses;
+using ProcApi.Domain.Entities;
 
 namespace ProcApi.Application.Mappers;
 

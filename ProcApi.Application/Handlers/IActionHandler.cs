@@ -1,6 +1,6 @@
 ﻿using ProcApi.Application.DTOs.Documents.Requests;
 
-namespace ProcApi.Handlers;
+namespace ProcApi.Application.Handlers;
 
 public interface IActionHandler
 {

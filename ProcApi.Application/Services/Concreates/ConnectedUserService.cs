@@ -18,7 +18,7 @@ public class ConnectedUserService : IConnectedUsersService
     {
         var users = await GetConnectedUsersAsync();
 
-        if (users.TryGetValue(userId, out List<string> connectionIds))
+        if (users.TryGetValue(userId, out var connectionIds))
             connectionIds.Add(connectionId);
         else
             users.Add(userId, new List<string>() { connectionId });
@@ -39,7 +39,7 @@ public class ConnectedUserService : IConnectedUsersService
     {
         var users = await GetConnectedUsersAsync();
 
-        if (users.TryGetValue(userId, out List<string> connectionIds))
+        if (users.TryGetValue(userId, out var connectionIds))
             return connectionIds;
 
         return new List<string>();
@@ -53,7 +53,7 @@ public class ConnectedUserService : IConnectedUsersService
 
         foreach (var userId in userIds)
         {
-            if (connectedUsers.TryGetValue(userId, out List<string> connections))
+            if (connectedUsers.TryGetValue(userId, out var connections))
                 connectionIds.AddRange(connections);
         }
 

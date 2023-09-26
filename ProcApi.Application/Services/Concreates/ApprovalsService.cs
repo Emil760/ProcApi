@@ -6,7 +6,7 @@ using ProcApi.Domain.Enums;
 using ProcApi.Domain.Exceptions;
 using ProcApi.Infrastructure.Repositories.Abstracts;
 using ProcApi.Infrastructure.Repositories.UnitOfWork;
-using ProcApi.Resources;
+using ProcApi.Infrastructure.Resources;
 
 namespace ProcApi.Application.Services.Concreates
 {
@@ -69,7 +69,7 @@ namespace ProcApi.Application.Services.Concreates
             if (!userRoles.Contains(template.RoleId))
                 throw new ValidationException(_localizer["UserHasNoRoleForOperation"]);
 
-            return new DocumentAction()
+            return new DocumentAction
             {
                 RoleId = template.RoleId,
                 UserId = user.Id,
@@ -141,18 +141,18 @@ namespace ProcApi.Application.Services.Concreates
             var document = await _documentRepository.GetWithActionsAsync(dto.DocId);
 
             var releaseStrategy =
-                await _releaseStrategyRepository.GetWithFlowTemplateAsync(document.StatusId, dto.ActionType);
+                await _releaseStrategyRepository.GetWithFlowTemplateAsync(document!.StatusId, dto.ActionType);
 
             var currentDocAction = document.Actions
                 .Single(da => da.UserId == userId
-                              && da.RoleId == releaseStrategy.ApprovalFlowTemplate.RoleId
+                              && da.RoleId == releaseStrategy!.ApprovalFlowTemplate.RoleId
                               && da.IsAssigned
                               && !da.IsPerformed);
 
             currentDocAction.ActionPerformed = DateTime.Now;
             currentDocAction.IsPerformed = true;
 
-            document.StatusId = releaseStrategy.AssignStatusId;
+            document.StatusId = releaseStrategy!.AssignStatusId;
 
             await _unitOfWork.SaveChangesAsync();
         }
@@ -162,7 +162,7 @@ namespace ProcApi.Application.Services.Concreates
             var document = await _documentRepository.GetWithActionsAsync(dto.DocId);
 
             var releaseStrategy =
-                await _releaseStrategyRepository.GetWithFlowTemplateAsync(document.StatusId, dto.ActionType);
+                await _releaseStrategyRepository.GetWithFlowTemplateAsync(document!.StatusId, dto.ActionType);
 
             foreach (var docAction in document.Actions)
             {
@@ -170,7 +170,7 @@ namespace ProcApi.Application.Services.Concreates
                 docAction.ActionPerformed = null;
             }
 
-            document.StatusId = releaseStrategy.AssignStatusId;
+            document.StatusId = releaseStrategy!.AssignStatusId;
 
             await _unitOfWork.SaveChangesAsync();
         }

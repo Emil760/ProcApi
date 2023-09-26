@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using ProcApi.Application.Constants;
+using ProcApi.Infrastructure.Constants;
 
 namespace ProcApi.Presentation.Handlers.Authorization;
 

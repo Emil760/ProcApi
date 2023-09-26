@@ -1,7 +1,7 @@
-﻿using ProcApi.Application.Enums;
-using ProcApi.DTOs.PurchaseRequestDocument.Base;
+﻿using ProcApi.Application.DTOs.PurchaseRequestDocument.Base;
+using ProcApi.Application.Enums;
 
-namespace ProcApi.DTOs.PurchaseRequestDocument.Requests;
+namespace ProcApi.Application.DTOs.PurchaseRequestDocument.Requests;
 
 public class CreatePRItemRequestDto : PRItemDto
 {

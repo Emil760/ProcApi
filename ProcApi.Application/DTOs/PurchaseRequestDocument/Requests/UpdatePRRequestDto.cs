@@ -1,6 +1,6 @@
-﻿using ProcApi.DTOs.PurchaseRequestDocument.Base;
+﻿using ProcApi.Application.DTOs.PurchaseRequestDocument.Base;
 
-namespace ProcApi.DTOs.PurchaseRequestDocument.Requests;
+namespace ProcApi.Application.DTOs.PurchaseRequestDocument.Requests;
 
 public class UpdatePRRequestDto : PRDto
 {

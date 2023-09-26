@@ -24,7 +24,7 @@ public class ExceptionHandlerCoordinator
     public ExceptionModel Handle(System.Exception exception)
     {
         if (_handlers.TryGetValue(exception.GetType(), out var handler))
-            return _handlers[exception.GetType()].Handle(exception);
+            return handler.Handle(exception);
         return _generalExceptionHandler.Handle(exception);
     }
 }

@@ -1,14 +1,14 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.Localization;
+using ProcApi.Application.DTOs.PurchaseRequestDocument.Requests;
+using ProcApi.Application.DTOs.PurchaseRequestDocument.Response;
 using ProcApi.Application.Enums;
 using ProcApi.Application.Services.Abstracts;
 using ProcApi.Domain.Entities;
 using ProcApi.Domain.Exceptions;
-using ProcApi.DTOs.PurchaseRequestDocument.Requests;
-using ProcApi.DTOs.PurchaseRequestDocument.Response;
 using ProcApi.Infrastructure.Repositories.Abstracts;
 using ProcApi.Infrastructure.Repositories.UnitOfWork;
-using ProcApi.Resources;
+using ProcApi.Infrastructure.Resources;
 
 namespace ProcApi.Application.Services.Concreates
 {

@@ -27,7 +27,7 @@ public class DocumentService : IDocumentService
         DocumentType type,
         DocumentStatus status)
     {
-        var document = new Document()
+        var document = new Document
         {
             CreatedById = userInfo.UserId,
             TypeId = type,

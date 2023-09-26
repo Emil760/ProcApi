@@ -1,4 +1,4 @@
-﻿namespace ProcApi.DTOs.PurchaseRequestDocument.Response;
+﻿namespace ProcApi.Application.DTOs.PurchaseRequestDocument.Response;
 
 public class PRItemResponseDto
 {

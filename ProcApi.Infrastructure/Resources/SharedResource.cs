@@ -1,4 +1,4 @@
-﻿namespace ProcApi.Resources
+﻿namespace ProcApi.Infrastructure.Resources
 {
     public class SharedResource
     {

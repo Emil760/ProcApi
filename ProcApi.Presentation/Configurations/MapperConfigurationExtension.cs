@@ -7,7 +7,7 @@ namespace ProcApi.Presentation.Configurations
     {
         public static void AddAutoMapper(this IServiceCollection services)
         {
-            services.AddSingleton(provider => new MapperConfiguration(cfg =>
+            services.AddSingleton(_ => new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile(new CommonProfile());
                 cfg.AddProfile(new UserProfile());

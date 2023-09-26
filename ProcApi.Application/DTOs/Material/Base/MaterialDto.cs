@@ -1,4 +1,4 @@
-﻿namespace ProcApi.DTOs.Material.Base;
+﻿namespace ProcApi.Application.DTOs.Material.Base;
 
 public class MaterialDto
 {

@@ -2,7 +2,7 @@
 
 namespace ProcApi.Infrastructure.Extensions
 {
-    public static class IQueryExtensions
+    public static class QueryExtensions
     {
         public static IQueryable<T> WhereIf<T>(this IQueryable<T> queryable, bool condition, Expression<Func<T, bool>> predicate)
         {

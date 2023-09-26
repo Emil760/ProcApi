@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
-using ProcApi.Application.Constants;
 using ProcApi.Application.DTOs.Chat.Responses;
 using ProcApi.Application.Services.Abstracts;
 using ProcApi.Domain.Entities;
 using ProcApi.Domain.Enums;
 using ProcApi.Domain.Models;
+using ProcApi.Infrastructure.Constants;
 using ProcApi.Infrastructure.Repositories.Abstracts;
 using ProcApi.Infrastructure.Repositories.UnitOfWork;
 
@@ -44,14 +44,14 @@ namespace ProcApi.Application.Services.Concreates
 
         public async Task<Chat> CreateChatBetweenUsersAsync(IEnumerable<int> userIds)
         {
-            var chat = new Chat()
+            var chat = new Chat
             {
                 ChatType = ChatType.Contact
             };
 
             foreach (var userId in userIds)
             {
-                var userChat = new ChatUser()
+                var userChat = new ChatUser
                 {
                     Chat = chat,
                     UserId = userId
@@ -68,14 +68,13 @@ namespace ProcApi.Application.Services.Concreates
         {
             var usersPaginated = await _userRepository.GetAllPaginated(pagination);
 
-            _httpContextAccessor.HttpContext.Response.Headers.Add(HeaderKeys.XPagination, usersPaginated.ToString());
+            _httpContextAccessor.HttpContext!.Response.Headers.Add(HeaderKeys.XPagination, usersPaginated.ToString());
 
             return _mapper.Map<IEnumerable<ChatUserResponseDto>>(usersPaginated.ResultSet);
         }
 
         public async Task<IEnumerable<ChatResponseDto>> GetChatsAsync(int userId)
         {
-            var tasks = new List<Task>();
             var userTask = _chatUserRepository.GetAllWithLastMessageByUserIdAsync(userId);
             var groupTask = _groupRepository.GetAllWithLastMessageByUserId(userId);
 

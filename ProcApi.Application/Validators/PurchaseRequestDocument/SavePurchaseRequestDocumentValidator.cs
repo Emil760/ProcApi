@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.Localization;
-using ProcApi.DTOs.PurchaseRequestDocument.Base;
-using ProcApi.Resources;
+using ProcApi.Application.DTOs.PurchaseRequestDocument.Base;
+using ProcApi.Infrastructure.Resources;
 
 namespace ProcApi.Application.Validators.PurchaseRequestDocument;
 

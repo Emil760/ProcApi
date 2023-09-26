@@ -1,8 +1,8 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.Localization;
+using ProcApi.Application.DTOs.PurchaseRequestDocument.Requests;
 using ProcApi.Application.Enums;
-using ProcApi.DTOs.PurchaseRequestDocument.Requests;
-using ProcApi.Resources;
+using ProcApi.Infrastructure.Resources;
 
 namespace ProcApi.Application.Validators.PurchaseRequestDocument;
 

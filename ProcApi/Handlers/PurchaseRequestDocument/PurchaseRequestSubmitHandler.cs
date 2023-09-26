@@ -1,11 +1,21 @@
 ﻿using ProcApi.DTOs.Documents.Requests;
+using ProcApi.Services.Abstracts;
 
 namespace ProcApi.Handlers.PurchaseRequestDocument;
 
 public class PurchaseRequestSubmitHandler : IActionHandler
 {
-    public Task PerformAction(ActionPerformRequestDto dto, int userId)
+    private readonly IApprovalsService _approvalsService;
+
+    public PurchaseRequestSubmitHandler(IApprovalsService approvalsService)
     {
-        throw new NotImplementedException();
+        _approvalsService = approvalsService;
+    }
+
+    public async Task PerformAction(ActionPerformRequestDto dto, int userId)
+    {
+        await _approvalsService.CanPerformAction(dto, userId);
+
+        await _approvalsService.ApproveDocumentAsync(dto, userId);
     }
 }

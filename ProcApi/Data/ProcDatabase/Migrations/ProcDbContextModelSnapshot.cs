@@ -570,9 +570,8 @@ namespace ProcApi.Data.ProcDatabase.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("MaterialId")
+                        .HasColumnType("integer");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("numeric");
@@ -587,6 +586,8 @@ namespace ProcApi.Data.ProcDatabase.Migrations
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("MaterialId");
 
                     b.HasIndex("PurchaseRequestDocumentId");
 
@@ -1102,6 +1103,12 @@ namespace ProcApi.Data.ProcDatabase.Migrations
 
             modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.PurchaseRequestDocumentItem", b =>
                 {
+                    b.HasOne("ProcApi.Data.ProcDatabase.Models.Material", "Material")
+                        .WithMany()
+                        .HasForeignKey("MaterialId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("ProcApi.Data.ProcDatabase.Models.PurchaseRequestDocument", "PurchaseRequestDocument")
                         .WithMany("Items")
                         .HasForeignKey("PurchaseRequestDocumentId")
@@ -1113,6 +1120,8 @@ namespace ProcApi.Data.ProcDatabase.Migrations
                         .HasForeignKey("UnitOfMeasureId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Material");
 
                     b.Navigation("PurchaseRequestDocument");
 

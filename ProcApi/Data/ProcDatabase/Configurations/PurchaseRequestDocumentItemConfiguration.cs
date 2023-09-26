@@ -13,6 +13,11 @@ public class PurchaseRequestDocumentItemConfiguration : IEntityTypeConfiguration
             .HasForeignKey(prdi => prdi.PurchaseRequestDocumentId)
             .OnDelete(DeleteBehavior.Cascade);
 
+        builder.HasOne(prdi => prdi.Material)
+            .WithMany()
+            .HasForeignKey(prdi => prdi.MaterialId)
+            .OnDelete(DeleteBehavior.Cascade);
+
         builder.HasOne(prdi => prdi.UnitOfMeasure)
             .WithMany()
             .HasForeignKey(prdi => prdi.UnitOfMeasureId)

@@ -2,22 +2,21 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using ProcApi.Domain.Entities;
 
-namespace ProcApi.Infrastructure.ModelConfigurations
+namespace ProcApi.Infrastructure.ModelConfigurations;
+
+public class DocumentConfiguration : IEntityTypeConfiguration<Document>
 {
-    public class DocumentConfiguration : IEntityTypeConfiguration<Document>
+    public void Configure(EntityTypeBuilder<Document> builder)
     {
-        public void Configure(EntityTypeBuilder<Document> builder)
-        {
-            builder.HasKey(d => d.Id);
+        builder.HasKey(d => d.Id);
 
-            builder.Property(d => d.Number)
-                .HasColumnType("varchar")
-                .HasMaxLength(30);
+        builder.Property(d => d.Number)
+            .HasColumnType("varchar")
+            .HasMaxLength(30);
 
-            builder.HasMany(d => d.Actions)
-                .WithOne(da => da.Document)
-                .HasForeignKey(da => da.DocumentId)
-                .OnDelete(DeleteBehavior.Cascade);
-        }
+        builder.HasMany(d => d.Actions)
+            .WithOne(da => da.Document)
+            .HasForeignKey(da => da.DocumentId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

@@ -6,7 +6,8 @@ using ProcApi.Domain.Enums;
 
 namespace ProcApi.Presentation.Controllers
 {
-    [Route("pr")]
+    [ApiController]
+    [Route("[controller]")]
     public class PurchaseRequestDocumentController : BaseController
     {
         private readonly IDocumentService _documentService;
@@ -31,34 +32,34 @@ namespace ProcApi.Presentation.Controllers
             return Ok(await _purchaseRequestDocumentService.GetDocument(docId));
         }
 
-        [HttpPost("create-document")]
-        public async Task<IActionResult> CreateDocument()
+        [HttpPost("Create")]
+        public async Task<IActionResult> CreateDocumentAsync()
         {
-            return Ok(await _documentService.CreateDocumentWithApprovals(UserInfo,
+            return Ok(await _documentService.CreateDocumentWithApprovalsAsync(UserInfo,
                 DocumentType.PurchaseRequest,
                 DocumentStatus.PurchaseRequestDraft));
         }
 
-        [HttpPost("create")]
+        [HttpPost("Save")]
         public async Task<IActionResult> SaveAsync([FromBody] CreatePRRequestDto dto)
         {
             return Ok(await _purchaseRequestDocumentService.CreateDocument(dto));
         }
 
-        [HttpPost("update")]
+        [HttpPost("Update")]
         public async Task<IActionResult> UpdateAsync([FromBody] UpdatePRRequestDto dto)
         {
             return Ok(await _purchaseRequestDocumentService.UpdateDocument(dto));
         }
 
-        [HttpPost("perform-action")]
+        [HttpPost("PerformAction")]
         public async Task<IActionResult> PerformAction([FromBody] ActionPerformRequestDto requestDto)
         {
             await _purchaseRequestDocumentApprovalService.PerformAction(requestDto, UserInfo);
             return Ok();
         }
 
-        [HttpGet("items")]
+        [HttpGet("Items")]
         public async Task<IActionResult> GetItems([FromQuery] int docId)
         {
             return Ok(await _purchaseRequestDocumentItemsService.GetAllItemsAsync(docId));

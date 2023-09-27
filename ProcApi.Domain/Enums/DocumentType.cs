@@ -4,6 +4,5 @@ public enum DocumentType
 {
     PurchaseRequest = 1,
     ServiceRequest,
-    DownPaymentInvoice,
-    PostPaymentInvoice
+    Invoice
 }

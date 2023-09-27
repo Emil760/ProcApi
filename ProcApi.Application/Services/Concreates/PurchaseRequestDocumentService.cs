@@ -39,34 +39,38 @@ namespace ProcApi.Application.Services.Concreates
 
         public async Task<SavePRResponseDto> CreateDocument(CreatePRRequestDto dto)
         {
-            var purchaseRequestDocument = _mapper.Map<PurchaseRequestDocument>(dto);
+            var document = _mapper.Map<PurchaseRequestDocument>(dto);
 
-            await _purchaseRequestDocumentRepository.InsertAsync(purchaseRequestDocument);
+            RecalculateTotalItemsPrice(document, document.Items);
 
-            return _mapper.Map<SavePRResponseDto>(purchaseRequestDocument);
+            await _purchaseRequestDocumentRepository.InsertAsync(document);
+
+            return _mapper.Map<SavePRResponseDto>(document);
         }
 
         public async Task<SavePRResponseDto> UpdateDocument(UpdatePRRequestDto dto)
         {
-            var purchaseRequestDocument = await _purchaseRequestDocumentRepository.GetDocumentWithItems(dto.DocumentId);
+            var document = await _purchaseRequestDocumentRepository.GetDocumentWithItems(dto.DocumentId);
 
-            if (purchaseRequestDocument is null)
+            if (document is null)
                 throw new NotFoundException(_localizer["DocumentNotFound"]);
 
-            _mapper.Map(dto, purchaseRequestDocument);
+            _mapper.Map(dto, document);
 
             var itemsToAdd = dto.Items.Where(i => i.State == ActionState.Added);
-            purchaseRequestDocument.Items = AddItems(purchaseRequestDocument.Items, itemsToAdd);
+            document.Items = AddItems(document.Items, itemsToAdd);
 
             var itemsToUpdate = dto.Items.Where(i => i.State == ActionState.Updated);
-            purchaseRequestDocument.Items = UpdateItems(purchaseRequestDocument.Items, itemsToUpdate);
+            document.Items = UpdateItems(document.Items, itemsToUpdate);
 
             var itemsToDelete = dto.Items.Where(i => i.State == ActionState.Deleted);
-            purchaseRequestDocument.Items = DeleteItems(purchaseRequestDocument.Items, itemsToDelete);
+            document.Items = DeleteItems(document.Items, itemsToDelete);
+            
+            RecalculateTotalItemsPrice(document, document.Items);
 
             await _unitOfWork.SaveChangesAsync();
 
-            return _mapper.Map<SavePRResponseDto>(purchaseRequestDocument);
+            return _mapper.Map<SavePRResponseDto>(document);
         }
 
         private ICollection<PurchaseRequestDocumentItem> AddItems(ICollection<PurchaseRequestDocumentItem> items,
@@ -104,6 +108,13 @@ namespace ProcApi.Application.Services.Concreates
             }
 
             return items;
+        }
+
+        private void RecalculateTotalItemsPrice(PurchaseRequestDocument document,
+            IEnumerable<PurchaseRequestDocumentItem> items)
+        {
+            var sum = items.Sum(i => i.Quantity * i.Price);
+            document.TotalItemsPrice = sum;
         }
     }
 }

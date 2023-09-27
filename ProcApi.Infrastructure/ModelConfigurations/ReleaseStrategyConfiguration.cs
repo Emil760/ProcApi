@@ -2,12 +2,11 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using ProcApi.Domain.Entities;
 
-namespace ProcApi.Infrastructure.ModelConfigurations
+namespace ProcApi.Infrastructure.ModelConfigurations;
+
+public class ReleaseStrategyConfiguration : IEntityTypeConfiguration<ReleaseStrategy>
 {
-    public class ReleaseStrategyConfiguration : IEntityTypeConfiguration<ReleaseStrategy>
+    public void Configure(EntityTypeBuilder<ReleaseStrategy> builder)
     {
-        public void Configure(EntityTypeBuilder<ReleaseStrategy> builder)
-        {
-        }
     }
 }

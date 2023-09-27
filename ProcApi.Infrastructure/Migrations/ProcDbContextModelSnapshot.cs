@@ -24,7 +24,7 @@ namespace ProcApi.Infrastructure.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.ApprovalFlowTemplate", b =>
+            modelBuilder.Entity("ProcApi.Domain.Entities.ApprovalFlowTemplate", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -60,10 +60,10 @@ namespace ProcApi.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("ApprovalFlowTemplates", (string)null);
+                    b.ToTable("ApprovalFlowTemplates");
                 });
 
-            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.Category", b =>
+            modelBuilder.Entity("ProcApi.Domain.Entities.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -83,10 +83,10 @@ namespace ProcApi.Infrastructure.Migrations
 
                     b.HasIndex("ParentCategoryId");
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.Chat", b =>
+            modelBuilder.Entity("ProcApi.Domain.Entities.Chat", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -99,10 +99,10 @@ namespace ProcApi.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Chats", (string)null);
+                    b.ToTable("Chats");
                 });
 
-            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.ChatMessage", b =>
+            modelBuilder.Entity("ProcApi.Domain.Entities.ChatMessage", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -135,10 +135,10 @@ namespace ProcApi.Infrastructure.Migrations
 
                     b.HasIndex("SenderId");
 
-                    b.ToTable("ChatMessages", (string)null);
+                    b.ToTable("ChatMessages");
                 });
 
-            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.ChatUser", b =>
+            modelBuilder.Entity("ProcApi.Domain.Entities.ChatUser", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -158,10 +158,10 @@ namespace ProcApi.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("ChatUsers", (string)null);
+                    b.ToTable("ChatUsers");
                 });
 
-            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.ControlSet", b =>
+            modelBuilder.Entity("ProcApi.Domain.Entities.ControlSet", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -209,10 +209,10 @@ namespace ProcApi.Infrastructure.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("ControlSets", (string)null);
+                    b.ToTable("ControlSets");
                 });
 
-            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.Delegation", b =>
+            modelBuilder.Entity("ProcApi.Domain.Entities.Delegation", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -238,10 +238,10 @@ namespace ProcApi.Infrastructure.Migrations
 
                     b.HasIndex("ToUserId");
 
-                    b.ToTable("Delegations", (string)null);
+                    b.ToTable("Delegations");
                 });
 
-            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.Department", b =>
+            modelBuilder.Entity("ProcApi.Domain.Entities.Department", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -256,10 +256,10 @@ namespace ProcApi.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Departments", (string)null);
+                    b.ToTable("Departments");
                 });
 
-            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.Document", b =>
+            modelBuilder.Entity("ProcApi.Domain.Entities.Document", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -287,10 +287,10 @@ namespace ProcApi.Infrastructure.Migrations
 
                     b.HasIndex("CreatedById");
 
-                    b.ToTable("Documents", (string)null);
+                    b.ToTable("Documents");
                 });
 
-            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.DocumentAction", b =>
+            modelBuilder.Entity("ProcApi.Domain.Entities.DocumentAction", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -334,10 +334,10 @@ namespace ProcApi.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("DocumentActions", (string)null);
+                    b.ToTable("DocumentActions");
                 });
 
-            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.FeatureConfiguration", b =>
+            modelBuilder.Entity("ProcApi.Domain.Entities.FeatureConfiguration", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -361,10 +361,10 @@ namespace ProcApi.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Configurations", (string)null);
+                    b.ToTable("Configurations");
                 });
 
-            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.Group", b =>
+            modelBuilder.Entity("ProcApi.Domain.Entities.Group", b =>
                 {
                     b.Property<int>("ChatId")
                         .HasColumnType("integer");
@@ -383,10 +383,10 @@ namespace ProcApi.Infrastructure.Migrations
 
                     b.HasKey("ChatId");
 
-                    b.ToTable("Groups", (string)null);
+                    b.ToTable("Groups");
                 });
 
-            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.GroupUser", b =>
+            modelBuilder.Entity("ProcApi.Domain.Entities.GroupUser", b =>
                 {
                     b.Property<int>("ChatUserId")
                         .HasColumnType("integer");
@@ -406,10 +406,34 @@ namespace ProcApi.Infrastructure.Migrations
 
                     b.HasIndex("GroupId");
 
-                    b.ToTable("GroupUsers", (string)null);
+                    b.ToTable("GroupUsers");
                 });
 
-            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.InvoiceDocument", b =>
+            modelBuilder.Entity("ProcApi.Domain.Entities.InvoiceDocument", b =>
+                {
+                    b.Property<int>("DocumentId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(4000)
+                        .HasColumnType("varchar");
+
+                    b.Property<int>("SupplierId")
+                        .HasColumnType("integer");
+
+                    b.Property<decimal>("TotalItemsPrice")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("decimal")
+                        .HasDefaultValue(0m);
+
+                    b.HasKey("DocumentId");
+
+                    b.HasIndex("SupplierId");
+
+                    b.ToTable("InvoiceDocuments");
+                });
+
+            modelBuilder.Entity("ProcApi.Domain.Entities.InvoiceDocumentItem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -417,17 +441,28 @@ namespace ProcApi.Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("DocumentId")
+                    b.Property<int>("InvoiceDocumentId")
                         .HasColumnType("integer");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("numeric");
+
+                    b.Property<int>("PurchaseRequestDocumentItemId")
+                        .HasColumnType("integer");
+
+                    b.Property<decimal>("Quantity")
+                        .HasColumnType("numeric");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DocumentId");
+                    b.HasIndex("InvoiceDocumentId");
 
-                    b.ToTable("InvoiceDocuments", (string)null);
+                    b.HasIndex("PurchaseRequestDocumentItemId");
+
+                    b.ToTable("InvoiceDocumentItems");
                 });
 
-            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.Material", b =>
+            modelBuilder.Entity("ProcApi.Domain.Entities.Material", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -465,10 +500,10 @@ namespace ProcApi.Infrastructure.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Materials", (string)null);
+                    b.ToTable("Materials");
                 });
 
-            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.Permission", b =>
+            modelBuilder.Entity("ProcApi.Domain.Entities.Permission", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -483,7 +518,7 @@ namespace ProcApi.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Permissions", (string)null);
+                    b.ToTable("Permissions");
 
                     b.HasData(
                         new
@@ -513,7 +548,7 @@ namespace ProcApi.Infrastructure.Migrations
                         });
                 });
 
-            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.Project", b =>
+            modelBuilder.Entity("ProcApi.Domain.Entities.Project", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -528,10 +563,10 @@ namespace ProcApi.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Projects", (string)null);
+                    b.ToTable("Projects");
                 });
 
-            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.PurchaseRequestDocument", b =>
+            modelBuilder.Entity("ProcApi.Domain.Entities.PurchaseRequestDocument", b =>
                 {
                     b.Property<int>("DocumentId")
                         .HasColumnType("integer");
@@ -553,22 +588,30 @@ namespace ProcApi.Infrastructure.Migrations
                     b.Property<int>("RequestedForDepartmentId")
                         .HasColumnType("integer");
 
+                    b.Property<decimal>("TotalItemsPrice")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("decimal")
+                        .HasDefaultValue(0m);
+
                     b.HasKey("DocumentId");
 
                     b.HasIndex("ProjectId");
 
                     b.HasIndex("RequestedForDepartmentId");
 
-                    b.ToTable("PurchaseRequestDocuments", (string)null);
+                    b.ToTable("PurchaseRequestDocuments");
                 });
 
-            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.PurchaseRequestDocumentItem", b =>
+            modelBuilder.Entity("ProcApi.Domain.Entities.PurchaseRequestDocumentItem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ItemStatusId")
+                        .HasColumnType("integer");
 
                     b.Property<int>("MaterialId")
                         .HasColumnType("integer");
@@ -593,10 +636,10 @@ namespace ProcApi.Infrastructure.Migrations
 
                     b.HasIndex("UnitOfMeasureId");
 
-                    b.ToTable("PurchaseRequestDocumentItems", (string)null);
+                    b.ToTable("PurchaseRequestDocumentItems");
                 });
 
-            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.ReleaseStrategy", b =>
+            modelBuilder.Entity("ProcApi.Domain.Entities.ReleaseStrategy", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -620,10 +663,10 @@ namespace ProcApi.Infrastructure.Migrations
 
                     b.HasIndex("ApprovalFlowTemplateId");
 
-                    b.ToTable("ReleaseStrategies", (string)null);
+                    b.ToTable("ReleaseStrategies");
                 });
 
-            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.Role", b =>
+            modelBuilder.Entity("ProcApi.Domain.Entities.Role", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -638,7 +681,7 @@ namespace ProcApi.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Roles", (string)null);
+                    b.ToTable("Roles");
 
                     b.HasData(
                         new
@@ -688,7 +731,7 @@ namespace ProcApi.Infrastructure.Migrations
                         });
                 });
 
-            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.RolePermission", b =>
+            modelBuilder.Entity("ProcApi.Domain.Entities.RolePermission", b =>
                 {
                     b.Property<int>("RoleId")
                         .HasColumnType("integer");
@@ -700,7 +743,7 @@ namespace ProcApi.Infrastructure.Migrations
 
                     b.HasIndex("PermissionId");
 
-                    b.ToTable("RolePermissions", (string)null);
+                    b.ToTable("RolePermissions");
 
                     b.HasData(
                         new
@@ -725,7 +768,47 @@ namespace ProcApi.Infrastructure.Migrations
                         });
                 });
 
-            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.UnitOfMeasure", b =>
+            modelBuilder.Entity("ProcApi.Domain.Entities.Supplier", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(true);
+
+                    b.Property<string>("Mail")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("varchar");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("varchar");
+
+                    b.Property<string>("TaxId")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("char")
+                        .IsFixedLength();
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.HasIndex("TaxId")
+                        .IsUnique();
+
+                    b.ToTable("Suppliers");
+                });
+
+            modelBuilder.Entity("ProcApi.Domain.Entities.UnitOfMeasure", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -739,10 +822,10 @@ namespace ProcApi.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("UnitOfMeasures", (string)null);
+                    b.ToTable("UnitOfMeasures");
                 });
 
-            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.UnitOfMeasureConverter", b =>
+            modelBuilder.Entity("ProcApi.Domain.Entities.UnitOfMeasureConverter", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -770,10 +853,10 @@ namespace ProcApi.Infrastructure.Migrations
 
                     b.HasIndex("TargetUnitOfMeasureId");
 
-                    b.ToTable("UnitOfMeasureConverter", (string)null);
+                    b.ToTable("UnitOfMeasureConverter");
                 });
 
-            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.User", b =>
+            modelBuilder.Entity("ProcApi.Domain.Entities.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -796,10 +879,10 @@ namespace ProcApi.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.UserPassword", b =>
+            modelBuilder.Entity("ProcApi.Domain.Entities.UserPassword", b =>
                 {
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
@@ -817,10 +900,10 @@ namespace ProcApi.Infrastructure.Migrations
 
                     b.HasKey("UserId");
 
-                    b.ToTable("UserPassword", (string)null);
+                    b.ToTable("UserPassword");
                 });
 
-            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.UserRole", b =>
+            modelBuilder.Entity("ProcApi.Domain.Entities.UserRole", b =>
                 {
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
@@ -832,10 +915,10 @@ namespace ProcApi.Infrastructure.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("UserRoles", (string)null);
+                    b.ToTable("UserRoles");
                 });
 
-            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.UserSetting", b =>
+            modelBuilder.Entity("ProcApi.Domain.Entities.UserSetting", b =>
                 {
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
@@ -846,10 +929,10 @@ namespace ProcApi.Infrastructure.Migrations
 
                     b.HasKey("UserId");
 
-                    b.ToTable("UserSettings", (string)null);
+                    b.ToTable("UserSettings");
                 });
 
-            modelBuilder.Entity("ProcApi.Data.ProcDatabase.ResultSets.CategoryResultSet", b =>
+            modelBuilder.Entity("ProcApi.Domain.ResultSets.CategoryResultSet", b =>
                 {
                     b.Property<int>("Id")
                         .HasColumnType("integer");
@@ -863,7 +946,7 @@ namespace ProcApi.Infrastructure.Migrations
                     b.ToFunction("get_categories_by_level");
                 });
 
-            modelBuilder.Entity("ProcApi.Data.ProcDatabase.ResultSets.MaterialResultSet", b =>
+            modelBuilder.Entity("ProcApi.Domain.ResultSets.MaterialResultSet", b =>
                 {
                     b.Property<int>("CategoryId")
                         .HasColumnType("integer");
@@ -891,15 +974,15 @@ namespace ProcApi.Infrastructure.Migrations
                     b.ToFunction("get_material_with_categories");
                 });
 
-            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.ApprovalFlowTemplate", b =>
+            modelBuilder.Entity("ProcApi.Domain.Entities.ApprovalFlowTemplate", b =>
                 {
-                    b.HasOne("ProcApi.Data.ProcDatabase.Models.Role", "Role")
+                    b.HasOne("ProcApi.Domain.Entities.Role", "Role")
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ProcApi.Data.ProcDatabase.Models.User", "User")
+                    b.HasOne("ProcApi.Domain.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
 
@@ -908,24 +991,24 @@ namespace ProcApi.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.Category", b =>
+            modelBuilder.Entity("ProcApi.Domain.Entities.Category", b =>
                 {
-                    b.HasOne("ProcApi.Data.ProcDatabase.Models.Category", "ParentCategory")
+                    b.HasOne("ProcApi.Domain.Entities.Category", "ParentCategory")
                         .WithMany()
                         .HasForeignKey("ParentCategoryId");
 
                     b.Navigation("ParentCategory");
                 });
 
-            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.ChatMessage", b =>
+            modelBuilder.Entity("ProcApi.Domain.Entities.ChatMessage", b =>
                 {
-                    b.HasOne("ProcApi.Data.ProcDatabase.Models.Chat", "Chat")
+                    b.HasOne("ProcApi.Domain.Entities.Chat", "Chat")
                         .WithMany("ChatMessages")
                         .HasForeignKey("ChatId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ProcApi.Data.ProcDatabase.Models.User", "Sender")
+                    b.HasOne("ProcApi.Domain.Entities.User", "Sender")
                         .WithMany("ChatMessages")
                         .HasForeignKey("SenderId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -936,15 +1019,15 @@ namespace ProcApi.Infrastructure.Migrations
                     b.Navigation("Sender");
                 });
 
-            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.ChatUser", b =>
+            modelBuilder.Entity("ProcApi.Domain.Entities.ChatUser", b =>
                 {
-                    b.HasOne("ProcApi.Data.ProcDatabase.Models.Chat", "Chat")
+                    b.HasOne("ProcApi.Domain.Entities.Chat", "Chat")
                         .WithMany("ChatUsers")
                         .HasForeignKey("ChatId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ProcApi.Data.ProcDatabase.Models.User", "User")
+                    b.HasOne("ProcApi.Domain.Entities.User", "User")
                         .WithMany("ChatUsers")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -955,9 +1038,9 @@ namespace ProcApi.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.ControlSet", b =>
+            modelBuilder.Entity("ProcApi.Domain.Entities.ControlSet", b =>
                 {
-                    b.HasOne("ProcApi.Data.ProcDatabase.Models.Role", "Role")
+                    b.HasOne("ProcApi.Domain.Entities.Role", "Role")
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -966,15 +1049,15 @@ namespace ProcApi.Infrastructure.Migrations
                     b.Navigation("Role");
                 });
 
-            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.Delegation", b =>
+            modelBuilder.Entity("ProcApi.Domain.Entities.Delegation", b =>
                 {
-                    b.HasOne("ProcApi.Data.ProcDatabase.Models.User", "FromUser")
+                    b.HasOne("ProcApi.Domain.Entities.User", "FromUser")
                         .WithMany("FromDelegations")
                         .HasForeignKey("FromUserId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("ProcApi.Data.ProcDatabase.Models.User", "ToUser")
+                    b.HasOne("ProcApi.Domain.Entities.User", "ToUser")
                         .WithMany("ToDelegations")
                         .HasForeignKey("ToUserId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -985,9 +1068,9 @@ namespace ProcApi.Infrastructure.Migrations
                     b.Navigation("ToUser");
                 });
 
-            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.Document", b =>
+            modelBuilder.Entity("ProcApi.Domain.Entities.Document", b =>
                 {
-                    b.HasOne("ProcApi.Data.ProcDatabase.Models.User", "CreatedBy")
+                    b.HasOne("ProcApi.Domain.Entities.User", "CreatedBy")
                         .WithMany("Documents")
                         .HasForeignKey("CreatedById")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -996,21 +1079,21 @@ namespace ProcApi.Infrastructure.Migrations
                     b.Navigation("CreatedBy");
                 });
 
-            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.DocumentAction", b =>
+            modelBuilder.Entity("ProcApi.Domain.Entities.DocumentAction", b =>
                 {
-                    b.HasOne("ProcApi.Data.ProcDatabase.Models.Document", "Document")
+                    b.HasOne("ProcApi.Domain.Entities.Document", "Document")
                         .WithMany("Actions")
                         .HasForeignKey("DocumentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ProcApi.Data.ProcDatabase.Models.Role", "Role")
+                    b.HasOne("ProcApi.Domain.Entities.Role", "Role")
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ProcApi.Data.ProcDatabase.Models.User", "User")
+                    b.HasOne("ProcApi.Domain.Entities.User", "User")
                         .WithMany("DocumentActions")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -1023,26 +1106,26 @@ namespace ProcApi.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.Group", b =>
+            modelBuilder.Entity("ProcApi.Domain.Entities.Group", b =>
                 {
-                    b.HasOne("ProcApi.Data.ProcDatabase.Models.Chat", "Chat")
+                    b.HasOne("ProcApi.Domain.Entities.Chat", "Chat")
                         .WithOne()
-                        .HasForeignKey("ProcApi.Data.ProcDatabase.Models.Group", "ChatId")
+                        .HasForeignKey("ProcApi.Domain.Entities.Group", "ChatId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Chat");
                 });
 
-            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.GroupUser", b =>
+            modelBuilder.Entity("ProcApi.Domain.Entities.GroupUser", b =>
                 {
-                    b.HasOne("ProcApi.Data.ProcDatabase.Models.ChatUser", "ChatUser")
+                    b.HasOne("ProcApi.Domain.Entities.ChatUser", "ChatUser")
                         .WithOne()
-                        .HasForeignKey("ProcApi.Data.ProcDatabase.Models.GroupUser", "ChatUserId")
+                        .HasForeignKey("ProcApi.Domain.Entities.GroupUser", "ChatUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ProcApi.Data.ProcDatabase.Models.Group", "Group")
+                    b.HasOne("ProcApi.Domain.Entities.Group", "Group")
                         .WithMany("GroupUsers")
                         .HasForeignKey("GroupId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1053,20 +1136,47 @@ namespace ProcApi.Infrastructure.Migrations
                     b.Navigation("Group");
                 });
 
-            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.InvoiceDocument", b =>
+            modelBuilder.Entity("ProcApi.Domain.Entities.InvoiceDocument", b =>
                 {
-                    b.HasOne("ProcApi.Data.ProcDatabase.Models.Document", "Document")
+                    b.HasOne("ProcApi.Domain.Entities.Document", "Document")
+                        .WithOne()
+                        .HasForeignKey("ProcApi.Domain.Entities.InvoiceDocument", "DocumentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ProcApi.Domain.Entities.Supplier", "Supplier")
                         .WithMany()
-                        .HasForeignKey("DocumentId")
+                        .HasForeignKey("SupplierId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Document");
+
+                    b.Navigation("Supplier");
                 });
 
-            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.Material", b =>
+            modelBuilder.Entity("ProcApi.Domain.Entities.InvoiceDocumentItem", b =>
                 {
-                    b.HasOne("ProcApi.Data.ProcDatabase.Models.Category", "Category")
+                    b.HasOne("ProcApi.Domain.Entities.InvoiceDocument", "InvoiceDocument")
+                        .WithMany("Items")
+                        .HasForeignKey("InvoiceDocumentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ProcApi.Domain.Entities.PurchaseRequestDocumentItem", "PurchaseRequestDocumentItem")
+                        .WithMany()
+                        .HasForeignKey("PurchaseRequestDocumentItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("InvoiceDocument");
+
+                    b.Navigation("PurchaseRequestDocumentItem");
+                });
+
+            modelBuilder.Entity("ProcApi.Domain.Entities.Material", b =>
+                {
+                    b.HasOne("ProcApi.Domain.Entities.Category", "Category")
                         .WithMany("Materials")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1075,20 +1185,20 @@ namespace ProcApi.Infrastructure.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.PurchaseRequestDocument", b =>
+            modelBuilder.Entity("ProcApi.Domain.Entities.PurchaseRequestDocument", b =>
                 {
-                    b.HasOne("ProcApi.Data.ProcDatabase.Models.Document", "Document")
+                    b.HasOne("ProcApi.Domain.Entities.Document", "Document")
                         .WithOne()
-                        .HasForeignKey("ProcApi.Data.ProcDatabase.Models.PurchaseRequestDocument", "DocumentId")
+                        .HasForeignKey("ProcApi.Domain.Entities.PurchaseRequestDocument", "DocumentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ProcApi.Data.ProcDatabase.Models.Project", "Project")
+                    b.HasOne("ProcApi.Domain.Entities.Project", "Project")
                         .WithMany()
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("ProcApi.Data.ProcDatabase.Models.Department", "RequestedForDepartment")
+                    b.HasOne("ProcApi.Domain.Entities.Department", "RequestedForDepartment")
                         .WithMany()
                         .HasForeignKey("RequestedForDepartmentId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1101,21 +1211,21 @@ namespace ProcApi.Infrastructure.Migrations
                     b.Navigation("RequestedForDepartment");
                 });
 
-            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.PurchaseRequestDocumentItem", b =>
+            modelBuilder.Entity("ProcApi.Domain.Entities.PurchaseRequestDocumentItem", b =>
                 {
-                    b.HasOne("ProcApi.Data.ProcDatabase.Models.Material", "Material")
+                    b.HasOne("ProcApi.Domain.Entities.Material", "Material")
                         .WithMany()
                         .HasForeignKey("MaterialId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ProcApi.Data.ProcDatabase.Models.PurchaseRequestDocument", "PurchaseRequestDocument")
+                    b.HasOne("ProcApi.Domain.Entities.PurchaseRequestDocument", "PurchaseRequestDocument")
                         .WithMany("Items")
                         .HasForeignKey("PurchaseRequestDocumentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ProcApi.Data.ProcDatabase.Models.UnitOfMeasure", "UnitOfMeasure")
+                    b.HasOne("ProcApi.Domain.Entities.UnitOfMeasure", "UnitOfMeasure")
                         .WithMany()
                         .HasForeignKey("UnitOfMeasureId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1128,9 +1238,9 @@ namespace ProcApi.Infrastructure.Migrations
                     b.Navigation("UnitOfMeasure");
                 });
 
-            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.ReleaseStrategy", b =>
+            modelBuilder.Entity("ProcApi.Domain.Entities.ReleaseStrategy", b =>
                 {
-                    b.HasOne("ProcApi.Data.ProcDatabase.Models.ApprovalFlowTemplate", "ApprovalFlowTemplate")
+                    b.HasOne("ProcApi.Domain.Entities.ApprovalFlowTemplate", "ApprovalFlowTemplate")
                         .WithMany()
                         .HasForeignKey("ApprovalFlowTemplateId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1139,15 +1249,15 @@ namespace ProcApi.Infrastructure.Migrations
                     b.Navigation("ApprovalFlowTemplate");
                 });
 
-            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.RolePermission", b =>
+            modelBuilder.Entity("ProcApi.Domain.Entities.RolePermission", b =>
                 {
-                    b.HasOne("ProcApi.Data.ProcDatabase.Models.Permission", "Permission")
+                    b.HasOne("ProcApi.Domain.Entities.Permission", "Permission")
                         .WithMany()
                         .HasForeignKey("PermissionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ProcApi.Data.ProcDatabase.Models.Role", "Role")
+                    b.HasOne("ProcApi.Domain.Entities.Role", "Role")
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1158,15 +1268,15 @@ namespace ProcApi.Infrastructure.Migrations
                     b.Navigation("Role");
                 });
 
-            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.UnitOfMeasureConverter", b =>
+            modelBuilder.Entity("ProcApi.Domain.Entities.UnitOfMeasureConverter", b =>
                 {
-                    b.HasOne("ProcApi.Data.ProcDatabase.Models.UnitOfMeasure", "SourceUnitOfMeasure")
+                    b.HasOne("ProcApi.Domain.Entities.UnitOfMeasure", "SourceUnitOfMeasure")
                         .WithMany()
                         .HasForeignKey("SourceUnitOfMeasureId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("ProcApi.Data.ProcDatabase.Models.UnitOfMeasure", "TargetUnitOfMeasure")
+                    b.HasOne("ProcApi.Domain.Entities.UnitOfMeasure", "TargetUnitOfMeasure")
                         .WithMany("Converters")
                         .HasForeignKey("TargetUnitOfMeasureId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -1177,26 +1287,26 @@ namespace ProcApi.Infrastructure.Migrations
                     b.Navigation("TargetUnitOfMeasure");
                 });
 
-            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.UserPassword", b =>
+            modelBuilder.Entity("ProcApi.Domain.Entities.UserPassword", b =>
                 {
-                    b.HasOne("ProcApi.Data.ProcDatabase.Models.User", "User")
+                    b.HasOne("ProcApi.Domain.Entities.User", "User")
                         .WithOne("UserPassword")
-                        .HasForeignKey("ProcApi.Data.ProcDatabase.Models.UserPassword", "UserId")
+                        .HasForeignKey("ProcApi.Domain.Entities.UserPassword", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.UserRole", b =>
+            modelBuilder.Entity("ProcApi.Domain.Entities.UserRole", b =>
                 {
-                    b.HasOne("ProcApi.Data.ProcDatabase.Models.Role", "Role")
+                    b.HasOne("ProcApi.Domain.Entities.Role", "Role")
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ProcApi.Data.ProcDatabase.Models.User", "User")
+                    b.HasOne("ProcApi.Domain.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1207,50 +1317,55 @@ namespace ProcApi.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.UserSetting", b =>
+            modelBuilder.Entity("ProcApi.Domain.Entities.UserSetting", b =>
                 {
-                    b.HasOne("ProcApi.Data.ProcDatabase.Models.User", "User")
+                    b.HasOne("ProcApi.Domain.Entities.User", "User")
                         .WithOne("UserSetting")
-                        .HasForeignKey("ProcApi.Data.ProcDatabase.Models.UserSetting", "UserId")
+                        .HasForeignKey("ProcApi.Domain.Entities.UserSetting", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.Category", b =>
+            modelBuilder.Entity("ProcApi.Domain.Entities.Category", b =>
                 {
                     b.Navigation("Materials");
                 });
 
-            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.Chat", b =>
+            modelBuilder.Entity("ProcApi.Domain.Entities.Chat", b =>
                 {
                     b.Navigation("ChatMessages");
 
                     b.Navigation("ChatUsers");
                 });
 
-            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.Document", b =>
+            modelBuilder.Entity("ProcApi.Domain.Entities.Document", b =>
                 {
                     b.Navigation("Actions");
                 });
 
-            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.Group", b =>
+            modelBuilder.Entity("ProcApi.Domain.Entities.Group", b =>
                 {
                     b.Navigation("GroupUsers");
                 });
 
-            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.PurchaseRequestDocument", b =>
+            modelBuilder.Entity("ProcApi.Domain.Entities.InvoiceDocument", b =>
                 {
                     b.Navigation("Items");
                 });
 
-            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.UnitOfMeasure", b =>
+            modelBuilder.Entity("ProcApi.Domain.Entities.PurchaseRequestDocument", b =>
+                {
+                    b.Navigation("Items");
+                });
+
+            modelBuilder.Entity("ProcApi.Domain.Entities.UnitOfMeasure", b =>
                 {
                     b.Navigation("Converters");
                 });
 
-            modelBuilder.Entity("ProcApi.Data.ProcDatabase.Models.User", b =>
+            modelBuilder.Entity("ProcApi.Domain.Entities.User", b =>
                 {
                     b.Navigation("ChatMessages");
 

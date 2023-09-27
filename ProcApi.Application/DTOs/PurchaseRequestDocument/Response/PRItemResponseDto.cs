@@ -1,10 +1,8 @@
-﻿namespace ProcApi.Application.DTOs.PurchaseRequestDocument.Response;
+﻿using ProcApi.Application.DTOs.PurchaseRequestDocument.Base;
 
-public class PRItemResponseDto
+namespace ProcApi.Application.DTOs.PurchaseRequestDocument.Response;
+
+public class PRItemResponseDto : PRItemDto
 {
     public int Id { get; set; }
-    public int MaterialId { get; set; }
-    public double Quantity { get; set; }
-    public double Price { get; set; }
-    public int UnitOfMeasureId { get; set; }
 }

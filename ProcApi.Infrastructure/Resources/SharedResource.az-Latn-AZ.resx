@@ -168,4 +168,28 @@
   <data name="UserCantPerformAction" xml:space="preserve">
     <value>İstifadəçi əməliyyat edə bilməz</value>
   </data>
+  <data name="SupplierTaxIdAlreadyExists" xml:space="preserve">
+    <value>Təchizatçı verilmiş tax ilə artıq mövcuddur</value>
+  </data>
+  <data name="SupplierNameAlreadyExists" xml:space="preserve">
+    <value>Təchizatçı verilmiş ad ilə artıq mövcuddur</value>
+  </data>
+  <data name="MaterialCodeAlreadyExists" xml:space="preserve">
+    <value>Material verilmiş kod ilə artıq mövcuddur</value>
+  </data>
+  <data name="MaterialNameAlreadyExists" xml:space="preserve">
+    <value>Material verilmiş ad ilə artıq mövcuddur</value>
+  </data>
+  <data name="SupplierNotFound" xml:space="preserve">
+    <value>Təchizatçı tapılmadı</value>
+  </data>
+  <data name="TaxLenghtValidation" xml:space="preserve">
+    <value>Tax 10 uzunluqda olmalıdır</value>
+  </data>
+  <data name="MailCantBeEmpty" xml:space="preserve">
+    <value>Email boş ola bilməz</value>
+  </data>
+  <data name="MailFormatValidation" xml:space="preserve">
+    <value>Email səhv formatdadır</value>
+  </data>
 </root>

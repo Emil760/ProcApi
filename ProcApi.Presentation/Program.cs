@@ -31,7 +31,7 @@ builder.Services.AddControllers()
     .AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
 builder.Services.AddFluentValidationAutoValidation(config => { config.DisableDataAnnotationsValidation = true; })
-    .AddValidatorsFromAssemblyContaining<Program>();
+    .AddValidatorsFromAssemblyContaining<ProcApi.Application.Validators.User.CreateUserValidator>();
 
 builder.Services.AddEndpointsApiExplorer();
 

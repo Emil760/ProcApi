@@ -168,4 +168,28 @@
   <data name="ActionAlreadyPerformed" xml:space="preserve">
     <value>Action already performed by user</value>
   </data>
+  <data name="SupplierNameAlreadyExists" xml:space="preserve">
+    <value>Supplier with given name already exists</value>
+  </data>
+  <data name="SupplierTaxIdAlreadyExists" xml:space="preserve">
+    <value>Supplier with given tax id already exists</value>
+  </data>
+  <data name="MaterialNameAlreadyExists" xml:space="preserve">
+    <value>Material with given name already exists</value>
+  </data>
+  <data name="MaterialCodeAlreadyExists" xml:space="preserve">
+    <value>Material with given code already exists</value>
+  </data>
+  <data name="SupplierNotFound" xml:space="preserve">
+    <value>Supplier not found</value>
+  </data>
+  <data name="TaxLenghtValidation" xml:space="preserve">
+    <value>Tax should be in 10 lenght</value>
+  </data>
+  <data name="MailFormatValidation" xml:space="preserve">
+    <value>Email is in wrong format</value>
+  </data>
+  <data name="MailCantBeEmpty" xml:space="preserve">
+    <value>Email cant be empty</value>
+  </data>
 </root>

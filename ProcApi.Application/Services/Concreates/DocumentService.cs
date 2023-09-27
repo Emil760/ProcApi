@@ -23,7 +23,7 @@ public class DocumentService : IDocumentService
         _documentRepository = documentRepository;
     }
 
-    public async Task<DocumentResponseDto> CreateDocumentWithApprovals(UserInfoModel userInfo,
+    public async Task<DocumentResponseDto> CreateDocumentWithApprovalsAsync(UserInfoModel userInfo,
         DocumentType type,
         DocumentStatus status)
     {

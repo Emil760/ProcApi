@@ -21,7 +21,7 @@ public class CategoryController : BaseController
         return Ok(await _categoryService.CreateCategory(dto));
     }
 
-    [HttpGet("get-by-level")]
+    [HttpGet("GetByLevel")]
     public async Task<IActionResult> GetByLevelAsync([FromQuery] int level)
     {
         return Ok(await _categoryService.GetByLevelAsync(level));

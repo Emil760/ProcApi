@@ -3,7 +3,7 @@ using Microsoft.Extensions.Localization;
 using ProcApi.Application.DTOs.User.Requests;
 using ProcApi.Infrastructure.Resources;
 
-namespace ProcApi.Validators.User;
+namespace ProcApi.Application.Validators.User;
 
 public class CreateUserValidator : AbstractValidator<AddUserDto>
 {

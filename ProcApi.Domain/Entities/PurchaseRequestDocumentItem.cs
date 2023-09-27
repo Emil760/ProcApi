@@ -1,4 +1,6 @@
-﻿namespace ProcApi.Domain.Entities;
+﻿using ProcApi.Domain.Enums;
+
+namespace ProcApi.Domain.Entities;
 
 public class PurchaseRequestDocumentItem
 {
@@ -11,4 +13,5 @@ public class PurchaseRequestDocumentItem
     public UnitOfMeasure UnitOfMeasure { get; set; }
     public decimal Quantity { get; set; }
     public decimal Price { get; set; }
+    public ItemStatus ItemStatusId { get; set; }
 }

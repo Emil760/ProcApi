@@ -22,6 +22,10 @@ namespace ProcApi.Presentation.Configurations
             services.AddScoped<IPurchaseRequestDocumentRepository, PurchaseRequestDocumentRepository>();
             services.AddScoped<IPurchaseRequestDocumentItemsRepository, PurchaseRequestDocumentItemsRepository>();
 
+            services.AddScoped<IInvoiceDocumentRepository, InvoiceDocumentRepository>();
+
+            services.AddScoped<ISupplierRepository, SupplierRepository>();
+
             services.AddScoped<IChatMessageRepository, ChatMessageRepository>();
             services.AddScoped<IChatRepository, ChatRepository>();
             services.AddScoped<IChatUserRepository, ChatUserRepository>();

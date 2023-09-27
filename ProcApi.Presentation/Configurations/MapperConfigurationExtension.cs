@@ -16,6 +16,7 @@ namespace ProcApi.Presentation.Configurations
                 cfg.AddProfile(new ChatProfile());
                 cfg.AddProfile(new MaterialProfile());
                 cfg.AddProfile(new CategoryProfile());
+                cfg.AddProfile(new SupplierProfile());
             }).CreateMapper());
         }
     }

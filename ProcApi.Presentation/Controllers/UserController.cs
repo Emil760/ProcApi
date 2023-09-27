@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ProcApi.Application.Caches.Abstracts;
 using ProcApi.Application.DTOs.User.Requests;
 using ProcApi.Application.Services.Abstracts;
 using ProcApi.Domain.Enums;
@@ -10,16 +11,25 @@ namespace ProcApi.Presentation.Controllers
     public class UserController : BaseController
     {
         private readonly IUserService _userService;
+        private readonly IUserCachedService _userCachedService;
 
-        public UserController(IUserService userService)
+        public UserController(IUserService userService,
+            IUserCachedService userCachedService)
         {
             _userService = userService;
+            _userCachedService = userCachedService;
         }
 
         [HttpGet("GetAll")]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAllAsync()
         {
             return Ok(await _userService.GetUsersAsync());
+        }
+
+        [HttpGet("GetCached")]
+        public async Task<IActionResult> GetCachedAsync(int userId)
+        {
+            return Ok(await _userCachedService.GetByIdAsync(userId));
         }
 
         [HasPermission(Permissions.CanCreateUser)]

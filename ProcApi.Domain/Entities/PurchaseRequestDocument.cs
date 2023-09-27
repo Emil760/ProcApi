@@ -10,5 +10,6 @@ public class PurchaseRequestDocument
     public Department RequestedForDepartment { get; set; }
     public int? ProjectId { get; set; }
     public Project? Project { get; set; }
+    public decimal TotalItemsPrice { get; set; }
     public ICollection<PurchaseRequestDocumentItem> Items { get; set; }
 }

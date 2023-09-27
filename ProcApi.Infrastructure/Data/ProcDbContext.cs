@@ -31,10 +31,11 @@ namespace ProcApi.Infrastructure.Data
         public DbSet<Department> Departments { get; set; }
         public DbSet<Document> Documents { get; set; }
         public DbSet<DocumentAction> DocumentActions { get; set; }
-        public DbSet<InvoiceDocument> InvoiceDocuments { get; set; }
         public DbSet<Project> Projects { get; set; }
         public DbSet<PurchaseRequestDocument> PurchaseRequestDocuments { get; set; }
         public DbSet<PurchaseRequestDocumentItem> PurchaseRequestDocumentItems { get; set; }
+        public DbSet<InvoiceDocument> InvoiceDocuments { get; set; }
+        public DbSet<InvoiceDocumentItem> InvoiceDocumentItems { get; set; }
         public DbSet<ReleaseStrategy> ReleaseStrategies { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<RolePermission> RolePermissions { get; set; }
@@ -44,6 +45,7 @@ namespace ProcApi.Infrastructure.Data
         public DbSet<UserRole> UserRoles { get; set; }
         public DbSet<Material> Materials { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Supplier> Suppliers { get; set; }
     }
 
     public partial class ProcDbContext : DbContext
@@ -55,5 +57,12 @@ namespace ProcApi.Infrastructure.Data
         [DbFunction(Name = "get_material_with_categories", Schema = "public", IsBuiltIn = false)]
         public IQueryable<MaterialResultSet> GetMaterialWithCategories(int materialId)
             => FromExpression(() => GetMaterialWithCategories(materialId));
+
+        [DbFunction(Name = "get_unused_purchase_request_items", Schema = "public", IsBuiltIn = false)]
+        public IQueryable<UnusedPurchaseRequestItemsResultSet> GetUnusedPurchaseRequestItems(
+            int pageNumber,
+            int pageSize,
+            string search)
+            => FromExpression(() => GetUnusedPurchaseRequestItems(pageNumber, pageSize, search));
     }
 }

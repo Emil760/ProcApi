@@ -6,5 +6,5 @@ namespace ProcApi.Application.Services.Abstracts;
 
 public interface IDocumentService
 {
-    Task<DocumentResponseDto> CreateDocumentWithApprovals(UserInfoModel userInfo, DocumentType type, DocumentStatus status);
+    Task<DocumentResponseDto> CreateDocumentWithApprovalsAsync(UserInfoModel userInfo, DocumentType type, DocumentStatus status);
 }

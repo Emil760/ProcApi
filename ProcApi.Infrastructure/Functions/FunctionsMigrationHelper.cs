@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace ProcApi.Infrastructure.Procedures;
+namespace ProcApi.Infrastructure.Functions;
 
-public static class ProceduresMigrationHelper
+public static class FunctionsMigrationHelper
 {
     #region GetCategoriesByLevel
 
@@ -92,6 +92,47 @@ public static class ProceduresMigrationHelper
     public static void DropGetMaterialWithCategoriesV1(MigrationBuilder migrationBuilder)
     {
         migrationBuilder.Sql(@"DROP IF EXISTS FUNCTION get_material_with_categories");
+    }
+
+    #endregion
+
+    #region GetPurchaseRequestUnusedCount
+
+    public static void CreateGetPurchaseRequestUnusedItemsCountV1(MigrationBuilder migrationBuilder)
+    {
+        migrationBuilder.Sql(@"CREATE FUNCTION get_unused_purchase_request_items (pageNumber int, pageSize int, search varchar(300))
+							   RETURNS TABLE (
+							       ""PurchaseRequestDocumentItemId"" int,
+							       ""PurchaseRequestDocumentNumber"" varchar(300),
+							       ""MaterialName"" varchar(300),
+							       ""Quantity"" decimal,
+							       ""UnusedCount"" decimal
+							   ) AS
+							   $$
+							   BEGIN
+							      RETURN QUERY
+							      SElECT prdi.""Id"" as ""PurchaseRequestDocumentItemId"",
+							      dp.""Number"" as ""PurchaseRequestDocumentNumber"",
+							      m.""Name"" as ""MaterialName"",
+							      prdi.""Quantity"" as ""Count"",
+							      prdi.""Quantity"" - sum(idi.""Quantity"") as ""UnusedCount""
+							      FROM ""PurchaseRequestDocumentItems"" prdi
+							      INNER JOIN ""InvoiceDocumentItems"" idi ON prdi.""Id"" = idi.""PurchaseRequestDocumentItemId""
+							      INNER JOIN ""Documents"" di ON di.""Id"" = idi.""InvoiceDocumentId""
+							      INNER JOIN ""Documents"" dp on dp.""Id"" = prdi.""PurchaseRequestDocumentId""
+							      INNER JOIN ""Materials"" m ON prdi.""MaterialId"" = m.""Id""
+							      WHERE di.""StatusId"" != 300
+							      AND (dp.""Number"" LIKE search OR m.""Name"" LIKE search)
+							      GROUP BY prdi.""Id"", dp.""Number"", m.""Name""
+							      OFFSET ((pageNumber - 1) * pageSize) ROWS FETCH FIRST pageSize ROWS ONLY;
+							   END;
+							   $$
+							   LANGUAGE PLPGSQL");
+    }
+
+    public static void DropGetPurchaseRequestUnusedItemsCountV1(MigrationBuilder migrationBuilder)
+    {
+        migrationBuilder.Sql(@"DROP FUNCTION get_unused_purchase_request_items");
     }
 
     #endregion

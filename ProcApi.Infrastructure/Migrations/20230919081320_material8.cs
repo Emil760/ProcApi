@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
-using ProcApi.Infrastructure.Procedures;
+using ProcApi.Infrastructure.Functions;
 
 #nullable disable
 
@@ -11,13 +11,13 @@ namespace ProcApi.Infrastructure.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            ProceduresMigrationHelper.CreateGetMaterialWithCategoriesV1(migrationBuilder);
+            FunctionsMigrationHelper.CreateGetMaterialWithCategoriesV1(migrationBuilder);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            ProceduresMigrationHelper.DropGetMaterialWithCategoriesV1(migrationBuilder);
+            FunctionsMigrationHelper.DropGetMaterialWithCategoriesV1(migrationBuilder);
         }
     }
 }

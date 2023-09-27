@@ -15,7 +15,7 @@ public class AuthenticationController : BaseController
     }
     
     [AllowAnonymous]
-    [HttpPost("login")]
+    [HttpPost("Login")]
     public async Task<IActionResult> Login([FromBody] LoginDto dto)
     {
         var token = await _authenticationService.Login(dto);
@@ -23,7 +23,7 @@ public class AuthenticationController : BaseController
     }
 
     [AllowAnonymous]
-    [HttpPost("register")]
+    [HttpPost("Register")]
     public async Task<IActionResult> Register([FromBody] RegistrationDto dto)
     {
         await _authenticationService.Register(dto);

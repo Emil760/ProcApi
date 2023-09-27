@@ -16,7 +16,7 @@ public class MaterialController : BaseController
         _materialService = materialService;
     }
 
-    [HttpGet("all")]
+    [HttpGet("All")]
     public async Task<IActionResult> GetAllAsync([FromQuery] PaginationModel pagination)
     {
         return Ok(await _materialService.GetAllAsync(pagination));

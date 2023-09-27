@@ -29,11 +29,15 @@ namespace ProcApi.Presentation.Configurations
             services.AddScoped<IPurchaseRequestDocumentService, PurchaseRequestDocumentService>();
             services.AddScoped<IPurchaseRequestDocumentItemsService, PurchaseRequestDocumentItemsService>();
             services.AddScoped<IPurchaseRequestDocumentApprovalService, PurchaseRequestDocumentApprovalService>();
-
+            
             services.AddScoped<PurchaseRequestApproveHandler>();
             services.AddScoped<PurchaseRequestRejectHandler>();
             services.AddScoped<PurchaseRequestReturnHandler>();
             services.AddScoped<PurchaseRequestSubmitHandler>();
+            
+            services.AddScoped<IInvoiceDocumentService, InvoiceDocumentService>();
+
+            services.AddScoped<ISupplierService, SupplierService>();
 
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IMaterialService, MaterialService>();
@@ -41,7 +45,7 @@ namespace ProcApi.Presentation.Configurations
             services.AddScoped<IFileService, FileService>();
 
             services.AddScoped<IUserCachedService, UserCachedService>();
-            
+
             services.AddScoped<ExceptionHandlerCoordinator>();
             services.AddScoped<GeneralExceptionHandler>();
             services.AddScoped<UnauthorizedExceptionHandler>();

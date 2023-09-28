@@ -5,6 +5,7 @@ using ProcApi.Application.DTOs.PurchaseRequestDocument.Response;
 using ProcApi.Application.Enums;
 using ProcApi.Application.Services.Abstracts;
 using ProcApi.Domain.Entities;
+using ProcApi.Domain.Enums;
 using ProcApi.Domain.Exceptions;
 using ProcApi.Infrastructure.Repositories.Abstracts;
 using ProcApi.Infrastructure.Repositories.UnitOfWork;
@@ -55,6 +56,9 @@ namespace ProcApi.Application.Services.Concreates
             if (document is null)
                 throw new NotFoundException(_localizer["DocumentNotFound"]);
 
+            if (document.Document.StatusId != DocumentStatus.InvoiceDraft)
+                throw new ValidationException(_localizer["CanModifyOnlyDraft"]);
+
             _mapper.Map(dto, document);
 
             var itemsToAdd = dto.Items.Where(i => i.State == ActionState.Added);
@@ -65,7 +69,7 @@ namespace ProcApi.Application.Services.Concreates
 
             var itemsToDelete = dto.Items.Where(i => i.State == ActionState.Deleted);
             document.Items = DeleteItems(document.Items, itemsToDelete);
-            
+
             RecalculateTotalItemsPrice(document, document.Items);
 
             await _unitOfWork.SaveChangesAsync();

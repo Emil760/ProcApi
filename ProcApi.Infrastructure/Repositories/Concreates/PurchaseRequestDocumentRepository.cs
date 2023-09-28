@@ -16,6 +16,7 @@ namespace ProcApi.Infrastructure.Repositories.Concreates
         {
             return await _context.PurchaseRequestDocuments
                 .Include(prd => prd.Items)
+                .Include(prd => prd.Document)
                 .SingleOrDefaultAsync(prd => prd.DocumentId == docId);
         }
 

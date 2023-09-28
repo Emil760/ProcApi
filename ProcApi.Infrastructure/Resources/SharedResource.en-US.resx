@@ -192,4 +192,7 @@
   <data name="MailCantBeEmpty" xml:space="preserve">
     <value>Email cant be empty</value>
   </data>
+  <data name="CanModifyOnlyDraft" xml:space="preserve">
+    <value>Can modify only draft document</value>
+  </data>
 </root>

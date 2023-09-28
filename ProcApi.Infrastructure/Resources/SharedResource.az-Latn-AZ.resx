@@ -192,4 +192,7 @@
   <data name="MailFormatValidation" xml:space="preserve">
     <value>Email səhv formatdadır</value>
   </data>
+  <data name="CanModifyOnlyDraft" xml:space="preserve">
+    <value>Yalnız qaralama statusunda olan sənəd dəyişə bilər</value>
+  </data>
 </root>

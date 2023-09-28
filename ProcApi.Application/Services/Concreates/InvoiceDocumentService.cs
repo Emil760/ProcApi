@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.Localization;
+using ProcApi.Application.DTOs.Invoice.Requests;
+using ProcApi.Application.DTOs.Invoice.Responses;
 using ProcApi.Application.Services.Abstracts;
 using ProcApi.Domain.Models;
 using ProcApi.Domain.ResultSets;
@@ -23,5 +25,15 @@ public class InvoiceDocumentService : IInvoiceDocumentService
         PaginationModel model)
     {
         return await _invoiceDocumentRepository.GetUnusedPurchaseRequestItemsAsync(model);
+    }
+
+    public Task<InvoiceResponseDto> CreateInvoiceAsync(CreateInvoiceRequestDto dto)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<InvoiceResponseDto> UpdateInvoiceAsync(UpdateInoiceRequestDto dto)
+    {
+        throw new NotImplementedException();
     }
 }

@@ -23,7 +23,8 @@ namespace ProcApi.Presentation.Controllers
         [HttpGet("Test")]
         public async Task<IActionResult> GetTemp()
         {
-            return Ok(await _documentRepository.GetStatus(4));
+            return Ok("Student\t\tGrade");
+            var a = 100 * 0.5;
         }
 
         [HttpGet("Test2")]

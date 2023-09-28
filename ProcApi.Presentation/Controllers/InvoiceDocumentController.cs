@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ProcApi.Application.DTOs.Invoice.Requests;
 using ProcApi.Application.Services.Abstracts;
 using ProcApi.Application.Services.Concreates;
 using ProcApi.Domain.Enums;
@@ -28,17 +29,17 @@ public class InvoiceDocumentController : BaseController
             DocumentStatus.InvoiceDraft));
     }
 
-    // [HttpPost("Save")]
-    // public async Task<IActionResult> SaveAsync([FromBody] CreatePRRequestDto dto)
-    // {
-    //     return Ok(await _invoiceDocumentService.CreateDocument(dto));
-    // }
-    //
-    // [HttpPost("Update")]
-    // public async Task<IActionResult> UpdateAsync([FromBody] UpdatePRRequestDto dto)
-    // {
-    //     return Ok(await _invoiceDocumentService.UpdateDocument(dto));
-    // }
+    [HttpPost("Save")]
+    public async Task<IActionResult> SaveAsync([FromBody] CreateInvoiceRequestDto dto)
+    {
+        return Ok(await _invoiceDocumentService.CreateInvoiceAsync(dto));
+    }
+
+    [HttpPost("Update")]
+    public async Task<IActionResult> UpdateAsync([FromBody] UpdateInoiceRequestDto dto)
+    {
+        return Ok(await _invoiceDocumentService.UpdateInvoiceAsync(dto));
+    }
 
     [HttpGet("UnusedPurchaseRequestItems")]
     public async Task<IActionResult> GetUnusedPurchaseRequestItemsAsync(PaginationModel model)

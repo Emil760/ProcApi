@@ -4,19 +4,20 @@ using ProcApi.Application.DTOs.PurchaseRequestDocument.Requests;
 using ProcApi.Application.Services.Abstracts;
 using ProcApi.Domain.Enums;
 using ProcApi.Presentation.Attributes;
+using ProcApi.Presentation.Filters;
 
 namespace ProcApi.Presentation.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class PurchaseRequestDocumentController : BaseController
+    public class PurchaseRequestController : BaseController
     {
         private readonly IDocumentService _documentService;
         private readonly IPurchaseRequestService _purchaseRequestService;
         private readonly IPurchaseRequestItemsService _purchaseRequestItemsService;
         private readonly IPurchaseRequestApprovalService _purchaseRequestApprovalService;
 
-        public PurchaseRequestDocumentController(IPurchaseRequestService purchaseRequestService,
+        public PurchaseRequestController(IPurchaseRequestService purchaseRequestService,
             IPurchaseRequestApprovalService purchaseRequestApprovalService,
             IPurchaseRequestItemsService purchaseRequestItemsService,
             IDocumentService documentService)
@@ -27,6 +28,8 @@ namespace ProcApi.Presentation.Controllers
             _documentService = documentService;
         }
 
+        [DocumentAccessFilter(new[] { Roles.PurchaseRequestKeyUser })]
+        [HasPermission(Permissions.CanViewPurchaseRequest)]
         [HttpGet]
         public async Task<IActionResult> GetDocumentAsync([FromQuery] int docId)
         {
@@ -56,6 +59,7 @@ namespace ProcApi.Presentation.Controllers
             return Ok();
         }
 
+        [HasPermission(Permissions.CanViewPurchaseRequest)]
         [HttpGet("ItemsDto")]
         public async Task<IActionResult> GetItems([FromQuery] int docId)
         {

@@ -22,8 +22,8 @@ public class RolePermissionConfiguration : IEntityTypeConfiguration<RolePermissi
             new RolePermission { RoleId = (int) Roles.User, PermissionId = (int)Permissions.CanActivateUser },
             new RolePermission { RoleId = (int) Roles.User, PermissionId = (int)Permissions.CanEditUser },
             new RolePermission { RoleId = (int) Roles.Requester, PermissionId = (int) Permissions.CanCreatePurchaseRequest },
-            new RolePermission { RoleId = (int) Roles.Buyer, PermissionId = (int) Permissions.CanCreateInvoice }
-
+            new RolePermission { RoleId = (int) Roles.Buyer, PermissionId = (int) Permissions.CanCreateInvoice },
+            new RolePermission { RoleId = (int) Roles.Buyer, PermissionId = (int)Permissions.CanViewInvoice}
         };
     }
 }

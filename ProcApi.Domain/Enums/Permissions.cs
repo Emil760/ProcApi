@@ -7,5 +7,13 @@ public enum Permissions
     CanEditUser,
     CanActivateUser,
     CanCreatePurchaseRequest,
-    CanCreateInvoice
+    CanCreateInvoice,
+    CanViewMaterial,
+    CanViewInvoice,
+    CanDeleteMaterial,
+    CanCreateMaterial,
+    CanViewPurchaseRequest,
+    CanViewSupplier,
+    CanCreateSupplier,
+    CanViewUser
 }

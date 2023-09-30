@@ -11,5 +11,7 @@ public enum Roles
     HeadDepartment,
     ProcurementDirector,
     Buyer,
-    Director
+    Director,
+    PurchaseRequestKeyUser,
+    InvoiceKeyUser
 }

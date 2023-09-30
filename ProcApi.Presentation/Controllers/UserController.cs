@@ -20,12 +20,14 @@ namespace ProcApi.Presentation.Controllers
             _userCachedService = userCachedService;
         }
 
+        [HasPermission(Permissions.CanViewUser)]
         [HttpGet("GetAll")]
         public async Task<IActionResult> GetAllAsync()
         {
             return Ok(await _userService.GetUsersAsync());
         }
 
+        [HasPermission(Permissions.CanViewUser)]
         [HttpGet("GetCached")]
         public async Task<IActionResult> GetCachedAsync(int userId)
         {

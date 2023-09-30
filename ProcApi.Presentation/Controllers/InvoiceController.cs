@@ -4,23 +4,26 @@ using ProcApi.Application.Services.Abstracts;
 using ProcApi.Domain.Enums;
 using ProcApi.Domain.Models;
 using ProcApi.Presentation.Attributes;
+using ProcApi.Presentation.Filters;
 
 namespace ProcApi.Presentation.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class InvoiceDocumentController : BaseController
+public class InvoiceController : BaseController
 {
     private readonly IDocumentService _documentService;
     private readonly IInvoiceService _invoiceService;
 
-    public InvoiceDocumentController(IDocumentService documentService,
+    public InvoiceController(IDocumentService documentService,
         IInvoiceService invoiceService)
     {
         _documentService = documentService;
         _invoiceService = invoiceService;
     }
-    
+
+    [DocumentAccessFilter(new[] { Roles.InvoiceKeyUser })]
+    [HasPermission(Permissions.CanViewInvoice)]
     [HttpGet]
     public async Task<IActionResult> GetDocumentAsync([FromQuery] int docId)
     {
@@ -43,6 +46,7 @@ public class InvoiceDocumentController : BaseController
         return Ok(await _invoiceService.SaveInvoiceAsync(dto));
     }
 
+    [HasPermission(Permissions.CanViewInvoice)]
     [HttpGet("UnusedPurchaseRequestItems")]
     public async Task<IActionResult> GetUnusedPurchaseRequestItemsAsync(PaginationModel model)
     {

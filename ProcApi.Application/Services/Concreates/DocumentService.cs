@@ -19,8 +19,8 @@ public class DocumentService : IDocumentService
         IMapper mapper)
     {
         _approvalsService = approvalsService;
-        _mapper = mapper;
         _documentRepository = documentRepository;
+        _mapper = mapper;
     }
 
     public async Task<DocumentResponseDto> CreateDocumentWithApprovalsAsync(UserInfoModel userInfo,

@@ -11,6 +11,13 @@ namespace ProcApi.Infrastructure.Repositories.Concreates
         {
         }
 
+        public async Task<bool> ExistsByDocIdAndUserId(int docId, int userId)
+        {
+            return await _context.DocumentActions
+                .Where(da => da.DocumentId == docId && da.UserId == userId)
+                .AnyAsync();
+        }
+
         public async Task<IEnumerable<DocumentAction>> GetByDocIdAsync(int docId)
         {
             return await _context.DocumentActions.Where(da => da.DocumentId == docId).ToListAsync();

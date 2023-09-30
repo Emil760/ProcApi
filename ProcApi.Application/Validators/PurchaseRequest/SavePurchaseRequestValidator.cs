@@ -4,11 +4,11 @@ using ProcApi.Application.DTOs.PurchaseRequestDocument.Requests;
 using ProcApi.Application.Enums;
 using ProcApi.Infrastructure.Resources;
 
-namespace ProcApi.Application.Validators.PurchaseRequestDocument;
+namespace ProcApi.Application.Validators.PurchaseRequest;
 
-public class SavePurchaseRequestDocumentValidator : AbstractValidator<SavePRRequestDto>
+public class SavePurchaseRequestValidator : AbstractValidator<SavePRRequestDto>
 {
-    public SavePurchaseRequestDocumentValidator(IStringLocalizer<SharedResource> localizer)
+    public SavePurchaseRequestValidator(IStringLocalizer<SharedResource> localizer)
     {
         RuleFor(x => x.DeliveryAddress)
             .NotEmpty()

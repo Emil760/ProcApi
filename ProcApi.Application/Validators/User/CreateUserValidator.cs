@@ -11,20 +11,14 @@ public class CreateUserValidator : AbstractValidator<AddUserDto>
     {
         RuleFor(u => u.FirstName)
             .NotEmpty()
-            .WithMessage(localizer["FirstNameCantBeEmpty"])
-            .WithErrorCode("001")
-            .WithSeverity(Severity.Error);
+            .WithMessage(localizer["FirstNameCantBeEmpty"]);
+
         RuleFor(u => u.LastName)
             .NotEmpty()
-            .WithMessage("last name cant be empty")
-            .WithErrorCode("002")
-            .WithSeverity(Severity.Error);
+            .WithMessage("last name cant be empty");
+
         RuleFor(u => u.Age)
             .GreaterThan(17)
-            .WithMessage("Age should be greater than 18")
-            .WithErrorCode("003")
-            .WithSeverity(Severity.Error);
-
-        //this.RaiseValidationException();
+            .WithMessage("Age should be greater than 18");
     }
 }

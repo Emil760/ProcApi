@@ -17,6 +17,8 @@ namespace ProcApi.Presentation.Configurations
                 cfg.AddProfile(new MaterialProfile());
                 cfg.AddProfile(new CategoryProfile());
                 cfg.AddProfile(new SupplierProfile());
+                cfg.AddProfile(new InvoiceProfile());
+                cfg.AddProfile(new InvoiceItemProfile());
             }).CreateMapper());
         }
     }

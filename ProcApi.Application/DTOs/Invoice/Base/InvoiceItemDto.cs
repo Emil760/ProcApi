@@ -2,6 +2,7 @@
 
 public class InvoiceItemDto
 {
-    public int PurchaseRequestDocumentItemId { get; set; }
+    public int PurchaseRequestItemId { get; set; }
     public decimal Quantity { get; set; }
+    public int UnitOfMeasureId { get; set; }
 }

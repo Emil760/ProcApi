@@ -195,4 +195,16 @@
   <data name="CanModifyOnlyDraft" xml:space="preserve">
     <value>Can modify only draft document</value>
   </data>
+  <data name="ItemNotFound" xml:space="preserve">
+    <value>Item not found</value>
+  </data>
+  <data name="CantChangeNonDraftDocument" xml:space="preserve">
+    <value>Cant change non draft document</value>
+  </data>
+  <data name="QuantityCantBeEmpty" xml:space="preserve">
+    <value>Quantity cant be empty</value>
+  </data>
+  <data name="MaterialCantBeEmpty" xml:space="preserve">
+    <value>Material cant be empty</value>
+  </data>
 </root>

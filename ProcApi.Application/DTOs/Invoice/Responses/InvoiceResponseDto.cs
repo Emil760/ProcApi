@@ -1,13 +1,13 @@
 ﻿using ProcApi.Application.DTOs.Documents.Base;
 using ProcApi.Application.DTOs.Documents.Responses;
-using ProcApi.Application.DTOs.Supplier.Base;
+using ProcApi.Application.DTOs.Invoice.Base;
 
 namespace ProcApi.Application.DTOs.Invoice.Responses;
 
-public class InvoiceResponseDto : SupplierDto
+public class InvoiceResponseDto : InvoiceDto
 {
-    public string SupplierName { get; set; }
-    public BaseDocumentDto BaseDocumentDto { get; set; }    
-    public IEnumerable<InvoiceItemResponseDto> Items { get; set; }
+    public BaseDocumentDto BaseDocumentDto { get; set; }
+    public IEnumerable<InvoiceItemResponseDto> ItemsDto { get; set; }
     public IEnumerable<DocumentMemberResponseDto> MembersDto { get; set; }
+    public decimal TotalItemsPrice { get; set; }
 }

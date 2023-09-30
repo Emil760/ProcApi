@@ -409,7 +409,7 @@ namespace ProcApi.Infrastructure.Migrations
                     b.ToTable("GroupUsers");
                 });
 
-            modelBuilder.Entity("ProcApi.Domain.Entities.InvoiceDocument", b =>
+            modelBuilder.Entity("ProcApi.Domain.Entities.Invoice", b =>
                 {
                     b.Property<int>("DocumentId")
                         .HasColumnType("integer");
@@ -433,7 +433,7 @@ namespace ProcApi.Infrastructure.Migrations
                     b.ToTable("InvoiceDocuments");
                 });
 
-            modelBuilder.Entity("ProcApi.Domain.Entities.InvoiceDocumentItem", b =>
+            modelBuilder.Entity("ProcApi.Domain.Entities.InvoiceItem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -441,23 +441,28 @@ namespace ProcApi.Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("InvoiceDocumentId")
+                    b.Property<int>("InvoiceId")
                         .HasColumnType("integer");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("numeric");
 
-                    b.Property<int>("PurchaseRequestDocumentItemId")
+                    b.Property<int>("PurchaseRequestItemId")
                         .HasColumnType("integer");
 
                     b.Property<decimal>("Quantity")
                         .HasColumnType("numeric");
 
+                    b.Property<int>("UnitOfMeasureId")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("InvoiceDocumentId");
+                    b.HasIndex("InvoiceId");
 
-                    b.HasIndex("PurchaseRequestDocumentItemId");
+                    b.HasIndex("PurchaseRequestItemId");
+
+                    b.HasIndex("UnitOfMeasureId");
 
                     b.ToTable("InvoiceDocumentItems");
                 });
@@ -544,7 +549,12 @@ namespace ProcApi.Infrastructure.Migrations
                         new
                         {
                             Id = 5,
-                            Name = "CanCreatePurchaseRequestDocument"
+                            Name = "CanCreatePurchaseRequest"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Name = "CanCreateInvoice"
                         });
                 });
 
@@ -566,7 +576,7 @@ namespace ProcApi.Infrastructure.Migrations
                     b.ToTable("Projects");
                 });
 
-            modelBuilder.Entity("ProcApi.Domain.Entities.PurchaseRequestDocument", b =>
+            modelBuilder.Entity("ProcApi.Domain.Entities.PurchaseRequest", b =>
                 {
                     b.Property<int>("DocumentId")
                         .HasColumnType("integer");
@@ -602,7 +612,7 @@ namespace ProcApi.Infrastructure.Migrations
                     b.ToTable("PurchaseRequestDocuments");
                 });
 
-            modelBuilder.Entity("ProcApi.Domain.Entities.PurchaseRequestDocumentItem", b =>
+            modelBuilder.Entity("ProcApi.Domain.Entities.PurchaseRequestItem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -619,7 +629,7 @@ namespace ProcApi.Infrastructure.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("numeric");
 
-                    b.Property<int>("PurchaseRequestDocumentId")
+                    b.Property<int>("PurchaseRequestId")
                         .HasColumnType("integer");
 
                     b.Property<decimal>("Quantity")
@@ -632,7 +642,7 @@ namespace ProcApi.Infrastructure.Migrations
 
                     b.HasIndex("MaterialId");
 
-                    b.HasIndex("PurchaseRequestDocumentId");
+                    b.HasIndex("PurchaseRequestId");
 
                     b.HasIndex("UnitOfMeasureId");
 
@@ -728,6 +738,11 @@ namespace ProcApi.Infrastructure.Migrations
                         {
                             Id = 9,
                             Name = "Buyer"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Name = "Director"
                         });
                 });
 
@@ -765,6 +780,11 @@ namespace ProcApi.Infrastructure.Migrations
                         {
                             RoleId = 3,
                             PermissionId = 5
+                        },
+                        new
+                        {
+                            RoleId = 9,
+                            PermissionId = 6
                         });
                 });
 
@@ -974,6 +994,46 @@ namespace ProcApi.Infrastructure.Migrations
                     b.ToFunction("get_material_with_categories");
                 });
 
+            modelBuilder.Entity("ProcApi.Domain.ResultSets.UnusedPRItemInfoResultSet", b =>
+                {
+                    b.Property<decimal>("Count")
+                        .HasColumnType("numeric");
+
+                    b.Property<string>("MaterialName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("PurchaseRequestItemId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("PurchaseRequestNumber")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<decimal>("UnusedCount")
+                        .HasColumnType("numeric");
+
+                    b.ToTable((string)null);
+
+                    b.ToFunction("get_unused_purchase_request_items");
+                });
+
+            modelBuilder.Entity("ProcApi.Domain.ResultSets.UnusedPRItemResultSet", b =>
+                {
+                    b.Property<decimal>("Price")
+                        .HasColumnType("numeric");
+
+                    b.Property<int>("PurchaseRequestItemId")
+                        .HasColumnType("integer");
+
+                    b.Property<decimal>("UnusedCount")
+                        .HasColumnType("numeric");
+
+                    b.ToTable((string)null);
+
+                    b.ToFunction("get_unused_purchase_request_items_by_ids");
+                });
+
             modelBuilder.Entity("ProcApi.Domain.Entities.ApprovalFlowTemplate", b =>
                 {
                     b.HasOne("ProcApi.Domain.Entities.Role", "Role")
@@ -1136,11 +1196,11 @@ namespace ProcApi.Infrastructure.Migrations
                     b.Navigation("Group");
                 });
 
-            modelBuilder.Entity("ProcApi.Domain.Entities.InvoiceDocument", b =>
+            modelBuilder.Entity("ProcApi.Domain.Entities.Invoice", b =>
                 {
                     b.HasOne("ProcApi.Domain.Entities.Document", "Document")
                         .WithOne()
-                        .HasForeignKey("ProcApi.Domain.Entities.InvoiceDocument", "DocumentId")
+                        .HasForeignKey("ProcApi.Domain.Entities.Invoice", "DocumentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1155,23 +1215,31 @@ namespace ProcApi.Infrastructure.Migrations
                     b.Navigation("Supplier");
                 });
 
-            modelBuilder.Entity("ProcApi.Domain.Entities.InvoiceDocumentItem", b =>
+            modelBuilder.Entity("ProcApi.Domain.Entities.InvoiceItem", b =>
                 {
-                    b.HasOne("ProcApi.Domain.Entities.InvoiceDocument", "InvoiceDocument")
+                    b.HasOne("ProcApi.Domain.Entities.Invoice", "Invoice")
                         .WithMany("Items")
-                        .HasForeignKey("InvoiceDocumentId")
+                        .HasForeignKey("InvoiceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ProcApi.Domain.Entities.PurchaseRequestDocumentItem", "PurchaseRequestDocumentItem")
+                    b.HasOne("ProcApi.Domain.Entities.PurchaseRequestItem", "PurchaseRequestItem")
                         .WithMany()
-                        .HasForeignKey("PurchaseRequestDocumentItemId")
+                        .HasForeignKey("PurchaseRequestItemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("InvoiceDocument");
+                    b.HasOne("ProcApi.Domain.Entities.UnitOfMeasure", "UnitOfMeasure")
+                        .WithMany()
+                        .HasForeignKey("UnitOfMeasureId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("PurchaseRequestDocumentItem");
+                    b.Navigation("Invoice");
+
+                    b.Navigation("PurchaseRequestItem");
+
+                    b.Navigation("UnitOfMeasure");
                 });
 
             modelBuilder.Entity("ProcApi.Domain.Entities.Material", b =>
@@ -1185,11 +1253,11 @@ namespace ProcApi.Infrastructure.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("ProcApi.Domain.Entities.PurchaseRequestDocument", b =>
+            modelBuilder.Entity("ProcApi.Domain.Entities.PurchaseRequest", b =>
                 {
                     b.HasOne("ProcApi.Domain.Entities.Document", "Document")
                         .WithOne()
-                        .HasForeignKey("ProcApi.Domain.Entities.PurchaseRequestDocument", "DocumentId")
+                        .HasForeignKey("ProcApi.Domain.Entities.PurchaseRequest", "DocumentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1211,7 +1279,7 @@ namespace ProcApi.Infrastructure.Migrations
                     b.Navigation("RequestedForDepartment");
                 });
 
-            modelBuilder.Entity("ProcApi.Domain.Entities.PurchaseRequestDocumentItem", b =>
+            modelBuilder.Entity("ProcApi.Domain.Entities.PurchaseRequestItem", b =>
                 {
                     b.HasOne("ProcApi.Domain.Entities.Material", "Material")
                         .WithMany()
@@ -1219,9 +1287,9 @@ namespace ProcApi.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ProcApi.Domain.Entities.PurchaseRequestDocument", "PurchaseRequestDocument")
+                    b.HasOne("ProcApi.Domain.Entities.PurchaseRequest", "PurchaseRequest")
                         .WithMany("Items")
-                        .HasForeignKey("PurchaseRequestDocumentId")
+                        .HasForeignKey("PurchaseRequestId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1233,7 +1301,7 @@ namespace ProcApi.Infrastructure.Migrations
 
                     b.Navigation("Material");
 
-                    b.Navigation("PurchaseRequestDocument");
+                    b.Navigation("PurchaseRequest");
 
                     b.Navigation("UnitOfMeasure");
                 });
@@ -1350,12 +1418,12 @@ namespace ProcApi.Infrastructure.Migrations
                     b.Navigation("GroupUsers");
                 });
 
-            modelBuilder.Entity("ProcApi.Domain.Entities.InvoiceDocument", b =>
+            modelBuilder.Entity("ProcApi.Domain.Entities.Invoice", b =>
                 {
                     b.Navigation("Items");
                 });
 
-            modelBuilder.Entity("ProcApi.Domain.Entities.PurchaseRequestDocument", b =>
+            modelBuilder.Entity("ProcApi.Domain.Entities.PurchaseRequest", b =>
                 {
                     b.Navigation("Items");
                 });

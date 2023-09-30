@@ -26,16 +26,16 @@ namespace ProcApi.Presentation.Configurations
 
             services.AddScoped<IDocumentService, DocumentService>();
 
-            services.AddScoped<IPurchaseRequestDocumentService, PurchaseRequestDocumentService>();
-            services.AddScoped<IPurchaseRequestDocumentItemsService, PurchaseRequestDocumentItemsService>();
-            services.AddScoped<IPurchaseRequestDocumentApprovalService, PurchaseRequestDocumentApprovalService>();
+            services.AddScoped<IPurchaseRequestService, PurchaseRequestService>();
+            services.AddScoped<IPurchaseRequestItemsService, PurchaseRequestItemsService>();
+            services.AddScoped<IPurchaseRequestApprovalService, PurchaseRequestApprovalService>();
             
             services.AddScoped<PurchaseRequestApproveHandler>();
             services.AddScoped<PurchaseRequestRejectHandler>();
             services.AddScoped<PurchaseRequestReturnHandler>();
             services.AddScoped<PurchaseRequestSubmitHandler>();
             
-            services.AddScoped<IInvoiceDocumentService, InvoiceDocumentService>();
+            services.AddScoped<IInvoiceService, InvoiceService>();
 
             services.AddScoped<ISupplierService, SupplierService>();
 

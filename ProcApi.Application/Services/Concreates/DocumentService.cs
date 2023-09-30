@@ -36,7 +36,7 @@ public class DocumentService : IDocumentService
         };
 
         var documentActions =
-            await _approvalsService.InitApprovals(userInfo.UserId, DocumentType.PurchaseRequest);
+            await _approvalsService.InitApprovals(userInfo.UserId, type);
 
         document.Actions = documentActions.ToList();
 

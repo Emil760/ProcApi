@@ -19,10 +19,10 @@ namespace ProcApi.Presentation.Configurations
             services.AddScoped<IApprovalFlowTemplateRepository, ApprovalFlowTemplateRepository>();
             services.AddScoped<IReleaseStrategyRepository, ReleaseStrategyRepository>();
 
-            services.AddScoped<IPurchaseRequestDocumentRepository, PurchaseRequestDocumentRepository>();
-            services.AddScoped<IPurchaseRequestDocumentItemsRepository, PurchaseRequestDocumentItemsRepository>();
+            services.AddScoped<IPurchaseRequestRepository, PurchaseRequestRepository>();
+            services.AddScoped<IPurchaseRequestItemsRepository, PurchaseRequestItemsRepository>();
 
-            services.AddScoped<IInvoiceDocumentRepository, InvoiceDocumentRepository>();
+            services.AddScoped<IInvoiceRepository, InvoiceRepository>();
 
             services.AddScoped<ISupplierRepository, SupplierRepository>();
 

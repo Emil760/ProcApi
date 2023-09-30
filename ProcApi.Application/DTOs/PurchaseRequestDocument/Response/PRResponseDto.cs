@@ -9,4 +9,5 @@ public class PRResponseDto : PRDto
     public BaseDocumentDto BaseDocumentDto { get; set; }
     public IEnumerable<PRItemResponseDto> ItemsDto { get; set; }
     public IEnumerable<DocumentMemberResponseDto> MembersDto { get; set; }
+    public decimal TotalItemsPrice { get; set; }
 }

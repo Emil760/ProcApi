@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
-using ProcApi.Infrastructure.Functions;
+using ProcApi.Infrastructure.Migrations.Helpers;
 
 #nullable disable
 

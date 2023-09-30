@@ -5,7 +5,6 @@ using ProcApi.Domain.Models;
 
 namespace ProcApi.Presentation.Controllers
 {
-    [AllowAnonymous]
     [ApiController]
     public class BaseController : ControllerBase
     {

@@ -5,5 +5,4 @@ namespace ProcApi.Application.DTOs.Invoice.Responses;
 public class InvoiceItemResponseDto : InvoiceItemDto
 {
     public int Id { get; set; }
-    public string MaterialName { get; set; }
 }

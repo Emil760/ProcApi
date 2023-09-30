@@ -32,10 +32,10 @@ namespace ProcApi.Infrastructure.Data
         public DbSet<Document> Documents { get; set; }
         public DbSet<DocumentAction> DocumentActions { get; set; }
         public DbSet<Project> Projects { get; set; }
-        public DbSet<PurchaseRequestDocument> PurchaseRequestDocuments { get; set; }
-        public DbSet<PurchaseRequestDocumentItem> PurchaseRequestDocumentItems { get; set; }
-        public DbSet<InvoiceDocument> InvoiceDocuments { get; set; }
-        public DbSet<InvoiceDocumentItem> InvoiceDocumentItems { get; set; }
+        public DbSet<PurchaseRequest> PurchaseRequestDocuments { get; set; }
+        public DbSet<PurchaseRequestItem> PurchaseRequestDocumentItems { get; set; }
+        public DbSet<Invoice?> InvoiceDocuments { get; set; }
+        public DbSet<InvoiceItem> InvoiceDocumentItems { get; set; }
         public DbSet<ReleaseStrategy> ReleaseStrategies { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<RolePermission> RolePermissions { get; set; }
@@ -59,10 +59,14 @@ namespace ProcApi.Infrastructure.Data
             => FromExpression(() => GetMaterialWithCategories(materialId));
 
         [DbFunction(Name = "get_unused_purchase_request_items", Schema = "public", IsBuiltIn = false)]
-        public IQueryable<UnusedPurchaseRequestItemsResultSet> GetUnusedPurchaseRequestItems(
+        public IQueryable<UnusedPRItemInfoResultSet> GetUnusedPurchaseRequestItemsInfo(
             int pageNumber,
             int pageSize,
             string search)
-            => FromExpression(() => GetUnusedPurchaseRequestItems(pageNumber, pageSize, search));
+            => FromExpression(() => GetUnusedPurchaseRequestItemsInfo(pageNumber, pageSize, search));
+
+        [DbFunction(Name = "get_unused_purchase_request_items_by_ids", Schema = "public", IsBuiltIn = false)]
+        public IQueryable<UnusedPRItemResultSet> GetUnusedPurchaseRequestItemsByIds(int[] prItemIds)
+            => FromExpression(() => GetUnusedPurchaseRequestItemsByIds(prItemIds));
     }
 }

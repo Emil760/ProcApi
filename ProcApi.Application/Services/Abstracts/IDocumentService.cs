@@ -1,4 +1,5 @@
 ﻿using ProcApi.Application.DTOs.Documents.Responses;
+using ProcApi.Application.DTOs.Invoice.Responses;
 using ProcApi.Domain.Enums;
 using ProcApi.Domain.Models;
 

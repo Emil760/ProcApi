@@ -195,4 +195,17 @@
   <data name="CanModifyOnlyDraft" xml:space="preserve">
     <value>Yalnız qaralama statusunda olan sənəd dəyişə bilər</value>
   </data>
+  <data name="ItemNotFound" xml:space="preserve">
+    <value>Element tapılmadı</value>
+  </data>
+  <data name="CantChangeNonDraftDocument" xml:space="preserve">
+    <value>
+Qaralama olmayan sənədi dəyişdirmək mümkün deyil</value>
+  </data>
+  <data name="QuantityCantBeEmpty" xml:space="preserve">
+    <value>Miqdar boş ola bilməz</value>
+  </data>
+  <data name="MaterialCantBeEmpty" xml:space="preserve">
+    <value>Material boş ola bilməz</value>
+  </data>
 </root>

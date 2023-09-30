@@ -10,5 +10,6 @@ public enum Roles
     Finance,
     HeadDepartment,
     ProcurementDirector,
-    Buyer
+    Buyer,
+    Director
 }

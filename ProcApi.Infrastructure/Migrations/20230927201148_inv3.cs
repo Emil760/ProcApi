@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
-using ProcApi.Infrastructure.Functions;
+using ProcApi.Infrastructure.Migrations.Helpers;
 
 #nullable disable
 
@@ -11,13 +11,13 @@ namespace ProcApi.Infrastructure.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            FunctionsMigrationHelper.CreateGetPurchaseRequestUnusedItemsCountV1(migrationBuilder);
+            FunctionsMigrationHelper.CreateGetUnusedPurchaseRequestItemsCountV1(migrationBuilder);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            FunctionsMigrationHelper.DropGetPurchaseRequestUnusedItemsCountV1(migrationBuilder);
+            FunctionsMigrationHelper.DropGetUnusedPurchaseRequestItemsCountV1(migrationBuilder);
         }
     }
 }

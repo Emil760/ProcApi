@@ -1,4 +1,5 @@
 ﻿using ProcApi.Application.DTOs.PurchaseRequestDocument.Base;
+using ProcApi.Application.DTOs.PurchaseRequestDocument.Requests;
 using ProcApi.Application.DTOs.PurchaseRequestDocument.Response;
 using ProcApi.Domain.Entities;
 
@@ -8,9 +9,11 @@ namespace ProcApi.Application.Mappers
     {
         public PurchaseRequestItemProfile()
         {
-            CreateMap<PurchaseRequestDocumentItem, PRItemResponseDto>();
+            CreateMap<PurchaseRequestItem, PRItemResponseDto>();
+            
+            CreateMap<CreatePRItemRequestDto, PurchaseRequestItem>();
 
-            CreateMap<PRItemDto, PurchaseRequestDocumentItem>().ReverseMap();
+            CreateMap<PRItemDto, PurchaseRequestItem>().ReverseMap();
         }
     }
 }

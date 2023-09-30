@@ -6,5 +6,6 @@ public enum Permissions
     CanDeleteUser,
     CanEditUser,
     CanActivateUser,
-    CanCreatePurchaseRequestDocument
+    CanCreatePurchaseRequest,
+    CanCreateInvoice
 }

@@ -1,21 +1,22 @@
 ﻿using ProcApi.Application.DTOs.Documents.Requests;
 using ProcApi.Application.Handlers;
-using ProcApi.Application.Handlers.PurchaseRequest;
+using ProcApi.Application.Handlers.Invoice;
 using ProcApi.Application.Services.Abstracts;
 using ProcApi.Domain.Enums;
 using ProcApi.Domain.Models;
 
 namespace ProcApi.Application.Services.Concreates;
 
-public class PurchaseRequestApprovalService : IPurchaseRequestApprovalService
+public class InvoiceApprovalService : IInvoiceApprovalService
 {
     private readonly Dictionary<ActionType, IActionHandler> _actionHandlers;
 
-    public PurchaseRequestApprovalService(
-        PurchaseRequestApproveHandler approveHandler,
-        PurchaseRequestRejectHandler rejectHandler,
-        PurchaseRequestReturnHandler returnHandler,
-        PurchaseRequestSubmitHandler submitHandler)
+    public InvoiceApprovalService(
+        InvoiceApproveHandler approveHandler,
+        InvoiceReturnHandler returnHandler,
+        InvoiceRejectHandler rejectHandler,
+        InvoiceSubmitHandler submitHandler
+    )
     {
         _actionHandlers = new Dictionary<ActionType, IActionHandler>();
         _actionHandlers[ActionType.Submit] = submitHandler;

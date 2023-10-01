@@ -1,6 +1,7 @@
 ﻿using ProcApi.Application.Caches.Abstracts;
 using ProcApi.Application.Caches.Concreates;
-using ProcApi.Application.Handlers.PurchaseRequestDocument;
+using ProcApi.Application.Handlers.Invoice;
+using ProcApi.Application.Handlers.PurchaseRequest;
 using ProcApi.Application.Services.Abstracts;
 using ProcApi.Application.Services.Concreates;
 using ProcApi.Presentation.Handlers.Exception;
@@ -36,6 +37,12 @@ namespace ProcApi.Presentation.Configurations
             services.AddScoped<PurchaseRequestSubmitHandler>();
             
             services.AddScoped<IInvoiceService, InvoiceService>();
+            services.AddScoped<IInvoiceApprovalService, InvoiceApprovalService>();
+
+            services.AddScoped<InvoiceApproveHandler>();
+            services.AddScoped<InvoiceRejectHandler>();
+            services.AddScoped<InvoiceReturnHandler>();
+            services.AddScoped<InvoiceSubmitHandler>();
 
             services.AddScoped<ISupplierService, SupplierService>();
 

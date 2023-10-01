@@ -1,7 +1,7 @@
 ﻿using ProcApi.Application.DTOs.Documents.Requests;
 using ProcApi.Application.Services.Abstracts;
 
-namespace ProcApi.Application.Handlers.PurchaseRequestDocument;
+namespace ProcApi.Application.Handlers.PurchaseRequest;
 
 public class PurchaseRequestApproveHandler : IActionHandler
 {

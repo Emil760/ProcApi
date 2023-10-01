@@ -1,13 +1,13 @@
 ﻿using ProcApi.Application.DTOs.Documents.Requests;
 using ProcApi.Application.Services.Abstracts;
 
-namespace ProcApi.Application.Handlers.PurchaseRequestDocument;
+namespace ProcApi.Application.Handlers.PurchaseRequest;
 
-public class PurchaseRequestSubmitHandler : IActionHandler
+public class PurchaseRequestReturnHandler : IActionHandler
 {
     private readonly IApprovalsService _approvalsService;
 
-    public PurchaseRequestSubmitHandler(IApprovalsService approvalsService)
+    public PurchaseRequestReturnHandler(IApprovalsService approvalsService)
     {
         _approvalsService = approvalsService;
     }
@@ -16,6 +16,6 @@ public class PurchaseRequestSubmitHandler : IActionHandler
     {
         await _approvalsService.CanPerformAction(dto, userId);
 
-        await _approvalsService.ApproveDocumentAsync(dto, userId);
+        await _approvalsService.ReturnDocumentAsync(dto);
     }
 }

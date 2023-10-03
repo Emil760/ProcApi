@@ -21,7 +21,7 @@ public class ConnectedUserService : IConnectedUsersService
         if (users.TryGetValue(userId, out var connectionIds))
             connectionIds.Add(connectionId);
         else
-            users.Add(userId, new List<string>() { connectionId });
+            users.Add(userId, new List<string> { connectionId });
 
         await _cache.SetAsync(CacheKeys.CONNECTED_USERS, users);
     }

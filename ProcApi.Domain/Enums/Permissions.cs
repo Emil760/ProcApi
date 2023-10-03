@@ -15,5 +15,7 @@ public enum Permissions
     CanViewPurchaseRequest,
     CanViewSupplier,
     CanCreateSupplier,
-    CanViewUser
+    CanViewUser,
+    CanCreateDelegation,
+    CanViewDelegation
 }

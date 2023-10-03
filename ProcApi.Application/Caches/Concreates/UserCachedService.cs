@@ -4,32 +4,31 @@ using ProcApi.Application.DTOs.User.Responses;
 using ProcApi.Application.Services.Abstracts;
 using ProcApi.Infrastructure.Extensions;
 
-namespace ProcApi.Application.Caches.Concreates
+namespace ProcApi.Application.Caches.Concreates;
+
+public class UserCachedService : IUserCachedService
 {
-    public class UserCachedService : IUserCachedService
+    private readonly IUserService _userService;
+    private readonly IDistributedCache _cache;
+
+    public UserCachedService(IUserService userService,
+        IDistributedCache cache)
     {
-        private readonly IUserService _userService;
-        private readonly IDistributedCache _cache;
+        _userService = userService;
+        _cache = cache;
+    }
 
-        public UserCachedService(IUserService userService,
-            IDistributedCache cache)
+    public async Task<UserResponseDto> GetByIdAsync(int id)
+    {
+        var key = CacheKeys.GetUserKey(id);
+        var user = await _cache.GetAsync<UserResponseDto>(key);
+
+        if (user is null)
         {
-            _userService = userService;
-            _cache = cache;
+            user = await _userService.GetByIdAsync(id);
+            await _cache.SetAsync(key, user);
         }
 
-        public async Task<UserResponseDto> GetByIdAsync(int id)
-        {
-            var key = CacheKeys.GetUserKey(id);
-            var user = await _cache.GetAsync<UserResponseDto>(key);
-
-            if (user is null)
-            {
-                user = await _userService.GetByIdAsync(id);
-                await _cache.SetAsync(key, user);
-            }
-
-            return user;
-        }
+        return user;
     }
 }

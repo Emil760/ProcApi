@@ -2,14 +2,13 @@
 using ProcApi.Application.DTOs.User.Responses;
 using ProcApi.Domain.Entities;
 
-namespace ProcApi.Application.Mappers
+namespace ProcApi.Application.Mappers;
+
+public class UserProfile : CommonProfile
 {
-    public class UserProfile : CommonProfile
+    public UserProfile()
     {
-        public UserProfile()
-        {
-            CreateMap<User, UserResponseDto>();
-            CreateMap<AddUserDto, User>();
-        }
+        CreateMap<User, UserResponseDto>();
+        CreateMap<AddUserDto, User>();
     }
 }

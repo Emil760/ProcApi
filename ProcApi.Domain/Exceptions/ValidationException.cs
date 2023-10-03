@@ -1,10 +1,9 @@
-﻿namespace ProcApi.Domain.Exceptions
+﻿namespace ProcApi.Domain.Exceptions;
+
+public class ValidationException : Exception
 {
-    public class ValidationException : Exception
+    public ValidationException(string message) : base(message)
     {
-        public ValidationException(string message) : base(message)
-        {
             
-        }
     }
 }

@@ -6,7 +6,7 @@ namespace ProcApi.Application.Validators.Material;
 
 public class CreateMaterialValidator : SaveMaterialValidator<CreateMaterialRequestDto>
 {
-    public CreateMaterialValidator(IStringLocalizer<SharedResource> _localizer) : base(_localizer)
+    public CreateMaterialValidator(IStringLocalizer<SharedResource> localizer) : base(localizer)
     {
     }
 }

@@ -4,15 +4,14 @@ using ProcApi.Application.DTOs.Category.Responses;
 using ProcApi.Domain.Entities;
 using ProcApi.Domain.ResultSets;
 
-namespace ProcApi.Application.Mappers
+namespace ProcApi.Application.Mappers;
+
+public class CategoryProfile : CommonProfile
 {
-    public class CategoryProfile : CommonProfile
+    public CategoryProfile()
     {
-        public CategoryProfile()
-        {
-            CreateMap<CreateCategoryDto, Category>();
-            CreateMap<Category, CategoryResponseDto>();
-            CreateMap<CategoryResultSet, CategoryDto>();
-        }
+        CreateMap<CreateCategoryDto, Category>();
+        CreateMap<Category, CategoryResponseDto>();
+        CreateMap<CategoryResultSet, CategoryDto>();
     }
 }

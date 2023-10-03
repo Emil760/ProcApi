@@ -56,7 +56,7 @@ public class MaterialService : IMaterialService
 
         foreach (var item in materialResultSets)
         {
-            categories.Add(new TreeCategoryResponseDto()
+            categories.Add(new TreeCategoryResponseDto
             {
                 Id = item.CategoryId,
                 Name = item.CategoryName,
@@ -66,7 +66,7 @@ public class MaterialService : IMaterialService
 
         var materialResultSet = materialResultSets.First();
 
-        var material = new TreeMaterialResponseDto()
+        var material = new TreeMaterialResponseDto
         {
             Id = materialResultSet.Id,
             Code = materialResultSet.Code,

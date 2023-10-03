@@ -92,7 +92,7 @@ public class AuthenticationService : IAuthenticationService
         if (!passwordMatch)
             throw new Exception("wrong password");
 
-        var permissions = await _userRepository.GetPermissions(user.Id);
+        var permissions = await _userRepository.GetPermissionsUnionDelegatedPermissions(user.Id);
         var userSettings = await _userSettingRepository.GetByUserId(user.Id);
 
         return JwtUtility.GenerateJwtToken(user.Id, permissions, userSettings.Language, _jwtOptions);

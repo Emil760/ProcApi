@@ -52,8 +52,8 @@ public class InvoiceService : IInvoiceService
 
         if (invoice is null)
             return await CreateInvoiceAsync(dto);
-        else
-            return await UpdateInvoiceAsync(invoice, dto);
+        
+        return await UpdateInvoiceAsync(invoice, dto);
     }
 
     private async Task<SaveInvoiceResponseDto> CreateInvoiceAsync(SaveInvoiceRequestDto dto)

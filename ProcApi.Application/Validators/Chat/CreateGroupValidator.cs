@@ -7,10 +7,10 @@ namespace ProcApi.Application.Validators.Chat;
 
 public class CreateGroupValidator : AbstractValidator<CreateGroupRequestDto>
 {
-    public CreateGroupValidator(IStringLocalizer<SharedResource> _localizer)
+    public CreateGroupValidator(IStringLocalizer<SharedResource> localizer)
     {
         RuleFor(x => x.Name)
             .NotEmpty()
-            .WithMessage(_localizer["GroupNameCantBeEmpty"]);
+            .WithMessage(localizer["GroupNameCantBeEmpty"]);
     }
 }

@@ -32,7 +32,7 @@ public class DocumentAccessFilter : ActionFilterAttribute
 
         if (!exist)
         {
-            var roles = await userRepository.GetRoles(userInfo.UserId);
+            var roles = await userRepository.GetRolesUnionDelegatedRoles(userInfo.UserId);
 
             if (!_roles.Any(role => roles.Contains((int)role)))
                 throw new ValidationException(localizer["CantAccessDocument"]);

@@ -9,14 +9,14 @@ public class SaveMaterialValidator<T> : AbstractValidator<T> where T : SaveMater
 {
     private const int CodeLength = 6;
 
-    public SaveMaterialValidator(IStringLocalizer<SharedResource> _localizer)
+    public SaveMaterialValidator(IStringLocalizer<SharedResource> localizer)
     {
         RuleFor(x => x.Name)
             .NotEmpty()
-            .WithMessage(_localizer["NameCantBeEmpty"]);
+            .WithMessage(localizer["NameCantBeEmpty"]);
 
         RuleFor(x => x.Code)
             .Length(CodeLength)
-            .WithMessage(_localizer["CodeMustBeInLenght"].Value.Replace("{length}", CodeLength.ToString()));
+            .WithMessage(localizer["CodeMustBeInLenght"].Value.Replace("{length}", CodeLength.ToString()));
     }
 }

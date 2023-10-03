@@ -49,7 +49,7 @@ public class ChatGroupService : IChatGroupService
         var group = new Group
         {
             Name = dto.Name,
-            Chat = chat,
+            Chat = chat
         };
 
         var creatorUser = new GroupUser
@@ -142,7 +142,7 @@ public class ChatGroupService : IChatGroupService
                     ChatId = chatId,
                     User = user
                 },
-                ChatRole = ChatRole.User,
+                ChatRole = ChatRole.User
             });
         }
 

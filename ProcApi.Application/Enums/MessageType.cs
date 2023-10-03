@@ -1,9 +1,8 @@
-﻿namespace ProcApi.Application.Enums
+﻿namespace ProcApi.Application.Enums;
+
+public enum MessageType
 {
-    public enum MessageType
-    {
-        Validation,
-        Error,
-        Info
-    }
+    Validation,
+    Error,
+    Info
 }

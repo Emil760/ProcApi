@@ -1,9 +1,8 @@
 ﻿using ProcApi.Application.DTOs.User.Responses;
 
-namespace ProcApi.Application.Caches.Abstracts
+namespace ProcApi.Application.Caches.Abstracts;
+
+public interface IUserCachedService
 {
-    public interface IUserCachedService
-    {
-        Task<UserResponseDto> GetByIdAsync(int id);
-    }
+    Task<UserResponseDto> GetByIdAsync(int id);
 }

@@ -1,43 +1,42 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProcApi.Infrastructure.Data;
 
-namespace ProcApi.Infrastructure.Repositories.UnitOfWork
+namespace ProcApi.Infrastructure.Repositories.UnitOfWork;
+
+public class UnitOfWork : IUnitOfWork
 {
-    public class UnitOfWork : IUnitOfWork
+    private readonly ProcDbContext _context;
+
+    public UnitOfWork(ProcDbContext context)
     {
-        private readonly ProcDbContext _context;
+        _context = context;
+    }
 
-        public UnitOfWork(ProcDbContext context)
-        {
-            _context = context;
-        }
+    public async Task SaveChangesAsync()
+    {
+        await _context.SaveChangesAsync();
+    }
 
-        public async Task SaveChangesAsync()
-        {
-            await _context.SaveChangesAsync();
-        }
+    public void Attach(object entity)
+    {
+        _context.Attach(entity);
+    }
 
-        public void Attach(object entity)
-        {
-            _context.Attach(entity);
-        }
+    public void MakeUnchanged(object entity)
+    {
+        _context.Entry(entity).State = EntityState.Unchanged;
+    }
 
-        public void MakeUnchanged(object entity)
-        {
-            _context.Entry(entity).State = EntityState.Unchanged;
-        }
+    public void MarkAdd(object entity)
+    {
+        _context.Entry(entity).State = EntityState.Added;
+    }
 
-        public void MarkAdd(object entity)
+    public void MarkBulkAdd(IEnumerable<object> entities)
+    {
+        foreach (var entity in entities)
         {
-            _context.Entry(entity).State = EntityState.Added;
-        }
-
-        public void MarkBulkAdd(IEnumerable<object> entities)
-        {
-            foreach (var entity in entities)
-            {
-                MarkAdd(entity);
-            }
+            MarkAdd(entity);
         }
     }
 }

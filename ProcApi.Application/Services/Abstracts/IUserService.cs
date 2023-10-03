@@ -9,4 +9,6 @@ public interface IUserService
     Task<IEnumerable<UserResponseDto>> GetUsersAsync();
     Task<UserResponseDto> AddUserAsync(AddUserDto dto);
     Task<bool> AlreadyExists(string login);
+    Task<IEnumerable<string>> GetAllRoleNames(int userId);
+    Task<IEnumerable<string>> GetPermissionNames(int userId);
 }

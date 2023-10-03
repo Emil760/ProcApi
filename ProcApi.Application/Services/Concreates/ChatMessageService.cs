@@ -76,12 +76,12 @@ public class ChatMessageService : IChatMessageService
 
     private ChatMessage CreateMessage(Chat chat, int senderUserId, string message)
     {
-        return new ChatMessage()
+        return new ChatMessage
         {
             ChatId = chat.Id,
             Message = message,
             SendTime = DateTime.Now,
-            SenderId = senderUserId,
+            SenderId = senderUserId
         };
     }
 
@@ -103,7 +103,7 @@ public class ChatMessageService : IChatMessageService
         if (receivedInfo is not null)
             return null;
 
-        var receiverInfo = new ReceivedInfo()
+        var receiverInfo = new ReceivedInfo
         {
             ReceiverId = receiverId,
             IsRead = true,

@@ -3,63 +3,60 @@ using Microsoft.Extensions.Localization;
 using ProcApi.Domain.Models;
 using ProcApi.Infrastructure.Resources;
 
-namespace ProcApi.Presentation.Handlers.Exception
+namespace ProcApi.Presentation.Handlers.Exception;
+
+public class GeneralExceptionHandler : IExceptionHandler
 {
-    public class GeneralExceptionHandler : IExceptionHandler
+    private readonly IStringLocalizer<SharedResource> _localizer;
+    private readonly IWebHostEnvironment _hostingEnvironment;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly ILogger<GeneralExceptionHandler> _logger;
+
+    public GeneralExceptionHandler(IStringLocalizer<SharedResource> localizer,
+        IWebHostEnvironment hostingEnvironment,
+        IHttpContextAccessor httpContextAccessor,
+        ILogger<GeneralExceptionHandler> logger)
     {
-        private readonly IStringLocalizer<SharedResource> _localizer;
-        private readonly IWebHostEnvironment _hostingEnvironment;
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly ILogger<GeneralExceptionHandler> _logger;
+        _localizer = localizer;
+        _hostingEnvironment = hostingEnvironment;
+        _httpContextAccessor = httpContextAccessor;
+        _logger = logger;
+    }
 
-        public GeneralExceptionHandler(IStringLocalizer<SharedResource> localizer,
-            IWebHostEnvironment hostingEnvironment,
-            IHttpContextAccessor httpContextAccessor,
-            ILogger<GeneralExceptionHandler> logger)
+    public ExceptionModel Handle(System.Exception exception)
+    {
+        if (_hostingEnvironment.IsProduction())
         {
-            _localizer = localizer;
-            _hostingEnvironment = hostingEnvironment;
-            _httpContextAccessor = httpContextAccessor;
-            _logger = logger;
-        }
+            _logger.LogCritical(exception, "InternalServerError");
 
-        public ExceptionModel Handle(System.Exception exception)
-        {
-            if (_hostingEnvironment.IsProduction())
+            return new ExceptionModel
             {
-                _logger.LogCritical(exception, "InternalServerError");
-
-                return new ExceptionModel
-                {
-                    ContentType = MediaTypeNames.Text.Plain,
-                    StatusCode = 500,
-                    Message = _localizer["InternalServerError"]
-                };
-            }
-            else
-            {
-                var errorMessage = GetFailedRequestMessage(_httpContextAccessor.HttpContext!, exception);
-                _logger.LogCritical(errorMessage);
-
-                return new ExceptionModel
-                {
-                    ContentType = MediaTypeNames.Text.Plain,
-                    StatusCode = 500,
-                    Message = exception.Message + "." + exception.InnerException?.Message
-                };
-            }
+                ContentType = MediaTypeNames.Text.Plain,
+                StatusCode = 500,
+                Message = _localizer["InternalServerError"]
+            };
         }
 
-        private string GetFailedRequestMessage(HttpContext context, System.Exception exception)
+        var errorMessage = GetFailedRequestMessage(_httpContextAccessor.HttpContext!, exception);
+        _logger.LogCritical(errorMessage);
+
+        return new ExceptionModel
         {
-            return "Failed Request\n" +
-                   $"\tSchema: {context.Request.Scheme}\n" +
-                   $"\tHost: {context.Request.Host}\n" +
-                   $"\tMethod: {context.Request.Method}\n" +
-                   $"\tPath: {context.Request.Path}\n" +
-                   $"\tQueryString: {context.Request.QueryString}\n" +
-                   $"\tErrorMessage: {exception.Message}\n" +
-                   $"\tStacktrace:\n{exception.StackTrace?.Split('\n').Aggregate((a, b) => a + "\n" + b)}";
-        }
+            ContentType = MediaTypeNames.Text.Plain,
+            StatusCode = 500,
+            Message = exception.Message + "." + exception.InnerException?.Message
+        };
+    }
+
+    private string GetFailedRequestMessage(HttpContext context, System.Exception exception)
+    {
+        return "Failed Request\n" +
+               $"\tSchema: {context.Request.Scheme}\n" +
+               $"\tHost: {context.Request.Host}\n" +
+               $"\tMethod: {context.Request.Method}\n" +
+               $"\tPath: {context.Request.Path}\n" +
+               $"\tQueryString: {context.Request.QueryString}\n" +
+               $"\tErrorMessage: {exception.Message}\n" +
+               $"\tStacktrace:\n{exception.StackTrace?.Split('\n').Aggregate((a, b) => a + "\n" + b)}";
     }
 }

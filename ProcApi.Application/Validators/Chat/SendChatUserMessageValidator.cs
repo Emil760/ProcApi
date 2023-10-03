@@ -7,14 +7,14 @@ namespace ProcApi.Application.Validators.Chat;
 
 public class SendChatUserMessageValidator : AbstractValidator<SendChatUserMessageRequestDto>
 {
-    public SendChatUserMessageValidator(IStringLocalizer<SharedResource> _localizer)
+    public SendChatUserMessageValidator(IStringLocalizer<SharedResource> localizer)
     {
         RuleFor(x => x.Message)
             .NotEmpty()
-            .WithMessage(_localizer["MessageCantBeEmpty"]);
+            .WithMessage(localizer["MessageCantBeEmpty"]);
 
         RuleFor(x => x.ReceiverUserId)
             .GreaterThan(0)
-            .WithMessage(_localizer["ChatReceiverNotSet"]);
+            .WithMessage(localizer["ChatReceiverNotSet"]);
     }
 }

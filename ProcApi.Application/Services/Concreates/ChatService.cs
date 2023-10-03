@@ -9,83 +9,82 @@ using ProcApi.Infrastructure.Constants;
 using ProcApi.Infrastructure.Repositories.Abstracts;
 using ProcApi.Infrastructure.Repositories.UnitOfWork;
 
-namespace ProcApi.Application.Services.Concreates
+namespace ProcApi.Application.Services.Concreates;
+
+public class ChatService : IChatService
 {
-    public class ChatService : IChatService
+    private readonly IUserRepository _userRepository;
+    private readonly IGroupRepository _groupRepository;
+    private readonly IChatUserRepository _chatUserRepository;
+    private readonly IConnectedUsersService _connectedUsersService;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IMapper _mapper;
+    private readonly IUnitOfWork _unitOfWork;
+
+    public ChatService(IUserRepository userRepository,
+        IChatUserRepository chatUserRepository,
+        IConnectedUsersService connectedUsersService,
+        IHttpContextAccessor httpContextAccessor,
+        IMapper mapper,
+        IUnitOfWork unitOfWork, IGroupRepository groupRepository)
     {
-        private readonly IUserRepository _userRepository;
-        private readonly IGroupRepository _groupRepository;
-        private readonly IChatUserRepository _chatUserRepository;
-        private readonly IConnectedUsersService _connectedUsersService;
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly IMapper _mapper;
-        private readonly IUnitOfWork _unitOfWork;
+        _userRepository = userRepository;
+        _chatUserRepository = chatUserRepository;
+        _connectedUsersService = connectedUsersService;
+        _httpContextAccessor = httpContextAccessor;
+        _mapper = mapper;
+        _unitOfWork = unitOfWork;
+        _groupRepository = groupRepository;
+    }
 
-        public ChatService(IUserRepository userRepository,
-            IChatUserRepository chatUserRepository,
-            IConnectedUsersService connectedUsersService,
-            IHttpContextAccessor httpContextAccessor,
-            IMapper mapper,
-            IUnitOfWork unitOfWork, IGroupRepository groupRepository)
-        {
-            _userRepository = userRepository;
-            _chatUserRepository = chatUserRepository;
-            _connectedUsersService = connectedUsersService;
-            _httpContextAccessor = httpContextAccessor;
-            _mapper = mapper;
-            _unitOfWork = unitOfWork;
-            _groupRepository = groupRepository;
-        }
+    public async Task ConnectAsync(int userId, string connectionId)
+    {
+        await _connectedUsersService.AddUserAsync(userId, connectionId);
+    }
 
-        public async Task ConnectAsync(int userId, string connectionId)
+    public async Task<Chat> CreateChatBetweenUsersAsync(IEnumerable<int> userIds)
+    {
+        var chat = new Chat
         {
-            await _connectedUsersService.AddUserAsync(userId, connectionId);
-        }
+            ChatType = ChatType.Contact
+        };
 
-        public async Task<Chat> CreateChatBetweenUsersAsync(IEnumerable<int> userIds)
+        foreach (var userId in userIds)
         {
-            var chat = new Chat
+            var userChat = new ChatUser
             {
-                ChatType = ChatType.Contact
+                Chat = chat,
+                UserId = userId
             };
 
-            foreach (var userId in userIds)
-            {
-                var userChat = new ChatUser
-                {
-                    Chat = chat,
-                    UserId = userId
-                };
-
-                _chatUserRepository.Insert(userChat);
-            }
-
-            await _unitOfWork.SaveChangesAsync();
-            return chat;
+            _chatUserRepository.Insert(userChat);
         }
 
-        public async Task<IEnumerable<ChatUserResponseDto>> GetUsersAsync(PaginationModel pagination)
-        {
-            var usersPaginated = await _userRepository.GetAllPaginated(pagination);
+        await _unitOfWork.SaveChangesAsync();
+        return chat;
+    }
 
-            _httpContextAccessor.HttpContext!.Response.Headers.Add(HeaderKeys.XPagination, usersPaginated.ToString());
+    public async Task<IEnumerable<ChatUserResponseDto>> GetUsersAsync(PaginationModel pagination)
+    {
+        var usersPaginated = await _userRepository.GetAllPaginated(pagination);
 
-            return _mapper.Map<IEnumerable<ChatUserResponseDto>>(usersPaginated.ResultSet);
-        }
+        _httpContextAccessor.HttpContext!.Response.Headers.Add(HeaderKeys.XPagination, usersPaginated.ToString());
 
-        public async Task<IEnumerable<ChatResponseDto>> GetChatsAsync(int userId)
-        {
-            var userTask = _chatUserRepository.GetAllWithLastMessageByUserIdAsync(userId);
-            var groupTask = _groupRepository.GetAllWithLastMessageByUserId(userId);
+        return _mapper.Map<IEnumerable<ChatUserResponseDto>>(usersPaginated.ResultSet);
+    }
 
-            await Task.WhenAll(userTask, groupTask);
+    public async Task<IEnumerable<ChatResponseDto>> GetChatsAsync(int userId)
+    {
+        var userTask = _chatUserRepository.GetAllWithLastMessageByUserIdAsync(userId);
+        var groupTask = _groupRepository.GetAllWithLastMessageByUserId(userId);
 
-            var chats = new List<ChatResponseDto>();
+        await Task.WhenAll(userTask, groupTask);
 
-            chats.AddRange(_mapper.Map<IEnumerable<ChatResponseDto>>(userTask.Result));
-            chats.AddRange(_mapper.Map<IEnumerable<ChatResponseDto>>(groupTask.Result));
+        var chats = new List<ChatResponseDto>();
 
-            return chats;
-        }
+        chats.AddRange(_mapper.Map<IEnumerable<ChatResponseDto>>(userTask.Result));
+        chats.AddRange(_mapper.Map<IEnumerable<ChatResponseDto>>(groupTask.Result));
+
+        return chats;
     }
 }

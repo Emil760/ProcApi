@@ -47,7 +47,7 @@ public class GroupChatSignalService : IGroupChatSignalService
 
         var connectionIds = await _connectedUsersService.GetConnectionsAsync(userIds);
 
-        var dto = new UserPromotedRoleSignalDto()
+        var dto = new UserPromotedRoleSignalDto
         {
             GroupId = groupId,
             FromUserId = currentUserId,
@@ -68,7 +68,7 @@ public class GroupChatSignalService : IGroupChatSignalService
 
         var connectionIds = await _connectedUsersService.GetConnectionsAsync(userIds);
 
-        var dto = new UserLeavedGroupSignalDto()
+        var dto = new UserLeavedGroupSignalDto
         {
             GroupId = groupId,
             UserId = userId

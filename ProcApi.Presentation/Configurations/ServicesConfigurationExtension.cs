@@ -6,58 +6,57 @@ using ProcApi.Application.Services.Abstracts;
 using ProcApi.Application.Services.Concreates;
 using ProcApi.Presentation.Handlers.Exception;
 
-namespace ProcApi.Presentation.Configurations
+namespace ProcApi.Presentation.Configurations;
+
+public static class ServicesConfigurationExtension
 {
-    public static class ServicesConfigurationExtension
+    public static void AddServices(this IServiceCollection services)
     {
-        public static void AddServices(this IServiceCollection services)
-        {
-            services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IAuthenticationService, AuthenticationService>();
+        services.AddScoped<IUserService, UserService>();
+        services.AddScoped<IAuthenticationService, AuthenticationService>();
+        services.AddScoped<IDelegationService, DelegationService>();
+        services.AddScoped<IUserCachedService, UserCachedService>();
 
-            services.AddSingleton<IConnectedUsersService, ConnectedUserService>();
-            services.AddScoped<IChatService, ChatService>();
-            services.AddScoped<IChatMessageService, ChatMessageService>();
-            services.AddScoped<IChatGroupService, ChatGroupService>();
+        services.AddSingleton<IConnectedUsersService, ConnectedUserService>();
+        services.AddScoped<IChatService, ChatService>();
+        services.AddScoped<IChatMessageService, ChatMessageService>();
+        services.AddScoped<IChatGroupService, ChatGroupService>();
 
-            services.AddScoped<IChatMessageSignalService, ChatMessageSignalService>();
-            services.AddScoped<IGroupChatSignalService, GroupChatSignalService>();
+        services.AddScoped<IChatMessageSignalService, ChatMessageSignalService>();
+        services.AddScoped<IGroupChatSignalService, GroupChatSignalService>();
 
-            services.AddScoped<IApprovalsService, ApprovalsService>();
+        services.AddScoped<IApprovalsService, ApprovalsService>();
 
-            services.AddScoped<IDocumentService, DocumentService>();
+        services.AddScoped<IDocumentService, DocumentService>();
 
-            services.AddScoped<IPurchaseRequestService, PurchaseRequestService>();
-            services.AddScoped<IPurchaseRequestItemsService, PurchaseRequestItemsService>();
-            services.AddScoped<IPurchaseRequestApprovalService, PurchaseRequestApprovalService>();
-            
-            services.AddScoped<PurchaseRequestApproveHandler>();
-            services.AddScoped<PurchaseRequestRejectHandler>();
-            services.AddScoped<PurchaseRequestReturnHandler>();
-            services.AddScoped<PurchaseRequestSubmitHandler>();
-            
-            services.AddScoped<IInvoiceService, InvoiceService>();
-            services.AddScoped<IInvoiceApprovalService, InvoiceApprovalService>();
+        services.AddScoped<IPurchaseRequestService, PurchaseRequestService>();
+        services.AddScoped<IPurchaseRequestItemsService, PurchaseRequestItemsService>();
+        services.AddScoped<IPurchaseRequestApprovalService, PurchaseRequestApprovalService>();
 
-            services.AddScoped<InvoiceApproveHandler>();
-            services.AddScoped<InvoiceRejectHandler>();
-            services.AddScoped<InvoiceReturnHandler>();
-            services.AddScoped<InvoiceSubmitHandler>();
+        services.AddScoped<PurchaseRequestApproveHandler>();
+        services.AddScoped<PurchaseRequestRejectHandler>();
+        services.AddScoped<PurchaseRequestReturnHandler>();
+        services.AddScoped<PurchaseRequestSubmitHandler>();
 
-            services.AddScoped<ISupplierService, SupplierService>();
+        services.AddScoped<IInvoiceService, InvoiceService>();
+        services.AddScoped<IInvoiceApprovalService, InvoiceApprovalService>();
 
-            services.AddScoped<ICategoryService, CategoryService>();
-            services.AddScoped<IMaterialService, MaterialService>();
+        services.AddScoped<InvoiceApproveHandler>();
+        services.AddScoped<InvoiceRejectHandler>();
+        services.AddScoped<InvoiceReturnHandler>();
+        services.AddScoped<InvoiceSubmitHandler>();
 
-            services.AddScoped<IFileService, FileService>();
+        services.AddScoped<ISupplierService, SupplierService>();
 
-            services.AddScoped<IUserCachedService, UserCachedService>();
+        services.AddScoped<ICategoryService, CategoryService>();
+        services.AddScoped<IMaterialService, MaterialService>();
 
-            services.AddScoped<ExceptionHandlerCoordinator>();
-            services.AddScoped<GeneralExceptionHandler>();
-            services.AddScoped<UnauthorizedExceptionHandler>();
-            services.AddScoped<NotFoundExceptionHandler>();
-            services.AddScoped<ValidationExceptionHandler>();
-        }
+        services.AddScoped<IFileService, FileService>();
+
+        services.AddScoped<ExceptionHandlerCoordinator>();
+        services.AddScoped<GeneralExceptionHandler>();
+        services.AddScoped<UnauthorizedExceptionHandler>();
+        services.AddScoped<NotFoundExceptionHandler>();
+        services.AddScoped<ValidationExceptionHandler>();
     }
 }

@@ -19,7 +19,7 @@ public class PermissionConfiguration : IEntityTypeConfiguration<Permission>
             .UsingEntity<RolePermission>();
 
         var permission = Enum.GetValues<Permissions>()
-            .Select(p => new Permission() { Id = (int)p, Name = p.ToString() });
+            .Select(p => new Permission { Id = (int)p, Name = p.ToString() });
 
         builder.HasData(permission);
     }

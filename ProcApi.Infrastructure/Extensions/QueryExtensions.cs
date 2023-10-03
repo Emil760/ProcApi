@@ -1,12 +1,11 @@
 ﻿using System.Linq.Expressions;
 
-namespace ProcApi.Infrastructure.Extensions
+namespace ProcApi.Infrastructure.Extensions;
+
+public static class QueryExtensions
 {
-    public static class QueryExtensions
+    public static IQueryable<T> WhereIf<T>(this IQueryable<T> queryable, bool condition, Expression<Func<T, bool>> predicate)
     {
-        public static IQueryable<T> WhereIf<T>(this IQueryable<T> queryable, bool condition, Expression<Func<T, bool>> predicate)
-        {
-            return condition ? queryable.Where(predicate) : queryable;
-        }
+        return condition ? queryable.Where(predicate) : queryable;
     }
 }

@@ -17,11 +17,13 @@ public class PurchaseRequestApprovalService : IPurchaseRequestApprovalService
         PurchaseRequestReturnHandler returnHandler,
         PurchaseRequestSubmitHandler submitHandler)
     {
-        _actionHandlers = new Dictionary<ActionType, IActionHandler>();
-        _actionHandlers[ActionType.Submit] = submitHandler;
-        _actionHandlers[ActionType.Approve] = approveHandler;
-        _actionHandlers[ActionType.Reject] = rejectHandler;
-        _actionHandlers[ActionType.Return] = returnHandler;
+        _actionHandlers = new Dictionary<ActionType, IActionHandler>
+        {
+            [ActionType.Submit] = submitHandler,
+            [ActionType.Approve] = approveHandler,
+            [ActionType.Reject] = rejectHandler,
+            [ActionType.Return] = returnHandler
+        };
     }
 
     public async Task PerformAction(ActionPerformRequestDto dto, UserInfoModel userInfo)

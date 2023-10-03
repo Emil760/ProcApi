@@ -595,6 +595,16 @@ namespace ProcApi.Infrastructure.Migrations
                         {
                             Id = 14,
                             Name = "CanViewUser"
+                        },
+                        new
+                        {
+                            Id = 15,
+                            Name = "CanCreateDelegation"
+                        },
+                        new
+                        {
+                            Id = 16,
+                            Name = "CanViewDelegation"
                         });
                 });
 
@@ -814,7 +824,57 @@ namespace ProcApi.Infrastructure.Migrations
                         new
                         {
                             RoleId = 2,
+                            PermissionId = 15
+                        },
+                        new
+                        {
+                            RoleId = 2,
+                            PermissionId = 4
+                        },
+                        new
+                        {
+                            RoleId = 2,
+                            PermissionId = 3
+                        },
+                        new
+                        {
+                            RoleId = 2,
+                            PermissionId = 10
+                        },
+                        new
+                        {
+                            RoleId = 2,
+                            PermissionId = 9
+                        },
+                        new
+                        {
+                            RoleId = 2,
+                            PermissionId = 13
+                        },
+                        new
+                        {
+                            RoleId = 2,
                             PermissionId = 2
+                        },
+                        new
+                        {
+                            RoleId = 2,
+                            PermissionId = 16
+                        },
+                        new
+                        {
+                            RoleId = 2,
+                            PermissionId = 7
+                        },
+                        new
+                        {
+                            RoleId = 2,
+                            PermissionId = 12
+                        },
+                        new
+                        {
+                            RoleId = 2,
+                            PermissionId = 14
                         },
                         new
                         {
@@ -840,6 +900,11 @@ namespace ProcApi.Infrastructure.Migrations
                         {
                             RoleId = 9,
                             PermissionId = 8
+                        },
+                        new
+                        {
+                            RoleId = 10,
+                            PermissionId = 15
                         });
                 });
 

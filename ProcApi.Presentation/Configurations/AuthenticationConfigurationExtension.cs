@@ -5,34 +5,32 @@ using Microsoft.IdentityModel.Tokens;
 using ProcApi.Infrastructure.Options;
 using ProcApi.Presentation.Handlers.Authorization;
 
-namespace ProcApi.Presentation.Configurations
+namespace ProcApi.Presentation.Configurations;
+
+public static class AuthenticationConfigurationExtension
 {
-    public static class AuthenticationConfigurationExtension
+    public static void AddCustomAuthentication(this IServiceCollection services, IConfiguration configuration)
     {
-        public static void AddCustomAuthentication(this IServiceCollection services, IConfiguration configuration)
-        {
-            var opt = configuration.GetSection(nameof(JwtOptions));
+        var opt = configuration.GetSection(nameof(JwtOptions));
 
-            var jwtOptions = new JwtOptions();
+        var jwtOptions = new JwtOptions();
 
-            opt.Bind(jwtOptions);
+        opt.Bind(jwtOptions);
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options => options.TokenValidationParameters = new()
-                {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
-                    ValidIssuer = jwtOptions.Issuer,
-                    ValidAudience = jwtOptions.Audience,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.SecretKey))
-                });
+        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options => options.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+                ValidIssuer = jwtOptions.Issuer,
+                ValidAudience = jwtOptions.Audience,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.SecretKey))
+            });
 
-            services.AddAuthorization();
-            services.AddSingleton<IAuthorizationHandler, PermissionAuthorizationHandler>();
-            services.AddSingleton<IAuthorizationPolicyProvider, PermissionAuthorizationPolicyProvider>();
-        }
+        services.AddAuthorization();
+        services.AddSingleton<IAuthorizationHandler, PermissionAuthorizationHandler>();
+        services.AddSingleton<IAuthorizationPolicyProvider, PermissionAuthorizationPolicyProvider>();
     }
 }
-

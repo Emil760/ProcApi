@@ -17,6 +17,8 @@ public static class ServicesConfigurationExtension
         services.AddScoped<IDelegationService, DelegationService>();
         services.AddScoped<IUserCachedService, UserCachedService>();
 
+        services.AddScoped<IDepartmentService, DepartmentService>();
+
         services.AddSingleton<IConnectedUsersService, ConnectedUserService>();
         services.AddScoped<IChatService, ChatService>();
         services.AddScoped<IChatMessageService, ChatMessageService>();

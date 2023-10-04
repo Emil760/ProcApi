@@ -20,6 +20,7 @@ public static class MapperConfigurationExtension
             cfg.AddProfile(new InvoiceProfile());
             cfg.AddProfile(new InvoiceItemProfile());
             cfg.AddProfile(new DelegationProfile());
+            cfg.AddProfile(new DepartmentProfile());
         }).CreateMapper());
     }
 }

@@ -11,5 +11,10 @@ public class DepartmentConfiguration : IEntityTypeConfiguration<Department>
         builder.Property(d => d.Name)
             .HasColumnType("varchar")
             .HasMaxLength(300);
+
+        builder.HasOne(d => d.HeadUser)
+            .WithMany()
+            .HasForeignKey(d => d.HeadUserId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

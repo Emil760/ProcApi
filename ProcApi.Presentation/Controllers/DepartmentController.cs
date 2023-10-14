@@ -21,7 +21,14 @@ public class DepartmentController : BaseController
     {
         return Ok(await _departmentService.CreateDepartmentAsync(dto));
     }
-    
+
+    [HttpPut("ChangeUserDepartment")]
+    public async Task<IActionResult> ChangeUserDepartmentAsync([FromBody] AssignUserDepartmentDto dto)
+    {
+        await _departmentService.AssignUserToDepartment(dto);
+        return Ok();
+    }
+
     [HttpGet("all")]
     public async Task<IActionResult> GetAllAsync([FromQuery] PaginationModel model)
     {

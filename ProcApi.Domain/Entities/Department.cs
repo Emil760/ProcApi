@@ -6,4 +6,5 @@ public class Department
     public string Name { get; set; }
     public int HeadUserId { get; set; }
     public User HeadUser { get; set; }
+    public ICollection<User> Users { get; set; }
 }

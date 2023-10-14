@@ -5,6 +5,7 @@ using ProcApi.Application.DTOs.Department.Requests;
 using ProcApi.Application.DTOs.Department.Responses;
 using ProcApi.Application.Services.Abstracts;
 using ProcApi.Domain.Entities;
+using ProcApi.Domain.Enums;
 using ProcApi.Domain.Exceptions;
 using ProcApi.Domain.Models;
 using ProcApi.Infrastructure.Constants;
@@ -37,8 +38,8 @@ public class DepartmentService : IDepartmentService
 
     public async Task<DepartmentResponseDto> CreateDepartmentAsync(CreateDepartmentDto dto)
     {
-        var user = await _userRepository.GetByIdAsync(dto.HeadUserId);
-        if (user is null)
+        var userExistsWithRole = await _userRepository.ExistsByRole(dto.HeadUserId, Roles.HeadDepartment);
+        if (!userExistsWithRole)
             throw new NotFoundException(_localizer["UserNotFound"]);
 
         var departmentExists = await _departmentRepository.ExistsByName(dto.Name);
@@ -50,6 +51,21 @@ public class DepartmentService : IDepartmentService
         await _departmentRepository.InsertAsync(department);
 
         return _mapper.Map<DepartmentResponseDto>(department);
+    }
+
+    public async Task AssignUserToDepartment(AssignUserDepartmentDto dto)
+    {
+        var department = await _departmentRepository.GetByIdAsync(dto.DepartmentId);
+        if (department is null)
+            throw new NotFoundException(_localizer["DepartmentNotFound"]);
+
+        var user = await _userRepository.GetByIdAsync(dto.UserId);
+        if (user is null)
+            throw new NotFoundException(_localizer["UserNotFound"]);
+
+        user.Department = department;
+
+        await _userRepository.InsertAsync(user);
     }
 
     public async Task<IEnumerable<DepartmentResponseDto>> GetAllAsync(PaginationModel pagination)

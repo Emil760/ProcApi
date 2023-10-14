@@ -18,6 +18,12 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .WithMany()
             .UsingEntity<UserRole>();
 
+        builder.HasOne(u => u.Department)
+            .WithMany(d => d.Users)
+            .HasForeignKey(u => u.DepartmentId)
+            .OnDelete(DeleteBehavior.Cascade)
+            .IsRequired(false);
+
         builder.HasMany(u => u.FromDelegations)
             .WithOne(fd => fd.FromUser)
             .HasForeignKey(d => d.FromUserId)

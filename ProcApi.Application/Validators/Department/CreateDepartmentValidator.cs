@@ -10,7 +10,7 @@ public class CreateDepartmentValidator : AbstractValidator<CreateDepartmentDto>
     public CreateDepartmentValidator(IStringLocalizer<SharedResource> localizer)
     {
         RuleFor(d => d.Name)
-            .Length(5)
+            .MinimumLength(5)
             .WithMessage(localizer["DepartmentNameLenght"]);
 
         RuleFor(d => d.HeadUserId)

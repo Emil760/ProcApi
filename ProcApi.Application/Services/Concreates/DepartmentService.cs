@@ -10,6 +10,7 @@ using ProcApi.Domain.Exceptions;
 using ProcApi.Domain.Models;
 using ProcApi.Infrastructure.Constants;
 using ProcApi.Infrastructure.Repositories.Abstracts;
+using ProcApi.Infrastructure.Repositories.UnitOfWork;
 using ProcApi.Infrastructure.Resources;
 
 namespace ProcApi.Application.Services.Concreates;
@@ -21,12 +22,14 @@ public class DepartmentService : IDepartmentService
     private readonly IMapper _mapper;
     private readonly IStringLocalizer<SharedResource> _localizer;
     private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IUnitOfWork _unitOfWork;
 
     public DepartmentService(IDepartmentRepository departmentRepository,
         IUserRepository userRepository,
         IMapper mapper,
         IStringLocalizer<SharedResource> localizer,
-        IHttpContextAccessor httpContextAccessor)
+        IHttpContextAccessor httpContextAccessor,
+        IUnitOfWork unitOfWork)
     {
         _departmentRepository = departmentRepository;
 
@@ -34,6 +37,7 @@ public class DepartmentService : IDepartmentService
         _mapper = mapper;
         _localizer = localizer;
         _httpContextAccessor = httpContextAccessor;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<DepartmentResponseDto> CreateDepartmentAsync(CreateDepartmentDto dto)
@@ -65,7 +69,7 @@ public class DepartmentService : IDepartmentService
 
         user.Department = department;
 
-        await _userRepository.InsertAsync(user);
+        await _unitOfWork.SaveChangesAsync();
     }
 
     public async Task<IEnumerable<DepartmentResponseDto>> GetAllAsync(PaginationModel pagination)

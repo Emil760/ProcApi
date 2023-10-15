@@ -18,6 +18,13 @@ public class UserRepository : GenericRepository<User>, IUserRepository
     {
     }
 
+    public async Task<User?> GetByLogin(string login)
+    {
+        return await _context.Users
+            .Where(u => u.Login == login)
+            .SingleOrDefaultAsync();
+    }
+
     public async Task<User> GetByIdCompiled(int id)
     {
         return await GetById(_context, id);

@@ -26,6 +26,13 @@ public class UserController : BaseController
     {
         return Ok(await _userService.GetUsersAsync());
     }
+    
+    [HasPermission(Permissions.CanViewUser)]
+    [HttpGet("GetById/{id}")]
+    public async Task<IActionResult> GetAllAsync([FromRoute] int id)
+    {
+        return Ok(await _userService.GetByIdAsync(id));
+    }
 
     [HasPermission(Permissions.CanViewUser)]
     [HttpGet("GetCached")]

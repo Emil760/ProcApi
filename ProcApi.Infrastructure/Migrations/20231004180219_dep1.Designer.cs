@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ProcApi.Domain.Entities;
@@ -13,9 +14,11 @@ using ProcApi.Infrastructure.Data;
 namespace ProcApi.Infrastructure.Migrations
 {
     [DbContext(typeof(ProcDbContext))]
-    partial class ProcDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231004180219_dep1")]
+    partial class dep1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1012,9 +1015,6 @@ namespace ProcApi.Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("DepartmentId")
-                        .HasColumnType("integer");
-
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("text");
@@ -1029,8 +1029,6 @@ namespace ProcApi.Infrastructure.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("DepartmentId");
 
                     b.ToTable("Users");
                 });
@@ -1499,16 +1497,6 @@ namespace ProcApi.Infrastructure.Migrations
                     b.Navigation("TargetUnitOfMeasure");
                 });
 
-            modelBuilder.Entity("ProcApi.Domain.Entities.User", b =>
-                {
-                    b.HasOne("ProcApi.Domain.Entities.Department", "Department")
-                        .WithMany("Users")
-                        .HasForeignKey("DepartmentId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.Navigation("Department");
-                });
-
             modelBuilder.Entity("ProcApi.Domain.Entities.UserPassword", b =>
                 {
                     b.HasOne("ProcApi.Domain.Entities.User", "User")
@@ -1560,11 +1548,6 @@ namespace ProcApi.Infrastructure.Migrations
                     b.Navigation("ChatMessages");
 
                     b.Navigation("ChatUsers");
-                });
-
-            modelBuilder.Entity("ProcApi.Domain.Entities.Department", b =>
-                {
-                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("ProcApi.Domain.Entities.Document", b =>

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProcApi.Domain.Entities;
+using ProcApi.Domain.Enums;
 using ProcApi.Domain.Models;
 using ProcApi.Infrastructure.Data;
 using ProcApi.Infrastructure.Repositories.Abstracts;
@@ -15,6 +16,13 @@ public class UserRepository : GenericRepository<User>, IUserRepository
 
     public UserRepository(ProcDbContext context) : base(context)
     {
+    }
+
+    public async Task<User?> GetByLogin(string login)
+    {
+        return await _context.Users
+            .Where(u => u.Login == login)
+            .SingleOrDefaultAsync();
     }
 
     public async Task<User> GetByIdCompiled(int id)
@@ -115,6 +123,14 @@ public class UserRepository : GenericRepository<User>, IUserRepository
             .AsQueryable();
 
         return await Paginator<User>.FromQuery(query, pagination.PageNumber, pagination.PageSize);
+    }
+
+    public async Task<bool> ExistsByRole(int userId, Roles role)
+    {
+        return await _context.Users
+            .Where(u => u.Id == userId
+                        && u.Roles.Any(r => r.Id == (int)role))
+            .AnyAsync();
     }
 
     public async Task<IEnumerable<User>> GetAllAsync(IEnumerable<int> userIds)

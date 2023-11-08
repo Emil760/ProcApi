@@ -14,7 +14,7 @@ public class PurchaseRequestRepository : GenericRepository<PurchaseRequest>,
 
     public async Task<PurchaseRequest?> GetWithDocumentAndItemsByDocId(int docId)
     {
-        return await _context.PurchaseRequestDocuments
+        return await _context.PurchaseRequests
             .Include(prd => prd.Items)
             .Include(prd => prd.Document)
             .SingleOrDefaultAsync(prd => prd.DocumentId == docId);
@@ -22,7 +22,7 @@ public class PurchaseRequestRepository : GenericRepository<PurchaseRequest>,
 
     public async Task<PurchaseRequest?> GetWithDocumentAndActionsAndItemsByDocId(int docId)
     {
-        return await _context.PurchaseRequestDocuments
+        return await _context.PurchaseRequests
             .Include(prd => prd.Document)
             .ThenInclude(d => d.Actions)
             .ThenInclude(d => d.User)

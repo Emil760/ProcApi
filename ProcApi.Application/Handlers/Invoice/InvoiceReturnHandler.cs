@@ -1,11 +1,21 @@
 ﻿using ProcApi.Application.DTOs.Documents.Requests;
+using ProcApi.Application.Services.Abstracts;
 
 namespace ProcApi.Application.Handlers.Invoice;
 
 public class InvoiceReturnHandler : IActionHandler
 {
-    public Task PerformAction(ActionPerformRequestDto dto, int userId)
+    private readonly IApprovalsService _approvalsService;
+
+    public InvoiceReturnHandler(IApprovalsService approvalsService)
     {
-        throw new NotImplementedException();
+        _approvalsService = approvalsService;
+    }
+
+    public async Task PerformAction(ActionPerformRequestDto dto, int userId)
+    {
+        await _approvalsService.CanPerformAction(dto, userId);
+
+        await _approvalsService.ApproveDocumentAsync(dto, userId);
     }
 }

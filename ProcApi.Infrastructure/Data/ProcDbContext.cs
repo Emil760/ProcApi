@@ -32,8 +32,8 @@ namespace ProcApi.Infrastructure.Data
         public DbSet<Document> Documents { get; set; }
         public DbSet<DocumentAction> DocumentActions { get; set; }
         public DbSet<Project> Projects { get; set; }
-        public DbSet<PurchaseRequest> PurchaseRequestDocuments { get; set; }
-        public DbSet<PurchaseRequestItem> PurchaseRequestDocumentItems { get; set; }
+        public DbSet<PurchaseRequest> PurchaseRequests { get; set; }
+        public DbSet<PurchaseRequestItem> PurchaseRequestItems { get; set; }
         public DbSet<Invoice> InvoiceDocuments { get; set; }
         public DbSet<InvoiceItem> InvoiceDocumentItems { get; set; }
         public DbSet<ReleaseStrategy> ReleaseStrategies { get; set; }

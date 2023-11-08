@@ -18,16 +18,22 @@ namespace ProcApi.Application.Services.Concreates;
 public class InvoiceService : IInvoiceService
 {
     private readonly IInvoiceRepository _invoiceRepository;
+    private readonly IInvoiceItemRepository _invoiceItemRepository;
+    private readonly IPurchaseRequestItemsRepository _purchaseRequestItemsRepository;
     private readonly IStringLocalizer<SharedResource> _localizer;
     private readonly IMapper _mapper;
     private readonly IUnitOfWork _unitOfWork;
 
     public InvoiceService(IInvoiceRepository invoiceRepository,
+        IInvoiceItemRepository invoiceItemRepository,
+        IPurchaseRequestItemsRepository purchaseRequestItemsRepository,
         IStringLocalizer<SharedResource> localizer,
         IMapper mapper,
         IUnitOfWork unitOfWork)
     {
         _invoiceRepository = invoiceRepository;
+        _invoiceItemRepository = invoiceItemRepository;
+        _purchaseRequestItemsRepository = purchaseRequestItemsRepository;
         _localizer = localizer;
         _mapper = mapper;
         _unitOfWork = unitOfWork;
@@ -52,7 +58,7 @@ public class InvoiceService : IInvoiceService
 
         if (invoice is null)
             return await CreateInvoiceAsync(dto);
-        
+
         return await UpdateInvoiceAsync(invoice, dto);
     }
 
@@ -114,13 +120,53 @@ public class InvoiceService : IInvoiceService
             if (unusedPRItem is null)
                 throw new NotFoundException(_localizer["ItemNotFound"]);
 
-            if (invoiceItem.Quantity > unusedPRItem.UnusedCount)
-                throw new NotFoundException(_localizer["ItemAlreadyUsed"]);
-
             invoiceItem.Price = unusedPRItem.Price;
         }
 
         return invoiceItems;
+    }
+
+    public async Task ChangePurchaseRequestItemStatuses(int invoiceId)
+    {
+        var invoice = await _invoiceRepository.GetWithDocumentAndItemsByDocId(invoiceId);
+
+        if (invoice is null)
+            throw new NotFoundException(_localizer["DocumentNotFound"]);
+
+        if (invoice.Document.StatusId != DocumentStatus.InvoiceApproved)
+            throw new ValidationException(_localizer["DocumentIsNotApproved"]);
+
+        var purchaseRequestItemIds = invoice.Items.Select(ini => ini.PurchaseRequestItemId);
+
+        var usedInvoiceItems =
+            await _invoiceItemRepository.GetByPurchaseItemIdsAndStatus(
+                purchaseRequestItemIds,
+                DocumentStatus.InvoiceApproved);
+
+        var purchaseRequestItems = await _purchaseRequestItemsRepository.GetByIds(purchaseRequestItemIds);
+
+        foreach (var invoiceItem in invoice.Items)
+        {
+            var purchaseRequestItem = purchaseRequestItems
+                .SingleOrDefault(pri => pri.PurchaseRequestId == invoiceItem.PurchaseRequestItemId);
+
+            if (purchaseRequestItem is null)
+                throw new NotFoundException(_localizer["ItemNotFound"]);
+
+            var usedCount = usedInvoiceItems
+                .Where(ini => ini.PurchaseRequestItemId == invoiceItem.PurchaseRequestItemId)
+                .Sum(ini => ini.Quantity);
+
+            if (usedCount > purchaseRequestItem.Quantity)
+                throw new ValidationException(_localizer["ItemAlreadyUsed"]);
+
+            if (usedCount == purchaseRequestItem.Quantity)
+                purchaseRequestItem.ItemStatusId = ItemStatus.FullyUsed;
+            else
+                purchaseRequestItem.ItemStatusId = ItemStatus.PartiallyUsed;
+        }
+
+        await _unitOfWork.SaveChangesAsync();
     }
 
     private void RecalculateTotalItemsPrice(Invoice document,

@@ -14,8 +14,15 @@ public class PurchaseRequestItemsRepository : GenericRepository<PurchaseRequestI
 
     public async Task<IEnumerable<PurchaseRequestItem>> GetAllByDocIdAsync(int docId)
     {
-        return await _context.PurchaseRequestDocumentItems
-            .Where(prdi => prdi.PurchaseRequestId == docId)
+        return await _context.PurchaseRequestItems
+            .Where(pri => pri.PurchaseRequestId == docId)
+            .ToListAsync();
+    }
+
+    public async Task<IEnumerable<PurchaseRequestItem>> GetByIds(IEnumerable<int> itemIds)
+    {
+        return await _context.PurchaseRequestItems
+            .Where(pri => itemIds.Contains(pri.Id))
             .ToListAsync();
     }
 }

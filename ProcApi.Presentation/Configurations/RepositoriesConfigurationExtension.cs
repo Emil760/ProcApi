@@ -25,6 +25,7 @@ public static class RepositoriesConfigurationExtension
         services.AddScoped<IPurchaseRequestItemsRepository, PurchaseRequestItemsRepository>();
 
         services.AddScoped<IInvoiceRepository, InvoiceRepository>();
+        services.AddScoped<IInvoiceItemRepository, InvoiceItemRepository>();
 
         services.AddScoped<ISupplierRepository, SupplierRepository>();
 

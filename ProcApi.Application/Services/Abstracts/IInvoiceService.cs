@@ -10,4 +10,5 @@ public interface IInvoiceService
     Task<InvoiceResponseDto> GetDocumentAsync(int docId);
     Task<IEnumerable<UnusedPRItemInfoResultSet>> GetUnusedPurchaseRequestItemsAsync(PaginationModel model);
     Task<SaveInvoiceResponseDto> SaveInvoiceAsync(SaveInvoiceRequestDto dto);
+    Task ChangePurchaseRequestItemStatuses(int invoiceId);
 }

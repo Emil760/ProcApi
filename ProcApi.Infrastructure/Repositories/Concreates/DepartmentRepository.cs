@@ -23,6 +23,7 @@ public class DepartmentRepository : GenericRepository<Department>, IDepartmentRe
     public async Task<Paginator<Department>> GetAllPaginated(PaginationModel pagination)
     {
         var query = _context.Departments
+            .Include(d => d.HeadUser)
             .Where(u => u.Name.Contains(pagination.Search))
             .AsQueryable();
 

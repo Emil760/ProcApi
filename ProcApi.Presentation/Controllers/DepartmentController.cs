@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ProcApi.Application.DTOs.Department.Requests;
 using ProcApi.Application.Services.Abstracts;
+using ProcApi.Domain.Enums;
 using ProcApi.Domain.Models;
+using ProcApi.Presentation.Attributes;
 
 namespace ProcApi.Presentation.Controllers;
 
@@ -16,16 +18,18 @@ public class DepartmentController : BaseController
         _departmentService = departmentService;
     }
 
+    [HasPermission(Permissions.CanCreateDepartment)]
     [HttpPost]
     public async Task<IActionResult> CreateDepartmentAsync(CreateDepartmentDto dto)
     {
         return Ok(await _departmentService.CreateDepartmentAsync(dto));
     }
 
+    [HasPermission(Permissions.CanAssignUserDepartment)]
     [HttpPut("ChangeUserDepartment")]
     public async Task<IActionResult> ChangeUserDepartmentAsync([FromBody] AssignUserDepartmentDto dto)
     {
-        await _departmentService.AssignUserToDepartment(dto);
+        await _departmentService.AssignUserToDepartment(UserInfo.UserId, dto);
         return Ok();
     }
 

@@ -42,8 +42,8 @@ public class DepartmentService : IDepartmentService
 
     public async Task<DepartmentResponseDto> CreateDepartmentAsync(CreateDepartmentDto dto)
     {
-        var userExistsWithRole = await _userRepository.ExistsByRole(dto.HeadUserId, Roles.HeadDepartment);
-        if (!userExistsWithRole)
+        var user = await _userRepository.GetByUserIdAndRole(dto.HeadUserId, Roles.HeadDepartment);
+        if (user is null)
             throw new NotFoundException(_localizer["UserNotFound"]);
 
         var departmentExists = await _departmentRepository.ExistsByName(dto.Name);
@@ -51,17 +51,24 @@ public class DepartmentService : IDepartmentService
             throw new ValidationException(_localizer["DepartmentNameAlreadyExists"]);
 
         var department = _mapper.Map<Department>(dto);
+        user.Department = department;
 
-        await _departmentRepository.InsertAsync(department);
+        _departmentRepository.Insert(department);
+
+        await _unitOfWork.SaveChangesAsync();
 
         return _mapper.Map<DepartmentResponseDto>(department);
     }
 
-    public async Task AssignUserToDepartment(AssignUserDepartmentDto dto)
+    public async Task AssignUserToDepartment(int userId, AssignUserDepartmentDto dto)
     {
         var department = await _departmentRepository.GetByIdAsync(dto.DepartmentId);
+
         if (department is null)
             throw new NotFoundException(_localizer["DepartmentNotFound"]);
+
+        if (department.HeadUserId != userId)
+            throw new ValidationException(_localizer["UserDontBelongToDepartment"]);
 
         var user = await _userRepository.GetByIdAsync(dto.UserId);
         if (user is null)
@@ -72,12 +79,12 @@ public class DepartmentService : IDepartmentService
         await _unitOfWork.SaveChangesAsync();
     }
 
-    public async Task<IEnumerable<DepartmentResponseDto>> GetAllAsync(PaginationModel pagination)
+    public async Task<IEnumerable<DepartmentListResponseDto>> GetAllAsync(PaginationModel pagination)
     {
         var departmentPaginated = await _departmentRepository.GetAllPaginated(pagination);
 
         _httpContextAccessor.HttpContext!.Response.Headers.Add(HeaderKeys.XPagination, departmentPaginated.ToString());
 
-        return _mapper.Map<IEnumerable<DepartmentResponseDto>>(departmentPaginated.ResultSet);
+        return _mapper.Map<IEnumerable<DepartmentListResponseDto>>(departmentPaginated.ResultSet);
     }
 }

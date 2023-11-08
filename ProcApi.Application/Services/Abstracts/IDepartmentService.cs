@@ -7,6 +7,6 @@ namespace ProcApi.Application.Services.Abstracts;
 public interface IDepartmentService
 {
     Task<DepartmentResponseDto> CreateDepartmentAsync(CreateDepartmentDto dto);
-    Task<IEnumerable<DepartmentResponseDto>> GetAllAsync(PaginationModel pagination);
-    Task AssignUserToDepartment(AssignUserDepartmentDto dto);
+    Task<IEnumerable<DepartmentListResponseDto>> GetAllAsync(PaginationModel pagination);
+    Task AssignUserToDepartment(int userId, AssignUserDepartmentDto dto);
 }

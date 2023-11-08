@@ -19,5 +19,5 @@ public interface IUserRepository : IGenericRepository<User>
     Task<User?> GetWithRoles(int id);
     Task<IEnumerable<User>> GetAllAsync(IEnumerable<int> userIds);
     Task<Paginator<User>> GetAllPaginated(PaginationModel dto);
-    Task<bool> ExistsByRole(int userId, Roles role);
+    Task<User?> GetByUserIdAndRole(int userId, Roles role);
 }

@@ -125,12 +125,12 @@ public class UserRepository : GenericRepository<User>, IUserRepository
         return await Paginator<User>.FromQuery(query, pagination.PageNumber, pagination.PageSize);
     }
 
-    public async Task<bool> ExistsByRole(int userId, Roles role)
+    public async Task<User?> GetByUserIdAndRole(int userId, Roles role)
     {
         return await _context.Users
             .Where(u => u.Id == userId
                         && u.Roles.Any(r => r.Id == (int)role))
-            .AnyAsync();
+            .SingleOrDefaultAsync();
     }
 
     public async Task<IEnumerable<User>> GetAllAsync(IEnumerable<int> userIds)

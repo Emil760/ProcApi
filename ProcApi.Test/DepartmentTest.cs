@@ -19,6 +19,8 @@ public class DepartmentTest : BaseTest
     private readonly DepartmentRepository _departmentRepository;
     private readonly DepartmentService _departmentService;
 
+    private readonly int _headUserId = 2;
+
     public DepartmentTest()
     {
         var localizer = new Mock<IStringLocalizer<SharedResource>>();
@@ -35,13 +37,29 @@ public class DepartmentTest : BaseTest
             accessor.Object,
             _unitOfWork);
 
-        SeedUsers();
+        SeedData();
         SeedDepartments();
     }
 
-    private void SeedUsers()
+    private void SeedData()
     {
-        _context.Users.Add(new User()
+        var department1 = new Department()
+        {
+            Id = 1,
+            Name = "dep1",
+            HeadUserId = _headUserId
+        };
+
+        var department2 = new Department()
+        {
+            Id = 2,
+            Name = "dep2"
+        };
+
+        _context.Departments.Add(department1);
+        _context.Departments.Add(department2);
+
+        var user1 = new User()
         {
             Id = 1,
             FirstName = "user1",
@@ -54,13 +72,14 @@ public class DepartmentTest : BaseTest
                     Name = Roles.User.ToString()
                 },
             }
-        });
+        };
 
-        _context.Users.Add(new User()
+        var user2 = new User()
         {
-            Id = 2,
+            Id = _headUserId,
             FirstName = "user2",
             Login = "user2",
+            Department = department1,
             Roles = new List<Role>()
             {
                 new Role()
@@ -69,25 +88,16 @@ public class DepartmentTest : BaseTest
                     Name = Roles.HeadDepartment.ToString()
                 }
             }
-        });
+        };
+
+        _context.Users.Add(user1);
+        _context.Users.Add(user2);
 
         _context.SaveChanges();
     }
 
     private void SeedDepartments()
     {
-        _context.Departments.Add(new Department()
-        {
-            Id = 1,
-            Name = "dep1"
-        });
-
-        _context.Departments.Add(new Department()
-        {
-            Id = 2,
-            Name = "dep2"
-        });
-
         _context.SaveChanges();
     }
 
@@ -137,7 +147,7 @@ public class DepartmentTest : BaseTest
             DepartmentId = 1
         };
 
-        await Assert.ThrowsAsync<NotFoundException>(() => _departmentService.AssignUserToDepartment(dto));
+        await Assert.ThrowsAsync<NotFoundException>(() => _departmentService.AssignUserToDepartment(_headUserId, dto));
     }
 
     [Fact]
@@ -149,7 +159,7 @@ public class DepartmentTest : BaseTest
             DepartmentId = 3
         };
 
-        await Assert.ThrowsAsync<NotFoundException>(() => _departmentService.AssignUserToDepartment(dto));
+        await Assert.ThrowsAsync<NotFoundException>(() => _departmentService.AssignUserToDepartment(_headUserId, dto));
     }
 
     [Fact]
@@ -161,6 +171,6 @@ public class DepartmentTest : BaseTest
             DepartmentId = 1
         };
 
-        await _departmentService.AssignUserToDepartment(dto);
+        await _departmentService.AssignUserToDepartment(_headUserId, dto);
     }
 }

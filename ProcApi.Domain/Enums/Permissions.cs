@@ -17,5 +17,7 @@ public enum Permissions
     CanCreateSupplier,
     CanViewUser,
     CanCreateDelegation,
-    CanViewDelegation
+    CanViewDelegation,
+    CanCreateDepartment,
+    CanAssignUserDepartment
 }

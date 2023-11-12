@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using ProcApi.Domain.Entities;
 using ProcApi.Domain.ResultSets;
 
@@ -14,6 +15,17 @@ namespace ProcApi.Infrastructure.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
+            if (Database.ProviderName == "Microsoft.EntityFrameworkCore.InMemory")
+            {
+                // Apply the value converter only for in-memory database
+                modelBuilder.Entity<ChatMessage>()
+                    .Property(c => c.ReceivedInfos)
+                    .HasConversion(
+                        v => JsonConvert.SerializeObject(v),
+                        v => JsonConvert.DeserializeObject<ICollection<ReceivedInfo>>(v)
+                    );
+            }
 
             base.OnModelCreating(modelBuilder);
         }

@@ -72,8 +72,8 @@ public class ApprovalsService : IApprovalsService
         return new DocumentAction
         {
             RoleId = template.RoleId,
-            UserId = user.Id,
-            User = user,
+            AssignerId = user.Id,
+            Assigner = user,
             Order = template.Order,
             IsPerformed = false,
             ActionPerformed = null,
@@ -87,8 +87,8 @@ public class ApprovalsService : IApprovalsService
         return new DocumentAction
         {
             RoleId = template.RoleId,
-            UserId = template.UserId!.Value,
-            User = template.User!,
+            AssignerId = template.UserId!.Value,
+            Assigner = template.User!,
             Order = template.Order,
             IsPerformed = false,
             ActionPerformed = null,
@@ -111,29 +111,29 @@ public class ApprovalsService : IApprovalsService
             throw new Exception(
                 $"Release strategy not found for Status:{document.Id} ActionType:{dto.ActionType}");
 
-        var userRoles = await _userRepository.GetRolesUnionDelegatedRoles(userId);
+        var performedCount = document.Actions.Count(da => da.IsPerformed);
 
-        if (!userRoles.Any())
-            throw new NotFoundException(_localizer["UserNotFound"]);
+        var currApprover = document.Actions
+            .OrderBy(da => da.Order)
+            .Skip(performedCount)
+            .Take(1)
+            .SingleOrDefault();
 
-        if (!userRoles.Contains(releaseStrategy.ApprovalFlowTemplate.RoleId))
+        if (currApprover is null)
+            throw new ValidationException(_localizer["ActionAlreadyPerformed"]);
+
+        if (currApprover.RoleId != releaseStrategy.ApprovalFlowTemplate.RoleId)
+            throw new Exception(
+                $"ApprovalFlowTemplate dismatch for CurrentRole:{currApprover.RoleId} ApprovalFlowTemplateRole:{releaseStrategy.ApprovalFlowTemplate.RoleId}");
+
+        var userRolesSet = (await _userRepository.GetUserRolesWithDelegatedRoles(userId, currApprover.AssignerId))
+            .ToHashSet();
+
+        var hasRole = userRolesSet
+            .Any(ur => ur.UserId == currApprover.AssignerId && ur.RoleId == currApprover.RoleId);
+
+        if (!hasRole)
             throw new ValidationException(_localizer["UserCantPerformAction"]);
-
-        var currentAssignedUser = document.Actions
-            .SingleOrDefault(da => da.UserId == userId
-                                   && da.RoleId == releaseStrategy.ApprovalFlowTemplate.RoleId
-                                   && da.IsAssigned
-                                   && !da.IsPerformed);
-
-        if (currentAssignedUser is null)
-            throw new ValidationException(_localizer["ActionAlreadyPerformed"]);
-
-        var alreadyPerformedCount = document.Actions.Count(da => da.IsPerformed);
-
-        var performedCount = document.Actions.Count(da => da.Order < currentAssignedUser.Order);
-
-        if (alreadyPerformedCount != performedCount)
-            throw new ValidationException(_localizer["ActionAlreadyPerformed"]);
     }
 
     public async Task ApproveDocumentAsync(ActionPerformRequestDto dto, int userId)
@@ -143,14 +143,17 @@ public class ApprovalsService : IApprovalsService
         var releaseStrategy =
             await _releaseStrategyRepository.GetWithFlowTemplateAsync(document!.StatusId, dto.ActionType);
 
-        var currentDocAction = document.Actions
-            .Single(da => da.UserId == userId
-                          && da.RoleId == releaseStrategy!.ApprovalFlowTemplate.RoleId
-                          && da.IsAssigned
-                          && !da.IsPerformed);
+        var performedCount = document.Actions.Count(da => da.IsPerformed);
 
-        currentDocAction.ActionPerformed = DateTime.Now;
-        currentDocAction.IsPerformed = true;
+        var currApprover = document.Actions
+            .OrderBy(da => da.Order)
+            .Skip(performedCount)
+            .Take(1)
+            .SingleOrDefault();
+
+        currApprover.PerformerId = userId;
+        currApprover.ActionPerformed = DateTime.Now;
+        currApprover.IsPerformed = true;
 
         document.StatusId = releaseStrategy!.AssignStatusId;
 
@@ -169,6 +172,18 @@ public class ApprovalsService : IApprovalsService
             docAction.IsPerformed = false;
             docAction.ActionPerformed = null;
         }
+
+        document.StatusId = releaseStrategy!.AssignStatusId;
+
+        await _unitOfWork.SaveChangesAsync();
+    }
+
+    public async Task RejectDocumentAsync(ActionPerformRequestDto dto)
+    {
+        var document = await _documentRepository.GetByIdAsync(dto.DocId);
+
+        var releaseStrategy =
+            await _releaseStrategyRepository.GetWithFlowTemplateAsync(document.StatusId, dto.ActionType);
 
         document.StatusId = releaseStrategy!.AssignStatusId;
 

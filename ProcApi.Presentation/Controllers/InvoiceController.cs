@@ -19,7 +19,7 @@ public class InvoiceController : BaseController
     private readonly InvoiceApprovalService _invoiceApprovalService;
 
     public InvoiceController(IDocumentService documentService,
-        IInvoiceService invoiceService, 
+        IInvoiceService invoiceService,
         InvoiceApprovalService invoiceApprovalService)
     {
         _documentService = documentService;
@@ -27,7 +27,7 @@ public class InvoiceController : BaseController
         _invoiceApprovalService = invoiceApprovalService;
     }
 
-    [DocumentAccessFilter(new[] { Roles.InvoiceKeyUser })]
+    [DocumentAccessFilter(new[] { Permissions.CanReturnInvoice, Permissions.CanRejectInvoice })]
     [HasPermission(Permissions.CanViewInvoice)]
     [HttpGet]
     public async Task<IActionResult> GetDocumentAsync([FromQuery] int docId)
@@ -50,7 +50,7 @@ public class InvoiceController : BaseController
     {
         return Ok(await _invoiceService.SaveInvoiceAsync(dto));
     }
-    
+
     [HttpPost("PerformAction")]
     public async Task<IActionResult> PerformAction([FromBody] ActionPerformRequestDto requestDto)
     {

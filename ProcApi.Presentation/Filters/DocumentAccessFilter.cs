@@ -11,31 +11,34 @@ namespace ProcApi.Presentation.Filters;
 
 public class DocumentAccessFilter : ActionFilterAttribute
 {
-    private readonly Roles[] _roles;
+    private readonly Permissions[] _permissions;
 
-    public DocumentAccessFilter(Roles[] roles)
+    public DocumentAccessFilter(Permissions[] permissions)
     {
-        _roles = roles;
+        _permissions = permissions;
     }
 
     public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
     {
         var documentActionsRepository = context.HttpContext.RequestServices.GetService<IDocumentActionRepository>()!;
-        var userRepository = context.HttpContext.RequestServices.GetService<IUserRepository>()!;
         var localizer = context.HttpContext.RequestServices.GetService<IStringLocalizer<SharedResource>>()!;
 
         var docId = (int)context.ActionArguments["docId"]!;
         var jwtToken = context.HttpContext.Request.Headers[HeaderKeys.Authorization].ToString();
         var userInfo = JwtUtility.GetUserInfo(jwtToken);
+        var userPermissions = JwtUtility.GetUserPermissions(jwtToken);
 
-        var exist = await documentActionsRepository.ExistsByDocIdAndUserId(docId, userInfo.UserId);
+        var exist = await documentActionsRepository.ExistsByDocIdAndAssignerIdOrHasDelegation(docId, userInfo.UserId);
 
         if (!exist)
         {
-            var roles = await userRepository.GetRolesUnionDelegatedRoles(userInfo.UserId);
+            foreach (var permission in _permissions)
+            {
+                if (userPermissions.Contains(permission))
+                    await next();
+            }
 
-            if (!_roles.Any(role => roles.Contains((int)role)))
-                throw new ValidationException(localizer["CantAccessDocument"]);
+            throw new ValidationException(localizer["CantAccessDocument"]);
         }
 
         await next();

@@ -68,5 +68,9 @@ namespace ProcApi.Infrastructure.Data
         [DbFunction(Name = "get_unused_purchase_request_items_by_ids", Schema = "public", IsBuiltIn = false)]
         public IQueryable<UnusedPRItemResultSet> GetUnusedPurchaseRequestItemsByIds(int[] prItemIds)
             => FromExpression(() => GetUnusedPurchaseRequestItemsByIds(prItemIds));
+        
+        [DbFunction(Name = "get_user_roles_with_delegated_roles", Schema = "public", IsBuiltIn = false)]
+        public IQueryable<UserRoleResultSet> GetUserRolesWithDelegatedRoles(int userId, int delegatedUserId)
+            => FromExpression(() => GetUserRolesWithDelegatedRoles(userId, delegatedUserId));
     }
 }

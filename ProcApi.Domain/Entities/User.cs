@@ -19,7 +19,6 @@ public class User
     public ICollection<Delegation> ToDelegations { get; set; }
 
     public ICollection<Document> Documents { get; set; }
-    public ICollection<DocumentAction> DocumentActions { get; set; }
 
     public ICollection<ChatUser> ChatUsers { get; set; }
     public ICollection<ChatMessage> ChatMessages { get; set; }

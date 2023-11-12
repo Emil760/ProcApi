@@ -2,6 +2,8 @@
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using System.Text;
+using ProcApi.Domain.Entities;
+using ProcApi.Domain.Enums;
 using ProcApi.Domain.Models;
 using ProcApi.Infrastructure.Constants;
 using ProcApi.Infrastructure.Options;
@@ -59,5 +61,19 @@ public static class JwtUtility
         {
             UserId = int.Parse(token?.Claims.Single(c => c.Type == JwtRegisteredClaimNames.Sub).Value)
         };
+    }
+
+    public static IEnumerable<Permissions> GetUserPermissions(string? jwtToken)
+    {
+        if (jwtToken is null)
+            return Enumerable.Empty<Permissions>();
+
+        jwtToken = jwtToken.Replace("Bearer ", "");
+        var handler = new JwtSecurityTokenHandler();
+        var token = handler.ReadToken(jwtToken) as JwtSecurityToken;
+
+        return token.Claims
+            .Where(c => c.Type == ClaimKeys.Permission)
+            .Select(c => (Permissions)int.Parse(c.Value));
     }
 }

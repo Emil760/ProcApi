@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ProcApi.Domain.Entities;
@@ -13,9 +14,11 @@ using ProcApi.Infrastructure.Data;
 namespace ProcApi.Infrastructure.Migrations
 {
     [DbContext(typeof(ProcDbContext))]
-    partial class ProcDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231111184601_docaction6")]
+    partial class docaction6
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -628,26 +631,6 @@ namespace ProcApi.Infrastructure.Migrations
                         {
                             Id = 18,
                             Name = "CanAssignUserDepartment"
-                        },
-                        new
-                        {
-                            Id = 19,
-                            Name = "CanReturnInvoice"
-                        },
-                        new
-                        {
-                            Id = 20,
-                            Name = "CanRejectInvoice"
-                        },
-                        new
-                        {
-                            Id = 21,
-                            Name = "CanReturnPurchaseRequest"
-                        },
-                        new
-                        {
-                            Id = 22,
-                            Name = "CanRejectPurchaseRequest"
                         });
                 });
 
@@ -1200,19 +1183,6 @@ namespace ProcApi.Infrastructure.Migrations
                     b.ToTable((string)null);
 
                     b.ToFunction("get_unused_purchase_request_items_by_ids");
-                });
-
-            modelBuilder.Entity("ProcApi.Domain.ResultSets.UserRoleResultSet", b =>
-                {
-                    b.Property<int>("RoleId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
-
-                    b.ToTable((string)null);
-
-                    b.ToFunction("get_user_roles_with_delegated_roles");
                 });
 
             modelBuilder.Entity("ProcApi.Domain.Entities.ApprovalFlowTemplate", b =>

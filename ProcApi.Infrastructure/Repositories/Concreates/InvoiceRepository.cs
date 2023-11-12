@@ -12,13 +12,13 @@ public class InvoiceRepository : GenericRepository<Invoice>, IInvoiceRepository
     public InvoiceRepository(ProcDbContext context) : base(context)
     {
     }
-    
+
     public async Task<Invoice?> GetWithDocumentAndActionsAndItemsByDocId(int docId)
     {
         return await _context.InvoiceDocuments
             .Include(id => id.Document)
             .ThenInclude(d => d.Actions)
-            .ThenInclude(d => d.User)
+            .ThenInclude(d => new { d.Assigner, d.Performer })
             .Include(id => id.Items)
             .SingleOrDefaultAsync(id => id.DocumentId == docId);
     }

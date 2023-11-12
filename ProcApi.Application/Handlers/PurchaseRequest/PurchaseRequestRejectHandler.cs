@@ -16,6 +16,6 @@ public class PurchaseRequestRejectHandler : IActionHandler
     {
         await _approvalsService.CanPerformAction(dto, userId);
 
-        await _approvalsService.ReturnDocumentAsync(dto);
+        await _approvalsService.RejectDocumentAsync(dto);
     }
 }

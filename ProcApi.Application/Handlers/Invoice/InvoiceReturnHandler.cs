@@ -16,6 +16,6 @@ public class InvoiceReturnHandler : IActionHandler
     {
         await _approvalsService.CanPerformAction(dto, userId);
 
-        await _approvalsService.ApproveDocumentAsync(dto, userId);
+        await _approvalsService.ReturnDocumentAsync(dto);
     }
 }

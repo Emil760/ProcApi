@@ -1,6 +1,7 @@
 ﻿using ProcApi.Domain.Entities;
 using ProcApi.Domain.Enums;
 using ProcApi.Domain.Models;
+using ProcApi.Domain.ResultSets;
 using ProcApi.Infrastructure.Utility;
 
 namespace ProcApi.Infrastructure.Repositories.Abstracts;
@@ -20,4 +21,5 @@ public interface IUserRepository : IGenericRepository<User>
     Task<IEnumerable<User>> GetAllAsync(IEnumerable<int> userIds);
     Task<Paginator<User>> GetAllPaginated(PaginationModel dto);
     Task<User?> GetByUserIdAndRole(int userId, Roles role);
+    Task<IEnumerable<UserRoleResultSet>> GetUserRolesWithDelegatedRoles(int id, int delegatedUserId);
 }

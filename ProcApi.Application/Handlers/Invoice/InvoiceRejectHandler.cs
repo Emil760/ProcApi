@@ -16,6 +16,6 @@ public class InvoiceRejectHandler : IActionHandler
     {
         await _approvalsService.CanPerformAction(dto, userId);
 
-        await _approvalsService.ApproveDocumentAsync(dto, userId);
+        await _approvalsService.RejectDocumentAsync(dto);
     }
 }

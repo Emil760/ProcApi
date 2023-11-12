@@ -25,7 +25,7 @@ public class PurchaseRequestRepository : GenericRepository<PurchaseRequest>,
         return await _context.PurchaseRequests
             .Include(prd => prd.Document)
             .ThenInclude(d => d.Actions)
-            .ThenInclude(d => d.User)
+            .ThenInclude(d => new { d.Assigner, d.Performer })
             .Include(prd => prd.Items)
             .SingleOrDefaultAsync(prd => prd.DocumentId == docId);
     }

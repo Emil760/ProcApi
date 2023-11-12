@@ -10,4 +10,5 @@ public interface IApprovalsService
     Task CanPerformAction(ActionPerformRequestDto dto, int userId);
     Task ApproveDocumentAsync(ActionPerformRequestDto dto, int userId);
     Task ReturnDocumentAsync(ActionPerformRequestDto dto);
+    Task RejectDocumentAsync(ActionPerformRequestDto dto);
 }

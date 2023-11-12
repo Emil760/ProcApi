@@ -100,7 +100,8 @@ public static class FunctionsMigrationHelper
 
     public static void CreateGetUnusedPurchaseRequestItemsCountV1(MigrationBuilder migrationBuilder)
     {
-        migrationBuilder.Sql(@"CREATE FUNCTION get_unused_purchase_request_items (pageNumber int, pageSize int, search varchar(300))
+        migrationBuilder.Sql(
+            @"CREATE FUNCTION get_unused_purchase_request_items (pageNumber int, pageSize int, search varchar(300))
 							   RETURNS TABLE (
 							       ""PurchaseRequestItemId"" int,
 							       ""PurchaseRequestNumber"" varchar(300),
@@ -141,7 +142,7 @@ public static class FunctionsMigrationHelper
 
     public static void CreateGetUnusedPurchaseRequestItemsByIdsV1(MigrationBuilder builder)
     {
-	    builder.Sql(@"CREATE FUNCTION get_unused_purchase_request_items_by_ids (prItemIds int[])
+        builder.Sql(@"CREATE FUNCTION get_unused_purchase_request_items_by_ids (prItemIds int[])
 					  RETURNS TABLE (
 					      ""PurchaseRequestItemId"" int,
 					      ""Price"" decimal,
@@ -168,7 +169,42 @@ public static class FunctionsMigrationHelper
 
     public static void DropGetUnusedPurchaseRequestItemsByIdsV1(MigrationBuilder builder)
     {
-	    builder.Sql(@"DROP FUNCTION get_unused_purchase_request_items_by_ids");
+        builder.Sql(@"DROP FUNCTION get_unused_purchase_request_items_by_ids");
+    }
+
+    #endregion
+
+    #region GetUserRolesWithDelegatedRoles
+
+    public static void CreateGetUserRolesWithDelegatedRolesV1(MigrationBuilder builder)
+    {
+        builder.Sql(@"create function get_user_roles_with_delegated_roles(userId int, delegatedUserId int)
+					  returns table (
+					  ""UserId"" int,
+					  ""RoleId"" int
+					  )
+					  as
+					  $$
+					  begin
+					      select u.""Id"" as ""UserId"", ur.""RoleId"" as ""RoleId""
+					      from ""Users"" u
+					      inner join ""UserRoles"" ur on u.""Id"" = ur.""UserId""
+					      where u.""Id"" = 1
+					  
+					      union
+					  
+					      select d.""FromUserId"" as ""UserId"", ur.""RoleId"" as ""RoleId""
+					      from ""Delegations"" d
+					      inner join ""UserRoles"" ur on ur.""UserId"" = d.""FromUserId""
+					      where d.""FromUserId"" = 1 and d.""ToUserId"" = 1 and d.""EndDate"" >= current_date;
+					  end;
+					  $$
+					  language PLPGSQL");
+    }
+
+    public static void DropGetUserRolesWithDelegatedRolesV1(MigrationBuilder builder)
+    {
+        builder.Sql("drop function get_user_roles_with_delegated_roles");
     }
 
     #endregion

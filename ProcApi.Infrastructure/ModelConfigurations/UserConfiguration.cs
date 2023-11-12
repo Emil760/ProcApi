@@ -38,10 +38,5 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .WithOne(d => d.CreatedBy)
             .HasForeignKey(d => d.CreatedById)
             .OnDelete(DeleteBehavior.NoAction);
-
-        builder.HasMany(u => u.DocumentActions)
-            .WithOne(da => da.User)
-            .HasForeignKey(da => da.UserId)
-            .OnDelete(DeleteBehavior.NoAction);
     }
 }

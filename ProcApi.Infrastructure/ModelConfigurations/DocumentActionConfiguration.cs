@@ -22,5 +22,15 @@ public class DocumentActionConfiguration : IEntityTypeConfiguration<DocumentActi
             .WithMany(d => d.Actions)
             .HasForeignKey(da => da.DocumentId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        builder.HasOne(da => da.Assigner)
+            .WithMany()
+            .HasForeignKey(da => da.AssignerId)
+            .OnDelete(DeleteBehavior.NoAction);
+
+        builder.HasOne(da => da.Performer)
+            .WithMany()
+            .HasForeignKey(da => da.PerformerId)
+            .OnDelete(DeleteBehavior.NoAction);
     }
 }

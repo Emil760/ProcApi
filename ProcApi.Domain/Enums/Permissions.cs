@@ -19,5 +19,9 @@ public enum Permissions
     CanCreateDelegation,
     CanViewDelegation,
     CanCreateDepartment,
-    CanAssignUserDepartment
+    CanAssignUserDepartment,
+    CanReturnInvoice,
+    CanRejectInvoice,
+    CanReturnPurchaseRequest,
+    CanRejectPurchaseRequest
 }

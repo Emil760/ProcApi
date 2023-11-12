@@ -2,6 +2,7 @@
 using ProcApi.Domain.Entities;
 using ProcApi.Domain.Enums;
 using ProcApi.Domain.Models;
+using ProcApi.Domain.ResultSets;
 using ProcApi.Infrastructure.Data;
 using ProcApi.Infrastructure.Repositories.Abstracts;
 using ProcApi.Infrastructure.Utility;
@@ -137,6 +138,12 @@ public class UserRepository : GenericRepository<User>, IUserRepository
     {
         return await _context.Users
             .Where(u => userIds.Contains(u.Id))
+            .ToListAsync();
+    }
+
+    public async Task<IEnumerable<UserRoleResultSet>> GetUserRolesWithDelegatedRoles(int id, int delegatedUserId)
+    {
+        return await _context.GetUserRolesWithDelegatedRoles(id, delegatedUserId)
             .ToListAsync();
     }
 }

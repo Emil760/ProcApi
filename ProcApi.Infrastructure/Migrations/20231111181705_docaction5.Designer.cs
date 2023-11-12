@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ProcApi.Domain.Entities;
@@ -13,9 +14,11 @@ using ProcApi.Infrastructure.Data;
 namespace ProcApi.Infrastructure.Migrations
 {
     [DbContext(typeof(ProcDbContext))]
-    partial class ProcDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231111181705_docaction5")]
+    partial class docaction5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -331,9 +334,6 @@ namespace ProcApi.Infrastructure.Migrations
                     b.Property<int>("Order")
                         .HasColumnType("integer");
 
-                    b.Property<int>("PerformerId")
-                        .HasColumnType("integer");
-
                     b.Property<int>("RoleId")
                         .HasColumnType("integer");
 
@@ -342,8 +342,6 @@ namespace ProcApi.Infrastructure.Migrations
                     b.HasIndex("AssignerId");
 
                     b.HasIndex("DocumentId");
-
-                    b.HasIndex("PerformerId");
 
                     b.HasIndex("RoleId");
 
@@ -628,26 +626,6 @@ namespace ProcApi.Infrastructure.Migrations
                         {
                             Id = 18,
                             Name = "CanAssignUserDepartment"
-                        },
-                        new
-                        {
-                            Id = 19,
-                            Name = "CanReturnInvoice"
-                        },
-                        new
-                        {
-                            Id = 20,
-                            Name = "CanRejectInvoice"
-                        },
-                        new
-                        {
-                            Id = 21,
-                            Name = "CanReturnPurchaseRequest"
-                        },
-                        new
-                        {
-                            Id = 22,
-                            Name = "CanRejectPurchaseRequest"
                         });
                 });
 
@@ -1202,19 +1180,6 @@ namespace ProcApi.Infrastructure.Migrations
                     b.ToFunction("get_unused_purchase_request_items_by_ids");
                 });
 
-            modelBuilder.Entity("ProcApi.Domain.ResultSets.UserRoleResultSet", b =>
-                {
-                    b.Property<int>("RoleId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
-
-                    b.ToTable((string)null);
-
-                    b.ToFunction("get_user_roles_with_delegated_roles");
-                });
-
             modelBuilder.Entity("ProcApi.Domain.Entities.ApprovalFlowTemplate", b =>
                 {
                     b.HasOne("ProcApi.Domain.Entities.Role", "Role")
@@ -1334,7 +1299,7 @@ namespace ProcApi.Infrastructure.Migrations
             modelBuilder.Entity("ProcApi.Domain.Entities.DocumentAction", b =>
                 {
                     b.HasOne("ProcApi.Domain.Entities.User", "Assigner")
-                        .WithMany()
+                        .WithMany("DocumentActions")
                         .HasForeignKey("AssignerId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
@@ -1343,12 +1308,6 @@ namespace ProcApi.Infrastructure.Migrations
                         .WithMany("Actions")
                         .HasForeignKey("DocumentId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ProcApi.Domain.Entities.User", "Performer")
-                        .WithMany()
-                        .HasForeignKey("PerformerId")
-                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("ProcApi.Domain.Entities.Role", "Role")
@@ -1360,8 +1319,6 @@ namespace ProcApi.Infrastructure.Migrations
                     b.Navigation("Assigner");
 
                     b.Navigation("Document");
-
-                    b.Navigation("Performer");
 
                     b.Navigation("Role");
                 });
@@ -1653,6 +1610,8 @@ namespace ProcApi.Infrastructure.Migrations
                     b.Navigation("ChatMessages");
 
                     b.Navigation("ChatUsers");
+
+                    b.Navigation("DocumentActions");
 
                     b.Navigation("Documents");
 

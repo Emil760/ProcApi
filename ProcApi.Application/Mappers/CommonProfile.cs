@@ -25,7 +25,8 @@ public class CommonProfile : Profile
             .ForMember(dest => dest.Members, opt => opt.MapFrom(src => src.Actions));
 
         CreateMap<DocumentAction, DocumentMemberResponseDto>()
-            .ForMember(dest => dest.MemberName, opt => opt.MapFrom(src => src.User.FirstName))
+            .ForMember(dest => dest.AssignerName, opt => opt.MapFrom(src => src.Assigner.FirstName))
+            .ForMember(dest => dest.PerformerName, opt => opt.MapFrom(src => src.Performer.FirstName))
             .ForMember(dest => dest.RoleId, opt => opt.MapFrom(src => src.RoleId))
             .ForMember(dest => dest.ActionAssigned, opt => opt.MapFrom(src => src.ActionAssigned))
             .ForMember(dest => dest.IsAssigned, opt => opt.MapFrom(src => src.IsAssigned))

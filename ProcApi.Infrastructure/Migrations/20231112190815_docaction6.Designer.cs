@@ -14,7 +14,7 @@ using ProcApi.Infrastructure.Data;
 namespace ProcApi.Infrastructure.Migrations
 {
     [DbContext(typeof(ProcDbContext))]
-    [Migration("20231111184601_docaction6")]
+    [Migration("20231112190815_docaction6")]
     partial class docaction6
     {
         /// <inheritdoc />
@@ -334,7 +334,7 @@ namespace ProcApi.Infrastructure.Migrations
                     b.Property<int>("Order")
                         .HasColumnType("integer");
 
-                    b.Property<int>("PerformerId")
+                    b.Property<int?>("PerformerId")
                         .HasColumnType("integer");
 
                     b.Property<int>("RoleId")
@@ -631,6 +631,26 @@ namespace ProcApi.Infrastructure.Migrations
                         {
                             Id = 18,
                             Name = "CanAssignUserDepartment"
+                        },
+                        new
+                        {
+                            Id = 19,
+                            Name = "CanReturnInvoice"
+                        },
+                        new
+                        {
+                            Id = 20,
+                            Name = "CanRejectInvoice"
+                        },
+                        new
+                        {
+                            Id = 21,
+                            Name = "CanReturnPurchaseRequest"
+                        },
+                        new
+                        {
+                            Id = 22,
+                            Name = "CanRejectPurchaseRequest"
                         });
                 });
 
@@ -1185,6 +1205,19 @@ namespace ProcApi.Infrastructure.Migrations
                     b.ToFunction("get_unused_purchase_request_items_by_ids");
                 });
 
+            modelBuilder.Entity("ProcApi.Domain.ResultSets.UserRoleResultSet", b =>
+                {
+                    b.Property<int>("RoleId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.ToTable((string)null);
+
+                    b.ToFunction("get_user_roles_with_delegated_roles");
+                });
+
             modelBuilder.Entity("ProcApi.Domain.Entities.ApprovalFlowTemplate", b =>
                 {
                     b.HasOne("ProcApi.Domain.Entities.Role", "Role")
@@ -1318,8 +1351,7 @@ namespace ProcApi.Infrastructure.Migrations
                     b.HasOne("ProcApi.Domain.Entities.User", "Performer")
                         .WithMany()
                         .HasForeignKey("PerformerId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("ProcApi.Domain.Entities.Role", "Role")
                         .WithMany()

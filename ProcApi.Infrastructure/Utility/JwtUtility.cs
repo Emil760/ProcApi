@@ -74,6 +74,6 @@ public static class JwtUtility
 
         return token.Claims
             .Where(c => c.Type == ClaimKeys.Permission)
-            .Select(c => (Permissions)int.Parse(c.Value));
+            .Select(c => (Permissions)Enum.Parse(typeof(Permissions), c.Value));
     }
 }

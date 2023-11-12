@@ -16,18 +16,21 @@ public class InvoiceController : BaseController
 {
     private readonly IDocumentService _documentService;
     private readonly IInvoiceService _invoiceService;
-    private readonly InvoiceApprovalService _invoiceApprovalService;
+    private readonly IInvoiceApprovalService _invoiceApprovalService;
 
     public InvoiceController(IDocumentService documentService,
         IInvoiceService invoiceService,
-        InvoiceApprovalService invoiceApprovalService)
+        IInvoiceApprovalService invoiceApprovalService)
     {
         _documentService = documentService;
         _invoiceService = invoiceService;
         _invoiceApprovalService = invoiceApprovalService;
     }
 
-    [DocumentAccessFilter(new[] { Permissions.CanReturnInvoice, Permissions.CanRejectInvoice })]
+    [DocumentAccessFilter(new[] { 
+        Permissions.CanViewAll,
+        Permissions.CanReturnInvoice,
+        Permissions.CanRejectInvoice })]
     [HasPermission(Permissions.CanViewInvoice)]
     [HttpGet]
     public async Task<IActionResult> GetDocumentAsync([FromQuery] int docId)

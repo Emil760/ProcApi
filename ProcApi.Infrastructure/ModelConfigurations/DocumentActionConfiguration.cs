@@ -31,6 +31,7 @@ public class DocumentActionConfiguration : IEntityTypeConfiguration<DocumentActi
         builder.HasOne(da => da.Performer)
             .WithMany()
             .HasForeignKey(da => da.PerformerId)
+            .IsRequired(false)
             .OnDelete(DeleteBehavior.NoAction);
     }
 }

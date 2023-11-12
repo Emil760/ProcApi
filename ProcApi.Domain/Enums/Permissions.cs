@@ -23,5 +23,6 @@ public enum Permissions
     CanReturnInvoice,
     CanRejectInvoice,
     CanReturnPurchaseRequest,
-    CanRejectPurchaseRequest
+    CanRejectPurchaseRequest,
+    CanViewAll
 }

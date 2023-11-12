@@ -14,8 +14,8 @@ using ProcApi.Infrastructure.Data;
 namespace ProcApi.Infrastructure.Migrations
 {
     [DbContext(typeof(ProcDbContext))]
-    [Migration("20231112092527_docaction7")]
-    partial class docaction7
+    [Migration("20231112193347_perm6")]
+    partial class perm6
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -334,7 +334,7 @@ namespace ProcApi.Infrastructure.Migrations
                     b.Property<int>("Order")
                         .HasColumnType("integer");
 
-                    b.Property<int>("PerformerId")
+                    b.Property<int?>("PerformerId")
                         .HasColumnType("integer");
 
                     b.Property<int>("RoleId")
@@ -924,6 +924,16 @@ namespace ProcApi.Infrastructure.Migrations
                         },
                         new
                         {
+                            RoleId = 2,
+                            PermissionId = 8
+                        },
+                        new
+                        {
+                            RoleId = 2,
+                            PermissionId = 11
+                        },
+                        new
+                        {
                             RoleId = 1,
                             PermissionId = 4
                         },
@@ -1351,8 +1361,7 @@ namespace ProcApi.Infrastructure.Migrations
                     b.HasOne("ProcApi.Domain.Entities.User", "Performer")
                         .WithMany()
                         .HasForeignKey("PerformerId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("ProcApi.Domain.Entities.Role", "Role")
                         .WithMany()

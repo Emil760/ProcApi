@@ -7,8 +7,8 @@ public class DocumentAction
     public Document Document { get; set; }
     public int AssignerId { get; set; }
     public User Assigner { get; set; }
-    public int PerformerId { get; set; }
-    public User Performer { get; set; }
+    public int? PerformerId { get; set; }
+    public User? Performer { get; set; }
     public int RoleId { get; set; }
     public Role Role { get; set; }
     public int Order { get; set; }

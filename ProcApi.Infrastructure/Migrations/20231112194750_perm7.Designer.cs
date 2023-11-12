@@ -14,8 +14,8 @@ using ProcApi.Infrastructure.Data;
 namespace ProcApi.Infrastructure.Migrations
 {
     [DbContext(typeof(ProcDbContext))]
-    [Migration("20231112092508_perm5")]
-    partial class perm5
+    [Migration("20231112194750_perm7")]
+    partial class perm7
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -334,7 +334,7 @@ namespace ProcApi.Infrastructure.Migrations
                     b.Property<int>("Order")
                         .HasColumnType("integer");
 
-                    b.Property<int>("PerformerId")
+                    b.Property<int?>("PerformerId")
                         .HasColumnType("integer");
 
                     b.Property<int>("RoleId")
@@ -651,6 +651,11 @@ namespace ProcApi.Infrastructure.Migrations
                         {
                             Id = 22,
                             Name = "CanRejectPurchaseRequest"
+                        },
+                        new
+                        {
+                            Id = 23,
+                            Name = "CanViewAll"
                         });
                 });
 
@@ -921,6 +926,21 @@ namespace ProcApi.Infrastructure.Migrations
                         {
                             RoleId = 2,
                             PermissionId = 14
+                        },
+                        new
+                        {
+                            RoleId = 2,
+                            PermissionId = 8
+                        },
+                        new
+                        {
+                            RoleId = 2,
+                            PermissionId = 11
+                        },
+                        new
+                        {
+                            RoleId = 2,
+                            PermissionId = 23
                         },
                         new
                         {
@@ -1351,8 +1371,7 @@ namespace ProcApi.Infrastructure.Migrations
                     b.HasOne("ProcApi.Domain.Entities.User", "Performer")
                         .WithMany()
                         .HasForeignKey("PerformerId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("ProcApi.Domain.Entities.Role", "Role")
                         .WithMany()

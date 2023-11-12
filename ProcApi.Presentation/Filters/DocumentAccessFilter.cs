@@ -35,7 +35,10 @@ public class DocumentAccessFilter : ActionFilterAttribute
             foreach (var permission in _permissions)
             {
                 if (userPermissions.Contains(permission))
+                {
                     await next();
+                    return;
+                }
             }
 
             throw new ValidationException(localizer["CantAccessDocument"]);

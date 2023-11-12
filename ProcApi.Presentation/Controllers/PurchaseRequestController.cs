@@ -28,7 +28,10 @@ public class PurchaseRequestController : BaseController
         _documentService = documentService;
     }
 
-    [DocumentAccessFilter(new[] { Permissions.CanReturnPurchaseRequest, Permissions.CanRejectPurchaseRequest })]
+    [DocumentAccessFilter(new[] { 
+        Permissions.CanViewAll,
+        Permissions.CanReturnPurchaseRequest,
+        Permissions.CanRejectPurchaseRequest })]
     [HasPermission(Permissions.CanViewPurchaseRequest)]
     [HttpGet]
     public async Task<IActionResult> GetDocumentAsync([FromQuery] int docId)

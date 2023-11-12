@@ -17,8 +17,10 @@ public class InvoiceRepository : GenericRepository<Invoice>, IInvoiceRepository
     {
         return await _context.InvoiceDocuments
             .Include(id => id.Document)
-            .ThenInclude(d => d.Actions)
-            .ThenInclude(d => new { d.Assigner, d.Performer })
+            .Include(d => d.Document.Actions)
+            .ThenInclude(d => d.Assigner)
+            .Include(d => d.Document.Actions)
+            .ThenInclude(d => d.Performer)
             .Include(id => id.Items)
             .SingleOrDefaultAsync(id => id.DocumentId == docId);
     }

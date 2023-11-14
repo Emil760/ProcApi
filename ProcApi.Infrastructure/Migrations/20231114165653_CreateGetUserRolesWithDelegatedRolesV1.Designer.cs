@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ProcApi.Domain.Entities;
@@ -13,9 +14,11 @@ using ProcApi.Infrastructure.Data;
 namespace ProcApi.Infrastructure.Migrations
 {
     [DbContext(typeof(ProcDbContext))]
-    partial class ProcDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231114165653_CreateGetUserRolesWithDelegatedRolesV1")]
+    partial class CreateGetUserRolesWithDelegatedRolesV1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -4,6 +4,7 @@ using ProcApi.Application.DTOs.Authentication;
 using ProcApi.Application.Services.Abstracts;
 using ProcApi.Domain.Entities;
 using ProcApi.Domain.Enums;
+using ProcApi.Domain.Exceptions;
 using ProcApi.Infrastructure.Data;
 using ProcApi.Infrastructure.Options;
 using ProcApi.Infrastructure.Repositories.Abstracts;
@@ -85,12 +86,12 @@ public class AuthenticationService : IAuthenticationService
         var user = await _userRepository.FindWithPasswordHashByLogin(dto.Login);
 
         if (user is null)
-            throw new Exception("user not found");
+            throw new ValidationException("user not found");
 
         var passwordMatch = PasswordUtility.VerifyPassword(dto.Password, user.UserPassword, _passwordOptions);
 
         if (!passwordMatch)
-            throw new Exception("wrong password");
+            throw new ValidationException("wrong password");
 
         var permissions = await _userRepository.GetPermissionsUnionDelegatedPermissions(user.Id);
         var userSettings = await _userSettingRepository.GetByUserId(user.Id);

@@ -101,8 +101,7 @@ public static class FunctionsMigrationHelper
 
     public static void CreateGetUnusedPurchaseRequestItemsCountV1(MigrationBuilder migrationBuilder)
     {
-        migrationBuilder.Sql(
-            @"CREATE FUNCTION get_unused_purchase_request_items (pageNumber int, pageSize int, search varchar(300))
+        migrationBuilder.Sql(@$"CREATE FUNCTION get_unused_purchase_request_items (pageNumber int, pageSize int, search varchar(300))
 							   RETURNS TABLE (
 							       ""PurchaseRequestItemId"" int,
 							       ""PurchaseRequestNumber"" varchar(300),
@@ -123,7 +122,7 @@ public static class FunctionsMigrationHelper
 							      INNER JOIN ""Documents"" di ON di.""Id"" = idi.""InvoiceId""
 							      INNER JOIN ""Documents"" dp on dp.""Id"" = prdi.""PurchaseRequestId""
 							      INNER JOIN ""Materials"" m ON prdi.""MaterialId"" = m.""Id""
-							      WHERE di.""StatusId"" != 300
+							      WHERE di.""StatusId"" != {DocumentStatus.InvoiceDraft}
 							      AND (dp.""Number"" LIKE search OR m.""Name"" LIKE search)
 							      GROUP BY prdi.""Id"", dp.""Number"", m.""Name""
 							      OFFSET ((pageNumber - 1) * pageSize) ROWS FETCH FIRST pageSize ROWS ONLY;
@@ -134,7 +133,7 @@ public static class FunctionsMigrationHelper
 
     public static void DropGetUnusedPurchaseRequestItemsCountV1(MigrationBuilder migrationBuilder)
     {
-        migrationBuilder.Sql(@"DROP FUNCTION get_unused_purchase_request_items");
+        migrationBuilder.Sql(@"DROP FUNCTION IF EXISTS get_unused_purchase_request_items");
     }
 
     public static void CreateGetUnusedPurchaseRequestItemsCountV2(MigrationBuilder migrationBuilder)
@@ -168,7 +167,7 @@ public static class FunctionsMigrationHelper
 
     public static void DropGetUnusedPurchaseRequestItemsCountV2(MigrationBuilder migrationBuilder)
     {
-        migrationBuilder.Sql(@"DROP FUNCTION get_unused_purchase_request_items");
+        migrationBuilder.Sql(@"DROP FUNCTION IF EXISTS get_unused_purchase_request_items");
     }
 
     #endregion
@@ -177,7 +176,7 @@ public static class FunctionsMigrationHelper
 
     public static void CreateGetUnusedPurchaseRequestItemsByIdsV1(MigrationBuilder builder)
     {
-        builder.Sql(@"CREATE FUNCTION get_unused_purchase_request_items_by_ids (prItemIds int[])
+        builder.Sql($@"CREATE FUNCTION get_unused_purchase_request_items_by_ids (prItemIds int[])
 					  RETURNS TABLE (
 					      ""PurchaseRequestItemId"" int,
 					      ""Price"" decimal,
@@ -193,7 +192,7 @@ public static class FunctionsMigrationHelper
                                                       FROM ""InvoiceItems"" idi
                                                       INNER JOIN ""Documents"" idd on idd.""Id"" = idi.""InvoiceId""
                                                       WHERE idi.""PurchaseRequestItemId"" = prdi.""Id""
-                                                      AND idd.""StatusId"" != 300), 0) as ""UnusedCount""
+                                                      AND idd.""StatusId"" not in ({(int)DocumentStatus.InvoiceDraft}, {(int)DocumentStatus.InvoiceCanceled}, {(int)DocumentStatus.InvoiceRejected})), 0) as ""UnusedCount""
                           FROM ""PurchaseRequestItems"" prdi
                           INNER JOIN ""Documents"" prd on prd.""Id"" = prdi.""PurchaseRequestId""
                           WHERE prd.""StatusId"" != 100 AND prdi.""Id"" = ANY (prItemIds);
@@ -204,12 +203,12 @@ public static class FunctionsMigrationHelper
 
     public static void DropGetUnusedPurchaseRequestItemsByIdsV1(MigrationBuilder builder)
     {
-        builder.Sql(@"DROP FUNCTION get_unused_purchase_request_items_by_ids");
+        builder.Sql(@"DROP FUNCTION IF EXISTS get_unused_purchase_request_items_by_ids");
     }
 
     public static void CreateGetUnusedPurchaseRequestItemsByIdsV2(MigrationBuilder builder)
     {
-        builder.Sql(@"create function get_unused_purchase_request_items_by_ids(pritemids integer[])
+        builder.Sql($@"create function get_unused_purchase_request_items_by_ids(pritemids integer[])
                       returns TABLE(""PurchaseRequestItemId"" integer, ""Price"" numeric, ""UnusedCount"" numeric)
                       language plpgsql
                       as
@@ -222,17 +221,17 @@ public static class FunctionsMigrationHelper
                                                                       FROM ""InvoiceDocumentItems"" idi
                                                                       INNER JOIN ""Documents"" idd on idd.""Id"" = idi.""InvoiceId""
                                                                       WHERE idi.""PurchaseRequestItemId"" = prdi.""Id""
-                                                                      AND idd.""StatusId"" != 300), 0)
+                                                                      AND idd.""StatusId"" not in ({(int)DocumentStatus.InvoiceDraft}, {(int)DocumentStatus.InvoiceCanceled}, {(int)DocumentStatus.InvoiceRejected})), 0)
                                           FROM ""PurchaseRequestItems"" prdi
                                           INNER JOIN ""Documents"" prd on prd.""Id"" = prdi.""PurchaseRequestId""
-                                          WHERE prd.""StatusId"" != 100 AND prdi.""Id"" = ANY (prItemIds);
+                                          WHERE prd.""StatusId"" not in ({(int)DocumentStatus.PurchaseRequestDraft}, {(int)DocumentStatus.InvoiceRejected}, {(int)DocumentStatus.InvoiceCanceled}) AND prdi.""Id"" = ANY (prItemIds);
                       	END;
                       	$$;");
     }
 
     public static void DropGetUnusedPurchaseRequestItemsByIdsV2(MigrationBuilder builder)
     {
-	    builder.Sql(@"DROP FUNCTION get_unused_purchase_request_items_by_ids");
+	    builder.Sql(@"DROP FUNCTION IF EXISTS get_unused_purchase_request_items_by_ids");
     }
 
     #endregion
@@ -249,17 +248,18 @@ public static class FunctionsMigrationHelper
 					  as
 					  $$
 					  begin
+						  return query
 					      select u.""Id"" as ""UserId"", ur.""RoleId"" as ""RoleId""
 					      from ""Users"" u
 					      inner join ""UserRoles"" ur on u.""Id"" = ur.""UserId""
-					      where u.""Id"" = 1
+					      where u.""Id"" = userId
 					  
 					      union
 					  
 					      select d.""FromUserId"" as ""UserId"", ur.""RoleId"" as ""RoleId""
 					      from ""Delegations"" d
 					      inner join ""UserRoles"" ur on ur.""UserId"" = d.""FromUserId""
-					      where d.""FromUserId"" = 1 and d.""ToUserId"" = 1 and d.""EndDate"" >= current_date;
+					      where d.""FromUserId"" = delegatedUserId and d.""ToUserId"" = userId and d.""EndDate"" >= current_date;
 					  end;
 					  $$
 					  language PLPGSQL");
@@ -267,7 +267,7 @@ public static class FunctionsMigrationHelper
 
     public static void DropGetUserRolesWithDelegatedRolesV1(MigrationBuilder builder)
     {
-        builder.Sql("drop function get_user_roles_with_delegated_roles");
+        builder.Sql("drop function if exists get_user_roles_with_delegated_roles");
     }
 
     #endregion

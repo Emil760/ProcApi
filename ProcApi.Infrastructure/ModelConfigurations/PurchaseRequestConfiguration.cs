@@ -15,7 +15,11 @@ public class PurchaseRequestConfiguration : IEntityTypeConfiguration<PurchaseReq
 
         builder.Property(prd => prd.Description)
             .HasMaxLength(4000)
-            .HasDefaultValue("");
+            .IsRequired(false);
+        
+        builder.Property(prd => prd.DeliveryAddress)
+            .HasMaxLength(300)
+            .IsRequired(false);
 
         builder.HasOne(prd => prd.Document)
             .WithOne()
@@ -25,6 +29,7 @@ public class PurchaseRequestConfiguration : IEntityTypeConfiguration<PurchaseReq
         builder.HasOne(prd => prd.RequestedForDepartment)
             .WithMany()
             .HasForeignKey(prd => prd.RequestedForDepartmentId)
+            .IsRequired(false)
             .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasOne(prd => prd.Project)

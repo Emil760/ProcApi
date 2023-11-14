@@ -2,7 +2,6 @@
 using ProcApi.Application.DTOs.Documents.Requests;
 using ProcApi.Application.DTOs.Invoice.Requests;
 using ProcApi.Application.Services.Abstracts;
-using ProcApi.Application.Services.Concreates;
 using ProcApi.Domain.Enums;
 using ProcApi.Domain.Models;
 using ProcApi.Presentation.Attributes;
@@ -14,15 +13,12 @@ namespace ProcApi.Presentation.Controllers;
 [Route("[controller]")]
 public class InvoiceController : BaseController
 {
-    private readonly IDocumentService _documentService;
     private readonly IInvoiceService _invoiceService;
     private readonly IInvoiceApprovalService _invoiceApprovalService;
 
-    public InvoiceController(IDocumentService documentService,
-        IInvoiceService invoiceService,
+    public InvoiceController(IInvoiceService invoiceService,
         IInvoiceApprovalService invoiceApprovalService)
     {
-        _documentService = documentService;
         _invoiceService = invoiceService;
         _invoiceApprovalService = invoiceApprovalService;
     }
@@ -42,9 +38,7 @@ public class InvoiceController : BaseController
     [HttpPost("Create")]
     public async Task<IActionResult> CreateDocumentAsync()
     {
-        return Ok(await _documentService.CreateDocumentWithApprovalsAsync(UserInfo,
-            DocumentType.Invoice,
-            DocumentStatus.InvoiceDraft));
+        return Ok(await _invoiceService.CreateInvoice(UserInfo));
     }
 
     [HasPermission(Permissions.CanCreateInvoice)]
@@ -63,7 +57,7 @@ public class InvoiceController : BaseController
 
     [HasPermission(Permissions.CanViewInvoice)]
     [HttpGet("UnusedPurchaseRequestItems")]
-    public async Task<IActionResult> GetUnusedPurchaseRequestItemsAsync(PaginationModel model)
+    public async Task<IActionResult> GetUnusedPurchaseRequestItemsAsync([FromQuery] PaginationModel model)
     {
         return Ok(await _invoiceService.GetUnusedPurchaseRequestItemsAsync(model));
     }

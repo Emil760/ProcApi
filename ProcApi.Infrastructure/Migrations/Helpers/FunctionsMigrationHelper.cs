@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
+using ProcApi.Domain.Enums;
 
 namespace ProcApi.Infrastructure.Migrations.Helpers;
 
@@ -136,6 +137,40 @@ public static class FunctionsMigrationHelper
         migrationBuilder.Sql(@"DROP FUNCTION get_unused_purchase_request_items");
     }
 
+    public static void CreateGetUnusedPurchaseRequestItemsCountV2(MigrationBuilder migrationBuilder)
+    {
+        migrationBuilder.Sql(@$"create function get_unused_purchase_request_items(pagenumber integer, pagesize integer, search character varying)
+                               returns TABLE(""PurchaseRequestItemId"" integer, ""PurchaseRequestNumber"" character varying, ""MaterialName"" character varying, ""Quantity"" numeric, ""UnusedQuantity"" numeric)
+                               language plpgsql
+                               as
+                               $$
+                               BEGIN
+                                  RETURN QUERY
+                                  SElECT prdi.""Id"" as ""PurchaseRequestItemId"",
+                                  dp.""Number"" as ""PurchaseRequestNumber"",
+                                  m.""Name"" as ""MaterialName"",
+                                  prdi.""Quantity"" as ""Count"",
+                                  coalesce(prdi.""Quantity"" - (SELECT coalesce(sum(idi.""Quantity""), 0)
+                                                                FROM ""InvoiceDocumentItems"" idi
+                                                                INNER JOIN ""Documents"" di ON di.""Id"" = idi.""InvoiceId""
+                                                                INNER JOIN ""Materials"" m ON prdi.""MaterialId"" = m.""Id""
+                                                                WHERE di.""StatusId"" not in ({(int)DocumentStatus.InvoiceDraft}, {(int)DocumentStatus.InvoiceCanceled}, {(int)DocumentStatus.InvoiceRejected})
+                                                                AND idi.""PurchaseRequestItemId"" = prdi.""Id"")) as ""UnusedQuantity""
+                                  FROM ""PurchaseRequestItems"" prdi
+                                  INNER JOIN ""Documents"" dp on dp.""Id"" = prdi.""PurchaseRequestId""
+                                  INNER JOIN ""Materials"" m ON prdi.""MaterialId"" = m.""Id""
+                                  AND (dp.""Number"" LIKE search OR m.""Name"" LIKE search)
+                                  GROUP BY prdi.""Id"", dp.""Number"", m.""Name""
+                                  OFFSET ((pageNumber - 1) * pageSize) ROWS FETCH FIRST pageSize ROWS ONLY;
+                               END;
+                               $$;");
+    }
+
+    public static void DropGetUnusedPurchaseRequestItemsCountV2(MigrationBuilder migrationBuilder)
+    {
+        migrationBuilder.Sql(@"DROP FUNCTION get_unused_purchase_request_items");
+    }
+
     #endregion
 
     #region GetUnusedPurchaseRequestItemsByIds
@@ -158,7 +193,7 @@ public static class FunctionsMigrationHelper
                                                       FROM ""InvoiceItems"" idi
                                                       INNER JOIN ""Documents"" idd on idd.""Id"" = idi.""InvoiceId""
                                                       WHERE idi.""PurchaseRequestItemId"" = prdi.""Id""
-                                                      AND idd.""StatusId"" != 300), 0)
+                                                      AND idd.""StatusId"" != 300), 0) as ""UnusedCount""
                           FROM ""PurchaseRequestItems"" prdi
                           INNER JOIN ""Documents"" prd on prd.""Id"" = prdi.""PurchaseRequestId""
                           WHERE prd.""StatusId"" != 100 AND prdi.""Id"" = ANY (prItemIds);
@@ -170,6 +205,34 @@ public static class FunctionsMigrationHelper
     public static void DropGetUnusedPurchaseRequestItemsByIdsV1(MigrationBuilder builder)
     {
         builder.Sql(@"DROP FUNCTION get_unused_purchase_request_items_by_ids");
+    }
+
+    public static void CreateGetUnusedPurchaseRequestItemsByIdsV2(MigrationBuilder builder)
+    {
+        builder.Sql(@"create function get_unused_purchase_request_items_by_ids(pritemids integer[])
+                      returns TABLE(""PurchaseRequestItemId"" integer, ""Price"" numeric, ""UnusedCount"" numeric)
+                      language plpgsql
+                      as
+                      $$
+                      	BEGIN
+                      	    RETURN QUERY
+                      	    SELECT prdi.""Id"",
+                                          prdi.""Price"",
+                                          prdi.""Quantity"" - COALESCE((SELECT SUM(idi.""Quantity"")
+                                                                      FROM ""InvoiceDocumentItems"" idi
+                                                                      INNER JOIN ""Documents"" idd on idd.""Id"" = idi.""InvoiceId""
+                                                                      WHERE idi.""PurchaseRequestItemId"" = prdi.""Id""
+                                                                      AND idd.""StatusId"" != 300), 0)
+                                          FROM ""PurchaseRequestItems"" prdi
+                                          INNER JOIN ""Documents"" prd on prd.""Id"" = prdi.""PurchaseRequestId""
+                                          WHERE prd.""StatusId"" != 100 AND prdi.""Id"" = ANY (prItemIds);
+                      	END;
+                      	$$;");
+    }
+
+    public static void DropGetUnusedPurchaseRequestItemsByIdsV2(MigrationBuilder builder)
+    {
+	    builder.Sql(@"DROP FUNCTION get_unused_purchase_request_items_by_ids");
     }
 
     #endregion

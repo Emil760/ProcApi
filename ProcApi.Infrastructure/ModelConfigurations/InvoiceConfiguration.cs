@@ -31,6 +31,7 @@ public class InvoiceConfiguration : IEntityTypeConfiguration<Invoice>
         builder.HasOne(id => id.Supplier)
             .WithMany()
             .HasForeignKey(id => id.SupplierId)
+            .IsRequired(false)
             .OnDelete(DeleteBehavior.Cascade);
     }
 }

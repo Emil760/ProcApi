@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.Localization;
+using ProcApi.Application.DTOs.Documents.Responses;
 using ProcApi.Application.DTOs.PurchaseRequestDocument.Requests;
 using ProcApi.Application.DTOs.PurchaseRequestDocument.Response;
 using ProcApi.Application.Enums;
@@ -7,6 +8,7 @@ using ProcApi.Application.Services.Abstracts;
 using ProcApi.Domain.Entities;
 using ProcApi.Domain.Enums;
 using ProcApi.Domain.Exceptions;
+using ProcApi.Domain.Models;
 using ProcApi.Infrastructure.Repositories.Abstracts;
 using ProcApi.Infrastructure.Repositories.UnitOfWork;
 using ProcApi.Infrastructure.Resources;
@@ -15,20 +17,40 @@ namespace ProcApi.Application.Services.Concreates;
 
 public class PurchaseRequestService : IPurchaseRequestService
 {
+    private readonly IDocumentService _documentService;
     private readonly IPurchaseRequestRepository _purchaseRequestRepository;
     private readonly IMapper _mapper;
     private readonly IStringLocalizer<SharedResource> _localizer;
     private readonly IUnitOfWork _unitOfWork;
 
-    public PurchaseRequestService(IPurchaseRequestRepository purchaseRequestRepository,
+    public PurchaseRequestService(
+        IDocumentService documentService,
+        IPurchaseRequestRepository purchaseRequestRepository,
         IMapper mapper,
         IStringLocalizer<SharedResource> localizer,
         IUnitOfWork unitOfWork)
     {
+        _documentService = documentService;
         _purchaseRequestRepository = purchaseRequestRepository;
         _mapper = mapper;
         _localizer = localizer;
         _unitOfWork = unitOfWork;
+    }
+
+    public async Task<DocumentResponseDto> CreatePurchaseRequest(UserInfoModel userInfo)
+    {
+        var document = await _documentService.CreateDocumentWithApprovalsAsync(userInfo,
+            DocumentType.PurchaseRequest,
+            DocumentStatus.PurchaseRequestDraft);
+
+        var purchaseRequest = new PurchaseRequest()
+        {
+            Document = document
+        };
+
+        await _purchaseRequestRepository.InsertAsync(purchaseRequest);
+
+        return _mapper.Map<DocumentResponseDto>(document);
     }
 
     public async Task<PRResponseDto> GetDocumentAsync(int docId)
@@ -42,25 +64,6 @@ public class PurchaseRequestService : IPurchaseRequestService
     {
         var pr = await _purchaseRequestRepository.GetWithDocumentAndItemsByDocId(dto.DocumentId);
 
-        if (pr is null)
-            return await CreateDocument(dto);
-        
-        return await UpdateDocument(pr, dto);
-    }
-
-    private async Task<SavePRResponseDto> CreateDocument(SavePRRequestDto dto)
-    {
-        var document = _mapper.Map<PurchaseRequest>(dto);
-
-        RecalculateTotalItemsPrice(document, document.Items);
-
-        await _purchaseRequestRepository.InsertAsync(document);
-
-        return _mapper.Map<SavePRResponseDto>(document);
-    }
-
-    private async Task<SavePRResponseDto> UpdateDocument(PurchaseRequest pr, SavePRRequestDto dto)
-    {
         if (pr.Document.StatusId != DocumentStatus.PurchaseRequestDraft)
             throw new ValidationException(_localizer["CantChangeNonDraftDocument"]);
 

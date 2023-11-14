@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.Localization;
+using ProcApi.Application.DTOs.Documents.Responses;
 using ProcApi.Application.DTOs.Invoice.Requests;
 using ProcApi.Application.DTOs.Invoice.Responses;
 using ProcApi.Application.Enums;
@@ -17,6 +18,7 @@ namespace ProcApi.Application.Services.Concreates;
 
 public class InvoiceService : IInvoiceService
 {
+    private readonly IDocumentService _documentService;
     private readonly IInvoiceRepository _invoiceRepository;
     private readonly IInvoiceItemRepository _invoiceItemRepository;
     private readonly IPurchaseRequestItemsRepository _purchaseRequestItemsRepository;
@@ -24,13 +26,16 @@ public class InvoiceService : IInvoiceService
     private readonly IMapper _mapper;
     private readonly IUnitOfWork _unitOfWork;
 
-    public InvoiceService(IInvoiceRepository invoiceRepository,
+    public InvoiceService(
+        IDocumentService documentService,
+        IInvoiceRepository invoiceRepository,
         IInvoiceItemRepository invoiceItemRepository,
         IPurchaseRequestItemsRepository purchaseRequestItemsRepository,
         IStringLocalizer<SharedResource> localizer,
         IMapper mapper,
         IUnitOfWork unitOfWork)
     {
+        _documentService = documentService;
         _invoiceRepository = invoiceRepository;
         _invoiceItemRepository = invoiceItemRepository;
         _purchaseRequestItemsRepository = purchaseRequestItemsRepository;
@@ -46,6 +51,22 @@ public class InvoiceService : IInvoiceService
         return _mapper.Map<InvoiceResponseDto>(document);
     }
 
+    public async Task<DocumentResponseDto> CreateInvoice(UserInfoModel userInfo)
+    {
+        var document = await _documentService.CreateDocumentWithApprovalsAsync(userInfo,
+            DocumentType.Invoice,
+            DocumentStatus.InvoiceDraft);
+
+        var invoice = new Invoice()
+        {
+            Document = document
+        };
+
+        await _invoiceRepository.InsertAsync(invoice);
+
+        return _mapper.Map<DocumentResponseDto>(document);
+    }
+
     public async Task<IEnumerable<UnusedPRItemInfoResultSet>> GetUnusedPurchaseRequestItemsAsync(
         PaginationModel model)
     {
@@ -55,31 +76,7 @@ public class InvoiceService : IInvoiceService
     public async Task<SaveInvoiceResponseDto> SaveInvoiceAsync(SaveInvoiceRequestDto dto)
     {
         var invoice = await _invoiceRepository.GetWithDocumentAndItemsByDocId(dto.DocumentId);
-
-        if (invoice is null)
-            return await CreateInvoiceAsync(dto);
-
-        return await UpdateInvoiceAsync(invoice, dto);
-    }
-
-    private async Task<SaveInvoiceResponseDto> CreateInvoiceAsync(SaveInvoiceRequestDto dto)
-    {
-        var invoice = _mapper.Map<Invoice>(dto);
-        invoice.Items = _mapper.Map<ICollection<InvoiceItem>>(dto.Items);
-
-        var prItemIds = dto.Items.Select(i => i.PurchaseRequestItemId);
-
-        invoice.Items = (ICollection<InvoiceItem>)await CheckAndApplyPriceItems(invoice.Items, prItemIds);
-
-        RecalculateTotalItemsPrice(invoice, invoice.Items);
-
-        await _invoiceRepository.InsertAsync(invoice);
-
-        return _mapper.Map<SaveInvoiceResponseDto>(invoice);
-    }
-
-    private async Task<SaveInvoiceResponseDto> UpdateInvoiceAsync(Invoice invoice, SaveInvoiceRequestDto dto)
-    {
+        
         if (invoice.Document.StatusId != DocumentStatus.InvoiceDraft)
             throw new ValidationException(_localizer["CantChangeNonDraftDocument"]);
 
@@ -104,7 +101,7 @@ public class InvoiceService : IInvoiceService
 
         return _mapper.Map<SaveInvoiceResponseDto>(invoice);
     }
-
+    
     private async Task<IEnumerable<InvoiceItem>> CheckAndApplyPriceItems(
         IEnumerable<InvoiceItem> invoiceItems,
         IEnumerable<int> prItemIds)

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ProcApi.Domain.Entities;
@@ -13,9 +14,11 @@ using ProcApi.Infrastructure.Data;
 namespace ProcApi.Infrastructure.Migrations
 {
     [DbContext(typeof(ProcDbContext))]
-    partial class ProcDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231113073226_perm8")]
+    partial class perm8
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1186,6 +1189,9 @@ namespace ProcApi.Infrastructure.Migrations
 
             modelBuilder.Entity("ProcApi.Domain.ResultSets.UnusedPRItemInfoResultSet", b =>
                 {
+                    b.Property<decimal>("Count")
+                        .HasColumnType("numeric");
+
                     b.Property<string>("MaterialName")
                         .IsRequired()
                         .HasColumnType("text");
@@ -1197,10 +1203,7 @@ namespace ProcApi.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<decimal>("Quantity")
-                        .HasColumnType("numeric");
-
-                    b.Property<decimal>("UnusedQuantity")
+                    b.Property<decimal>("UnusedCount")
                         .HasColumnType("numeric");
 
                     b.ToTable((string)null);

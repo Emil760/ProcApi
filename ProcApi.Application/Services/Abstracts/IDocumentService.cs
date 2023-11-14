@@ -1,4 +1,4 @@
-﻿using ProcApi.Application.DTOs.Documents.Responses;
+﻿using ProcApi.Domain.Entities;
 using ProcApi.Domain.Enums;
 using ProcApi.Domain.Models;
 
@@ -6,5 +6,5 @@ namespace ProcApi.Application.Services.Abstracts;
 
 public interface IDocumentService
 {
-    Task<DocumentResponseDto> CreateDocumentWithApprovalsAsync(UserInfoModel userInfo, DocumentType type, DocumentStatus status);
+    Task<Document> CreateDocumentWithApprovalsAsync(UserInfoModel userInfo, DocumentType type, DocumentStatus status);
 }

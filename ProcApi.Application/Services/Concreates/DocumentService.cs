@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-using ProcApi.Application.DTOs.Documents.Responses;
-using ProcApi.Application.Services.Abstracts;
+﻿using ProcApi.Application.Services.Abstracts;
 using ProcApi.Domain.Entities;
 using ProcApi.Domain.Enums;
 using ProcApi.Domain.Models;
@@ -12,18 +10,15 @@ public class DocumentService : IDocumentService
 {
     private readonly IApprovalsService _approvalsService;
     private readonly IDocumentRepository _documentRepository;
-    private readonly IMapper _mapper;
 
     public DocumentService(IApprovalsService approvalsService,
-        IDocumentRepository documentRepository,
-        IMapper mapper)
+        IDocumentRepository documentRepository)
     {
         _approvalsService = approvalsService;
         _documentRepository = documentRepository;
-        _mapper = mapper;
     }
 
-    public async Task<DocumentResponseDto> CreateDocumentWithApprovalsAsync(UserInfoModel userInfo,
+    public async Task<Document> CreateDocumentWithApprovalsAsync(UserInfoModel userInfo,
         DocumentType type,
         DocumentStatus status)
     {
@@ -42,6 +37,6 @@ public class DocumentService : IDocumentService
 
         await _documentRepository.InsertAsync(document);
 
-        return _mapper.Map<DocumentResponseDto>(document);
+        return document;
     }
 }

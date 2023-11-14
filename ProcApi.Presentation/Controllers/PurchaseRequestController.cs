@@ -12,20 +12,17 @@ namespace ProcApi.Presentation.Controllers;
 [Route("[controller]")]
 public class PurchaseRequestController : BaseController
 {
-    private readonly IDocumentService _documentService;
     private readonly IPurchaseRequestService _purchaseRequestService;
     private readonly IPurchaseRequestItemsService _purchaseRequestItemsService;
     private readonly IPurchaseRequestApprovalService _purchaseRequestApprovalService;
 
     public PurchaseRequestController(IPurchaseRequestService purchaseRequestService,
         IPurchaseRequestApprovalService purchaseRequestApprovalService,
-        IPurchaseRequestItemsService purchaseRequestItemsService,
-        IDocumentService documentService)
+        IPurchaseRequestItemsService purchaseRequestItemsService)
     {
         _purchaseRequestService = purchaseRequestService;
         _purchaseRequestApprovalService = purchaseRequestApprovalService;
         _purchaseRequestItemsService = purchaseRequestItemsService;
-        _documentService = documentService;
     }
 
     [DocumentAccessFilter(new[] { 
@@ -43,9 +40,7 @@ public class PurchaseRequestController : BaseController
     [HttpPost("Create")]
     public async Task<IActionResult> CreateDocumentAsync()
     {
-        return Ok(await _documentService.CreateDocumentWithApprovalsAsync(UserInfo,
-            DocumentType.PurchaseRequest,
-            DocumentStatus.PurchaseRequestDraft));
+        return Ok(await _purchaseRequestService.CreatePurchaseRequest(UserInfo));
     }
 
     [HasPermission(Permissions.CanCreatePurchaseRequest)]
@@ -63,7 +58,7 @@ public class PurchaseRequestController : BaseController
     }
 
     [HasPermission(Permissions.CanViewPurchaseRequest)]
-    [HttpGet("ItemsDto")]
+    [HttpGet("Items")]
     public async Task<IActionResult> GetItems([FromQuery] int docId)
     {
         return Ok(await _purchaseRequestItemsService.GetAllItemsAsync(docId));

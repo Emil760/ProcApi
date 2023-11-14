@@ -31,7 +31,9 @@ public enum DocumentStatus
     InvoiceDraft = 300,
     InvoiceWaitingForReviewer,
     InvoiceWaitingForFinance,
-    InvoiceApproved
+    InvoiceApproved,
+    InvoiceRejected,
+    InvoiceCanceled
 
     #endregion
 }

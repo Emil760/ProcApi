@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ProcApi.Domain.Entities;
@@ -13,9 +14,11 @@ using ProcApi.Infrastructure.Data;
 namespace ProcApi.Infrastructure.Migrations
 {
     [DbContext(typeof(ProcDbContext))]
-    partial class ProcDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231113070342_document6")]
+    partial class document6
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -680,10 +683,11 @@ namespace ProcApi.Infrastructure.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("DeliveryAddress")
-                        .HasMaxLength(300)
-                        .HasColumnType("character varying(300)");
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasMaxLength(4000)
                         .HasColumnType("character varying(4000)");
 
@@ -953,11 +957,6 @@ namespace ProcApi.Infrastructure.Migrations
                         },
                         new
                         {
-                            RoleId = 3,
-                            PermissionId = 11
-                        },
-                        new
-                        {
                             RoleId = 9,
                             PermissionId = 6
                         },
@@ -1186,6 +1185,9 @@ namespace ProcApi.Infrastructure.Migrations
 
             modelBuilder.Entity("ProcApi.Domain.ResultSets.UnusedPRItemInfoResultSet", b =>
                 {
+                    b.Property<decimal>("Count")
+                        .HasColumnType("numeric");
+
                     b.Property<string>("MaterialName")
                         .IsRequired()
                         .HasColumnType("text");
@@ -1197,10 +1199,7 @@ namespace ProcApi.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<decimal>("Quantity")
-                        .HasColumnType("numeric");
-
-                    b.Property<decimal>("UnusedQuantity")
+                    b.Property<decimal>("UnusedCount")
                         .HasColumnType("numeric");
 
                     b.ToTable((string)null);

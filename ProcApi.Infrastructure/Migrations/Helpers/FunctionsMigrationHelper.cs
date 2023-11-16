@@ -125,6 +125,7 @@ public static class FunctionsMigrationHelper
 							      WHERE di.""StatusId"" != {DocumentStatus.InvoiceDraft}
 							      AND (dp.""Number"" LIKE search OR m.""Name"" LIKE search)
 							      GROUP BY prdi.""Id"", dp.""Number"", m.""Name""
+							      ORDER BY dp.""Number""
 							      OFFSET ((pageNumber - 1) * pageSize) ROWS FETCH FIRST pageSize ROWS ONLY;
 							   END;
 							   $$
@@ -160,7 +161,8 @@ public static class FunctionsMigrationHelper
                                   INNER JOIN ""Materials"" m ON prdi.""MaterialId"" = m.""Id""
                                   AND (dp.""Number"" LIKE search OR m.""Name"" LIKE search)
                                   GROUP BY prdi.""Id"", dp.""Number"", m.""Name""
-                                  OFFSET ((pageNumber - 1) * pageSize) ROWS FETCH FIRST pageSize ROWS ONLY;
+                                  ORDER BY dp.""Number""
+							      OFFSET ((pageNumber - 1) * pageSize) ROWS FETCH FIRST pageSize ROWS ONLY;
                                END;
                                $$;");
     }

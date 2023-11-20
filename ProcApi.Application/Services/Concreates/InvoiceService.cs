@@ -76,7 +76,7 @@ public class InvoiceService : IInvoiceService
     public async Task<SaveInvoiceResponseDto> SaveInvoiceAsync(SaveInvoiceRequestDto dto)
     {
         var invoice = await _invoiceRepository.GetWithDocumentAndItemsByDocId(dto.DocumentId);
-        
+
         if (invoice.Document.StatusId != DocumentStatus.InvoiceDraft)
             throw new ValidationException(_localizer["CantChangeNonDraftDocument"]);
 
@@ -101,7 +101,7 @@ public class InvoiceService : IInvoiceService
 
         return _mapper.Map<SaveInvoiceResponseDto>(invoice);
     }
-    
+
     private async Task<IEnumerable<InvoiceItem>> CheckAndApplyPriceItems(
         IEnumerable<InvoiceItem> invoiceItems,
         IEnumerable<int> prItemIds)
@@ -116,6 +116,9 @@ public class InvoiceService : IInvoiceService
 
             if (unusedPRItem is null)
                 throw new NotFoundException(_localizer["ItemNotFound"]);
+
+            if (invoiceItem.Quantity > unusedPRItem.UnusedCount)
+                throw new ValidationException(_localizer["ItemCountExtended"]);
 
             invoiceItem.Price = unusedPRItem.Price;
         }
@@ -145,7 +148,7 @@ public class InvoiceService : IInvoiceService
         foreach (var invoiceItem in invoice.Items)
         {
             var purchaseRequestItem = purchaseRequestItems
-                .SingleOrDefault(pri => pri.PurchaseRequestId == invoiceItem.PurchaseRequestItemId);
+                .SingleOrDefault(pri => pri.Id == invoiceItem.PurchaseRequestItemId);
 
             if (purchaseRequestItem is null)
                 throw new NotFoundException(_localizer["ItemNotFound"]);

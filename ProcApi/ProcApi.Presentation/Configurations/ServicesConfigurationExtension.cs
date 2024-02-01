@@ -1,5 +1,6 @@
 ﻿using ProcApi.Application.Caches.Abstracts;
 using ProcApi.Application.Caches.Concreates;
+using ProcApi.Application.Handlers.Document;
 using ProcApi.Application.Handlers.Invoice;
 using ProcApi.Application.Handlers.PurchaseRequest;
 using ProcApi.Application.Services.Abstracts;
@@ -47,6 +48,10 @@ public static class ServicesConfigurationExtension
         services.AddScoped<InvoiceRejectHandler>();
         services.AddScoped<InvoiceReturnHandler>();
         services.AddScoped<InvoiceSubmitHandler>();
+        
+        services.AddScoped<IDocumentValidatorHandler, DocumentValidatorHandler>();
+        services.AddScoped<PurchaseRequestValidator>();
+        services.AddScoped<InvoiceValidator>();
 
         services.AddScoped<ISupplierService, SupplierService>();
 
@@ -60,5 +65,6 @@ public static class ServicesConfigurationExtension
         services.AddScoped<UnauthorizedExceptionHandler>();
         services.AddScoped<NotFoundExceptionHandler>();
         services.AddScoped<ValidationExceptionHandler>();
+        services.AddScoped<MultipleExceptionHandler>();
     }
 }

@@ -5,5 +5,5 @@ namespace ProcApi.Infrastructure.Repositories.Abstracts;
 public interface IPurchaseRequestItemsRepository : IGenericRepository<PurchaseRequestItem>
 {
     Task<IEnumerable<PurchaseRequestItem>> GetAllByDocIdAsync(int docId);
-    Task<IEnumerable<PurchaseRequestItem>> GetByIds(IEnumerable<int> itemIds);
+    Task<IEnumerable<PurchaseRequestItem>> GetByIdsAsync(IEnumerable<int> itemIds);
 }

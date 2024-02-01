@@ -207,4 +207,16 @@
   <data name="MaterialCantBeEmpty" xml:space="preserve">
     <value>Material cant be empty</value>
   </data>
+  <data name="UserAlreadyHasRole" xml:space="preserve">
+    <value>Use already has this role</value>
+  </data>
+  <data name="RoleNotFound" xml:space="preserve">
+    <value>Role not found</value>
+  </data>
+  <data name="EmptyItems" xml:space="preserve">
+    <value>Empty items</value>
+  </data>
+  <data name="UserNotFoundOrNotInRole" xml:space="preserve">
+    <value>User not found or has not required role</value>
+  </data>
 </root>

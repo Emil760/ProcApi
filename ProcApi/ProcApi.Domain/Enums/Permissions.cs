@@ -24,5 +24,9 @@ public enum Permissions
     CanRejectInvoice,
     CanReturnPurchaseRequest,
     CanRejectPurchaseRequest,
-    CanViewAll
+    CanViewAll,
+    CanChangeReviewer,
+    CanGrantRole,
+    CanRemoveRole,
+    CanAssignBuyer
 }

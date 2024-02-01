@@ -46,7 +46,7 @@ public class ChatService : IChatService
     {
         var chat = new Chat
         {
-            ChatType = ChatType.Contact
+            ChatTypeId = ChatType.Contact
         };
 
         foreach (var userId in userIds)

@@ -11,7 +11,7 @@ public class DocumentAction
     public User? Performer { get; set; }
     public int RoleId { get; set; }
     public Role Role { get; set; }
-    public int Order { get; set; }
+    public float Order { get; set; }
     public DateTime? ActionPerformed { get; set; }
     public bool IsPerformed { get; set; }
     public DateTime? ActionAssigned { get; set; }

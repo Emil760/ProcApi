@@ -13,5 +13,6 @@ public enum Roles
     Buyer,
     Director,
     PurchaseRequestKeyUser,
-    InvoiceKeyUser
+    InvoiceKeyUser,
+    Reviewer
 }

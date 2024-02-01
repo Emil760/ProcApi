@@ -5,10 +5,14 @@ namespace ProcApi.Application.Services.Abstracts;
 
 public interface IUserService
 {
-    Task<UserResponseDto> GetByIdAsync(int id);
-    Task<IEnumerable<UserResponseDto>> GetUsersAsync();
-    Task<UserResponseDto> AddUserAsync(AddUserDto dto);
-    Task<bool> AlreadyExists(string login);
+    Task<UserInfoResponseDto> GetByIdAsync(int id);
+    Task<IEnumerable<UserInfoResponseDto>> GetUsersAsync();
+    Task<IEnumerable<UserWithRolesResponseDto>> GetUsersWithRolesAsync(string? search);
+    Task<UserInfoResponseDto> AddUserAsync(AddUserDto dto);
     Task<IEnumerable<string>> GetAllRoleNames(int userId);
     Task<IEnumerable<string>> GetPermissionNames(int userId);
+    Task<IEnumerable<UserResponseDto>> GetAllByRoleAsync(int roleId);
+    Task<IEnumerable<UserResponseDto>> GetAllByRoleNameAsync(string name);
+    Task GrantRoleAsync(GrantRoleRequestDto dto);
+    Task RemoveRoleAsync(RemoveRoleRequestDto dto);
 }

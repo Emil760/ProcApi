@@ -208,4 +208,16 @@ Qaralama olmayan sənədi dəyişdirmək mümkün deyil</value>
   <data name="MaterialCantBeEmpty" xml:space="preserve">
     <value>Material boş ola bilməz</value>
   </data>
+  <data name="UserAlreadyHasRole" xml:space="preserve">
+    <value>İstifadəçi artıq bu rola malikdir</value>
+  </data>
+  <data name="RoleNotFound" xml:space="preserve">
+    <value>Rol tapılmadı</value>
+  </data>
+  <data name="EmptyItems" xml:space="preserve">
+    <value>Boş məhsullar</value>
+  </data>
+  <data name="UserNotFoundOrNotInRole" xml:space="preserve">
+    <value>İstifadəçi tapılmadı və ya tələb olunan rol tapılmadı</value>
+  </data>
 </root>

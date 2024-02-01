@@ -122,7 +122,7 @@ public static class FunctionsMigrationHelper
 							      INNER JOIN ""Documents"" di ON di.""Id"" = idi.""InvoiceId""
 							      INNER JOIN ""Documents"" dp on dp.""Id"" = prdi.""PurchaseRequestId""
 							      INNER JOIN ""Materials"" m ON prdi.""MaterialId"" = m.""Id""
-							      WHERE di.""StatusId"" != {DocumentStatus.InvoiceDraft}
+							      WHERE di.""DocumentStatusId"" != {DocumentStatus.InvoiceDraft}
 							      AND (dp.""Number"" LIKE search OR m.""Name"" LIKE search)
 							      GROUP BY prdi.""Id"", dp.""Number"", m.""Name""
 							      ORDER BY dp.""Number""
@@ -154,7 +154,7 @@ public static class FunctionsMigrationHelper
                                                                 FROM ""InvoiceDocumentItems"" idi
                                                                 INNER JOIN ""Documents"" di ON di.""Id"" = idi.""InvoiceId""
                                                                 INNER JOIN ""Materials"" m ON prdi.""MaterialId"" = m.""Id""
-                                                                WHERE di.""StatusId"" not in ({(int)DocumentStatus.InvoiceDraft}, {(int)DocumentStatus.InvoiceCanceled}, {(int)DocumentStatus.InvoiceRejected})
+                                                                WHERE di.""DocumentStatusId"" not in ({(int)DocumentStatus.InvoiceDraft}, {(int)DocumentStatus.InvoiceCanceled}, {(int)DocumentStatus.InvoiceRejected})
                                                                 AND idi.""PurchaseRequestItemId"" = prdi.""Id"")) as ""UnusedQuantity""
                                   FROM ""PurchaseRequestItems"" prdi
                                   INNER JOIN ""Documents"" dp on dp.""Id"" = prdi.""PurchaseRequestId""
@@ -194,10 +194,10 @@ public static class FunctionsMigrationHelper
                                                       FROM ""InvoiceItems"" idi
                                                       INNER JOIN ""Documents"" idd on idd.""Id"" = idi.""InvoiceId""
                                                       WHERE idi.""PurchaseRequestItemId"" = prdi.""Id""
-                                                      AND idd.""StatusId"" not in ({(int)DocumentStatus.InvoiceDraft}, {(int)DocumentStatus.InvoiceCanceled}, {(int)DocumentStatus.InvoiceRejected})), 0) as ""UnusedCount""
+                                                      AND idd.""DocumentStatusId"" not in ({(int)DocumentStatus.InvoiceDraft}, {(int)DocumentStatus.InvoiceCanceled}, {(int)DocumentStatus.InvoiceRejected})), 0) as ""UnusedCount""
                           FROM ""PurchaseRequestItems"" prdi
                           INNER JOIN ""Documents"" prd on prd.""Id"" = prdi.""PurchaseRequestId""
-                          WHERE prd.""StatusId"" != 100 AND prdi.""Id"" = ANY (prItemIds);
+                          WHERE prd.""DocumentStatusId"" != 100 AND prdi.""Id"" = ANY (prItemIds);
 					  END;
 					  $$
 					  LANGUAGE PLPGSQL");
@@ -223,10 +223,10 @@ public static class FunctionsMigrationHelper
                                                                       FROM ""InvoiceDocumentItems"" idi
                                                                       INNER JOIN ""Documents"" idd on idd.""Id"" = idi.""InvoiceId""
                                                                       WHERE idi.""PurchaseRequestItemId"" = prdi.""Id""
-                                                                      AND idd.""StatusId"" not in ({(int)DocumentStatus.InvoiceDraft}, {(int)DocumentStatus.InvoiceCanceled}, {(int)DocumentStatus.InvoiceRejected})), 0)
+                                                                      AND idd.""DocumentStatusId"" not in ({(int)DocumentStatus.InvoiceDraft}, {(int)DocumentStatus.InvoiceCanceled}, {(int)DocumentStatus.InvoiceRejected})), 0)
                                           FROM ""PurchaseRequestItems"" prdi
                                           INNER JOIN ""Documents"" prd on prd.""Id"" = prdi.""PurchaseRequestId""
-                                          WHERE prd.""StatusId"" not in ({(int)DocumentStatus.PurchaseRequestDraft}, {(int)DocumentStatus.InvoiceRejected}, {(int)DocumentStatus.InvoiceCanceled}) AND prdi.""Id"" = ANY (prItemIds);
+                                          WHERE prd.""DocumentStatusId"" not in ({(int)DocumentStatus.PurchaseRequestDraft}, {(int)DocumentStatus.InvoiceRejected}, {(int)DocumentStatus.InvoiceCanceled}) AND prdi.""Id"" = ANY (prItemIds);
                       	END;
                       	$$;");
     }

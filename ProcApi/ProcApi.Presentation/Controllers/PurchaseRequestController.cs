@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ProcApi.Application.DTOs.Documents.Requests;
-using ProcApi.Application.DTOs.PurchaseRequestDocument.Requests;
+using ProcApi.Application.DTOs.PurchaseRequest.Requests;
+using ProcApi.Application.Handlers.Document;
 using ProcApi.Application.Services.Abstracts;
+using ProcApi.Application.Services.Concreates;
 using ProcApi.Domain.Enums;
 using ProcApi.Presentation.Attributes;
 using ProcApi.Presentation.Filters;
@@ -15,20 +17,25 @@ public class PurchaseRequestController : BaseController
     private readonly IPurchaseRequestService _purchaseRequestService;
     private readonly IPurchaseRequestItemsService _purchaseRequestItemsService;
     private readonly IPurchaseRequestApprovalService _purchaseRequestApprovalService;
+    private readonly IDocumentValidatorHandler _documentValidatorHandler;
 
     public PurchaseRequestController(IPurchaseRequestService purchaseRequestService,
         IPurchaseRequestApprovalService purchaseRequestApprovalService,
-        IPurchaseRequestItemsService purchaseRequestItemsService)
+        IPurchaseRequestItemsService purchaseRequestItemsService,
+        IDocumentValidatorHandler documentValidatorHandler)
     {
         _purchaseRequestService = purchaseRequestService;
         _purchaseRequestApprovalService = purchaseRequestApprovalService;
         _purchaseRequestItemsService = purchaseRequestItemsService;
+        _documentValidatorHandler = documentValidatorHandler;
     }
 
-    [DocumentAccessFilter(new[] { 
+    [DocumentAccessFilter(new[]
+    {
         Permissions.CanViewAll,
         Permissions.CanReturnPurchaseRequest,
-        Permissions.CanRejectPurchaseRequest })]
+        Permissions.CanRejectPurchaseRequest
+    })]
     [HasPermission(Permissions.CanViewPurchaseRequest)]
     [HttpGet]
     public async Task<IActionResult> GetDocumentAsync([FromQuery] int docId)
@@ -53,6 +60,7 @@ public class PurchaseRequestController : BaseController
     [HttpPost("PerformAction")]
     public async Task<IActionResult> PerformAction([FromBody] ActionPerformRequestDto requestDto)
     {
+        await _documentValidatorHandler.ValidateDocumentAsync(requestDto.DocId, typeof(PurchaseRequestValidator));
         await _purchaseRequestApprovalService.PerformAction(requestDto, UserInfo);
         return Ok();
     }
@@ -62,5 +70,13 @@ public class PurchaseRequestController : BaseController
     public async Task<IActionResult> GetItems([FromQuery] int docId)
     {
         return Ok(await _purchaseRequestItemsService.GetAllItemsAsync(docId));
+    }
+
+    [HasPermission(Permissions.CanAssignBuyer)]
+    [HttpPut("AssignBuyer")]
+    public async Task<IActionResult> AssignBuyerToItemAsync([FromBody] AssignUserToItemDto dto)
+    {
+        await _purchaseRequestService.AssignBuyerToItemAsync(dto);
+        return Ok();
     }
 }

@@ -7,6 +7,7 @@ public enum ActionType
     Approve,
     Return,
     Reject,
+    Cancel,
     Revision,
     KeyUserReturn,
     KeyUserCancel

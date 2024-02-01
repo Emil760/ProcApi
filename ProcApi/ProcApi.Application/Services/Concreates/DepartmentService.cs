@@ -42,7 +42,7 @@ public class DepartmentService : IDepartmentService
 
     public async Task<DepartmentResponseDto> CreateDepartmentAsync(CreateDepartmentDto dto)
     {
-        var user = await _userRepository.GetByUserIdAndRole(dto.HeadUserId, Roles.HeadDepartment);
+        var user = await _userRepository.GetByIdAndRoleId(dto.HeadUserId, Roles.HeadDepartment);
         if (user is null)
             throw new NotFoundException(_localizer["UserNotFound"]);
 

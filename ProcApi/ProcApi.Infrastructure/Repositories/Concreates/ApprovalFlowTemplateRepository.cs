@@ -12,15 +12,6 @@ public class ApprovalFlowTemplateRepository : GenericRepository<ApprovalFlowTemp
     {
     }
 
-    public async Task<IEnumerable<ApprovalFlowTemplate>> GetInitialByDocumentType(DocumentType type)
-    {
-        return await _context.ApprovalFlowTemplates
-            .Where(aft => aft.DocumentTypeId == type
-                          && aft.IsInitial)
-            .OrderBy(aft => aft.Order)
-            .ToListAsync();
-    }
-
     public async Task<IEnumerable<ApprovalFlowTemplate>> GetInitialWithUserByDocumentType(DocumentType type)
     {
         return await _context.ApprovalFlowTemplates
@@ -29,5 +20,15 @@ public class ApprovalFlowTemplateRepository : GenericRepository<ApprovalFlowTemp
                           && aft.IsInitial)
             .OrderBy(aft => aft.Order)
             .ToListAsync();
+    }
+
+    public async Task<ApprovalFlowTemplate?> GetByRoleAndDocumentTypeAndMultiple(
+        Roles role, DocumentType documentType, bool isMultiple)
+    {
+        return await _context.ApprovalFlowTemplates
+            .Where(aft => aft.RoleId == (int)role
+                          && aft.DocumentTypeId == documentType
+                          && aft.IsMultiple == isMultiple)
+            .SingleOrDefaultAsync();
     }
 }

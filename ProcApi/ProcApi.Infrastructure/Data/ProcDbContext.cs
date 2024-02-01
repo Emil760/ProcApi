@@ -32,32 +32,33 @@ namespace ProcApi.Infrastructure.Data
 
         public DbSet<User> Users { get; set; }
         public DbSet<UserSetting> UserSettings { get; set; }
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<RolePermission> RolePermissions { get; set; }
+        public DbSet<UserRole> UserRoles { get; set; }
+        public DbSet<Permission> Permissions { get; set; }
         public DbSet<Chat> Chats { get; set; }
         public DbSet<ChatUser> ChatUsers { get; set; }
         public DbSet<Group> Groups { get; set; }
         public DbSet<GroupUser> GroupUsers { get; set; }
         public DbSet<ChatMessage> ChatMessages { get; set; }
         public DbSet<ApprovalFlowTemplate> ApprovalFlowTemplates { get; set; }
+        public DbSet<ReleaseStrategyTemplate> ReleaseStrategyTemplates { get; set; }
         public DbSet<ControlSet> ControlSets { get; set; }
-        public DbSet<Delegation> Delegations { get; set; }
-        public DbSet<Department> Departments { get; set; }
-        public DbSet<Document> Documents { get; set; }
         public DbSet<DocumentAction> DocumentActions { get; set; }
-        public DbSet<Project> Projects { get; set; }
+        public DbSet<Document> Documents { get; set; }
         public DbSet<PurchaseRequest> PurchaseRequests { get; set; }
         public DbSet<PurchaseRequestItem> PurchaseRequestItems { get; set; }
         public DbSet<Invoice> InvoiceDocuments { get; set; }
         public DbSet<InvoiceItem> InvoiceDocumentItems { get; set; }
-        public DbSet<ReleaseStrategy> ReleaseStrategies { get; set; }
-        public DbSet<Role> Roles { get; set; }
-        public DbSet<RolePermission> RolePermissions { get; set; }
-        public DbSet<Permission> Permissions { get; set; }
+        public DbSet<Delegation> Delegations { get; set; }
+        public DbSet<Department> Departments { get; set; }
+        public DbSet<Project> Projects { get; set; }
         public DbSet<UnitOfMeasure> UnitOfMeasures { get; set; }
         public DbSet<FeatureConfiguration> Configurations { get; set; }
-        public DbSet<UserRole> UserRoles { get; set; }
         public DbSet<Material> Materials { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
+        public DbSet<DocumentValidationConfiguration> DocumentValidationConfigurations { get; set; }
     }
 
     public partial class ProcDbContext : DbContext
@@ -80,7 +81,7 @@ namespace ProcApi.Infrastructure.Data
         [DbFunction(Name = "get_unused_purchase_request_items_by_ids", Schema = "public", IsBuiltIn = false)]
         public IQueryable<UnusedPRItemResultSet> GetUnusedPurchaseRequestItemsByIds(int[] prItemIds)
             => FromExpression(() => GetUnusedPurchaseRequestItemsByIds(prItemIds));
-        
+
         [DbFunction(Name = "get_user_roles_with_delegated_roles", Schema = "public", IsBuiltIn = false)]
         public IQueryable<UserRoleResultSet> GetUserRolesWithDelegatedRoles(int userId, int delegatedUserId)
             => FromExpression(() => GetUserRolesWithDelegatedRoles(userId, delegatedUserId));

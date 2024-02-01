@@ -35,6 +35,11 @@ namespace ProcApi.Infrastructure.Migrations
                     b.Property<int>("DocumentTypeId")
                         .HasColumnType("integer");
 
+                    b.Property<string>("FlowCode")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("varchar");
+
                     b.Property<bool>("IsCreator")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
@@ -45,8 +50,11 @@ namespace ProcApi.Infrastructure.Migrations
                         .HasColumnType("boolean")
                         .HasDefaultValue(false);
 
-                    b.Property<int>("Order")
-                        .HasColumnType("integer");
+                    b.Property<bool>("IsMultiple")
+                        .HasColumnType("boolean");
+
+                    b.Property<float>("Order")
+                        .HasColumnType("real");
 
                     b.Property<int>("RoleId")
                         .HasColumnType("integer");
@@ -61,6 +69,145 @@ namespace ProcApi.Infrastructure.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("ApprovalFlowTemplates");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DocumentTypeId = 1,
+                            FlowCode = "STANDART",
+                            IsCreator = true,
+                            IsInitial = true,
+                            IsMultiple = false,
+                            Order = 1f,
+                            RoleId = 3
+                        },
+                        new
+                        {
+                            Id = 2,
+                            DocumentTypeId = 1,
+                            FlowCode = "STANDART",
+                            IsCreator = false,
+                            IsInitial = true,
+                            IsMultiple = false,
+                            Order = 2f,
+                            RoleId = 7,
+                            UserId = 14
+                        },
+                        new
+                        {
+                            Id = 3,
+                            DocumentTypeId = 1,
+                            FlowCode = "STANDART",
+                            IsCreator = false,
+                            IsInitial = true,
+                            IsMultiple = false,
+                            Order = 3f,
+                            RoleId = 8,
+                            UserId = 12
+                        },
+                        new
+                        {
+                            Id = 4,
+                            DocumentTypeId = 1,
+                            FlowCode = "BUYER",
+                            IsCreator = false,
+                            IsInitial = false,
+                            IsMultiple = true,
+                            Order = 4f,
+                            RoleId = 9
+                        },
+                        new
+                        {
+                            Id = 5,
+                            DocumentTypeId = 2,
+                            FlowCode = "STANDART",
+                            IsCreator = true,
+                            IsInitial = true,
+                            IsMultiple = false,
+                            Order = 1f,
+                            RoleId = 3
+                        },
+                        new
+                        {
+                            Id = 6,
+                            DocumentTypeId = 2,
+                            FlowCode = "STANDART",
+                            IsCreator = false,
+                            IsInitial = true,
+                            IsMultiple = false,
+                            Order = 2f,
+                            RoleId = 7
+                        },
+                        new
+                        {
+                            Id = 7,
+                            DocumentTypeId = 2,
+                            FlowCode = "STANDART",
+                            IsCreator = false,
+                            IsInitial = true,
+                            IsMultiple = false,
+                            Order = 3f,
+                            RoleId = 8,
+                            UserId = 12
+                        },
+                        new
+                        {
+                            Id = 8,
+                            DocumentTypeId = 2,
+                            FlowCode = "BUYER",
+                            IsCreator = false,
+                            IsInitial = false,
+                            IsMultiple = true,
+                            Order = 4f,
+                            RoleId = 9
+                        },
+                        new
+                        {
+                            Id = 9,
+                            DocumentTypeId = 3,
+                            FlowCode = "STANDART",
+                            IsCreator = true,
+                            IsInitial = true,
+                            IsMultiple = false,
+                            Order = 1f,
+                            RoleId = 9
+                        },
+                        new
+                        {
+                            Id = 10,
+                            DocumentTypeId = 3,
+                            FlowCode = "STANDART",
+                            IsCreator = false,
+                            IsInitial = true,
+                            IsMultiple = false,
+                            Order = 2f,
+                            RoleId = 5,
+                            UserId = 9
+                        },
+                        new
+                        {
+                            Id = 11,
+                            DocumentTypeId = 3,
+                            FlowCode = "STANDART",
+                            IsCreator = false,
+                            IsInitial = true,
+                            IsMultiple = false,
+                            Order = 3f,
+                            RoleId = 6,
+                            UserId = 4
+                        },
+                        new
+                        {
+                            Id = 12,
+                            DocumentTypeId = 3,
+                            FlowCode = "REVIEWER",
+                            IsCreator = false,
+                            IsInitial = false,
+                            IsMultiple = false,
+                            Order = 2.5f,
+                            RoleId = 13
+                        });
                 });
 
             modelBuilder.Entity("ProcApi.Domain.Entities.Category", b =>
@@ -94,7 +241,7 @@ namespace ProcApi.Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("ChatType")
+                    b.Property<int>("ChatTypeId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
@@ -281,15 +428,20 @@ namespace ProcApi.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("timestamp without time zone");
 
+                    b.Property<int>("DocumentStatusId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("DocumentTypeId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("FlowCodes")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("varchar");
+
                     b.Property<string>("Number")
                         .HasMaxLength(30)
                         .HasColumnType("varchar");
-
-                    b.Property<int>("StatusId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("TypeId")
-                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -328,8 +480,8 @@ namespace ProcApi.Infrastructure.Migrations
                         .HasColumnType("boolean")
                         .HasDefaultValue(false);
 
-                    b.Property<int>("Order")
-                        .HasColumnType("integer");
+                    b.Property<float>("Order")
+                        .HasColumnType("real");
 
                     b.Property<int?>("PerformerId")
                         .HasColumnType("integer");
@@ -348,6 +500,55 @@ namespace ProcApi.Infrastructure.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("DocumentActions");
+                });
+
+            modelBuilder.Entity("ProcApi.Domain.Entities.DocumentValidationConfiguration", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("DocumentStatusId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("DocumentTypeId")
+                        .HasColumnType("integer");
+
+                    b.Property<bool>("IsEnabled")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("ValidationDescription")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ValidationName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DocumentValidationConfigurations");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DocumentStatusId = 100,
+                            DocumentTypeId = 1,
+                            IsEnabled = true,
+                            ValidationDescription = "",
+                            ValidationName = "CheckEmptyItemsAsync"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            DocumentStatusId = 300,
+                            DocumentTypeId = 3,
+                            IsEnabled = true,
+                            ValidationDescription = "",
+                            ValidationName = "CheckEmptyItemsAsync"
+                        });
                 });
 
             modelBuilder.Entity("ProcApi.Domain.Entities.FeatureConfiguration", b =>
@@ -653,6 +854,26 @@ namespace ProcApi.Infrastructure.Migrations
                         {
                             Id = 23,
                             Name = "CanViewAll"
+                        },
+                        new
+                        {
+                            Id = 24,
+                            Name = "CanChangeReviewer"
+                        },
+                        new
+                        {
+                            Id = 25,
+                            Name = "CanGrantRole"
+                        },
+                        new
+                        {
+                            Id = 26,
+                            Name = "CanRemoveRole"
+                        },
+                        new
+                        {
+                            Id = 27,
+                            Name = "CanAssignBuyer"
                         });
                 });
 
@@ -715,6 +936,9 @@ namespace ProcApi.Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("BuyerId")
+                        .HasColumnType("integer");
+
                     b.Property<int>("ItemStatusId")
                         .HasColumnType("integer");
 
@@ -735,6 +959,8 @@ namespace ProcApi.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("BuyerId");
+
                     b.HasIndex("MaterialId");
 
                     b.HasIndex("PurchaseRequestId");
@@ -744,7 +970,7 @@ namespace ProcApi.Infrastructure.Migrations
                     b.ToTable("PurchaseRequestItems");
                 });
 
-            modelBuilder.Entity("ProcApi.Domain.Entities.ReleaseStrategy", b =>
+            modelBuilder.Entity("ProcApi.Domain.Entities.ReleaseStrategyTemplate", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -753,22 +979,497 @@ namespace ProcApi.Infrastructure.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("ActionTypeId")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.Property<int>("ActiveStatusId")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.Property<int>("ApprovalFlowTemplateId")
                         .HasColumnType("integer");
 
                     b.Property<int>("AssignStatusId")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
+
+                    b.Property<string>("FlowCodes")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("varchar");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ApprovalFlowTemplateId");
 
-                    b.ToTable("ReleaseStrategies");
+                    b.ToTable("ReleaseStrategyTemplates");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1000,
+                            ActionTypeId = 3,
+                            ActiveStatusId = 100,
+                            ApprovalFlowTemplateId = 1,
+                            AssignStatusId = 101,
+                            FlowCodes = "STANDART"
+                        },
+                        new
+                        {
+                            Id = 1001,
+                            ActionTypeId = 3,
+                            ActiveStatusId = 101,
+                            ApprovalFlowTemplateId = 2,
+                            AssignStatusId = 102,
+                            FlowCodes = "STANDART"
+                        },
+                        new
+                        {
+                            Id = 1002,
+                            ActionTypeId = 3,
+                            ActiveStatusId = 102,
+                            ApprovalFlowTemplateId = 3,
+                            AssignStatusId = 103,
+                            FlowCodes = "STANDART"
+                        },
+                        new
+                        {
+                            Id = 1003,
+                            ActionTypeId = 4,
+                            ActiveStatusId = 101,
+                            ApprovalFlowTemplateId = 2,
+                            AssignStatusId = 100,
+                            FlowCodes = "STANDART"
+                        },
+                        new
+                        {
+                            Id = 1004,
+                            ActionTypeId = 4,
+                            ActiveStatusId = 102,
+                            ApprovalFlowTemplateId = 3,
+                            AssignStatusId = 100,
+                            FlowCodes = "STANDART"
+                        },
+                        new
+                        {
+                            Id = 1005,
+                            ActionTypeId = 5,
+                            ActiveStatusId = 101,
+                            ApprovalFlowTemplateId = 2,
+                            AssignStatusId = 107,
+                            FlowCodes = "STANDART"
+                        },
+                        new
+                        {
+                            Id = 1006,
+                            ActionTypeId = 5,
+                            ActiveStatusId = 102,
+                            ApprovalFlowTemplateId = 3,
+                            AssignStatusId = 107,
+                            FlowCodes = "STANDART"
+                        },
+                        new
+                        {
+                            Id = 1007,
+                            ActionTypeId = 6,
+                            ActiveStatusId = 100,
+                            ApprovalFlowTemplateId = 1,
+                            AssignStatusId = 106,
+                            FlowCodes = "STANDART"
+                        },
+                        new
+                        {
+                            Id = 1008,
+                            ActionTypeId = 3,
+                            ActiveStatusId = 100,
+                            ApprovalFlowTemplateId = 1,
+                            AssignStatusId = 101,
+                            FlowCodes = "STANDART_BUYER"
+                        },
+                        new
+                        {
+                            Id = 1009,
+                            ActionTypeId = 3,
+                            ActiveStatusId = 101,
+                            ApprovalFlowTemplateId = 2,
+                            AssignStatusId = 102,
+                            FlowCodes = "STANDART_BUYER"
+                        },
+                        new
+                        {
+                            Id = 1010,
+                            ActionTypeId = 3,
+                            ActiveStatusId = 102,
+                            ApprovalFlowTemplateId = 3,
+                            AssignStatusId = 103,
+                            FlowCodes = "STANDART_BUYER"
+                        },
+                        new
+                        {
+                            Id = 1011,
+                            ActionTypeId = 2,
+                            ActiveStatusId = 103,
+                            ApprovalFlowTemplateId = 4,
+                            AssignStatusId = 105,
+                            FlowCodes = "STANDART_BUYER"
+                        },
+                        new
+                        {
+                            Id = 1012,
+                            ActionTypeId = 4,
+                            ActiveStatusId = 101,
+                            ApprovalFlowTemplateId = 2,
+                            AssignStatusId = 100,
+                            FlowCodes = "STANDART_BUYER"
+                        },
+                        new
+                        {
+                            Id = 1013,
+                            ActionTypeId = 4,
+                            ActiveStatusId = 102,
+                            ApprovalFlowTemplateId = 3,
+                            AssignStatusId = 100,
+                            FlowCodes = "STANDART_BUYER"
+                        },
+                        new
+                        {
+                            Id = 1014,
+                            ActionTypeId = 5,
+                            ActiveStatusId = 101,
+                            ApprovalFlowTemplateId = 2,
+                            AssignStatusId = 107,
+                            FlowCodes = "STANDART_BUYER"
+                        },
+                        new
+                        {
+                            Id = 1015,
+                            ActionTypeId = 5,
+                            ActiveStatusId = 102,
+                            ApprovalFlowTemplateId = 3,
+                            AssignStatusId = 107,
+                            FlowCodes = "STANDART_BUYER"
+                        },
+                        new
+                        {
+                            Id = 1016,
+                            ActionTypeId = 6,
+                            ActiveStatusId = 100,
+                            ApprovalFlowTemplateId = 1,
+                            AssignStatusId = 106,
+                            FlowCodes = "STANDART"
+                        },
+                        new
+                        {
+                            Id = 2000,
+                            ActionTypeId = 3,
+                            ActiveStatusId = 200,
+                            ApprovalFlowTemplateId = 5,
+                            AssignStatusId = 201,
+                            FlowCodes = "STANDART"
+                        },
+                        new
+                        {
+                            Id = 2001,
+                            ActionTypeId = 3,
+                            ActiveStatusId = 201,
+                            ApprovalFlowTemplateId = 6,
+                            AssignStatusId = 202,
+                            FlowCodes = "STANDART"
+                        },
+                        new
+                        {
+                            Id = 2002,
+                            ActionTypeId = 3,
+                            ActiveStatusId = 202,
+                            ApprovalFlowTemplateId = 7,
+                            AssignStatusId = 203,
+                            FlowCodes = "STANDART"
+                        },
+                        new
+                        {
+                            Id = 2003,
+                            ActionTypeId = 4,
+                            ActiveStatusId = 201,
+                            ApprovalFlowTemplateId = 6,
+                            AssignStatusId = 200,
+                            FlowCodes = "STANDART"
+                        },
+                        new
+                        {
+                            Id = 2004,
+                            ActionTypeId = 4,
+                            ActiveStatusId = 202,
+                            ApprovalFlowTemplateId = 7,
+                            AssignStatusId = 100,
+                            FlowCodes = "STANDART"
+                        },
+                        new
+                        {
+                            Id = 2005,
+                            ActionTypeId = 5,
+                            ActiveStatusId = 201,
+                            ApprovalFlowTemplateId = 6,
+                            AssignStatusId = 207,
+                            FlowCodes = "STANDART"
+                        },
+                        new
+                        {
+                            Id = 2006,
+                            ActionTypeId = 5,
+                            ActiveStatusId = 202,
+                            ApprovalFlowTemplateId = 7,
+                            AssignStatusId = 207,
+                            FlowCodes = "STANDART"
+                        },
+                        new
+                        {
+                            Id = 2007,
+                            ActionTypeId = 6,
+                            ActiveStatusId = 300,
+                            ApprovalFlowTemplateId = 5,
+                            AssignStatusId = 206,
+                            FlowCodes = "STANDART"
+                        },
+                        new
+                        {
+                            Id = 2008,
+                            ActionTypeId = 3,
+                            ActiveStatusId = 200,
+                            ApprovalFlowTemplateId = 5,
+                            AssignStatusId = 201,
+                            FlowCodes = "STANDART_BUYER"
+                        },
+                        new
+                        {
+                            Id = 2009,
+                            ActionTypeId = 3,
+                            ActiveStatusId = 201,
+                            ApprovalFlowTemplateId = 6,
+                            AssignStatusId = 202,
+                            FlowCodes = "STANDART_BUYER"
+                        },
+                        new
+                        {
+                            Id = 2010,
+                            ActionTypeId = 3,
+                            ActiveStatusId = 202,
+                            ApprovalFlowTemplateId = 7,
+                            AssignStatusId = 203,
+                            FlowCodes = "STANDART_BUYER"
+                        },
+                        new
+                        {
+                            Id = 2011,
+                            ActionTypeId = 2,
+                            ActiveStatusId = 202,
+                            ApprovalFlowTemplateId = 8,
+                            AssignStatusId = 203,
+                            FlowCodes = "STANDART_BUYER"
+                        },
+                        new
+                        {
+                            Id = 2012,
+                            ActionTypeId = 4,
+                            ActiveStatusId = 201,
+                            ApprovalFlowTemplateId = 6,
+                            AssignStatusId = 200,
+                            FlowCodes = "STANDART_BUYER"
+                        },
+                        new
+                        {
+                            Id = 2013,
+                            ActionTypeId = 4,
+                            ActiveStatusId = 202,
+                            ApprovalFlowTemplateId = 7,
+                            AssignStatusId = 100,
+                            FlowCodes = "STANDART_BUYER"
+                        },
+                        new
+                        {
+                            Id = 2014,
+                            ActionTypeId = 5,
+                            ActiveStatusId = 201,
+                            ApprovalFlowTemplateId = 6,
+                            AssignStatusId = 207,
+                            FlowCodes = "STANDART_BUYER"
+                        },
+                        new
+                        {
+                            Id = 2015,
+                            ActionTypeId = 5,
+                            ActiveStatusId = 202,
+                            ApprovalFlowTemplateId = 7,
+                            AssignStatusId = 207,
+                            FlowCodes = "STANDART_BUYER"
+                        },
+                        new
+                        {
+                            Id = 2016,
+                            ActionTypeId = 6,
+                            ActiveStatusId = 300,
+                            ApprovalFlowTemplateId = 5,
+                            AssignStatusId = 206,
+                            FlowCodes = "STANDART_BUYER"
+                        },
+                        new
+                        {
+                            Id = 3000,
+                            ActionTypeId = 3,
+                            ActiveStatusId = 300,
+                            ApprovalFlowTemplateId = 9,
+                            AssignStatusId = 301,
+                            FlowCodes = "STANDART"
+                        },
+                        new
+                        {
+                            Id = 3001,
+                            ActionTypeId = 3,
+                            ActiveStatusId = 301,
+                            ApprovalFlowTemplateId = 10,
+                            AssignStatusId = 302,
+                            FlowCodes = "STANDART"
+                        },
+                        new
+                        {
+                            Id = 3002,
+                            ActionTypeId = 2,
+                            ActiveStatusId = 302,
+                            ApprovalFlowTemplateId = 11,
+                            AssignStatusId = 304,
+                            FlowCodes = "STANDART"
+                        },
+                        new
+                        {
+                            Id = 3003,
+                            ActionTypeId = 6,
+                            ActiveStatusId = 300,
+                            ApprovalFlowTemplateId = 9,
+                            AssignStatusId = 306,
+                            FlowCodes = "STANDART"
+                        },
+                        new
+                        {
+                            Id = 3004,
+                            ActionTypeId = 4,
+                            ActiveStatusId = 301,
+                            ApprovalFlowTemplateId = 10,
+                            AssignStatusId = 300,
+                            FlowCodes = "STANDART"
+                        },
+                        new
+                        {
+                            Id = 3005,
+                            ActionTypeId = 4,
+                            ActiveStatusId = 302,
+                            ApprovalFlowTemplateId = 11,
+                            AssignStatusId = 300,
+                            FlowCodes = "STANDART"
+                        },
+                        new
+                        {
+                            Id = 3006,
+                            ActionTypeId = 5,
+                            ActiveStatusId = 301,
+                            ApprovalFlowTemplateId = 10,
+                            AssignStatusId = 305,
+                            FlowCodes = "STANDART"
+                        },
+                        new
+                        {
+                            Id = 3007,
+                            ActionTypeId = 5,
+                            ActiveStatusId = 302,
+                            ApprovalFlowTemplateId = 11,
+                            AssignStatusId = 305,
+                            FlowCodes = "STANDART"
+                        },
+                        new
+                        {
+                            Id = 3008,
+                            ActionTypeId = 3,
+                            ActiveStatusId = 300,
+                            ApprovalFlowTemplateId = 9,
+                            AssignStatusId = 301,
+                            FlowCodes = "STANDART_REVIEWER"
+                        },
+                        new
+                        {
+                            Id = 3009,
+                            ActionTypeId = 3,
+                            ActiveStatusId = 301,
+                            ApprovalFlowTemplateId = 11,
+                            AssignStatusId = 303,
+                            FlowCodes = "STANDART_REVIEWER"
+                        },
+                        new
+                        {
+                            Id = 3010,
+                            ActionTypeId = 2,
+                            ActiveStatusId = 302,
+                            ApprovalFlowTemplateId = 11,
+                            AssignStatusId = 304,
+                            FlowCodes = "STANDART_REVIEWER"
+                        },
+                        new
+                        {
+                            Id = 3011,
+                            ActionTypeId = 6,
+                            ActiveStatusId = 300,
+                            ApprovalFlowTemplateId = 9,
+                            AssignStatusId = 306,
+                            FlowCodes = "STANDART_REVIEWER"
+                        },
+                        new
+                        {
+                            Id = 3012,
+                            ActionTypeId = 4,
+                            ActiveStatusId = 301,
+                            ApprovalFlowTemplateId = 10,
+                            AssignStatusId = 300,
+                            FlowCodes = "STANDART_REVIEWER"
+                        },
+                        new
+                        {
+                            Id = 3013,
+                            ActionTypeId = 4,
+                            ActiveStatusId = 302,
+                            ApprovalFlowTemplateId = 11,
+                            AssignStatusId = 300,
+                            FlowCodes = "STANDART_REVIEWER"
+                        },
+                        new
+                        {
+                            Id = 3014,
+                            ActionTypeId = 4,
+                            ActiveStatusId = 303,
+                            ApprovalFlowTemplateId = 12,
+                            AssignStatusId = 300,
+                            FlowCodes = "STANDART_REVIEWER"
+                        },
+                        new
+                        {
+                            Id = 3015,
+                            ActionTypeId = 5,
+                            ActiveStatusId = 301,
+                            ApprovalFlowTemplateId = 10,
+                            AssignStatusId = 305,
+                            FlowCodes = "STANDART_REVIEWER"
+                        },
+                        new
+                        {
+                            Id = 3016,
+                            ActionTypeId = 5,
+                            ActiveStatusId = 302,
+                            ApprovalFlowTemplateId = 11,
+                            AssignStatusId = 305,
+                            FlowCodes = "STANDART_REVIEWER"
+                        },
+                        new
+                        {
+                            Id = 3017,
+                            ActionTypeId = 5,
+                            ActiveStatusId = 303,
+                            ApprovalFlowTemplateId = 12,
+                            AssignStatusId = 305,
+                            FlowCodes = "STANDART_REVIEWER"
+                        });
                 });
 
             modelBuilder.Entity("ProcApi.Domain.Entities.Role", b =>
@@ -848,6 +1549,11 @@ namespace ProcApi.Infrastructure.Migrations
                         {
                             Id = 12,
                             Name = "InvoiceKeyUser"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            Name = "Reviewer"
                         });
                 });
 
@@ -938,6 +1644,16 @@ namespace ProcApi.Infrastructure.Migrations
                         },
                         new
                         {
+                            RoleId = 2,
+                            PermissionId = 25
+                        },
+                        new
+                        {
+                            RoleId = 2,
+                            PermissionId = 26
+                        },
+                        new
+                        {
                             RoleId = 1,
                             PermissionId = 4
                         },
@@ -968,8 +1684,38 @@ namespace ProcApi.Infrastructure.Migrations
                         },
                         new
                         {
+                            RoleId = 9,
+                            PermissionId = 24
+                        },
+                        new
+                        {
+                            RoleId = 6,
+                            PermissionId = 8
+                        },
+                        new
+                        {
+                            RoleId = 5,
+                            PermissionId = 8
+                        },
+                        new
+                        {
                             RoleId = 10,
                             PermissionId = 15
+                        },
+                        new
+                        {
+                            RoleId = 7,
+                            PermissionId = 11
+                        },
+                        new
+                        {
+                            RoleId = 8,
+                            PermissionId = 11
+                        },
+                        new
+                        {
+                            RoleId = 8,
+                            PermissionId = 27
                         });
                 });
 
@@ -1499,6 +2245,11 @@ namespace ProcApi.Infrastructure.Migrations
 
             modelBuilder.Entity("ProcApi.Domain.Entities.PurchaseRequestItem", b =>
                 {
+                    b.HasOne("ProcApi.Domain.Entities.User", "Buyer")
+                        .WithMany()
+                        .HasForeignKey("BuyerId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("ProcApi.Domain.Entities.Material", "Material")
                         .WithMany()
                         .HasForeignKey("MaterialId")
@@ -1517,6 +2268,8 @@ namespace ProcApi.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Buyer");
+
                     b.Navigation("Material");
 
                     b.Navigation("PurchaseRequest");
@@ -1524,7 +2277,7 @@ namespace ProcApi.Infrastructure.Migrations
                     b.Navigation("UnitOfMeasure");
                 });
 
-            modelBuilder.Entity("ProcApi.Domain.Entities.ReleaseStrategy", b =>
+            modelBuilder.Entity("ProcApi.Domain.Entities.ReleaseStrategyTemplate", b =>
                 {
                     b.HasOne("ProcApi.Domain.Entities.ApprovalFlowTemplate", "ApprovalFlowTemplate")
                         .WithMany()

@@ -22,5 +22,11 @@ public class PurchaseRequestItemConfiguration : IEntityTypeConfiguration<Purchas
             .WithMany()
             .HasForeignKey(prdi => prdi.UnitOfMeasureId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        builder.HasOne(prdi => prdi.Buyer)
+            .WithMany()
+            .HasForeignKey(prdi => prdi.BuyerId)
+            .OnDelete(DeleteBehavior.Cascade)
+            .IsRequired(false);
     }
 }

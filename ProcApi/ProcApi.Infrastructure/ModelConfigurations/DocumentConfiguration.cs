@@ -18,5 +18,10 @@ public class DocumentConfiguration : IEntityTypeConfiguration<Document>
             .WithOne(da => da.Document)
             .HasForeignKey(da => da.DocumentId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        builder.Property(d => d.FlowCodes)
+            .HasColumnType("varchar")
+            .HasMaxLength(300)
+            .IsRequired();
     }
 }

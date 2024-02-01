@@ -25,7 +25,7 @@ public class InvoiceItemRepository : GenericRepository<InvoiceItem>, IInvoiceIte
     {
         return await _context.InvoiceDocumentItems
             .Where(idi => purchaseItemIds.Contains(idi.PurchaseRequestItemId)
-                          && idi.Invoice.Document.StatusId == status)
+                          && idi.Invoice.Document.DocumentStatusId == status)
             .ToListAsync();
     }
 }

@@ -13,12 +13,12 @@ namespace ProcApi.Infrastructure.Migrations
             migrationBuilder.RenameColumn(
                 name: "DocumentTypeId",
                 table: "Documents",
-                newName: "TypeId");
+                newName: "DocumentTypeId");
 
             migrationBuilder.RenameColumn(
                 name: "DocumentStatusId",
                 table: "Documents",
-                newName: "StatusId");
+                newName: "DocumentStatusId");
 
             migrationBuilder.RenameColumn(
                 name: "DocumentNumber",
@@ -30,12 +30,12 @@ namespace ProcApi.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.RenameColumn(
-                name: "TypeId",
+                name: "DocumentTypeId",
                 table: "Documents",
                 newName: "DocumentTypeId");
 
             migrationBuilder.RenameColumn(
-                name: "StatusId",
+                name: "DocumentStatusId",
                 table: "Documents",
                 newName: "DocumentStatusId");
 

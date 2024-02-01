@@ -23,7 +23,7 @@ public class DocumentRepository : GenericRepository<Document>, IDocumentReposito
     {
         return await _context.Documents
             .Where(doc => doc.Id == docId)
-            .Select(doc => doc.StatusId)
+            .Select(doc => doc.DocumentStatusId)
             .SingleOrDefaultAsync();
     }
 }

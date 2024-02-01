@@ -14,7 +14,6 @@ namespace ProcApi.Application.Services.Concreates;
 
 public class AuthenticationService : IAuthenticationService
 {
-    private readonly IUserService _userService;
     private readonly IUserRepository _userRepository;
     private readonly IUserSettingRepository _userSettingRepository;
     private readonly JwtOptions _jwtOptions;
@@ -22,15 +21,13 @@ public class AuthenticationService : IAuthenticationService
     private readonly UserOptions _userOptions;
     private readonly ProcDbContext _context;
 
-    public AuthenticationService(IUserService userService,
-        IUserRepository userRepository,
+    public AuthenticationService(IUserRepository userRepository,
         IUserSettingRepository userSettingRepository,
         IOptions<JwtOptions> jwtOptions,
         IOptions<PasswordOptions> passwordOptions,
         IOptions<UserOptions> userOptions,
         ProcDbContext context)
     {
-        _userService = userService;
         _userRepository = userRepository;
         _userSettingRepository = userSettingRepository;
         _jwtOptions = jwtOptions.Value;
@@ -41,7 +38,7 @@ public class AuthenticationService : IAuthenticationService
 
     public async Task Register(RegistrationDto dto)
     {
-        var isAlreadyExists = await _userService.AlreadyExists(dto.Login);
+        var isAlreadyExists = await _userRepository.ExistsByLogin(dto.Login);
 
         if (isAlreadyExists)
             throw new Exception("User with login already exits");
@@ -83,7 +80,7 @@ public class AuthenticationService : IAuthenticationService
 
     public async Task<string> Login(LoginDto dto)
     {
-        var user = await _userRepository.FindWithPasswordHashByLogin(dto.Login);
+        var user = await _userRepository.GetWithPasswordHashByLogin(dto.Login);
 
         if (user is null)
             throw new ValidationException("user not found");

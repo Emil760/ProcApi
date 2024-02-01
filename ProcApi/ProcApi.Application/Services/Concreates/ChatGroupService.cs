@@ -43,7 +43,7 @@ public class ChatGroupService : IChatGroupService
     {
         var chat = new Chat
         {
-            ChatType = ChatType.Group
+            ChatTypeId = ChatType.Group
         };
 
         var group = new Group

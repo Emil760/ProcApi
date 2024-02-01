@@ -29,6 +29,7 @@ public class PurchaseRequestRepository : GenericRepository<PurchaseRequest>,
             .Include(d => d.Document.Actions)
             .ThenInclude(d => d.Performer)
             .Include(prd => prd.Items)
+            .ThenInclude(i => i.Buyer)
             .SingleOrDefaultAsync(prd => prd.DocumentId == docId);
     }
 }

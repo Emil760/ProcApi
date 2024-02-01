@@ -14,4 +14,6 @@ public class PurchaseRequestItem
     public decimal Quantity { get; set; }
     public decimal Price { get; set; }
     public ItemStatus ItemStatusId { get; set; }
+    public int? BuyerId { get; set; }
+    public User? Buyer { get; set; }
 }

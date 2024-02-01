@@ -5,9 +5,10 @@ public enum DocumentStatus
     #region PurchaseRequest
 
     PurchaseRequestDraft = 100,
+    PurchaseRequestWaitingForHeadOfProcurement,
+    PurchaseRequestWaitingForProcurementDirector,
     PurchaseRequestWaitingForBuyer,
     PurchaseRequestWaitingFinance,
-    PurchaseRequestWaitingForHeadOfProcurement,
     PurchaseRequestApproved,
     PurchaseRequestCanceled,
     PurchaseRequestRejected,
@@ -17,9 +18,10 @@ public enum DocumentStatus
     #region ServiceRequest
 
     ServiceRequestDraft = 200,
+    ServiceRequestWaitingForHeadOfProcurement,
+    ServiceRequestWaitingForProcurementDirector,
     ServiceRequestWaitingForBuyer,
     ServiceRequestWaitingFinance,
-    ServiceRequestWaitingForHeadOfProcurement,
     ServiceRequestApproved,
     ServiceRequestCanceled,
     ServiceRequestRejected,
@@ -29,8 +31,9 @@ public enum DocumentStatus
     #region Invoices
 
     InvoiceDraft = 300,
-    InvoiceWaitingForReviewer,
+    InvoiceWaitingForCoordinator,
     InvoiceWaitingForFinance,
+    InvoiceWaitingForReviewer,
     InvoiceApproved,
     InvoiceRejected,
     InvoiceCanceled

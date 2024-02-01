@@ -13,13 +13,16 @@ public static class RepositoriesConfigurationExtension
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IUserSettingRepository, UserSettingRepository>();
         services.AddScoped<IDelegationRepository, DelegationRepository>();
-        
+        services.AddScoped<IRoleRepository, RoleRepository>();
+
         services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+
+        services.AddScoped<IDocumentValidationConfigurationRepository, DocumentValidationConfigurationRepository>();
 
         services.AddScoped<IDocumentRepository, DocumentRepository>();
         services.AddScoped<IDocumentActionRepository, DocumentActionRepository>();
         services.AddScoped<IApprovalFlowTemplateRepository, ApprovalFlowTemplateRepository>();
-        services.AddScoped<IReleaseStrategyRepository, ReleaseStrategyRepository>();
+        services.AddScoped<IReleaseStrategyTemplateRepository, ReleaseStrategyTemplateTemplatesRepository>();
 
         services.AddScoped<IPurchaseRequestRepository, PurchaseRequestRepository>();
         services.AddScoped<IPurchaseRequestItemsRepository, PurchaseRequestItemsRepository>();
@@ -37,5 +40,7 @@ public static class RepositoriesConfigurationExtension
 
         services.AddScoped<ICategoryRepository, CategoryRepository>();
         services.AddScoped<IMaterialRepository, MaterialRepository>();
+        services.AddScoped<IProjectRepository, ProjectRepository>();
+        services.AddScoped<IUnitOfMeasureRepository, UnitOfMeasuresRepository>();
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProcApi.Domain.Entities;
+using ProcApi.Domain.Enums;
 using ProcApi.Infrastructure.Data;
 using ProcApi.Infrastructure.Repositories.Abstracts;
 
@@ -31,10 +32,25 @@ public class DocumentActionRepository : GenericRepository<DocumentAction>, IDocu
         return await actions.AnyAsync(da => da.AssignerId == userId || delegations);
     }
 
-    public async Task<IEnumerable<DocumentAction>> GetByDocIdAsync(int docId)
+    public async Task<IEnumerable<DocumentAction?>> GetByDocIdAsync(int docId)
     {
         return await _context.DocumentActions
             .Where(da => da.DocumentId == docId)
             .ToListAsync();
+    }
+
+    public async Task<DocumentAction?> GetByDocumentIdAndRole(int documentId, Roles role)
+    {
+        return await _context.DocumentActions
+            .Where(da => da.DocumentId == documentId
+                         && da.RoleId == (int)role)
+            .SingleOrDefaultAsync();
+    }
+
+    public async Task<bool> HasByDocumentIdAndRoleAndUserId(int documentId, int userId, Roles role)
+    {
+        return await _context.DocumentActions
+            .Where(da => da.DocumentId == documentId && da.AssignerId == userId && da.RoleId == (int)role)
+            .AnyAsync();
     }
 }

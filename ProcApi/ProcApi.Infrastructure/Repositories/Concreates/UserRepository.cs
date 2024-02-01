@@ -19,16 +19,31 @@ public class UserRepository : GenericRepository<User>, IUserRepository
     {
     }
 
-    public async Task<User?> GetByLogin(string login)
-    {
-        return await _context.Users
-            .Where(u => u.Login == login)
-            .SingleOrDefaultAsync();
-    }
-
     public async Task<User> GetByIdCompiled(int id)
     {
         return await GetById(_context, id);
+    }
+
+    public async Task<IEnumerable<User>> GetAllWithRoles(string search)
+    {
+        return await _context.Users
+            .Include(u => u.Roles)
+            .Where(u => u.Login.Contains(search) || u.Roles.Any(r => r.Name.Contains(search)))
+            .ToListAsync();
+    }
+
+    public async Task<IEnumerable<User>> GetAllByRoleAsync(int roleId)
+    {
+        return await _context.Users
+            .Where(u => u.Roles.Any(r => r.Id == roleId))
+            .ToListAsync();
+    }
+
+    public async Task<IEnumerable<User>> GetAllByRoleNameAsync(string name)
+    {
+        return await _context.Users
+            .Where(u => u.Roles.Any(r => EF.Functions.ILike(r.Name, $"%{name}%")))
+            .ToListAsync();
     }
 
     public async Task<IEnumerable<User>> GetByIdsAsync(params int[] userIds)
@@ -38,21 +53,21 @@ public class UserRepository : GenericRepository<User>, IUserRepository
             .ToListAsync();
     }
 
-    public async Task<User?> FindWithRolesById(int id)
+    public async Task<User?> GetWithRolesById(int id)
     {
         return await _context.Users
             .Include(u => u.Roles)
             .SingleOrDefaultAsync(u => u.Id == id);
     }
 
-    public async Task<string?> ExistsByLogin(string login)
+    public async Task<bool> ExistsByLogin(string login)
     {
-        return await _context.Users.Where(u => u.Login == login)
-            .Select(u => u.Login)
-            .FirstOrDefaultAsync();
+        return await _context.Users
+            .Where(u => u.Login == login)
+            .AnyAsync();
     }
 
-    public async Task<User?> FindWithPasswordHashByLogin(string login)
+    public async Task<User?> GetWithPasswordHashByLogin(string login)
     {
         return await _context.Users
             .Include(u => u.UserPassword)
@@ -109,12 +124,17 @@ public class UserRepository : GenericRepository<User>, IUserRepository
         return await u1.Union(u2).ToListAsync();
     }
 
-    public async Task<User?> GetWithRoles(int id)
+    public async Task<bool> HasRoleAsync(int id, Roles role)
     {
-        return await _context.Users
-            .Include(u => u.Roles)
+        var u1 = _context.Users
             .Where(u => u.Id == id)
-            .FirstOrDefaultAsync();
+            .SelectMany(u => u.Roles.Select(r => r.Id));
+
+        var u2 = _context.Delegations
+            .Where(d => d.ToUserId == id && d.EndDate >= DateTime.Now.Date)
+            .SelectMany(d => d.FromUser.Roles.Select(r => r.Id));
+
+        return await u1.Union(u2).AnyAsync(u => u == (int)role);
     }
 
     public async Task<Paginator<User>> GetAllPaginated(PaginationModel pagination)
@@ -126,7 +146,7 @@ public class UserRepository : GenericRepository<User>, IUserRepository
         return await Paginator<User>.FromQuery(query, pagination.PageNumber, pagination.PageSize);
     }
 
-    public async Task<User?> GetByUserIdAndRole(int userId, Roles role)
+    public async Task<User?> GetByIdAndRoleId(int userId, Roles role)
     {
         return await _context.Users
             .Where(u => u.Id == userId

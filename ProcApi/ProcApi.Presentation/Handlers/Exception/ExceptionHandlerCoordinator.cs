@@ -11,14 +11,16 @@ public class ExceptionHandlerCoordinator
     public ExceptionHandlerCoordinator(GeneralExceptionHandler generalExceptionHandler,
         NotFoundExceptionHandler notFoundExceptionHandler,
         ValidationExceptionHandler validationExceptionHandler,
-        UnauthorizedExceptionHandler unauthorizedExceptionHandler)
+        UnauthorizedExceptionHandler unauthorizedExceptionHandler,
+        MultipleExceptionHandler multipleExceptionHandler)
     {
         _generalExceptionHandler = generalExceptionHandler;
-        
+
         _handlers[typeof(System.Exception)] = generalExceptionHandler;
         _handlers[typeof(NotFoundException)] = notFoundExceptionHandler;
         _handlers[typeof(ValidationException)] = validationExceptionHandler;
         _handlers[typeof(UnauthorizedException)] = unauthorizedExceptionHandler;
+        _handlers[typeof(MultipleException)] = multipleExceptionHandler;
     }
 
     public ExceptionModel Handle(System.Exception exception)

@@ -19,7 +19,7 @@ public class PurchaseRequestItemsRepository : GenericRepository<PurchaseRequestI
             .ToListAsync();
     }
 
-    public async Task<IEnumerable<PurchaseRequestItem>> GetByIds(IEnumerable<int> itemIds)
+    public async Task<IEnumerable<PurchaseRequestItem>> GetByIdsAsync(IEnumerable<int> itemIds)
     {
         return await _context.PurchaseRequestItems
             .Where(pri => itemIds.Contains(pri.Id))

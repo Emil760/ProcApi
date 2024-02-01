@@ -47,7 +47,7 @@ public class ChatProfile : CommonProfile
                 src.Chat.ChatMessages.FirstOrDefault() == null
                     ? null
                     : src.Chat.ChatMessages.FirstOrDefault()))
-            .ForMember(dest => dest.ChatType, opt => opt.MapFrom(src => src.Chat.ChatType));
+            .ForMember(dest => dest.ChatType, opt => opt.MapFrom(src => src.Chat.ChatTypeId));
 
         CreateMap<Group, ChatResponseDto>()
             .ForMember(dest => dest.ChatId, opt => opt.MapFrom(src => src.ChatId))
@@ -56,6 +56,6 @@ public class ChatProfile : CommonProfile
                 src.Chat.ChatMessages.FirstOrDefault() == null
                     ? null
                     : src.Chat.ChatMessages.FirstOrDefault()))
-            .ForMember(dest => dest.ChatType, opt => opt.MapFrom(src => src.Chat.ChatType));
+            .ForMember(dest => dest.ChatType, opt => opt.MapFrom(src => src.Chat.ChatTypeId));
     }
 }

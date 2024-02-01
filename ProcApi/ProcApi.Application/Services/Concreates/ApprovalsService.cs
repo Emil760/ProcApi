@@ -15,29 +15,31 @@ public class ApprovalsService : IApprovalsService
     private readonly IApprovalFlowTemplateRepository _flowTemplateRepository;
     private readonly IUserRepository _userRepository;
     private readonly IDocumentRepository _documentRepository;
-    private readonly IReleaseStrategyRepository _releaseStrategyRepository;
+    private readonly IReleaseStrategyTemplateRepository _releaseStrategyTemplateRepository;
+    private readonly IDocumentActionRepository _documentActionRepository;
     private readonly IStringLocalizer<SharedResource> _localizer;
     private readonly IUnitOfWork _unitOfWork;
 
     public ApprovalsService(IApprovalFlowTemplateRepository flowTemplateRepository,
         IUserRepository userRepository,
         IDocumentRepository documentRepository,
-        IReleaseStrategyRepository releaseStrategyRepository,
+        IReleaseStrategyTemplateRepository releaseStrategyTemplateRepository,
+        IDocumentActionRepository documentActionRepository,
         IStringLocalizer<SharedResource> localizer,
         IUnitOfWork unitOfWork)
     {
         _flowTemplateRepository = flowTemplateRepository;
         _userRepository = userRepository;
         _documentRepository = documentRepository;
-        _releaseStrategyRepository = releaseStrategyRepository;
+        _releaseStrategyTemplateRepository = releaseStrategyTemplateRepository;
+        _documentActionRepository = documentActionRepository;
         _localizer = localizer;
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<IEnumerable<DocumentAction>> InitApprovals(int userId, DocumentType type)
+    public async Task<IEnumerable<DocumentAction>> InitApprovals(int documentId, int userId, DocumentType type)
     {
         var flowTemplates = await _flowTemplateRepository.GetInitialWithUserByDocumentType(type);
-
         if (!flowTemplates.Any())
             throw new Exception("no flow template was found");
 
@@ -59,7 +61,7 @@ public class ApprovalsService : IApprovalsService
 
     private async Task<DocumentAction> CreateActionForCreator(int userId, ApprovalFlowTemplate template)
     {
-        var user = await _userRepository.GetWithRoles(userId);
+        var user = await _userRepository.GetWithRolesById(userId);
 
         var userRoles = user!.Roles.Select(r => r.Id);
 
@@ -105,7 +107,8 @@ public class ApprovalsService : IApprovalsService
             throw new NotFoundException(_localizer["DocumentNotFound"]);
 
         var releaseStrategy =
-            await _releaseStrategyRepository.GetWithFlowTemplateAsync(document.StatusId, dto.ActionType);
+            await _releaseStrategyTemplateRepository.GetWithFlowTemplateByStatusAndTypeAndConfigurationAsync(
+                document.FlowCodes, document.DocumentStatusId, dto.ActionType);
 
         if (releaseStrategy is null)
             throw new Exception(
@@ -141,7 +144,8 @@ public class ApprovalsService : IApprovalsService
         var document = await _documentRepository.GetWithActionsAsync(dto.DocId);
 
         var releaseStrategy =
-            await _releaseStrategyRepository.GetWithFlowTemplateAsync(document!.StatusId, dto.ActionType);
+            await _releaseStrategyTemplateRepository.GetWithFlowTemplateByStatusAndTypeAndConfigurationAsync(
+                document.FlowCodes, document.DocumentStatusId, dto.ActionType);
 
         var performedCount = document.Actions.Count(da => da.IsPerformed);
 
@@ -155,7 +159,19 @@ public class ApprovalsService : IApprovalsService
         currApprover.ActionPerformed = DateTime.Now;
         currApprover.IsPerformed = true;
 
-        document.StatusId = releaseStrategy!.AssignStatusId;
+        if (releaseStrategy.ApprovalFlowTemplate.IsMultiple)
+        {
+            var allMultipleAssignerPerformed = document.Actions
+                .Where(da => da.RoleId == currApprover.RoleId)
+                .All(da => da.IsPerformed);
+
+            if (allMultipleAssignerPerformed)
+                document.DocumentStatusId = releaseStrategy!.AssignStatusId;
+        }
+        else
+        {
+            document.DocumentStatusId = releaseStrategy!.AssignStatusId;
+        }
 
         await _unitOfWork.SaveChangesAsync();
     }
@@ -165,7 +181,8 @@ public class ApprovalsService : IApprovalsService
         var document = await _documentRepository.GetWithActionsAsync(dto.DocId);
 
         var releaseStrategy =
-            await _releaseStrategyRepository.GetWithFlowTemplateAsync(document!.StatusId, dto.ActionType);
+            await _releaseStrategyTemplateRepository.GetWithFlowTemplateByStatusAndTypeAndConfigurationAsync(
+                document.FlowCodes, document.DocumentStatusId, dto.ActionType);
 
         foreach (var docAction in document.Actions)
         {
@@ -173,7 +190,7 @@ public class ApprovalsService : IApprovalsService
             docAction.ActionPerformed = null;
         }
 
-        document.StatusId = releaseStrategy!.AssignStatusId;
+        document.DocumentStatusId = releaseStrategy!.AssignStatusId;
 
         await _unitOfWork.SaveChangesAsync();
     }
@@ -183,10 +200,146 @@ public class ApprovalsService : IApprovalsService
         var document = await _documentRepository.GetByIdAsync(dto.DocId);
 
         var releaseStrategy =
-            await _releaseStrategyRepository.GetWithFlowTemplateAsync(document.StatusId, dto.ActionType);
+            await _releaseStrategyTemplateRepository.GetWithFlowTemplateByStatusAndTypeAndConfigurationAsync(
+                document.FlowCodes, document.DocumentStatusId, dto.ActionType);
 
-        document.StatusId = releaseStrategy!.AssignStatusId;
+        document.DocumentStatusId = releaseStrategy!.AssignStatusId;
 
         await _unitOfWork.SaveChangesAsync();
+    }
+
+    public async Task AddApprovalToDocument(int documentId, int userId, Roles role, DocumentType documentType)
+    {
+        var userHasRole = await _userRepository.HasRoleAsync(userId, role);
+        if (!userHasRole)
+            throw new NotFoundException(_localizer["UserNotFoundOrNotInRole"]);
+
+        var alreadyHasPerformer = await _documentActionRepository.HasByDocumentIdAndRoleAndUserId(
+            documentId, userId, role);
+
+        if (alreadyHasPerformer)
+        {
+            var performer = await _documentActionRepository.GetByDocumentIdAndRole(documentId, role);
+            performer.AssignerId = userId;
+            performer.ActionAssigned = DateTime.Now;
+            await _unitOfWork.SaveChangesAsync();
+            return;
+        }
+
+        var document = await _documentRepository.GetByIdAsync(documentId);
+        if (document is null)
+            throw new NotFoundException(_localizer["DocNotFound"]);
+
+        var flowTemplate = await _flowTemplateRepository.GetByRoleAndDocumentTypeAndMultiple(role, documentType, false);
+        if (flowTemplate is null)
+            throw new Exception($"flow template not found for role: {role} doc type: {documentType}");
+
+        AddFlowCodeToDocument(document, flowTemplate.FlowCode);
+
+        _documentActionRepository.Insert(new DocumentAction()
+        {
+            DocumentId = documentId,
+            AssignerId = userId,
+            IsAssigned = true,
+            ActionAssigned = DateTime.Now,
+            IsPerformed = false,
+            ActionPerformed = null,
+            RoleId = (int)role,
+            Order = flowTemplate.Order
+        });
+
+        await _unitOfWork.SaveChangesAsync();
+    }
+
+    public async Task RemoveApprovalFromDocument(int documentId, int userId, Roles role, DocumentType documentType)
+    {
+        var alreadyHasPerformer = await _documentActionRepository.HasByDocumentIdAndRoleAndUserId(
+            documentId, userId, role);
+
+        if (!alreadyHasPerformer)
+            return;
+
+        var document = await _documentRepository.GetWithActionsAsync(documentId);
+        if (document is null)
+            throw new NotFoundException(_localizer["DocNotFound"]);
+
+        var flowTemplate = await _flowTemplateRepository.GetByRoleAndDocumentTypeAndMultiple(role, documentType, false);
+        if (flowTemplate is null)
+            throw new Exception($"multiple flow template not found for role: {role} doc type: {documentType}");
+
+        RemoveFlowCodeFromDocument(document, flowTemplate.FlowCode);
+
+        var documentAction = document.Actions.SingleOrDefault(da => da.RoleId == (int)role && da.AssignerId == userId);
+
+        if (documentAction is not null)
+            _documentActionRepository.DeleteById(documentAction);
+
+        await _unitOfWork.SaveChangesAsync();
+    }
+
+    public async Task AddMultipleApprovalToDocument(int documentId, int userId, Roles role, DocumentType documentType)
+    {
+        var userHasRole = await _userRepository.HasRoleAsync(userId, role);
+        if (!userHasRole)
+            throw new NotFoundException(_localizer["UserNotFoundOrNotInRole"]);
+
+        var alreadyHasPerformer = await _documentActionRepository.HasByDocumentIdAndRoleAndUserId(
+            documentId, userId, role);
+
+        if (alreadyHasPerformer)
+            return;
+
+        var document = await _documentRepository.GetByIdAsync(documentId);
+        if (document is null)
+            throw new NotFoundException(_localizer["DocNotFound"]);
+
+        var flowTemplate = await _flowTemplateRepository.GetByRoleAndDocumentTypeAndMultiple(role, documentType, true);
+        if (flowTemplate is null)
+            throw new Exception($"multiple flow template not found for role: {role} doc type: {documentType}");
+
+        AddFlowCodeToDocument(document, flowTemplate.FlowCode);
+
+        _documentActionRepository.Insert(new DocumentAction
+        {
+            DocumentId = documentId,
+            AssignerId = userId,
+            IsAssigned = true,
+            ActionAssigned = DateTime.Now,
+            IsPerformed = false,
+            ActionPerformed = null,
+            RoleId = (int)role,
+            Order = flowTemplate.Order
+        });
+
+        await _unitOfWork.SaveChangesAsync();
+    }
+
+    private void AddFlowCodeToDocument(Document document, string flowCode)
+    {
+        var codes = document.FlowCodes.Split("_");
+        if (codes.All(c => c != flowCode))
+            document.FlowCodes += "_" + flowCode;
+    }
+
+    private void RemoveFlowCodeFromDocument(Document document, string flowCode)
+    {
+        var codes = document.FlowCodes.Split("_");
+        string flowCodes = "";
+        for (int i = 0; i < codes.Length; i++)
+        {
+            if (codes[i] != flowCode)
+            {
+                flowCodes += codes[i];
+                if (i < codes.Length - 1)
+                {
+                    if (codes[i + 1] != flowCode)
+                    {
+                        flowCodes += "_";
+                    }
+                }
+            }
+        }
+
+        document.FlowCodes = flowCodes;
     }
 }

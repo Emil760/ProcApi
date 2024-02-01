@@ -11,4 +11,5 @@ public class DocumentMemberResponseDto
     public bool IsAssigned { get; set; }
     public DateTime? ActionPerformed { get; set; }
     public bool IsPerformed { get; set; }
+    public decimal Order { get; set; }
 }

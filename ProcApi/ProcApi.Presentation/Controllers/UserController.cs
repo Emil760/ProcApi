@@ -26,7 +26,14 @@ public class UserController : BaseController
     {
         return Ok(await _userService.GetUsersAsync());
     }
-    
+
+    [HasPermission(Permissions.CanViewUser)]
+    [HttpGet("GetAllWithRoles")]
+    public async Task<IActionResult> GetAllWithRolesAsync(string? search)
+    {
+        return Ok(await _userService.GetUsersWithRolesAsync(search));
+    }
+
     [HasPermission(Permissions.CanViewUser)]
     [HttpGet("GetById/{id}")]
     public async Task<IActionResult> GetAllAsync([FromRoute] int id)
@@ -48,15 +55,45 @@ public class UserController : BaseController
         return Ok(await _userService.AddUserAsync(dto));
     }
 
-    [HttpGet("RoleNames")]
+    [HasPermission(Permissions.CanGrantRole)]
+    [HttpPost("GrantRole")]
+    public async Task<IActionResult> GrantRoleAsync([FromBody] GrantRoleRequestDto dto)
+    {
+        await _userService.GrantRoleAsync(dto);
+        return Ok();
+    }
+
+    [HasPermission(Permissions.CanRemoveRole)]
+    [HttpDelete("RemoveRole")]
+    public async Task<IActionResult> RemoveRoleAsync([FromBody] RemoveRoleRequestDto dto)
+    {
+        await _userService.RemoveRoleAsync(dto);
+        return Ok();
+    }
+
+    [HttpGet("MyRoleName")]
     public async Task<IActionResult> GetRoleNamesAsync()
     {
         return Ok(await _userService.GetAllRoleNames(UserInfo.UserId));
     }
-        
-    [HttpGet("PermissionNames")]
+
+    [HttpGet("MyPermissionNames")]
     public async Task<IActionResult> GetRolePermissionsAsync()
     {
         return Ok(await _userService.GetPermissionNames(UserInfo.UserId));
+    }
+
+    [HasPermission(Permissions.CanViewUser)]
+    [HttpGet("GetAllByRole")]
+    public async Task<IActionResult> GetAllByRoleAsync(int roleId)
+    {
+        return Ok(await _userService.GetAllByRoleAsync(roleId));
+    }
+
+    [HasPermission(Permissions.CanViewUser)]
+    [HttpGet("GetAllByRoleName")]
+    public async Task<IActionResult> GetAllByRoleNameAsync(string name)
+    {
+        return Ok(await _userService.GetAllByRoleNameAsync(name));
     }
 }

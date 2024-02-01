@@ -77,7 +77,7 @@ public class InvoiceService : IInvoiceService
     {
         var invoice = await _invoiceRepository.GetWithDocumentAndItemsByDocId(dto.DocumentId);
 
-        if (invoice.Document.StatusId != DocumentStatus.InvoiceDraft)
+        if (invoice.Document.DocumentStatusId != DocumentStatus.InvoiceDraft)
             throw new ValidationException(_localizer["CantChangeNonDraftDocument"]);
 
         _mapper.Map(dto, invoice);
@@ -133,7 +133,7 @@ public class InvoiceService : IInvoiceService
         if (invoice is null)
             throw new NotFoundException(_localizer["DocumentNotFound"]);
 
-        if (invoice.Document.StatusId != DocumentStatus.InvoiceApproved)
+        if (invoice.Document.DocumentStatusId != DocumentStatus.InvoiceApproved)
             throw new ValidationException(_localizer["DocumentIsNotApproved"]);
 
         var purchaseRequestItemIds = invoice.Items.Select(ini => ini.PurchaseRequestItemId);
@@ -143,7 +143,7 @@ public class InvoiceService : IInvoiceService
                 purchaseRequestItemIds,
                 DocumentStatus.InvoiceApproved);
 
-        var purchaseRequestItems = await _purchaseRequestItemsRepository.GetByIds(purchaseRequestItemIds);
+        var purchaseRequestItems = await _purchaseRequestItemsRepository.GetByIdsAsync(purchaseRequestItemIds);
 
         foreach (var invoiceItem in invoice.Items)
         {

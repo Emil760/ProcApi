@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using ProcApi.Application.DTOs.PurchaseRequestDocument.Response;
+using ProcApi.Application.DTOs.PurchaseRequest.Response;
 using ProcApi.Application.Services.Abstracts;
 using ProcApi.Infrastructure.Repositories.Abstracts;
 

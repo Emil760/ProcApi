@@ -1,5 +1,5 @@
-﻿using ProcApi.Application.DTOs.PurchaseRequestDocument.Requests;
-using ProcApi.Application.DTOs.PurchaseRequestDocument.Response;
+﻿using ProcApi.Application.DTOs.PurchaseRequest.Requests;
+using ProcApi.Application.DTOs.PurchaseRequest.Response;
 using ProcApi.Domain.Entities;
 
 namespace ProcApi.Application.Mappers;
@@ -18,6 +18,7 @@ public class PurchaseRequestProfile : CommonProfile
             .ForMember(dest => dest.BaseDocumentDto, opt => opt.MapFrom(src => src.Document))
             .ForMember(dest => dest.MembersDto, opt => opt.MapFrom(src => src.Document.Actions))
             .ForMember(dest => dest.ItemsDto, opt => opt.MapFrom(src => src.Items))
+            .ForMember(dest => dest.DepartmentId, opt => opt.MapFrom(src => src.RequestedForDepartmentId))
             .ForMember(dest => dest.TotalItemsPrice, opt => opt.MapFrom(src => src.TotalItemsPrice));
 
         CreateMap<PurchaseRequest, SavePRResponseDto>()

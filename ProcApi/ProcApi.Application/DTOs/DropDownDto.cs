@@ -1,4 +1,4 @@
-﻿namespace ProcApi.Application.DTOs.Base;
+﻿namespace ProcApi.Application.DTOs;
 
 public class DropDownDto<T>
 {

@@ -19,6 +19,7 @@ public static class MapperConfigurationExtension
         cfg.AddProfile(new InvoiceItemProfile());
         cfg.AddProfile(new DelegationProfile());
         cfg.AddProfile(new DepartmentProfile());
+        cfg.AddProfile(new UnitOfMeasureProfile());
     }).CreateMapper();
 
     public static void AddAutoMapper(this IServiceCollection services)

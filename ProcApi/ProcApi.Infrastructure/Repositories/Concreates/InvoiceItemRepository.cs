@@ -12,11 +12,18 @@ public class InvoiceItemRepository : GenericRepository<InvoiceItem>, IInvoiceIte
     {
     }
 
-    public async Task<IEnumerable<InvoiceItem>> GetByDocId(int docId)
+    public async Task<IEnumerable<InvoiceItem>> GetByDocIdAsync(int docId)
     {
         return await _context.InvoiceDocumentItems
             .Where(idi => idi.InvoiceId == docId)
             .ToListAsync();
+    }
+
+    public async Task<InvoiceItem?> GetWithUnitOfMeasureByIdAsync(int id)
+    {
+        return await _context.InvoiceDocumentItems
+            .Include(i => i.UnitOfMeasure)
+            .SingleOrDefaultAsync(i => i.Id == id);
     }
 
     public async Task<IEnumerable<InvoiceItem>> GetByPurchaseItemIdsAndStatus(

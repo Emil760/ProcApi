@@ -53,7 +53,8 @@ namespace ProcApi.Infrastructure.Data
         public DbSet<Delegation> Delegations { get; set; }
         public DbSet<Department> Departments { get; set; }
         public DbSet<Project> Projects { get; set; }
-        public DbSet<UnitOfMeasure> UnitOfMeasures { get; set; }
+        public DbSet<UnitOfMeasure?> UnitOfMeasures { get; set; }
+        public DbSet<UnitOfMeasureConverter> UnitOfMeasureConverters { get; set; }
         public DbSet<FeatureConfiguration> Configurations { get; set; }
         public DbSet<Material> Materials { get; set; }
         public DbSet<Category> Categories { get; set; }

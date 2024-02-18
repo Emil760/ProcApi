@@ -8,5 +8,5 @@ public class UnitOfMeasureConverter
     public int TargetUnitOfMeasureId { get; set; }
     public UnitOfMeasure TargetUnitOfMeasure { get; set; }
     public bool IsActive { get; set; }
-    public float Value { get; set; }
+    public decimal Value { get; set; }
 }

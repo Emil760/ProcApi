@@ -57,6 +57,7 @@ public static class ServicesConfigurationExtension
 
         services.AddScoped<ICategoryService, CategoryService>();
         services.AddScoped<IMaterialService, MaterialService>();
+        services.AddScoped<IUnitOfMeasureService, UnitOfMeasureService>();
 
         services.AddScoped<IFileService, FileService>();
 

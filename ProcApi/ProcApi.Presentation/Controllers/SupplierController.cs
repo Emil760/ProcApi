@@ -18,36 +18,36 @@ public class SupplierController : BaseController
         _supplierService = supplierService;
     }
 
-    [HasPermission(Permissions.CanViewSupplier)]
     [HttpGet]
+    [HasPermission(Permissions.CanViewSupplier)]
     public async Task<IActionResult> GetAsync([FromQuery] int id)
     {
         return Ok(await _supplierService.GetSupplierAsync(id));
     }
 
-    [HasPermission(Permissions.CanViewSupplier)]
     [HttpGet("All")]
+    [HasPermission(Permissions.CanViewSupplier)]
     public async Task<IActionResult> GetAllAsync([FromQuery] PaginationModel pagination)
     {
         return Ok(await _supplierService.GetAllSupplierAsync(pagination));
     }
 
-    [HasPermission(Permissions.CanCreateSupplier)]
     [HttpPost]
+    [HasPermission(Permissions.CanCreateSupplier)]
     public async Task<IActionResult> CreateAsync(CreateSupplierRequestDto dto)
     {
         return Ok(await _supplierService.CreateSupplierAsync(dto));
     }
 
-    [HasPermission(Permissions.CanCreateSupplier)]
     [HttpPut]
+    [HasPermission(Permissions.CanCreateSupplier)]
     public async Task<IActionResult> UpdateAsync(UpdateSupplierRequestDto dto)
     {
         return Ok(await _supplierService.UpdateSupplierAsync(dto));
     }
 
-    [HasPermission(Permissions.CanCreateSupplier)]
     [HttpPut("Activate")]
+    [HasPermission(Permissions.CanCreateSupplier)]
     public async Task<IActionResult> ActivateAsync(int id, bool isActivate)
     {
         return Ok(await _supplierService.ActivateSupplier(id, isActivate));

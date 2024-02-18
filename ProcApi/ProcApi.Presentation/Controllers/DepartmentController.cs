@@ -18,22 +18,22 @@ public class DepartmentController : BaseController
         _departmentService = departmentService;
     }
 
-    [HasPermission(Permissions.CanCreateDepartment)]
     [HttpPost]
+    [HasPermission(Permissions.CanCreateDepartment)]
     public async Task<IActionResult> CreateDepartmentAsync(CreateDepartmentDto dto)
     {
         return Ok(await _departmentService.CreateDepartmentAsync(dto));
     }
 
-    [HasPermission(Permissions.CanAssignUserDepartment)]
     [HttpPut("ChangeUserDepartment")]
+    [HasPermission(Permissions.CanAssignUserDepartment)]
     public async Task<IActionResult> ChangeUserDepartmentAsync([FromBody] AssignUserDepartmentDto dto)
     {
         await _departmentService.AssignUserToDepartment(UserInfo.UserId, dto);
         return Ok();
     }
 
-    [HttpGet("all")]
+    [HttpGet("All")]
     public async Task<IActionResult> GetAllAsync([FromQuery] PaginationModel model)
     {
         return Ok(await _departmentService.GetAllAsync(model));

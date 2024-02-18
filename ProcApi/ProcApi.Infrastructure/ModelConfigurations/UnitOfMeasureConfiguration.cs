@@ -8,9 +8,18 @@ public class UnitOfMeasureConfiguration : IEntityTypeConfiguration<UnitOfMeasure
 {
     public void Configure(EntityTypeBuilder<UnitOfMeasure> builder)
     {
+        builder.Property(um => um.IsActive)
+            .HasColumnType("bool")
+            .IsRequired()
+            .HasDefaultValue(true);
+
+        builder.Property(um => um.CanBeDecimal)
+            .HasColumnType("bool")
+            .IsRequired();
+
         builder.HasMany(um => um.Converters)
-            .WithOne(umc => umc.TargetUnitOfMeasure)
-            .HasForeignKey(umc => umc.TargetUnitOfMeasureId)
+            .WithOne(umc => umc.SourceUnitOfMeasure)
+            .HasForeignKey(umc => umc.SourceUnitOfMeasureId)
             .OnDelete(DeleteBehavior.NoAction);
     }
 }

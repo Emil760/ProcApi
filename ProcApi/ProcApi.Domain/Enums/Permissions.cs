@@ -28,5 +28,7 @@ public enum Permissions
     CanChangeReviewer,
     CanGrantRole,
     CanRemoveRole,
-    CanAssignBuyer
+    CanAssignBuyer,
+    CanViewUnitOfMeasure,
+    CanCreateUnitOfMeasure
 }

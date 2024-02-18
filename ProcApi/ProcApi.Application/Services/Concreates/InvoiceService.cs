@@ -22,15 +22,16 @@ public class InvoiceService : IInvoiceService
     private readonly IInvoiceRepository _invoiceRepository;
     private readonly IInvoiceItemRepository _invoiceItemRepository;
     private readonly IPurchaseRequestItemsRepository _purchaseRequestItemsRepository;
+    private readonly IUnitOfMeasureConverterRepository _unitOfMeasureConverterRepository;
     private readonly IStringLocalizer<SharedResource> _localizer;
     private readonly IMapper _mapper;
     private readonly IUnitOfWork _unitOfWork;
 
-    public InvoiceService(
-        IDocumentService documentService,
+    public InvoiceService(IDocumentService documentService,
         IInvoiceRepository invoiceRepository,
         IInvoiceItemRepository invoiceItemRepository,
         IPurchaseRequestItemsRepository purchaseRequestItemsRepository,
+        IUnitOfMeasureConverterRepository unitOfMeasureConverterRepository,
         IStringLocalizer<SharedResource> localizer,
         IMapper mapper,
         IUnitOfWork unitOfWork)
@@ -42,6 +43,7 @@ public class InvoiceService : IInvoiceService
         _localizer = localizer;
         _mapper = mapper;
         _unitOfWork = unitOfWork;
+        _unitOfMeasureConverterRepository = unitOfMeasureConverterRepository;
     }
 
     public async Task<InvoiceResponseDto> GetDocumentAsync(int docId)
@@ -167,6 +169,41 @@ public class InvoiceService : IInvoiceService
         }
 
         await _unitOfWork.SaveChangesAsync();
+    }
+
+    public async Task ChangeUnitOfMeasureItem(ChangeUnitOfMeasureItemDto dto)
+    {
+        var item = await _invoiceItemRepository.GetWithUnitOfMeasureByIdAsync(dto.ItemId);
+        if (item is null)
+            throw new NotFoundException(_localizer["ItemNotFound"]);
+
+        var rule = await _unitOfMeasureConverterRepository.GetBySourceIdAndTargetId(
+            item.UnitOfMeasureId, dto.UnitOfMeasureId);
+
+        if (rule is null)
+            throw new NotFoundException(_localizer["UnitOfMeasureRuleNotFound"]);
+
+        if (!rule.IsActive)
+            throw new ValidationException(_localizer["UnitOfMeasureRuleIsNotActive"]);
+
+        var quantity = item.Quantity / rule.Value;
+
+        if (!item.UnitOfMeasure.CanBeDecimal && !decimal.IsInteger(quantity))
+            throw new ValidationException(_localizer["QuantityMustBeInteger"]);
+
+        item.UnitOfMeasureId = dto.UnitOfMeasureId;
+        item.Quantity = quantity;
+
+        await _unitOfWork.SaveChangesAsync();
+    }
+
+    public async Task<InvoiceItemResponseDto> GetItemAsync(int id)
+    {
+        var item = await _invoiceItemRepository.GetByIdAsync(id);
+        if (item is null)
+            throw new NotFoundException(_localizer["ItemNotFound"]);
+
+        return _mapper.Map<InvoiceItemResponseDto>(item);
     }
 
     private void RecalculateTotalItemsPrice(Invoice document,

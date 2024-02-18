@@ -18,16 +18,16 @@ public class DelegationController : BaseController
         _delegationService = delegationService;
     }
 
-    [HasPermission(Permissions.CanCreateDelegation)]
     [HttpPost]
+    [HasPermission(Permissions.CanCreateDelegation)]
     public async Task<IActionResult> CreateDelegationAsync(CreateDelegationRequestDto dto)
     {
         await _delegationService.CreateDelegationAsync(dto);
         return Ok();
     }
 
-    [HasPermission(Permissions.CanViewDelegation)]
     [HttpGet("all")]
+    [HasPermission(Permissions.CanViewDelegation)]
     public async Task<IActionResult> GetDelegationAsync([FromQuery] PaginationModel dto)
     {
         return Ok(await _delegationService.GetDelegations(dto));

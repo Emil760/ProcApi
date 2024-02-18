@@ -17,15 +17,15 @@ public class CategoryController : BaseController
         _categoryService = categoryService;
     }
 
-    [HasPermission(Permissions.CanViewMaterial)]
     [HttpPost]
+    [HasPermission(Permissions.CanViewMaterial)]
     public async Task<IActionResult> CreateCategory([FromBody] CreateCategoryDto dto)
     {
         return Ok(await _categoryService.CreateCategory(dto));
     }
 
-    [HasPermission(Permissions.CanViewMaterial)]
     [HttpGet("GetByLevel")]
+    [HasPermission(Permissions.CanViewMaterial)]
     public async Task<IActionResult> GetByLevelAsync([FromQuery] int level)
     {
         return Ok(await _categoryService.GetByLevelAsync(level));

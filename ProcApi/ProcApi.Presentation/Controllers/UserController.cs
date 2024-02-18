@@ -20,51 +20,51 @@ public class UserController : BaseController
         _userCachedService = userCachedService;
     }
 
-    [HasPermission(Permissions.CanViewUser)]
     [HttpGet("GetAll")]
+    [HasPermission(Permissions.CanViewUser)]
     public async Task<IActionResult> GetAllAsync()
     {
         return Ok(await _userService.GetUsersAsync());
     }
 
-    [HasPermission(Permissions.CanViewUser)]
     [HttpGet("GetAllWithRoles")]
+    [HasPermission(Permissions.CanViewUser)]
     public async Task<IActionResult> GetAllWithRolesAsync(string? search)
     {
         return Ok(await _userService.GetUsersWithRolesAsync(search));
     }
 
-    [HasPermission(Permissions.CanViewUser)]
     [HttpGet("GetById/{id}")]
+    [HasPermission(Permissions.CanViewUser)]
     public async Task<IActionResult> GetAllAsync([FromRoute] int id)
     {
         return Ok(await _userService.GetByIdAsync(id));
     }
 
-    [HasPermission(Permissions.CanViewUser)]
     [HttpGet("GetCached")]
+    [HasPermission(Permissions.CanViewUser)]
     public async Task<IActionResult> GetCachedAsync(int userId)
     {
         return Ok(await _userCachedService.GetByIdAsync(userId));
     }
 
-    [HasPermission(Permissions.CanCreateUser)]
     [HttpPost]
+    [HasPermission(Permissions.CanCreateUser)]
     public async Task<IActionResult> CreateUser([FromBody] AddUserDto dto)
     {
         return Ok(await _userService.AddUserAsync(dto));
     }
 
-    [HasPermission(Permissions.CanGrantRole)]
     [HttpPost("GrantRole")]
+    [HasPermission(Permissions.CanGrantRole)]
     public async Task<IActionResult> GrantRoleAsync([FromBody] GrantRoleRequestDto dto)
     {
         await _userService.GrantRoleAsync(dto);
         return Ok();
     }
 
-    [HasPermission(Permissions.CanRemoveRole)]
     [HttpDelete("RemoveRole")]
+    [HasPermission(Permissions.CanRemoveRole)]
     public async Task<IActionResult> RemoveRoleAsync([FromBody] RemoveRoleRequestDto dto)
     {
         await _userService.RemoveRoleAsync(dto);
@@ -83,15 +83,15 @@ public class UserController : BaseController
         return Ok(await _userService.GetPermissionNames(UserInfo.UserId));
     }
 
-    [HasPermission(Permissions.CanViewUser)]
     [HttpGet("GetAllByRole")]
+    [HasPermission(Permissions.CanViewUser)]
     public async Task<IActionResult> GetAllByRoleAsync(int roleId)
     {
         return Ok(await _userService.GetAllByRoleAsync(roleId));
     }
 
-    [HasPermission(Permissions.CanViewUser)]
     [HttpGet("GetAllByRoleName")]
+    [HasPermission(Permissions.CanViewUser)]
     public async Task<IActionResult> GetAllByRoleNameAsync(string name)
     {
         return Ok(await _userService.GetAllByRoleNameAsync(name));

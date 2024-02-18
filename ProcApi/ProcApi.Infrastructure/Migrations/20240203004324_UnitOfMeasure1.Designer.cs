@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ProcApi.Domain.Entities;
@@ -13,9 +14,11 @@ using ProcApi.Infrastructure.Data;
 namespace ProcApi.Infrastructure.Migrations
 {
     [DbContext(typeof(ProcDbContext))]
-    partial class ProcDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240203004324_UnitOfMeasure1")]
+    partial class UnitOfMeasure1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -874,16 +877,6 @@ namespace ProcApi.Infrastructure.Migrations
                         {
                             Id = 27,
                             Name = "CanAssignBuyer"
-                        },
-                        new
-                        {
-                            Id = 28,
-                            Name = "CanViewUnitOfMeasure"
-                        },
-                        new
-                        {
-                            Id = 29,
-                            Name = "CanCreateUnitOfMeasure"
                         });
                 });
 
@@ -1585,17 +1578,7 @@ namespace ProcApi.Infrastructure.Migrations
                         new
                         {
                             RoleId = 2,
-                            PermissionId = 1
-                        },
-                        new
-                        {
-                            RoleId = 2,
-                            PermissionId = 2
-                        },
-                        new
-                        {
-                            RoleId = 2,
-                            PermissionId = 3
+                            PermissionId = 15
                         },
                         new
                         {
@@ -1605,27 +1588,7 @@ namespace ProcApi.Infrastructure.Migrations
                         new
                         {
                             RoleId = 2,
-                            PermissionId = 5
-                        },
-                        new
-                        {
-                            RoleId = 2,
-                            PermissionId = 6
-                        },
-                        new
-                        {
-                            RoleId = 2,
-                            PermissionId = 7
-                        },
-                        new
-                        {
-                            RoleId = 2,
-                            PermissionId = 8
-                        },
-                        new
-                        {
-                            RoleId = 2,
-                            PermissionId = 9
+                            PermissionId = 3
                         },
                         new
                         {
@@ -1635,12 +1598,7 @@ namespace ProcApi.Infrastructure.Migrations
                         new
                         {
                             RoleId = 2,
-                            PermissionId = 11
-                        },
-                        new
-                        {
-                            RoleId = 2,
-                            PermissionId = 12
+                            PermissionId = 9
                         },
                         new
                         {
@@ -1650,12 +1608,7 @@ namespace ProcApi.Infrastructure.Migrations
                         new
                         {
                             RoleId = 2,
-                            PermissionId = 14
-                        },
-                        new
-                        {
-                            RoleId = 2,
-                            PermissionId = 15
+                            PermissionId = 2
                         },
                         new
                         {
@@ -1665,42 +1618,32 @@ namespace ProcApi.Infrastructure.Migrations
                         new
                         {
                             RoleId = 2,
-                            PermissionId = 17
+                            PermissionId = 7
                         },
                         new
                         {
                             RoleId = 2,
-                            PermissionId = 18
+                            PermissionId = 12
                         },
                         new
                         {
                             RoleId = 2,
-                            PermissionId = 19
+                            PermissionId = 14
                         },
                         new
                         {
                             RoleId = 2,
-                            PermissionId = 20
+                            PermissionId = 8
                         },
                         new
                         {
                             RoleId = 2,
-                            PermissionId = 21
-                        },
-                        new
-                        {
-                            RoleId = 2,
-                            PermissionId = 22
+                            PermissionId = 11
                         },
                         new
                         {
                             RoleId = 2,
                             PermissionId = 23
-                        },
-                        new
-                        {
-                            RoleId = 2,
-                            PermissionId = 24
                         },
                         new
                         {
@@ -1711,21 +1654,6 @@ namespace ProcApi.Infrastructure.Migrations
                         {
                             RoleId = 2,
                             PermissionId = 26
-                        },
-                        new
-                        {
-                            RoleId = 2,
-                            PermissionId = 27
-                        },
-                        new
-                        {
-                            RoleId = 2,
-                            PermissionId = 28
-                        },
-                        new
-                        {
-                            RoleId = 2,
-                            PermissionId = 29
                         },
                         new
                         {
@@ -1842,13 +1770,8 @@ namespace ProcApi.Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<bool>("CanBeDecimal")
-                        .HasColumnType("bool");
-
                     b.Property<bool>("IsActive")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bool")
-                        .HasDefaultValue(true);
+                        .HasColumnType("boolean");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -1867,10 +1790,15 @@ namespace ProcApi.Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<bool>("CanBeDecimal")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false);
+
                     b.Property<bool>("IsActive")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bool")
-                        .HasDefaultValue(true);
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false);
 
                     b.Property<int>("SourceUnitOfMeasureId")
                         .HasColumnType("integer");
@@ -1878,8 +1806,8 @@ namespace ProcApi.Infrastructure.Migrations
                     b.Property<int>("TargetUnitOfMeasureId")
                         .HasColumnType("integer");
 
-                    b.Property<decimal>("Value")
-                        .HasColumnType("numeric");
+                    b.Property<float>("Value")
+                        .HasColumnType("real");
 
                     b.HasKey("Id");
 
@@ -2393,13 +2321,13 @@ namespace ProcApi.Infrastructure.Migrations
             modelBuilder.Entity("ProcApi.Domain.Entities.UnitOfMeasureConverter", b =>
                 {
                     b.HasOne("ProcApi.Domain.Entities.UnitOfMeasure", "SourceUnitOfMeasure")
-                        .WithMany("Converters")
+                        .WithMany()
                         .HasForeignKey("SourceUnitOfMeasureId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("ProcApi.Domain.Entities.UnitOfMeasure", "TargetUnitOfMeasure")
-                        .WithMany()
+                        .WithMany("Converters")
                         .HasForeignKey("TargetUnitOfMeasureId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();

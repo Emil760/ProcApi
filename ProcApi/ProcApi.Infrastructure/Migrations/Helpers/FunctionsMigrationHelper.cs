@@ -197,7 +197,7 @@ public static class FunctionsMigrationHelper
                                                       AND idd.""DocumentStatusId"" not in ({(int)DocumentStatus.InvoiceDraft}, {(int)DocumentStatus.InvoiceCanceled}, {(int)DocumentStatus.InvoiceRejected})), 0) as ""UnusedCount""
                           FROM ""PurchaseRequestItems"" prdi
                           INNER JOIN ""Documents"" prd on prd.""Id"" = prdi.""PurchaseRequestId""
-                          WHERE prd.""DocumentStatusId"" != 100 AND prdi.""Id"" = ANY (prItemIds);
+                          WHERE prd.""DocumentStatusId"" = 100 AND prdi.""Id"" = ANY (prItemIds);
 					  END;
 					  $$
 					  LANGUAGE PLPGSQL");
@@ -226,7 +226,7 @@ public static class FunctionsMigrationHelper
                                                                       AND idd.""DocumentStatusId"" not in ({(int)DocumentStatus.InvoiceDraft}, {(int)DocumentStatus.InvoiceCanceled}, {(int)DocumentStatus.InvoiceRejected})), 0)
                                           FROM ""PurchaseRequestItems"" prdi
                                           INNER JOIN ""Documents"" prd on prd.""Id"" = prdi.""PurchaseRequestId""
-                                          WHERE prd.""DocumentStatusId"" not in ({(int)DocumentStatus.PurchaseRequestDraft}, {(int)DocumentStatus.InvoiceRejected}, {(int)DocumentStatus.InvoiceCanceled}) AND prdi.""Id"" = ANY (prItemIds);
+                                          WHERE prd.""DocumentStatusId"" = {(int)DocumentStatus.PurchaseRequestApproved} AND prdi.""Id"" = ANY (prItemIds);
                       	END;
                       	$$;");
     }

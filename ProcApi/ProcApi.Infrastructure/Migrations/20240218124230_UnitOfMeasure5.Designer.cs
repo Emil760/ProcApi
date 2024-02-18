@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ProcApi.Domain.Entities;
@@ -13,9 +14,11 @@ using ProcApi.Infrastructure.Data;
 namespace ProcApi.Infrastructure.Migrations
 {
     [DbContext(typeof(ProcDbContext))]
-    partial class ProcDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240218124230_UnitOfMeasure5")]
+    partial class UnitOfMeasure5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1870,7 +1873,7 @@ namespace ProcApi.Infrastructure.Migrations
                     b.Property<bool>("IsActive")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bool")
-                        .HasDefaultValue(true);
+                        .HasDefaultValue(false);
 
                     b.Property<int>("SourceUnitOfMeasureId")
                         .HasColumnType("integer");
@@ -1878,8 +1881,8 @@ namespace ProcApi.Infrastructure.Migrations
                     b.Property<int>("TargetUnitOfMeasureId")
                         .HasColumnType("integer");
 
-                    b.Property<decimal>("Value")
-                        .HasColumnType("numeric");
+                    b.Property<double>("Value")
+                        .HasColumnType("double precision");
 
                     b.HasKey("Id");
 
@@ -2393,13 +2396,13 @@ namespace ProcApi.Infrastructure.Migrations
             modelBuilder.Entity("ProcApi.Domain.Entities.UnitOfMeasureConverter", b =>
                 {
                     b.HasOne("ProcApi.Domain.Entities.UnitOfMeasure", "SourceUnitOfMeasure")
-                        .WithMany("Converters")
+                        .WithMany()
                         .HasForeignKey("SourceUnitOfMeasureId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("ProcApi.Domain.Entities.UnitOfMeasure", "TargetUnitOfMeasure")
-                        .WithMany()
+                        .WithMany("Converters")
                         .HasForeignKey("TargetUnitOfMeasureId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();

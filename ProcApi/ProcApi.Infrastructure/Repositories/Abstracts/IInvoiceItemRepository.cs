@@ -5,7 +5,9 @@ namespace ProcApi.Infrastructure.Repositories.Abstracts;
 
 public interface IInvoiceItemRepository : IGenericRepository<InvoiceItem>
 {
-    Task<IEnumerable<InvoiceItem>> GetByDocId(int docId);
+    Task<IEnumerable<InvoiceItem>> GetByDocIdAsync(int docId);
+
+    Task<InvoiceItem?> GetWithUnitOfMeasureByIdAsync(int id);
 
     Task<IEnumerable<InvoiceItem>> GetByPurchaseItemIdsAndStatus(
         IEnumerable<int> purchaseItemIds,

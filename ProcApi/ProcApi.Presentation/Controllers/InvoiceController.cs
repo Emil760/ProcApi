@@ -31,6 +31,7 @@ public class InvoiceController : BaseController
         _approvalsService = approvalsService;
     }
 
+    [HttpGet]
     [DocumentAccessFilter(new[]
     {
         Permissions.CanViewAll,
@@ -38,21 +39,20 @@ public class InvoiceController : BaseController
         Permissions.CanRejectInvoice
     })]
     [HasPermission(Permissions.CanViewInvoice)]
-    [HttpGet]
     public async Task<IActionResult> GetDocumentAsync([FromQuery] int docId)
     {
         return Ok(await _invoiceService.GetDocumentAsync(docId));
     }
 
-    [HasPermission(Permissions.CanCreateInvoice)]
     [HttpPost("Create")]
+    [HasPermission(Permissions.CanCreateInvoice)]
     public async Task<IActionResult> CreateDocumentAsync()
     {
         return Ok(await _invoiceService.CreateInvoice(UserInfo));
     }
 
-    [HasPermission(Permissions.CanCreateInvoice)]
     [HttpPost("Save")]
+    [HasPermission(Permissions.CanCreateInvoice)]
     public async Task<IActionResult> SaveAsync([FromBody] SaveInvoiceRequestDto dto)
     {
         return Ok(await _invoiceService.SaveInvoiceAsync(dto));
@@ -66,15 +66,15 @@ public class InvoiceController : BaseController
         return Ok();
     }
 
-    [HasPermission(Permissions.CanViewInvoice)]
     [HttpGet("UnusedPurchaseRequestItems")]
+    [HasPermission(Permissions.CanViewInvoice)]
     public async Task<IActionResult> GetUnusedPurchaseRequestItemsAsync([FromQuery] PaginationModel model)
     {
         return Ok(await _invoiceService.GetUnusedPurchaseRequestItemsAsync(model));
     }
 
-    [HasPermission(Permissions.CanChangeReviewer)]
     [HttpPost("AddReviewer")]
+    [HasPermission(Permissions.CanChangeReviewer)]
     public async Task<IActionResult> AddReviewerAsync([FromBody] AddReviewerRequestDto dto)
     {
         await _approvalsService.AddApprovalToDocument(
@@ -82,12 +82,27 @@ public class InvoiceController : BaseController
         return Ok();
     }
 
-    [HasPermission(Permissions.CanChangeReviewer)]
     [HttpPut("RemoveReviewer")]
+    [HasPermission(Permissions.CanChangeReviewer)]
     public async Task<IActionResult> RemoveReviewerAsync([FromQuery] RemoveReviewerRequestDto dto)
     {
         await _approvalsService.RemoveApprovalFromDocument(
             dto.DocumentId, dto.ReviewerId, Roles.Reviewer, DocumentType.Invoice);
         return Ok();
+    }
+
+    [HttpPut("ChangeUnitOfMeasureItem")]
+    [HasPermission(Permissions.CanCreateInvoice)]
+    public async Task<IActionResult> ChangeUnitOfMeasureItemAsync([FromBody] ChangeUnitOfMeasureItemDto dto)
+    {
+        await _invoiceService.ChangeUnitOfMeasureItem(dto);
+        return Ok();
+    }
+
+    [HttpGet("Item")]
+    [HasPermission(Permissions.CanViewInvoice)]
+    public async Task<IActionResult> GetItem(int id)
+    {
+        return Ok(await _invoiceService.GetItemAsync(id));
     }
 }

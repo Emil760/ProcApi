@@ -9,15 +9,17 @@ public class UnitOfMeasureConverterConfiguration : IEntityTypeConfiguration<Unit
     public void Configure(EntityTypeBuilder<UnitOfMeasureConverter> builder)
     {
         builder.Property(umc => umc.IsActive)
-            .HasDefaultValue(false);
+            .HasColumnType("bool")
+            .IsRequired()
+            .HasDefaultValue(true);
 
         builder.HasOne(umc => umc.SourceUnitOfMeasure)
-            .WithMany()
+            .WithMany(um => um.Converters)
             .HasForeignKey(umc => umc.SourceUnitOfMeasureId)
             .OnDelete(DeleteBehavior.NoAction);
 
         builder.HasOne(umc => umc.TargetUnitOfMeasure)
-            .WithMany(um => um.Converters)
+            .WithMany()
             .HasForeignKey(umc => umc.TargetUnitOfMeasureId)
             .OnDelete(DeleteBehavior.NoAction);
     }

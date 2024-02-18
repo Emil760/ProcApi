@@ -18,36 +18,36 @@ public class MaterialController : BaseController
         _materialService = materialService;
     }
 
-    [HasPermission(Permissions.CanViewMaterial)]
     [HttpGet("All")]
+    [HasPermission(Permissions.CanViewMaterial)]
     public async Task<IActionResult> GetAllAsync([FromQuery] PaginationModel pagination)
     {
         return Ok(await _materialService.GetAllAsync(pagination));
     }
 
-    [HasPermission(Permissions.CanViewMaterial)]
     [HttpGet]
+    [HasPermission(Permissions.CanViewMaterial)]
     public async Task<IActionResult> GetAsync([FromQuery] int id)
     {
         return Ok(await _materialService.GetAsync(id));
     }
 
-    [HasPermission(Permissions.CanCreateMaterial)]
     [HttpPost]
+    [HasPermission(Permissions.CanCreateMaterial)]
     public async Task<IActionResult> CreateAsync([FromBody] CreateMaterialRequestDto dto)
     {
         return Ok(await _materialService.CreateMaterial(dto));
     }
 
-    [HasPermission(Permissions.CanCreateMaterial)]
     [HttpPut]
+    [HasPermission(Permissions.CanCreateMaterial)]
     public async Task<IActionResult> EditAsync([FromQuery] int id, [FromBody] EditMaterialRequestDto dto)
     {
         return Ok(await _materialService.EditMaterial(id, dto));
     }
 
-    [HasPermission(Permissions.CanDeleteMaterial)]
     [HttpDelete]
+    [HasPermission(Permissions.CanDeleteMaterial)]
     public async Task<IActionResult> DeleteAsync([FromQuery] int id)
     {
         await _materialService.DeleteMaterial(id);

@@ -30,6 +30,7 @@ public class PurchaseRequestController : BaseController
         _documentValidatorHandler = documentValidatorHandler;
     }
 
+    [HttpGet]
     [DocumentAccessFilter(new[]
     {
         Permissions.CanViewAll,
@@ -37,21 +38,20 @@ public class PurchaseRequestController : BaseController
         Permissions.CanRejectPurchaseRequest
     })]
     [HasPermission(Permissions.CanViewPurchaseRequest)]
-    [HttpGet]
     public async Task<IActionResult> GetDocumentAsync([FromQuery] int docId)
     {
         return Ok(await _purchaseRequestService.GetDocumentAsync(docId));
     }
 
-    [HasPermission(Permissions.CanCreatePurchaseRequest)]
     [HttpPost("Create")]
+    [HasPermission(Permissions.CanCreatePurchaseRequest)]
     public async Task<IActionResult> CreateDocumentAsync()
     {
         return Ok(await _purchaseRequestService.CreatePurchaseRequest(UserInfo));
     }
 
-    [HasPermission(Permissions.CanCreatePurchaseRequest)]
     [HttpPost("Save")]
+    [HasPermission(Permissions.CanCreatePurchaseRequest)]
     public async Task<IActionResult> SaveAsync([FromBody] SavePRRequestDto dto)
     {
         return Ok(await _purchaseRequestService.SavePurchaseRequest(dto));
@@ -65,15 +65,15 @@ public class PurchaseRequestController : BaseController
         return Ok();
     }
 
-    [HasPermission(Permissions.CanViewPurchaseRequest)]
     [HttpGet("Items")]
+    [HasPermission(Permissions.CanViewPurchaseRequest)]
     public async Task<IActionResult> GetItems([FromQuery] int docId)
     {
         return Ok(await _purchaseRequestItemsService.GetAllItemsAsync(docId));
     }
 
-    [HasPermission(Permissions.CanAssignBuyer)]
     [HttpPut("AssignBuyer")]
+    [HasPermission(Permissions.CanAssignBuyer)]
     public async Task<IActionResult> AssignBuyerToItemAsync([FromBody] AssignUserToItemDto dto)
     {
         await _purchaseRequestService.AssignBuyerToItemAsync(dto);

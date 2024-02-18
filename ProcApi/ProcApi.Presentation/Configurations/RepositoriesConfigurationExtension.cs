@@ -1,4 +1,5 @@
-﻿using ProcApi.Infrastructure.Repositories.Abstracts;
+﻿using Microsoft.AspNetCore.Mvc;
+using ProcApi.Infrastructure.Repositories.Abstracts;
 using ProcApi.Infrastructure.Repositories.Concreates;
 using ProcApi.Infrastructure.Repositories.UnitOfWork;
 
@@ -42,5 +43,6 @@ public static class RepositoriesConfigurationExtension
         services.AddScoped<IMaterialRepository, MaterialRepository>();
         services.AddScoped<IProjectRepository, ProjectRepository>();
         services.AddScoped<IUnitOfMeasureRepository, UnitOfMeasuresRepository>();
+        services.AddScoped<IUnitOfMeasureConverterRepository, UnitOfMeasureConverterRepository>();
     }
 }

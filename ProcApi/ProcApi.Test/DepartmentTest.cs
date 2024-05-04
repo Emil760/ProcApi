@@ -172,5 +172,11 @@ public class DepartmentTest : BaseTest
         };
 
         await _departmentService.AssignUserToDepartment(_headUserId, dto);
+
+        var user = await _userRepository.GetByIdAsync(dto.UserId);
+        if (user is null)
+            Assert.Fail("User not found");
+
+        Assert.Equal(dto.DepartmentId, user.DepartmentId);
     }
 }

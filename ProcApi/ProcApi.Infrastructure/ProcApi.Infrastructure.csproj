@@ -15,7 +15,7 @@
       </PackageReference>
       <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
       <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.11" />
-      <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.0.0" />
+      <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.6.0" />
     </ItemGroup>
 
     <ItemGroup>

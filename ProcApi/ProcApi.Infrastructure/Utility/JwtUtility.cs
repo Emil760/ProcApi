@@ -1,12 +1,11 @@
-﻿using System.IdentityModel.Tokens.Jwt;
-using Microsoft.IdentityModel.Tokens;
-using System.Security.Claims;
-using System.Text;
-using ProcApi.Domain.Entities;
+﻿using Microsoft.IdentityModel.Tokens;
+using ProcApi.Domain.Constants;
 using ProcApi.Domain.Enums;
 using ProcApi.Domain.Models;
-using ProcApi.Infrastructure.Constants;
 using ProcApi.Infrastructure.Options;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace ProcApi.Infrastructure.Utility;
 

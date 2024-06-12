@@ -96,4 +96,12 @@ public class UserController : BaseController
     {
         return Ok(await _userService.GetAllByRoleNameAsync(name));
     }
+
+    [HttpPut("Dashboard")]
+    [HasPermission(Permissions.CanChangeDashboard)]
+    public async Task<IActionResult> ChangeDashboardAsync(ChangeDashboardRequestDto dto)
+    {
+        await _userService.ChangeDashboardAsync(dto);
+        return Ok();
+    }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Localization;
 using ProcApi.Application.DTOs.Documents.Requests;
 using ProcApi.Application.Services.Abstracts;
+using ProcApi.Domain.Constants;
 using ProcApi.Domain.Entities;
 using ProcApi.Domain.Enums;
 using ProcApi.Domain.Exceptions;
@@ -66,10 +67,10 @@ public class ApprovalsService : IApprovalsService
         var userRoles = user!.Roles.Select(r => r.Id);
 
         if (!userRoles.Any())
-            throw new ValidationException(_localizer["UserNotFound"]);
+            throw new ValidationException(_localizer[LocalizationKeys.USER_NOT_FOUND]);
 
         if (!userRoles.Contains(template.RoleId))
-            throw new ValidationException(_localizer["UserHasNoRoleForOperation"]);
+            throw new ValidationException(_localizer[LocalizationKeys.USER_HAS_NOT_ROLE_FOR_OPERATION]);
 
         return new DocumentAction
         {
@@ -104,7 +105,7 @@ public class ApprovalsService : IApprovalsService
         var document = await _documentRepository.GetWithActionsAsync(dto.DocId);
 
         if (document is null)
-            throw new NotFoundException(_localizer["DocumentNotFound"]);
+            throw new NotFoundException(_localizer[LocalizationKeys.DOCUMENT_NOT_FOUND]);
 
         var releaseStrategy =
             await _releaseStrategyTemplateRepository.GetWithFlowTemplateByStatusAndTypeAndConfigurationAsync(
@@ -123,7 +124,7 @@ public class ApprovalsService : IApprovalsService
             .SingleOrDefault();
 
         if (currApprover is null)
-            throw new ValidationException(_localizer["ActionAlreadyPerformed"]);
+            throw new ValidationException(_localizer[LocalizationKeys.ACTION_ALREADY_PERFORMED]);
 
         if (currApprover.RoleId != releaseStrategy.ApprovalFlowTemplate.RoleId)
             throw new Exception(
@@ -136,7 +137,7 @@ public class ApprovalsService : IApprovalsService
             .Any(ur => ur.UserId == currApprover.AssignerId && ur.RoleId == currApprover.RoleId);
 
         if (!hasRole)
-            throw new ValidationException(_localizer["UserCantPerformAction"]);
+            throw new ValidationException(_localizer[LocalizationKeys.USER_CAN_PERFORME_ACTION]);
     }
 
     public async Task ApproveDocumentAsync(ActionPerformRequestDto dto, int userId)
@@ -212,7 +213,7 @@ public class ApprovalsService : IApprovalsService
     {
         var userHasRole = await _userRepository.HasRoleAsync(userId, role);
         if (!userHasRole)
-            throw new NotFoundException(_localizer["UserNotFoundOrNotInRole"]);
+            throw new NotFoundException(_localizer[LocalizationKeys.USER_NOT_FOUND_OR_NOT_IN_ROLE]);
 
         var alreadyHasPerformer = await _documentActionRepository.HasByDocumentIdAndRoleAndUserId(
             documentId, userId, role);
@@ -228,7 +229,7 @@ public class ApprovalsService : IApprovalsService
 
         var document = await _documentRepository.GetByIdAsync(documentId);
         if (document is null)
-            throw new NotFoundException(_localizer["DocNotFound"]);
+            throw new NotFoundException(_localizer[LocalizationKeys.DOCUMENT_NOT_FOUND]);
 
         var flowTemplate = await _flowTemplateRepository.GetByRoleAndDocumentTypeAndMultiple(role, documentType, false);
         if (flowTemplate is null)
@@ -261,7 +262,7 @@ public class ApprovalsService : IApprovalsService
 
         var document = await _documentRepository.GetWithActionsAsync(documentId);
         if (document is null)
-            throw new NotFoundException(_localizer["DocNotFound"]);
+            throw new NotFoundException(_localizer[LocalizationKeys.DOCUMENT_NOT_FOUND]);
 
         var flowTemplate = await _flowTemplateRepository.GetByRoleAndDocumentTypeAndMultiple(role, documentType, false);
         if (flowTemplate is null)
@@ -281,7 +282,7 @@ public class ApprovalsService : IApprovalsService
     {
         var userHasRole = await _userRepository.HasRoleAsync(userId, role);
         if (!userHasRole)
-            throw new NotFoundException(_localizer["UserNotFoundOrNotInRole"]);
+            throw new NotFoundException(_localizer[LocalizationKeys.USER_NOT_FOUND_OR_NOT_IN_ROLE]);
 
         var alreadyHasPerformer = await _documentActionRepository.HasByDocumentIdAndRoleAndUserId(
             documentId, userId, role);
@@ -291,7 +292,7 @@ public class ApprovalsService : IApprovalsService
 
         var document = await _documentRepository.GetByIdAsync(documentId);
         if (document is null)
-            throw new NotFoundException(_localizer["DocNotFound"]);
+            throw new NotFoundException(_localizer[LocalizationKeys.DOCUMENT_NOT_FOUND]);
 
         var flowTemplate = await _flowTemplateRepository.GetByRoleAndDocumentTypeAndMultiple(role, documentType, true);
         if (flowTemplate is null)

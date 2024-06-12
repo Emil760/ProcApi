@@ -4,6 +4,7 @@ using ProcApi.Application.Comparers;
 using ProcApi.Application.DTOs.User.Requests;
 using ProcApi.Application.DTOs.User.Responses;
 using ProcApi.Application.Services.Abstracts;
+using ProcApi.Domain.Constants;
 using ProcApi.Domain.Entities;
 using ProcApi.Domain.Enums;
 using ProcApi.Domain.Exceptions;
@@ -17,17 +18,20 @@ public class UserService : IUserService
 {
     private readonly IUserRepository _userRepository;
     private readonly IRoleRepository _roleRepository;
+    private readonly IDashboardRepository _dashboardRepository;
     private readonly IMapper _mapper;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IStringLocalizer<SharedResource> _localizer;
 
     public UserService(IUserRepository userRepository,
+        IDashboardRepository dashboardRepository,
         IMapper mapper,
         IUnitOfWork unitOfWork,
         IStringLocalizer<SharedResource> localizer,
         IRoleRepository roleRepository)
     {
         _userRepository = userRepository;
+        _dashboardRepository = dashboardRepository;
         _mapper = mapper;
         _unitOfWork = unitOfWork;
         _localizer = localizer;
@@ -64,7 +68,7 @@ public class UserService : IUserService
         var user = await _userRepository.GetByIdAsync(id);
 
         if (user is null)
-            throw new NotFoundException(_localizer["UserNotFound"]);
+            throw new NotFoundException(_localizer[LocalizationKeys.USER_NOT_FOUND]);
 
         return _mapper.Map<UserInfoResponseDto>(user);
     }
@@ -81,7 +85,7 @@ public class UserService : IUserService
     public async Task<IEnumerable<UserWithRolesResponseDto>> GetUsersWithRolesAsync(string? search)
     {
         search ??= "";
-        
+
         var users = await _userRepository.GetAllWithRoles(search);
 
         return _mapper.Map<IEnumerable<UserWithRolesResponseDto>>(users);
@@ -105,14 +109,14 @@ public class UserService : IUserService
     {
         var user = await _userRepository.GetWithRolesById(dto.UserId);
         if (user is null)
-            throw new NotFoundException(_localizer["UserNotFound"]);
+            throw new NotFoundException(_localizer[LocalizationKeys.USER_NOT_FOUND]);
 
         var role = await _roleRepository.GetByIdAsync(dto.RoleId);
         if (role is null)
-            throw new NotFoundException(_localizer["RoleNotFound"]);
+            throw new NotFoundException(_localizer[LocalizationKeys.ROLE_NOT_FOUND]);
 
         if (user.Roles.Any(r => r.Id == dto.RoleId))
-            throw new ValidationException(_localizer["UserAlreadyHasRole"]);
+            throw new ValidationException(_localizer[LocalizationKeys.USER_ALREDY_HAS_ROLE]);
 
         user.Roles.Add(role);
         await _unitOfWork.SaveChangesAsync();
@@ -122,13 +126,28 @@ public class UserService : IUserService
     {
         var user = await _userRepository.GetWithRolesById(dto.UserId);
         if (user is null)
-            throw new NotFoundException(_localizer["UserNotFound"]);
+            throw new NotFoundException(_localizer[LocalizationKeys.USER_NOT_FOUND]);
 
         var role = await _roleRepository.GetByIdAsync(dto.RoleId);
         if (role is null)
-            throw new NotFoundException(_localizer["RoleNotFound"]);
+            throw new NotFoundException(_localizer[LocalizationKeys.ROLE_NOT_FOUND]);
 
         user.Roles.Remove(role);
+        await _unitOfWork.SaveChangesAsync();
+    }
+
+    //TODO localization
+    public async Task ChangeDashboardAsync(ChangeDashboardRequestDto dto)
+    {
+        var user = await _userRepository.GetWithRolesById(dto.UserId);
+        if (user is null)
+            throw new NotFoundException(_localizer[LocalizationKeys.USER_NOT_FOUND]);
+
+        var dashboard = await _dashboardRepository.GetByIdAsync(dto.DashboardId);
+        if (dashboard is null)
+            throw new NotFoundException(_localizer[LocalizationKeys.DASHBOARD_NOT_FOUND]);
+
+        user.Dashboard = dashboard;
         await _unitOfWork.SaveChangesAsync();
     }
 }

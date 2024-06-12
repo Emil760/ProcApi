@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Localization;
 using ProcApi.Application.Services.Abstracts;
+using ProcApi.Domain.Constants;
 using ProcApi.Domain.Entities;
 using ProcApi.Domain.Exceptions;
 using ProcApi.Infrastructure.Repositories.Abstracts;
@@ -25,7 +26,7 @@ public class PurchaseRequestValidator : IDocumentValidator
     {
         var document = await _purchaseRequestRepository.GetWithDocumentAndItemsByDocId(documentId);
         if (document is null)
-            throw new NotFoundException(_localizer["DocumentNotFound"]);
+            throw new NotFoundException(_localizer[LocalizationKeys.DOCUMENT_NOT_FOUND]);
 
         _purchaseRequest = document;
     }
@@ -33,7 +34,7 @@ public class PurchaseRequestValidator : IDocumentValidator
     public async Task<string?> CheckEmptyItemsAsync()
     {
         if (!_purchaseRequest.Items.Any())
-            return _localizer["EmptyItems"];
+            return _localizer[LocalizationKeys.EMPTY_ITEMS];
 
         return null;
     }

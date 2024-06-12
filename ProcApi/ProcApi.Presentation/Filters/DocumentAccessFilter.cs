@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Localization;
 using ProcApi.Domain.Enums;
 using ProcApi.Domain.Exceptions;
-using ProcApi.Infrastructure.Constants;
+using ProcApi.Domain.Constants;
 using ProcApi.Infrastructure.Repositories.Abstracts;
 using ProcApi.Infrastructure.Resources;
 using ProcApi.Infrastructure.Utility;

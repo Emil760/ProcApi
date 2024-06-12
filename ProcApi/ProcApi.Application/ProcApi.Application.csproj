@@ -6,6 +6,12 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <Compile Remove="DTOs\User\Base\**" />
+      <EmbeddedResource Remove="DTOs\User\Base\**" />
+      <None Remove="DTOs\User\Base\**" />
+    </ItemGroup>
+
 
     <ItemGroup>
       <ProjectReference Include="..\ProcApi.Domain\ProcApi.Domain.csproj" />
@@ -22,8 +28,8 @@
 
 
     <ItemGroup>
+      <Folder Include="DTOs\Project\Base\" />
       <Folder Include="DTOs\UnitOfMeasure\Base\" />
-      <Folder Include="DTOs\User\Base\" />
     </ItemGroup>
 
 </Project>

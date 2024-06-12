@@ -19,6 +19,7 @@ public static class ServicesConfigurationExtension
         services.AddScoped<IUserCachedService, UserCachedService>();
 
         services.AddScoped<IDepartmentService, DepartmentService>();
+        services.AddScoped<IDashboardService, DashboardService>();
 
         services.AddSingleton<IConnectedUsersService, ConnectedUserService>();
         services.AddScoped<IChatService, ChatService>();

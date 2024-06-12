@@ -35,6 +35,7 @@ namespace ProcApi.Infrastructure.Data
         public DbSet<Role> Roles { get; set; }
         public DbSet<RolePermission> RolePermissions { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
+        public DbSet<Dashboard> Dashboards { get; set; }
         public DbSet<Permission> Permissions { get; set; }
         public DbSet<Chat> Chats { get; set; }
         public DbSet<ChatUser> ChatUsers { get; set; }

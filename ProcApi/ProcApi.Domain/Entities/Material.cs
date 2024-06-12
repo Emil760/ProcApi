@@ -8,4 +8,6 @@ public class Material
     public string Code { get; set; }
     public int CategoryId { get; set; }
     public Category Category { get; set; }
+    public int UnitOfMeasureId { get; set; }
+    public UnitOfMeasure UnitOfMeasure { get; set; }
 }

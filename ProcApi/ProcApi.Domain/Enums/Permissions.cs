@@ -30,5 +30,8 @@ public enum Permissions
     CanRemoveRole,
     CanAssignBuyer,
     CanViewUnitOfMeasure,
-    CanCreateUnitOfMeasure
+    CanCreateUnitOfMeasure,
+    CanChangeDashboard,
+    CanViewProject,
+    CanAddProject
 }

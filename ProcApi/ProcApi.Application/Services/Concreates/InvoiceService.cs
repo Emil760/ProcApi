@@ -5,6 +5,7 @@ using ProcApi.Application.DTOs.Invoice.Requests;
 using ProcApi.Application.DTOs.Invoice.Responses;
 using ProcApi.Application.Enums;
 using ProcApi.Application.Services.Abstracts;
+using ProcApi.Domain.Constants;
 using ProcApi.Domain.Entities;
 using ProcApi.Domain.Enums;
 using ProcApi.Domain.Exceptions;
@@ -79,8 +80,11 @@ public class InvoiceService : IInvoiceService
     {
         var invoice = await _invoiceRepository.GetWithDocumentAndItemsByDocId(dto.DocumentId);
 
+        if (invoice is null)
+            throw new NotFoundException(_localizer[LocalizationKeys.DOCUMENT_NOT_FOUND]);
+
         if (invoice.Document.DocumentStatusId != DocumentStatus.InvoiceDraft)
-            throw new ValidationException(_localizer["CantChangeNonDraftDocument"]);
+            throw new ValidationException(_localizer[LocalizationKeys.CANT_CHANGE_NON_DRAFT_DOCUMENT]);
 
         _mapper.Map(dto, invoice);
 
@@ -117,10 +121,10 @@ public class InvoiceService : IInvoiceService
                 .SingleOrDefault(i => i.PurchaseRequestItemId == invoiceItem.PurchaseRequestItemId);
 
             if (unusedPRItem is null)
-                throw new NotFoundException(_localizer["ItemNotFound"]);
+                throw new NotFoundException(_localizer[LocalizationKeys.ITEM_NOT_FOUND]);
 
             if (invoiceItem.Quantity > unusedPRItem.UnusedCount)
-                throw new ValidationException(_localizer["ItemCountExtended"]);
+                throw new ValidationException(_localizer[LocalizationKeys.ITEM_COUNT_EXTENDED]);
 
             invoiceItem.Price = unusedPRItem.Price;
         }
@@ -133,10 +137,10 @@ public class InvoiceService : IInvoiceService
         var invoice = await _invoiceRepository.GetWithDocumentAndItemsByDocId(invoiceId);
 
         if (invoice is null)
-            throw new NotFoundException(_localizer["DocumentNotFound"]);
+            throw new NotFoundException(_localizer[LocalizationKeys.DOCUMENT_NOT_FOUND]);
 
         if (invoice.Document.DocumentStatusId != DocumentStatus.InvoiceApproved)
-            throw new ValidationException(_localizer["DocumentIsNotApproved"]);
+            throw new ValidationException(_localizer[LocalizationKeys.DOCUMENT_IS_NOT_APPROVED]);
 
         var purchaseRequestItemIds = invoice.Items.Select(ini => ini.PurchaseRequestItemId);
 
@@ -153,14 +157,14 @@ public class InvoiceService : IInvoiceService
                 .SingleOrDefault(pri => pri.Id == invoiceItem.PurchaseRequestItemId);
 
             if (purchaseRequestItem is null)
-                throw new NotFoundException(_localizer["ItemNotFound"]);
+                throw new NotFoundException(_localizer[LocalizationKeys.ITEM_NOT_FOUND]);
 
             var usedCount = usedInvoiceItems
                 .Where(ini => ini.PurchaseRequestItemId == invoiceItem.PurchaseRequestItemId)
                 .Sum(ini => ini.Quantity);
 
             if (usedCount > purchaseRequestItem.Quantity)
-                throw new ValidationException(_localizer["ItemAlreadyUsed"]);
+                throw new ValidationException(_localizer[LocalizationKeys.ITEM_ALREADY_USED]);
 
             if (usedCount == purchaseRequestItem.Quantity)
                 purchaseRequestItem.ItemStatusId = ItemStatus.FullyUsed;
@@ -175,21 +179,21 @@ public class InvoiceService : IInvoiceService
     {
         var item = await _invoiceItemRepository.GetWithUnitOfMeasureByIdAsync(dto.ItemId);
         if (item is null)
-            throw new NotFoundException(_localizer["ItemNotFound"]);
+            throw new NotFoundException(_localizer[LocalizationKeys.ITEM_NOT_FOUND]);
 
         var rule = await _unitOfMeasureConverterRepository.GetBySourceIdAndTargetId(
             item.UnitOfMeasureId, dto.UnitOfMeasureId);
 
         if (rule is null)
-            throw new NotFoundException(_localizer["UnitOfMeasureRuleNotFound"]);
+            throw new NotFoundException(_localizer[LocalizationKeys.UnitOfMeasureRuleNotFound]);
 
         if (!rule.IsActive)
-            throw new ValidationException(_localizer["UnitOfMeasureRuleIsNotActive"]);
+            throw new ValidationException(_localizer[LocalizationKeys.UnitOfMeasureRuleIsNotActive]);
 
         var quantity = item.Quantity / rule.Value;
 
         if (!item.UnitOfMeasure.CanBeDecimal && !decimal.IsInteger(quantity))
-            throw new ValidationException(_localizer["QuantityMustBeInteger"]);
+            throw new ValidationException(_localizer[LocalizationKeys.QuantityMustBeInteger]);
 
         item.UnitOfMeasureId = dto.UnitOfMeasureId;
         item.Quantity = quantity;
@@ -201,7 +205,7 @@ public class InvoiceService : IInvoiceService
     {
         var item = await _invoiceItemRepository.GetByIdAsync(id);
         if (item is null)
-            throw new NotFoundException(_localizer["ItemNotFound"]);
+            throw new NotFoundException(_localizer[LocalizationKeys.ITEM_NOT_FOUND]);
 
         return _mapper.Map<InvoiceItemResponseDto>(item);
     }

@@ -3,6 +3,7 @@ using Microsoft.Extensions.Localization;
 using ProcApi.Application.DTOs.Chat.Request;
 using ProcApi.Application.DTOs.Chat.Responses;
 using ProcApi.Application.Services.Abstracts;
+using ProcApi.Domain.Constants;
 using ProcApi.Domain.Entities;
 using ProcApi.Domain.Exceptions;
 using ProcApi.Infrastructure.Repositories.Abstracts;
@@ -61,7 +62,7 @@ public class ChatMessageService : IChatMessageService
         var chat = await _chatRepository.FindWithChatUsersExceptCurrUserByChatIdAsync(dto.ChatId, senderUserId);
 
         if (chat is null)
-            throw new ValidationException(_localizer["ChatNotFound"]);
+            throw new NotFoundException(_localizer[LocalizationKeys.CHAT_NOT_FOUND]);
 
         var chatMessage = CreateMessage(chat, senderUserId, dto.Message);
 
@@ -84,14 +85,15 @@ public class ChatMessageService : IChatMessageService
             SenderId = senderUserId
         };
     }
-
+    
+    //TODO create loging exception
     public async Task<MarkAdReadResponseDto?> MarkAsReadAsync(int messageId, int receiverId)
     {
         var chatMessage =
             await _chatMessageRepository.GetWithChatUsersExceptCurrentUserByIdAsync(messageId, receiverId);
 
         if (chatMessage is null)
-            throw new Exception("Message not found");
+            throw new NotFoundException("aaa");
 
         ReceivedInfo? receivedInfo = null;
 

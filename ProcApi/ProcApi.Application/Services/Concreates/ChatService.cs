@@ -2,10 +2,10 @@
 using Microsoft.AspNetCore.Http;
 using ProcApi.Application.DTOs.Chat.Responses;
 using ProcApi.Application.Services.Abstracts;
+using ProcApi.Domain.Constants;
 using ProcApi.Domain.Entities;
 using ProcApi.Domain.Enums;
 using ProcApi.Domain.Models;
-using ProcApi.Infrastructure.Constants;
 using ProcApi.Infrastructure.Repositories.Abstracts;
 using ProcApi.Infrastructure.Repositories.UnitOfWork;
 

@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using ProcApi.Infrastructure.Repositories.Abstracts;
+﻿using ProcApi.Infrastructure.Repositories.Abstracts;
 using ProcApi.Infrastructure.Repositories.Concreates;
 using ProcApi.Infrastructure.Repositories.UnitOfWork;
 
@@ -15,6 +14,7 @@ public static class RepositoriesConfigurationExtension
         services.AddScoped<IUserSettingRepository, UserSettingRepository>();
         services.AddScoped<IDelegationRepository, DelegationRepository>();
         services.AddScoped<IRoleRepository, RoleRepository>();
+        services.AddScoped<IDashboardRepository, DashboardRepository>();
 
         services.AddScoped<IDepartmentRepository, DepartmentRepository>();
 

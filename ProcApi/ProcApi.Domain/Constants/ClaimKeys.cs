@@ -1,4 +1,4 @@
-﻿namespace ProcApi.Infrastructure.Constants;
+﻿namespace ProcApi.Domain.Constants;
 
 public static class ClaimKeys
 {

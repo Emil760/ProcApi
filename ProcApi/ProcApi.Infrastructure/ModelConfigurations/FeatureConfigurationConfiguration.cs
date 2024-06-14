@@ -13,9 +13,17 @@ public class FeatureConfigurationConfiguration : IEntityTypeConfiguration<Featur
             .HasMaxLength(300)
             .IsRequired();
 
+        builder.Property(fc => fc.ConfigurationType)
+            .HasColumnType("int")
+            .IsRequired();
+
         builder.Property(fc => fc.Description)
             .HasColumnType("varchar")
             .HasMaxLength(300);
+
+        builder.Property(fc => fc.Value)
+            .HasColumnType("varchar")
+            .HasMaxLength(500);
 
         builder.Property(fc => fc.IsEnabled)
             .HasColumnType("boolean")

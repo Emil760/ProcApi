@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using ProcApi.Infrastructure.Repositories.Abstracts;
+﻿using ProcApi.Infrastructure.Repositories.Abstracts;
 using ProcApi.Infrastructure.Repositories.Concreates;
 using ProcApi.Infrastructure.Repositories.UnitOfWork;
 
@@ -10,6 +9,7 @@ public static class RepositoriesConfigurationExtension
     public static void AddRepositories(this IServiceCollection services)
     {
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddScoped<IFeatureConfigurationRepository, FeatureConfigurationRepository>();
 
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IUserSettingRepository, UserSettingRepository>();

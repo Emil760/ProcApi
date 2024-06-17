@@ -67,6 +67,7 @@ namespace ProcApi.Infrastructure.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
         public DbSet<DocumentValidationConfiguration> DocumentValidationConfigurations { get; set; }
+        public DbSet<FeatureConfiguration> FeatureConfigurations { get; set; }
     }
 
     public partial class ProcDbContext : DbContext

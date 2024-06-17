@@ -31,6 +31,12 @@ public static class RepositoriesConfigurationExtension
         services.AddScoped<IInvoiceRepository, InvoiceRepository>();
         services.AddScoped<IInvoiceItemRepository, InvoiceItemRepository>();
 
+        services.AddScoped<IGoodIssueNoteRepository, GoodIssueNoteRepository>();
+        services.AddScoped<IGoodIssueNoteItemRepository, GoodIssueNoteItemRepository>();
+
+        services.AddScoped<IGoodReceiptNoteRepository, GoodReceiptNoteRepository>();
+        services.AddScoped<IGoodReceiptNoteItemRepository, GoodReceiptNoteItemRepository>();
+
         services.AddScoped<ISupplierRepository, SupplierRepository>();
 
         services.AddScoped<IChatMessageRepository, ChatMessageRepository>();
@@ -44,5 +50,8 @@ public static class RepositoriesConfigurationExtension
         services.AddScoped<IProjectRepository, ProjectRepository>();
         services.AddScoped<IUnitOfMeasureRepository, UnitOfMeasuresRepository>();
         services.AddScoped<IUnitOfMeasureConverterRepository, UnitOfMeasureConverterRepository>();
+
+        services.AddScoped<IAnnualProcurementRepository, AnnualProcurementRepository>();
+        services.AddScoped<IAnnualProcurementItemRepository, AnnualProcurementItemRepository>();
     }
 }

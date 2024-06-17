@@ -185,15 +185,15 @@ public class InvoiceService : IInvoiceService
             item.UnitOfMeasureId, dto.UnitOfMeasureId);
 
         if (rule is null)
-            throw new NotFoundException(_localizer[LocalizationKeys.UnitOfMeasureRuleNotFound]);
+            throw new NotFoundException(_localizer[LocalizationKeys.UNIT_MEASURE_RULE_NOT_FOUND]);
 
         if (!rule.IsActive)
-            throw new ValidationException(_localizer[LocalizationKeys.UnitOfMeasureRuleIsNotActive]);
+            throw new ValidationException(_localizer[LocalizationKeys.UNIT_MEASURE_RULE_IS_NOT_ACTIVE]);
 
         var quantity = item.Quantity / rule.Value;
 
         if (!item.UnitOfMeasure.CanBeDecimal && !decimal.IsInteger(quantity))
-            throw new ValidationException(_localizer[LocalizationKeys.QuantityMustBeInteger]);
+            throw new ValidationException(_localizer[LocalizationKeys.QUANTITY_MUST_BE_INTEGER]);
 
         item.UnitOfMeasureId = dto.UnitOfMeasureId;
         item.Quantity = quantity;

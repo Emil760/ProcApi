@@ -50,7 +50,7 @@ public class MaterialService : IMaterialService
         var materialResultSets = (await _materialRepository.GetWithCategories(id)).ToList();
 
         if (!materialResultSets.Any())
-            throw new NotFoundException(_localizer[LocalizationKeys.MaterialNotFound]);
+            throw new NotFoundException(_localizer[LocalizationKeys.MATERIAL_NOT_FOUND]);
 
         var categories = new List<TreeCategoryResponseDto>();
 
@@ -98,7 +98,7 @@ public class MaterialService : IMaterialService
         var material = await _materialRepository.GetByIdAsync(id);
 
         if (material is null)
-            throw new NotFoundException(_localizer[LocalizationKeys.MaterialNotFound]);
+            throw new NotFoundException(_localizer[LocalizationKeys.MATERIAL_NOT_FOUND]);
 
         _mapper.Map(dto, material);
         material.Category = category;
@@ -113,7 +113,7 @@ public class MaterialService : IMaterialService
         var material = await _materialRepository.GetByIdAsync(id);
 
         if (material is null)
-            throw new NotFoundException(_localizer[LocalizationKeys.MaterialNotFound]);
+            throw new NotFoundException(_localizer[LocalizationKeys.MATERIAL_NOT_FOUND]);
 
         await _materialRepository.DeleteByIdAsync(material);
     }
@@ -123,7 +123,7 @@ public class MaterialService : IMaterialService
         var category = await _categoryRepository.GetByIdAsync(categoryId);
 
         if (category is null)
-            throw new NotFoundException(_localizer[LocalizationKeys.CategoryNotFound]);
+            throw new NotFoundException(_localizer[LocalizationKeys.CATEGORY_NOT_FOUND]);
 
         return category;
     }
@@ -136,10 +136,10 @@ public class MaterialService : IMaterialService
             return;
 
         if (material.Name == dto.Name)
-            throw new ValidationException(_localizer[LocalizationKeys.MaterialNameAlreadyExists]);
+            throw new ValidationException(_localizer[LocalizationKeys.MANTERIAL_NAME_ALREDY_EXISTS]);
 
         if (material.Code == dto.Code)
-            throw new ValidationException(_localizer[LocalizationKeys.MaterialCodeAlreadyExists]);
+            throw new ValidationException(_localizer[LocalizationKeys.MATERIAL_CODE_ALREADY_EXISTS]);
     }
 
     private async Task ValidateEditMaterial(int id, SaveMaterialDto dto)
@@ -150,9 +150,9 @@ public class MaterialService : IMaterialService
             return;
 
         if (material.Name == dto.Name)
-            throw new ValidationException(_localizer[LocalizationKeys.MaterialNameAlreadyExists]);
+            throw new ValidationException(_localizer[LocalizationKeys.MANTERIAL_NAME_ALREDY_EXISTS]);
 
         if (material.Code == dto.Code)
-            throw new ValidationException(_localizer[LocalizationKeys.MaterialCodeAlreadyExists]);
+            throw new ValidationException(_localizer[LocalizationKeys.MATERIAL_CODE_ALREADY_EXISTS]);
     }
 }

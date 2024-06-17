@@ -59,7 +59,7 @@ public class UnitOfMeasureService : IUnitOfMeasureService
     {
         var exists = await _unitOfMeasureRepository.ExistsByName(dto.Name);
         if (exists)
-            throw new ValidationException(_localizer[LocalizationKeys.UnitOfMeasureNameAlreadyExists]);
+            throw new ValidationException(_localizer[LocalizationKeys.UNIT_OF_MEASURE_NAME_ALREADY_EXISTS]);
 
         var unitOfMeasure = new UnitOfMeasure()
         {
@@ -76,7 +76,7 @@ public class UnitOfMeasureService : IUnitOfMeasureService
     {
         var unitOfMeasure = await _unitOfMeasureRepository.GetByIdAsync(dto.Id);
         if (unitOfMeasure is null)
-            throw new NotFoundException(_localizer[LocalizationKeys.UnitOfMeasureNotFound]);
+            throw new NotFoundException(_localizer[LocalizationKeys.UNIT_OF_MEASURE_NOT_FOUND]);
 
         unitOfMeasure.IsActive = dto.IsActivate;
 
@@ -88,16 +88,16 @@ public class UnitOfMeasureService : IUnitOfMeasureService
         var unitOfMeasures = await _unitOfMeasureRepository.GetByIds(
             new[] { dto.SourceUnitOfMeasureId, dto.TargetUnitOfMeasureId });
         if (unitOfMeasures.Count() < 2)
-            throw new NotFoundException(_localizer[LocalizationKeys.UnitOfMeasureNotFound]);
+            throw new NotFoundException(_localizer[LocalizationKeys.UNIT_OF_MEASURE_NOT_FOUND]);
 
         var alreadyHasRule = await _unitOfMeasureConverterRepository.ExistsBySourceAndTargetId(
             dto.SourceUnitOfMeasureId, dto.TargetUnitOfMeasureId);
         if (alreadyHasRule)
-            throw new ValidationException(_localizer[LocalizationKeys.UnitOfMeasureAlreadyExists]);
+            throw new ValidationException(_localizer[LocalizationKeys.UNIT_OF_MEASURE_ALREADY_EXISTS]);
 
         if ((!unitOfMeasures.ElementAt(0).CanBeDecimal || !unitOfMeasures.ElementAt(0).CanBeDecimal) &&
             !decimal.IsInteger(dto.Value))
-            throw new ValidationException(_localizer[LocalizationKeys.CantUseDecimalForUnitOfMeasure]);
+            throw new ValidationException(_localizer[LocalizationKeys.CAN_USE_DECIMAL_FOR_UNIT_OF_MEASURE]);
 
         _unitOfMeasureConverterRepository.Insert(new UnitOfMeasureConverter()
         {
@@ -121,7 +121,7 @@ public class UnitOfMeasureService : IUnitOfMeasureService
         var unitOfMeasure = await _unitOfMeasureRepository.GetRulesAsync(id);
 
         if (unitOfMeasure is null)
-            throw new NotFoundException(_localizer[LocalizationKeys.UnitOfMeasureNotFound]);
+            throw new NotFoundException(_localizer[LocalizationKeys.UNIT_OF_MEASURE_NOT_FOUND]);
 
         return _mapper.Map<IEnumerable<UnitOfMeasureConverterResponseDto>>(unitOfMeasure.Converters);
     }

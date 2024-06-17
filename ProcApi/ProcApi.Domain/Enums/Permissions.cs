@@ -33,5 +33,6 @@ public enum Permissions
     CanCreateUnitOfMeasure,
     CanChangeDashboard,
     CanViewProject,
-    CanAddProject
+    CanAddProject,
+    CanAddAnnualProcurement
 }

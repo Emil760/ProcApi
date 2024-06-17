@@ -40,7 +40,7 @@ public class SupplierService : ISupplierService
         var supplier = await _supplierRepository.GetByIdAsync(id);
 
         if (supplier is null)
-            throw new ValidationException(_localizer[LocalizationKeys.SupplierNotFound]);
+            throw new ValidationException(_localizer[LocalizationKeys.SUPPLIER_NOT_FOUND]);
 
         return _mapper.Map<SupplierResponseDto>(supplier);
     }
@@ -70,7 +70,7 @@ public class SupplierService : ISupplierService
         var supplier = await _supplierRepository.GetByIdAsync(dto.Id);
 
         if (supplier is null)
-            throw new ValidationException(_localizer[LocalizationKeys.SupplierNotFound]);
+            throw new ValidationException(_localizer[LocalizationKeys.SUPPLIER_NOT_FOUND]);
 
         await ValidateUpdateSupplierAsync(dto);
 
@@ -86,7 +86,7 @@ public class SupplierService : ISupplierService
         var supplier = await _supplierRepository.GetByIdAsync(id);
 
         if (supplier is null)
-            throw new ValidationException(_localizer[LocalizationKeys.SupplierNotFound]);
+            throw new ValidationException(_localizer[LocalizationKeys.SUPPLIER_NOT_FOUND]);
 
         supplier.IsActive = isActive;
 
@@ -103,10 +103,10 @@ public class SupplierService : ISupplierService
             return;
 
         if (dto.Name == supplier.Name)
-            throw new ValidationException(_localizer[LocalizationKeys.SupplierNameAlreadyExists]);
+            throw new ValidationException(_localizer[LocalizationKeys.SUPPLIER_NAME_ALREADY_EXISTS]);
 
         if (dto.TaxId == supplier.TaxId)
-            throw new ValidationException(_localizer[LocalizationKeys.SupplierTaxIdAlreadyExists]);
+            throw new ValidationException(_localizer[LocalizationKeys.SUPPLIER_TAX_ID_ALREADY_EXISTS]);
     }
 
     private async Task ValidateUpdateSupplierAsync(UpdateSupplierRequestDto dto)
@@ -118,9 +118,9 @@ public class SupplierService : ISupplierService
             return;
 
         if (dto.Name == supplier.Name)
-            throw new ValidationException(_localizer[LocalizationKeys.SupplierNameAlreadyExists]);
+            throw new ValidationException(_localizer[LocalizationKeys.SUPPLIER_NAME_ALREADY_EXISTS]);
 
         if (dto.TaxId == supplier.TaxId)
-            throw new ValidationException(_localizer[LocalizationKeys.SupplierTaxIdAlreadyExists]);
+            throw new ValidationException(_localizer[LocalizationKeys.SUPPLIER_TAX_ID_ALREADY_EXISTS]);
     }
 }

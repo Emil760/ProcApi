@@ -49,6 +49,8 @@ public static class ServicesConfigurationExtension
         services.AddScoped<InvoiceRejectHandler>();
         services.AddScoped<InvoiceReturnHandler>();
         services.AddScoped<InvoiceSubmitHandler>();
+
+        services.AddScoped<IGoodIssueNoteService, GoodIssueNoteService>();
         
         services.AddScoped<IDocumentValidatorHandler, DocumentValidatorHandler>();
         services.AddScoped<PurchaseRequestValidator>();
@@ -59,6 +61,8 @@ public static class ServicesConfigurationExtension
         services.AddScoped<ICategoryService, CategoryService>();
         services.AddScoped<IMaterialService, MaterialService>();
         services.AddScoped<IUnitOfMeasureService, UnitOfMeasureService>();
+
+        services.AddScoped<IAnnualProcurementService, AnnualProcurementService>();
 
         services.AddScoped<IFileService, FileService>();
 

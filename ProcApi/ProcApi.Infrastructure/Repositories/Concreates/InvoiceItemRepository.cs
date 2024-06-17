@@ -14,14 +14,14 @@ public class InvoiceItemRepository : GenericRepository<InvoiceItem>, IInvoiceIte
 
     public async Task<IEnumerable<InvoiceItem>> GetByDocIdAsync(int docId)
     {
-        return await _context.InvoiceDocumentItems
+        return await _context.InvoiceItems
             .Where(idi => idi.InvoiceId == docId)
             .ToListAsync();
     }
 
     public async Task<InvoiceItem?> GetWithUnitOfMeasureByIdAsync(int id)
     {
-        return await _context.InvoiceDocumentItems
+        return await _context.InvoiceItems
             .Include(i => i.UnitOfMeasure)
             .SingleOrDefaultAsync(i => i.Id == id);
     }
@@ -30,7 +30,7 @@ public class InvoiceItemRepository : GenericRepository<InvoiceItem>, IInvoiceIte
         IEnumerable<int> purchaseItemIds,
         DocumentStatus status)
     {
-        return await _context.InvoiceDocumentItems
+        return await _context.InvoiceItems
             .Where(idi => purchaseItemIds.Contains(idi.PurchaseRequestItemId)
                           && idi.Invoice.Document.DocumentStatusId == status)
             .ToListAsync();

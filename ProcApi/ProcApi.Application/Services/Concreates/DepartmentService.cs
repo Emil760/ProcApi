@@ -60,25 +60,6 @@ public class DepartmentService : IDepartmentService
         return _mapper.Map<DepartmentResponseDto>(department);
     }
 
-    public async Task AssignUserToDepartment(int userId, AssignUserDepartmentDto dto)
-    {
-        var department = await _departmentRepository.GetByIdAsync(dto.DepartmentId);
-
-        if (department is null)
-            throw new NotFoundException(_localizer[LocalizationKeys.DEPARTMENT_NOT_FOUND]);
-
-        if (department.HeadUserId != userId)
-            throw new ValidationException(_localizer[LocalizationKeys.USER_NOT_BELONGS_TO_DEPARTMENT]);
-
-        var user = await _userRepository.GetByIdAsync(dto.UserId);
-        if (user is null)
-            throw new NotFoundException(_localizer[LocalizationKeys.USER_NOT_FOUND]);
-
-        user.Department = department;
-
-        await _unitOfWork.SaveChangesAsync();
-    }
-
     public async Task<IEnumerable<DepartmentListResponseDto>> GetAllAsync(PaginationModel pagination)
     {
         var departmentPaginated = await _departmentRepository.GetAllPaginated(pagination);

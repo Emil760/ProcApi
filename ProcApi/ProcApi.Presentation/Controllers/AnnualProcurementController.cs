@@ -32,7 +32,7 @@ public class AnnualProcurementController : BaseController
         return Ok();
     }
     
-    [HttpPut]
+    [HttpPut("Activate")]
     [HasPermission(Permissions.CanAddAnnualProcurement)]
     public async Task<IActionResult> ActivateAsync(int id)
     {
@@ -40,7 +40,7 @@ public class AnnualProcurementController : BaseController
         return Ok();
     }
     
-    [HttpPut]
+    [HttpPut("Deactivate")]
     [HasPermission(Permissions.CanAddAnnualProcurement)]
     public async Task<IActionResult> DeactivateAsynnc(int id)
     {

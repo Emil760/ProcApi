@@ -1,11 +1,7 @@
-﻿using ProcApi.Domain.Enums;
+﻿using ProcApi.Application.DTOs.User.Base;
 
 namespace ProcApi.Application.DTOs.User.Requests;
 
-public class AddUserDto
+public class AddUserDto : UserDto
 {
-    public string FirstName { get; set; }
-    public string LastName { get; set; }
-    public int Age { get; set; }
-    public Gender Gender { get; set; }
 }

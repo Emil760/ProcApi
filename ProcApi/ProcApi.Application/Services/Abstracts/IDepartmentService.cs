@@ -8,5 +8,4 @@ public interface IDepartmentService
 {
     Task<DepartmentResponseDto> CreateDepartmentAsync(CreateDepartmentDto dto);
     Task<IEnumerable<DepartmentListResponseDto>> GetAllAsync(PaginationModel pagination);
-    Task AssignUserToDepartment(int userId, AssignUserDepartmentDto dto);
 }

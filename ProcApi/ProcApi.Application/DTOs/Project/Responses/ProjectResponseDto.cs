@@ -1,9 +1,9 @@
-﻿namespace ProcApi.Application.DTOs.Project.Responses
+﻿using ProcApi.Application.DTOs.Project.Base;
+
+namespace ProcApi.Application.DTOs.Project.Responses
 {
-    public class ProjectResponseDto
+    public class ProjectResponseDto : ProjectDto
     {
         public int Id { get; set; }
-        public string Name { get; set; }
-        public decimal Budget { get; set; }
     }
 }

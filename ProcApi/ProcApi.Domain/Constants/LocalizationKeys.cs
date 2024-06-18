@@ -20,7 +20,8 @@
         public const string CANT_CHANGE_NON_DRAFT_DOCUMENT = "CantChangeNonDraftDocument";
         public const string ACTION_ALREADY_PERFORMED = "ActionAlreadyPerformed";
         public const string DOCUMENT_IS_NOT_APPROVED = "DocumentIsNotApproved";
-        
+
+        public const string USER_ALREADY_HAS_DEPARTMENT = "UserAlreadyHasDepartment";
         public const string USER_NOT_BELONGS_TO_DEPARTMENT = "UserDontBelongToDepartment";
         public const string DEPARTMENT_ALREADY_EXISTS = "DepartmentNameAlreadyExists";
         public const string DEPARTMENT_NOT_FOUND = "DepartmentNotFound";
@@ -52,5 +53,8 @@
         public static string ANNUAL_PROCUREMENT_ALREADY_EXISTS = "AnnualProcurementAlreadyExists";
         public static string ANNUAL_PROCUREMENT_NOT_FOUND = "AnnualProcurementNotFound";
         public static string ACTIVE_ANNUAL_PROCUREMENT_ALREADY_EXISTS = "ActiveAnnualProcurementAlreadyExists";
+
+        public static string PROJECT_NOT_FOUND = "ProjectNotFound";
+        public static string PROJECT_NAME_ALREADY_EXISTS = "ProjectNameAlreadyExists";
     }
 }

@@ -16,4 +16,10 @@ public class ProjectRepository : GenericRepository<Project>, IProjectRepository
         return await _context.Projects
             .AnyAsync(p => p.Name == name);
     }
+
+    public async Task<bool> ExistsByNameExceptCurrentAsync(int id, string name)
+    {
+        return await _context.Projects
+            .AnyAsync(p => p.Id != id && p.Name == name);
+    }
 }

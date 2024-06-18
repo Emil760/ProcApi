@@ -1,8 +1,9 @@
-﻿namespace ProcApi.Application.DTOs.Project.Requests
+﻿using ProcApi.Application.DTOs.Project.Base;
+
+namespace ProcApi.Application.DTOs.Project.Requests
 {
-    public class CreateProjectRequestDto
+    public class CreateProjectRequestDto : ProjectDto
     {
-        public string Name { get; set; }
-        public decimal Budget { get; set; }
+        
     }
 }

@@ -7,7 +7,9 @@ namespace ProcApi.Application.Mappers
     {
         public DashboardProfile()
         {
-            CreateMap<Dashboard, DropDownDto<int>>();
+            CreateMap<Dashboard, DropDownDto<int>>()
+                .ForMember(dest => dest.Key, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.Value, opt => opt.MapFrom(src => src.Name));
         }
     }
 }

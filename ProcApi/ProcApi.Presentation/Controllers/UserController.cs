@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ProcApi.Application.Caches.Abstracts;
+using ProcApi.Application.DTOs.Department.Requests;
 using ProcApi.Application.DTOs.User.Requests;
 using ProcApi.Application.Services.Abstracts;
 using ProcApi.Domain.Enums;
@@ -24,7 +25,7 @@ public class UserController : BaseController
     [HasPermission(Permissions.CanViewUser)]
     public async Task<IActionResult> GetAllAsync()
     {
-        return Ok(await _userService.GetUsersAsync());
+        return Ok(await _userService.GetAllInfosAsync());
     }
 
     [HttpGet("GetAllWithRoles")]
@@ -97,11 +98,19 @@ public class UserController : BaseController
         return Ok(await _userService.GetAllByRoleNameAsync(name));
     }
 
-    [HttpPut("Dashboard")]
+    [HttpPut("AssignDashboard")]
     [HasPermission(Permissions.CanChangeDashboard)]
-    public async Task<IActionResult> ChangeDashboardAsync(ChangeDashboardRequestDto dto)
+    public async Task<IActionResult> AssignDashboardAsync(AssignDashboardRequestDto dto)
     {
-        await _userService.ChangeDashboardAsync(dto);
+        await _userService.AssignDashboardAsync(dto);
+        return Ok();
+    }
+    
+    [HttpPut("AssignDepartment")]
+    [HasPermission(Permissions.CanChangeDashboard)]
+    public async Task<IActionResult> AssignDepartmentAsync(AssignDepartmentRequestDto requestDto)
+    {
+        await _userService.AssignDepartmentAsync(requestDto);
         return Ok();
     }
 }

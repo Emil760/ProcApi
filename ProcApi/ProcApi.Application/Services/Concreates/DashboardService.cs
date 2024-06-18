@@ -2,7 +2,6 @@
 using ProcApi.Application.DTOs;
 using ProcApi.Application.Services.Abstracts;
 using ProcApi.Infrastructure.Repositories.Abstracts;
-using ProcApi.Infrastructure.Repositories.UnitOfWork;
 
 namespace ProcApi.Application.Services.Concreates
 {
@@ -10,13 +9,10 @@ namespace ProcApi.Application.Services.Concreates
     {
         private readonly IDashboardRepository _dashboardRepository;
         private readonly IMapper _mapper;
-        private readonly IUnitOfWork _unitOfWork;
 
         public DashboardService(IDashboardRepository dashboardRepository,
-            IUnitOfWork unitOfWork,
             IMapper mapper)
         {
-            _unitOfWork = unitOfWork;
             _mapper = mapper;
             _dashboardRepository = dashboardRepository;
         }

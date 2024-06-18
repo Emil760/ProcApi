@@ -10,25 +10,33 @@ namespace ProcApi.Presentation.Controllers
     [Route("[controller]")]
     public class ProjectController : BaseController
     {
-        private readonly IProjectSercive _projectSercive;
+        private readonly IProjectService _projectService;
 
-        public ProjectController(IProjectSercive projectSercive)
+        public ProjectController(IProjectService projectService)
         {
-            _projectSercive = projectSercive;
+            _projectService = projectService;
         }
 
-        [HttpGet]
+        [HttpGet("All")]
         [HasPermission(Permissions.CanViewProject)]
         public async Task<IActionResult> GetProjectsAsync()
         {
-            var project = await _projectSercive.GetProjectsAsync();
+            var project = await _projectService.GetProjectsAsync();
+            return Ok(project);
+        }
+        
+        [HttpGet]
+        [HasPermission(Permissions.CanViewProject)]
+        public async Task<IActionResult> GetProjectAsync(int id)
+        {
+            var project = await _projectService.GetProjectAsync(id);
             return Ok(project);
         }
 
         [HttpGet("DropDown")]
         public async Task<IActionResult> GetProjectsForDropDownAsync()
         {
-            var project = await _projectSercive.GetProjectsForDropDownAsync();
+            var project = await _projectService.GetProjectsForDropDownAsync();
             return Ok(project);
         }
 
@@ -36,7 +44,15 @@ namespace ProcApi.Presentation.Controllers
         [HasPermission(Permissions.CanAddProject)]
         public async Task<IActionResult> CreateProjectAsync(CreateProjectRequestDto dto)
         {
-            var project = await _projectSercive.CreateProjectAsync(dto);
+            var project = await _projectService.CreateProjectAsync(dto);
+            return Ok(project);
+        }
+        
+        [HttpPut]
+        [HasPermission(Permissions.CanAddProject)]
+        public async Task<IActionResult> UpdateProjectAsync(UpdateProjectRequestDto dto)
+        {
+            var project = await _projectService.UpdateProjectAsync(dto);
             return Ok(project);
         }
     }

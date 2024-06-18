@@ -11,6 +11,7 @@ using ProcApi.Domain.Exceptions;
 using ProcApi.Domain.Models;
 using ProcApi.Domain.Constants;
 using ProcApi.Infrastructure.Repositories.Abstracts;
+using ProcApi.Infrastructure.Repositories.UnitOfWork;
 using ProcApi.Infrastructure.Resources;
 
 namespace ProcApi.Application.Services.Concreates;
@@ -23,13 +24,15 @@ public class MaterialService : IMaterialService
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IStringLocalizer<SharedResource> _localizer;
     private readonly IMapper _mapper;
+    private readonly IUnitOfWork _unitOfWork;
 
     public MaterialService(IMaterialRepository materialRepository,
         IHttpContextAccessor httpContextAccessor,
         ICategoryRepository categoryRepository,
         IUnitOfMeasureRepository unitOfMeasureRepository,
         IMapper mapper,
-        IStringLocalizer<SharedResource> localizer)
+        IStringLocalizer<SharedResource> localizer,
+        IUnitOfWork unitOfWork)
     {
         _materialRepository = materialRepository;
         _httpContextAccessor = httpContextAccessor;
@@ -37,6 +40,7 @@ public class MaterialService : IMaterialService
         _unitOfMeasureRepository = unitOfMeasureRepository;
         _mapper = mapper;
         _localizer = localizer;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<IEnumerable<MaterialResponseDto>> GetAllAsync(PaginationModel pagination)
@@ -100,9 +104,8 @@ public class MaterialService : IMaterialService
         var category = await ValidateCategory(dto.CategoryId);
         var unitOfMeasure = await ValidateUnitOfMeasure(dto.UnitOfMeasureId);
         await ValidateEditMaterial(id, dto);
-
+        
         var material = await _materialRepository.GetByIdAsync(id);
-
         if (material is null)
             throw new NotFoundException(_localizer[LocalizationKeys.MATERIAL_NOT_FOUND]);
 
@@ -110,11 +113,12 @@ public class MaterialService : IMaterialService
         material.Category = category;
         material.UnitOfMeasure = unitOfMeasure;
 
-        await _materialRepository.InsertAsync(material);
+        await _unitOfWork.SaveChangesAsync();
 
         return _mapper.Map<MaterialResponseDto>(material);
     }
 
+    //TODO delete validation
     public async Task DeleteMaterial(int id)
     {
         var material = await _materialRepository.GetByIdAsync(id);

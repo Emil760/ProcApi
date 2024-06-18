@@ -1,11 +1,12 @@
-﻿using ProcApi.Domain.Enums;
+﻿using ProcApi.Application.DTOs.User.Base;
 
 namespace ProcApi.Application.DTOs.User.Responses;
 
-public class UserInfoResponseDto
+public class UserInfoResponseDto : UserDto
 {
     public int Id { get; set; }
-    public string FirstName { get; set; }
-    public int Age { get; set; }
-    public Gender Gender { get; set; }
+    public int DepartmentId { get; set; }
+    public string DepartmentName { get; set; }
+    public int DashboardId { get; set; }
+    public string DashboardName { get; set; }
 }

@@ -13,10 +13,6 @@ public class CreateUserValidator : AbstractValidator<AddUserDto>
             .NotEmpty()
             .WithMessage(localizer["FirstNameCantBeEmpty"]);
 
-        RuleFor(u => u.LastName)
-            .NotEmpty()
-            .WithMessage("last name cant be empty");
-
         RuleFor(u => u.Age)
             .GreaterThan(17)
             .WithMessage("Age should be greater than 18");

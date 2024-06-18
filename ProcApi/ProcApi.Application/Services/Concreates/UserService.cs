@@ -19,26 +19,29 @@ public class UserService : IUserService
     private readonly IUserRepository _userRepository;
     private readonly IRoleRepository _roleRepository;
     private readonly IDashboardRepository _dashboardRepository;
+    private readonly IDepartmentRepository _departmentRepository;
     private readonly IMapper _mapper;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IStringLocalizer<SharedResource> _localizer;
 
     public UserService(IUserRepository userRepository,
         IDashboardRepository dashboardRepository,
+        IDepartmentRepository departmentRepository,
+        IRoleRepository roleRepository,
         IMapper mapper,
         IUnitOfWork unitOfWork,
-        IStringLocalizer<SharedResource> localizer,
-        IRoleRepository roleRepository)
+        IStringLocalizer<SharedResource> localizer)
     {
         _userRepository = userRepository;
         _dashboardRepository = dashboardRepository;
+        _roleRepository = roleRepository;
+        _departmentRepository = departmentRepository;
         _mapper = mapper;
         _unitOfWork = unitOfWork;
         _localizer = localizer;
-        _roleRepository = roleRepository;
     }
 
-    public async Task<UserInfoResponseDto> AddUserAsync(AddUserDto dto)
+    public async Task<UserResponseDto> AddUserAsync(AddUserDto dto)
     {
         var user = _mapper.Map<User>(dto);
 
@@ -46,7 +49,7 @@ public class UserService : IUserService
 
         await _unitOfWork.SaveChangesAsync();
 
-        return _mapper.Map<UserInfoResponseDto>(user);
+        return _mapper.Map<UserResponseDto>(user);
     }
 
     public async Task<IEnumerable<string>> GetAllRoleNames(int userId)
@@ -65,7 +68,7 @@ public class UserService : IUserService
 
     public async Task<UserInfoResponseDto> GetByIdAsync(int id)
     {
-        var user = await _userRepository.GetByIdAsync(id);
+        var user = await _userRepository.GetAllInfoByIdAsync(id);
 
         if (user is null)
             throw new NotFoundException(_localizer[LocalizationKeys.USER_NOT_FOUND]);
@@ -73,9 +76,9 @@ public class UserService : IUserService
         return _mapper.Map<UserInfoResponseDto>(user);
     }
 
-    public async Task<IEnumerable<UserInfoResponseDto>> GetUsersAsync()
+    public async Task<IEnumerable<UserInfoResponseDto>> GetAllInfosAsync()
     {
-        var users = await _userRepository.GetAllAsync();
+        var users = await _userRepository.GetAllInfosAsync();
 
         users = users.OrderByDescending(u => u.Gender, new GenderComparer());
 
@@ -136,8 +139,7 @@ public class UserService : IUserService
         await _unitOfWork.SaveChangesAsync();
     }
 
-    //TODO localization
-    public async Task ChangeDashboardAsync(ChangeDashboardRequestDto dto)
+    public async Task AssignDashboardAsync(AssignDashboardRequestDto dto)
     {
         var user = await _userRepository.GetWithRolesById(dto.UserId);
         if (user is null)
@@ -148,6 +150,23 @@ public class UserService : IUserService
             throw new NotFoundException(_localizer[LocalizationKeys.DASHBOARD_NOT_FOUND]);
 
         user.Dashboard = dashboard;
+        await _unitOfWork.SaveChangesAsync();
+    }
+
+    public async Task AssignDepartmentAsync(AssignDepartmentRequestDto dto)
+    {
+        var user = await _userRepository.GetByIdAsync(dto.UserId);
+        if (user is null)
+            throw new NotFoundException(_localizer[LocalizationKeys.USER_NOT_FOUND]);
+        
+        var department = await _departmentRepository.GetByIdAsync(dto.DepartmentId);
+        if (department is null)
+            throw new NotFoundException(_localizer[LocalizationKeys.DEPARTMENT_NOT_FOUND]);
+        
+        if (department.Id == user.DepartmentId)
+            throw new ValidationException(_localizer[LocalizationKeys.USER_ALREADY_HAS_DEPARTMENT]);
+
+        user.Department = department;
         await _unitOfWork.SaveChangesAsync();
     }
 }

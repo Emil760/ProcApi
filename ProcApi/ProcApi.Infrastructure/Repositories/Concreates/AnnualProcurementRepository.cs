@@ -11,9 +11,22 @@ public class AnnualProcurementRepository : GenericRepository<AnnualProcurement>,
     {
     }
 
-    public async Task<bool> ExistsByYear(short year)
+    public async Task<bool> ExistsByYearAsync(short year)
     {
         return await _context.AnnualProcurements
             .AnyAsync(ap => ap.Year == year);
+    }
+    
+    public async Task<bool> ExistsByYearAndActiveAsync(short year, bool isActive)
+    {
+        return await _context.AnnualProcurements
+            .AnyAsync(ap => ap.Year == year && ap.IsActive == isActive);
+    }
+
+    public async Task<AnnualProcurement?> GetWithItemsByIdAsync(int id)
+    {
+        return await _context.AnnualProcurements
+            .Include(ap => ap.Items)
+            .SingleOrDefaultAsync(ap => ap.Id == id);
     }
 }

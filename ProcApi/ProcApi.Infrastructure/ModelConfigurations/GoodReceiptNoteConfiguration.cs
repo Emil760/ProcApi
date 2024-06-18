@@ -8,14 +8,19 @@ public class GoodReceiptNoteConfiguration : IEntityTypeConfiguration<GoodReceipt
 {
     public void Configure(EntityTypeBuilder<GoodReceiptNote> builder)
     {
-        builder.HasKey(prd => prd.DocumentId);
+        builder.HasKey(gr => gr.DocumentId);
 
-        builder.Property(prd => prd.DocumentId)
+        builder.Property(gr => gr.DocumentId)
             .ValueGeneratedNever();
 
-        builder.HasOne(prd => prd.Document)
+        builder.HasOne(gr => gr.Document)
             .WithOne()
-            .HasForeignKey<GoodIssueNote>(prd => prd.DocumentId)
+            .HasForeignKey<GoodReceiptNote>(prd => prd.DocumentId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.HasMany(gr => gr.Items)
+            .WithOne(gri => gri.GoodReceiptNote)
+            .HasForeignKey(gri => gri.GoodReceiptNoteId)
             .OnDelete(DeleteBehavior.Cascade);
     }
 }

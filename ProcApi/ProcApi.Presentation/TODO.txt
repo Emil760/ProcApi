@@ -1,2 +1,3 @@
 ﻿DefaultCombinationReportColumns
 ex_Comments
+make Exists generic repository

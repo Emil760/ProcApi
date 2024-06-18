@@ -8,6 +8,9 @@ public class GoodIssueNoteItemConfiguration : IEntityTypeConfiguration<GoodIssue
 {
     public void Configure(EntityTypeBuilder<GoodIssueNoteItem> builder)
     {
-        throw new NotImplementedException();
+        builder.HasOne(gii => gii.GoodIssueNote)
+            .WithMany(gi => gi.Items)
+            .HasForeignKey(gii => gii.GoodIssueNoteId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

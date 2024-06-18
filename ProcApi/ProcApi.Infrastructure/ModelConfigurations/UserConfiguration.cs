@@ -27,7 +27,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.HasOne(u => u.Dashboard)
             .WithMany(d => d.Users)
             .HasForeignKey(u => u.DashboardId)
-            .OnDelete(DeleteBehavior.Cascade)
+            .OnDelete(DeleteBehavior.SetNull)
             .IsRequired(false);
 
         builder.HasMany(u => u.FromDelegations)

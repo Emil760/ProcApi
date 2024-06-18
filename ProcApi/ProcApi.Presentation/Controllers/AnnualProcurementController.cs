@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using ProcApi.Application.DTOs.AnnualProcurement.Requests;
 using ProcApi.Application.Services.Abstracts;
 using ProcApi.Domain.Enums;
-using ProcApi.Infrastructure.Data;
 using ProcApi.Presentation.Attributes;
 
 namespace ProcApi.Presentation.Controllers;
@@ -13,7 +11,6 @@ namespace ProcApi.Presentation.Controllers;
 public class AnnualProcurementController : BaseController
 {
     private readonly IAnnualProcurementService _annualProcurementService;
-    private readonly ProcDbContext _dbContext;
     
     public AnnualProcurementController(IAnnualProcurementService annualProcurementService)
     {
@@ -24,7 +21,30 @@ public class AnnualProcurementController : BaseController
     [HasPermission(Permissions.CanAddAnnualProcurement)]
     public async Task<IActionResult> CreateAnnualProcurementAsync([FromBody] CreateAnnualProcurementRequestDto requestDto)
     {
-        _dbContext.AnnualProcurements.ExecuteDelete();
         return Ok(await _annualProcurementService.CreateAnnualProcurementAsync(requestDto));
+    }
+    
+    [HttpPut]
+    [HasPermission(Permissions.CanAddAnnualProcurement)]
+    public async Task<IActionResult> ChangeAnnualProcurementAsync(int id)
+    {
+        await _annualProcurementService.ChangeAnnualProcurementAsync(id);
+        return Ok();
+    }
+    
+    [HttpPut]
+    [HasPermission(Permissions.CanAddAnnualProcurement)]
+    public async Task<IActionResult> ActivateAsync(int id)
+    {
+        await _annualProcurementService.ActivateAsync(id);
+        return Ok();
+    }
+    
+    [HttpPut]
+    [HasPermission(Permissions.CanAddAnnualProcurement)]
+    public async Task<IActionResult> DeactivateAsynnc(int id)
+    {
+        await _annualProcurementService.DeactivateAsync(id);
+        return Ok();
     }
 }

@@ -50,5 +50,7 @@
         public const string EMPTY_ITEMS = "EmptyItems";
         
         public static string ANNUAL_PROCUREMENT_ALREADY_EXISTS = "AnnualProcurementAlreadyExists";
+        public static string ANNUAL_PROCUREMENT_NOT_FOUND = "AnnualProcurementNotFound";
+        public static string ACTIVE_ANNUAL_PROCUREMENT_ALREADY_EXISTS = "ActiveAnnualProcurementAlreadyExists";
     }
 }

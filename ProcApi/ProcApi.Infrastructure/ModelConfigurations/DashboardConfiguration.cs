@@ -8,7 +8,15 @@ namespace ProcApi.Infrastructure.ModelConfigurations
     {
         public void Configure(EntityTypeBuilder<Dashboard> builder)
         {
-            throw new NotImplementedException();
+            builder.Property(d => d.Name)
+                .HasColumnType("varchar")
+                .HasMaxLength(300)
+                .IsRequired();
+
+            builder.HasMany(d => d.Users)
+                .WithOne(u => u.Dashboard)
+                .HasForeignKey(u => u.DashboardId)
+                .OnDelete(DeleteBehavior.SetNull);
         }
     }
 }

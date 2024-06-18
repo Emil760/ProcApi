@@ -1,6 +1,6 @@
 ﻿namespace ProcApi.Domain.Entities;
 
-public class AnnualProcurementItem
+public class AnnualProcurementItem : ICloneable
 {
     public int Id { get; set; }
     public int AnnualProcurementId { get; set; }
@@ -10,4 +10,9 @@ public class AnnualProcurementItem
     public int UnitOfMeasureId { get; set; }
     public UnitOfMeasure UnitOfMeasure { get; set; }
     public decimal Quantity { get; set; }
+
+    public object Clone()
+    {
+        return MemberwiseClone();
+    }
 }

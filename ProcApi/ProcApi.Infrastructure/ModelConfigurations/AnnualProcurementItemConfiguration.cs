@@ -8,6 +8,9 @@ public class AnnualProcurementItemConfiguration : IEntityTypeConfiguration<Annua
 {
     public void Configure(EntityTypeBuilder<AnnualProcurementItem> builder)
     {
-        throw new NotImplementedException();
+        builder.HasOne(api => api.AnnualProcurement)
+            .WithMany(ap => ap.Items)
+            .HasForeignKey(api => api.AnnualProcurementId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

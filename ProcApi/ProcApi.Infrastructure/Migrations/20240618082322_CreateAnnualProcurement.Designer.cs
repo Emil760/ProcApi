@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ProcApi.Domain.Entities;
@@ -13,9 +14,11 @@ using ProcApi.Infrastructure.Data;
 namespace ProcApi.Infrastructure.Migrations
 {
     [DbContext(typeof(ProcDbContext))]
-    partial class ProcDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240618082322_CreateAnnualProcurement")]
+    partial class CreateAnnualProcurement
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,7 +38,7 @@ namespace ProcApi.Infrastructure.Migrations
                     b.Property<DateTime>("CreationDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("date")
-                        .HasDefaultValue(new DateTime(2024, 6, 18, 12, 25, 11, 881, DateTimeKind.Local).AddTicks(3692));
+                        .HasDefaultValue(new DateTime(2024, 6, 18, 12, 23, 22, 88, DateTimeKind.Local).AddTicks(614));
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -864,7 +867,7 @@ namespace ProcApi.Infrastructure.Migrations
                         .HasMaxLength(300)
                         .HasColumnType("varchar");
 
-                    b.Property<int>("UnitOfMeasureId")
+                    b.Property<int?>("UnitOfMeasureId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
@@ -2582,8 +2585,7 @@ namespace ProcApi.Infrastructure.Migrations
                     b.HasOne("ProcApi.Domain.Entities.UnitOfMeasure", "UnitOfMeasure")
                         .WithMany("Materials")
                         .HasForeignKey("UnitOfMeasureId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Category");
 

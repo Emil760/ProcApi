@@ -8,6 +8,9 @@ public class GoodReceiptNoteItemConfiguration : IEntityTypeConfiguration<GoodRec
 {
     public void Configure(EntityTypeBuilder<GoodReceiptNoteItem> builder)
     {
-        throw new NotImplementedException();
+        builder.HasOne(gri => gri.GoodReceiptNote)
+            .WithMany(gr => gr.Items)
+            .HasForeignKey(gri => gri.GoodReceiptNoteId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

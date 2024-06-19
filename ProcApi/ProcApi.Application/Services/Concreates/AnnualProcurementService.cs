@@ -15,16 +15,25 @@ namespace ProcApi.Application.Services.Concreates;
 public class AnnualProcurementService : IAnnualProcurementService
 {
     private readonly IAnnualProcurementRepository _annualProcurementRepository;
+    private readonly IMaterialRepository _materialRepository;
+    private readonly IUnitOfMeasureRepository _unitOfMeasureRepository;
+    private readonly IUnitOfMeasureService _unitOfMeasureService;
     private readonly IStringLocalizer<SharedResource> _localizer;
     private readonly IMapper _mapper;
     private readonly IUnitOfWork _unitOfWork;
 
     public AnnualProcurementService(IAnnualProcurementRepository annualProcurementRepository,
+        IMaterialRepository materialRepository,
+        IUnitOfMeasureRepository unitOfMeasureRepository,
+        IUnitOfMeasureService unitOfMeasureService,
         IStringLocalizer<SharedResource> localizer,
         IMapper mapper,
         IUnitOfWork unitOfWork)
     {
         _annualProcurementRepository = annualProcurementRepository;
+        _materialRepository = materialRepository;
+        _unitOfMeasureRepository = unitOfMeasureRepository;
+        _unitOfMeasureService = unitOfMeasureService;
         _localizer = localizer;
         _mapper = mapper;
         _unitOfWork = unitOfWork;
@@ -93,5 +102,63 @@ public class AnnualProcurementService : IAnnualProcurementService
 
         annualProcurement.IsActive = false;
         await _unitOfWork.SaveChangesAsync();
+    }
+
+    public async Task<IEnumerable<AnnualProcurementResponseDto>> GetAllAsync()
+    {
+        var annualProcurements = await _annualProcurementRepository.GetAllAsync();
+        return _mapper.Map<IEnumerable<AnnualProcurementResponseDto>>(annualProcurements);
+    }
+
+    public async Task<IEnumerable<AnnualProcurementResponseDto>> GetAllActiveAsync()
+    {
+        var annualProcurements = await _annualProcurementRepository.GetAllActiveAsync();
+        return _mapper.Map<IEnumerable<AnnualProcurementResponseDto>>(annualProcurements);
+    }
+
+    public async Task<AnnualProcurementItemResponseDto> AddItemAsync(CreateAnnualProcurementItemsRequestDto dto)
+    {
+        var annualProcurement = await _annualProcurementRepository.GetByIdAsync(dto.AnnualProcurementId);
+        if (annualProcurement is null)
+            throw new NotFoundException(_localizer[LocalizationKeys.ANNUAL_PROCUREMENT_NOT_FOUND]);
+
+        var unitOfMeasureIds = dto.Items.Select(i => i.UnitOfMeasureId).Distinct();
+        var unitOfMeasures = await _unitOfMeasureRepository.GetByIdsAsync(unitOfMeasureIds);
+        if (unitOfMeasureIds.Count() != unitOfMeasures.Count())
+            throw new NotFoundException(_localizer[LocalizationKeys.UNIT_OF_MEASURE_NOT_FOUND]);
+
+        var materialsIds = dto.Items.Select(i => i.MaterialId).Distinct();
+        var materials = (IEnumerable<int>)new int[] { };
+        if (materialsIds.Count() != materials.Count())
+            throw new NotFoundException(_localizer[LocalizationKeys.MATERIAL_NOT_FOUND]);
+
+        var itemsException = new ItemsException<int>();
+        var exceptionIds = new List<int>();
+
+        foreach (var createItem in dto.Items)
+        {
+            var unitOfMeasure = unitOfMeasures.SingleOrDefault(uom => uom.Id == createItem.UnitOfMeasureId);
+            
+            try
+            {
+                _unitOfMeasureService.ValidateQuantity(unitOfMeasure, createItem.Quantity);
+            }
+            catch (ValidationException ex)
+            {
+                exceptionIds.Add(createItem.UnitOfMeasureId);
+                throw;
+            }
+        }
+
+        // var material = await _materialRepository.GetByIdAsync(dto.MaterialId);
+        // if (material is null)
+        //     throw new NotFoundException(_localizer[LocalizationKeys.MATERIAL_NOT_FOUND]);
+        //
+        // var unitOfMeasure = await _unitOfMeasureRepository.GetByIdAsync(dto.UnitOfMeasureId);
+        // if (unitOfMeasure is null)
+        //     throw new NotFoundException(_localizer[LocalizationKeys.UNIT_OF_MEASURE_NOT_FOUND]);
+        // _unitOfMeasureService.ValidateQuantity(unitOfMeasure, dto.Quantity);
+
+        return null;
     }
 }

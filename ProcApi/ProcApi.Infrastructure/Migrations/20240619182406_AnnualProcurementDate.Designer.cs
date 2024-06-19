@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ProcApi.Domain.Entities;
@@ -13,9 +14,11 @@ using ProcApi.Infrastructure.Data;
 namespace ProcApi.Infrastructure.Migrations
 {
     [DbContext(typeof(ProcDbContext))]
-    partial class ProcDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240619182406_AnnualProcurementDate")]
+    partial class AnnualProcurementDate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,7 +38,7 @@ namespace ProcApi.Infrastructure.Migrations
                     b.Property<DateTime>("CreationDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("date")
-                        .HasDefaultValue(new DateTime(2024, 6, 19, 22, 30, 50, 522, DateTimeKind.Local).AddTicks(2924));
+                        .HasDefaultValue(new DateTime(2024, 6, 19, 22, 24, 5, 911, DateTimeKind.Local).AddTicks(3626));
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -1059,11 +1062,6 @@ namespace ProcApi.Infrastructure.Migrations
                         {
                             Id = 33,
                             Name = "CanAddAnnualProcurement"
-                        },
-                        new
-                        {
-                            Id = 34,
-                            Name = "CanViewAnnualProcurement"
                         });
                 });
 
@@ -1931,11 +1929,6 @@ namespace ProcApi.Infrastructure.Migrations
                         {
                             RoleId = 2,
                             PermissionId = 33
-                        },
-                        new
-                        {
-                            RoleId = 2,
-                            PermissionId = 34
                         },
                         new
                         {

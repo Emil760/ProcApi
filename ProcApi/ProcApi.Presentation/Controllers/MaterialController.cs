@@ -24,6 +24,13 @@ public class MaterialController : BaseController
     {
         return Ok(await _materialService.GetAllAsync(pagination));
     }
+    
+    [HttpGet("ForDropDown")]
+    [HasPermission(Permissions.CanViewMaterial)]
+    public async Task<IActionResult> GetAllForDropDownAsync()
+    {
+        return Ok(await _materialService.GetAllForDropDownAsync());
+    }
 
     [HttpGet]
     [HasPermission(Permissions.CanViewMaterial)]

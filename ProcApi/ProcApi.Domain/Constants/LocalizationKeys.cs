@@ -34,7 +34,7 @@
         public const string UNIT_OF_MEASURE_ALREADY_EXISTS = "UnitOfMeasureAlreadyExists";
         public const string UNIT_OF_MEASURE_NAME_ALREADY_EXISTS = "UnitOfMeasureAlreadyExistsByName";
         public const string UNIT_OF_MEASURE_NOT_FOUND = "UnitOfMeasureNotFound";
-        public const string CAN_USE_DECIMAL_FOR_UNIT_OF_MEASURE = "CantUseDecimalForUnitOfMeasure";
+        public const string CANT_USE_DECIMAL_FOR_UNIT_OF_MEASURE = "CantUseDecimalForUnitOfMeasure";
         public const string UNIT_MEASURE_RULE_NOT_FOUND = "UnitOfMeasureRuleNotFound";
         public const string UNIT_MEASURE_RULE_IS_NOT_ACTIVE = "UnitOfMeasureRuleIsNotActive";
         public const string QUANTITY_MUST_BE_INTEGER = "QuantityMustBeInteger";

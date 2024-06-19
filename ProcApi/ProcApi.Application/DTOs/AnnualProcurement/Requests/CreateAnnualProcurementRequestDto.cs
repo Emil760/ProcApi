@@ -1,8 +1,8 @@
-﻿namespace ProcApi.Application.DTOs.AnnualProcurement.Requests;
+﻿using ProcApi.Application.DTOs.AnnualProcurement.Base;
 
-public class CreateAnnualProcurementRequestDto
+namespace ProcApi.Application.DTOs.AnnualProcurement.Requests;
+
+public class CreateAnnualProcurementRequestDto : AnnualProcurementDto
 {
-    public string Name { get; set; }
-    public string Description { get; set; }
-    public short Year { get; set; }
+    
 }

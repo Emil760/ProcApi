@@ -1,6 +1,7 @@
 ﻿using ProcApi.Application.DTOs;
 using ProcApi.Application.DTOs.UnitOfMeasure.Requests;
 using ProcApi.Application.DTOs.UnitOfMeasure.Responses;
+using ProcApi.Domain.Entities;
 
 namespace ProcApi.Application.Services.Abstracts;
 
@@ -13,4 +14,5 @@ public interface IUnitOfMeasureService
     Task ActivateAsync(ActivateUnitOfMeasureRequestDto dto);
     Task CreateConversationRuleAsync(CreateUnitOfMeasureConversationRuleRequestDto dto);
     Task<IEnumerable<UnitOfMeasureConverterResponseDto>> GetRulesAsync(int id);
+    void ValidateQuantity(UnitOfMeasure unitOfMeasure, decimal quantity);
 }

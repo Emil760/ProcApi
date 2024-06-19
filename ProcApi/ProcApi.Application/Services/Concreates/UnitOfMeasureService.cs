@@ -85,7 +85,7 @@ public class UnitOfMeasureService : IUnitOfMeasureService
 
     public async Task CreateConversationRuleAsync(CreateUnitOfMeasureConversationRuleRequestDto dto)
     {
-        var unitOfMeasures = await _unitOfMeasureRepository.GetByIds(
+        var unitOfMeasures = await _unitOfMeasureRepository.GetByIdsAsync(
             new[] { dto.SourceUnitOfMeasureId, dto.TargetUnitOfMeasureId });
         if (unitOfMeasures.Count() < 2)
             throw new NotFoundException(_localizer[LocalizationKeys.UNIT_OF_MEASURE_NOT_FOUND]);
@@ -95,10 +95,9 @@ public class UnitOfMeasureService : IUnitOfMeasureService
         if (alreadyHasRule)
             throw new ValidationException(_localizer[LocalizationKeys.UNIT_OF_MEASURE_ALREADY_EXISTS]);
 
-        if ((!unitOfMeasures.ElementAt(0).CanBeDecimal || !unitOfMeasures.ElementAt(0).CanBeDecimal) &&
-            !decimal.IsInteger(dto.Value))
-            throw new ValidationException(_localizer[LocalizationKeys.CAN_USE_DECIMAL_FOR_UNIT_OF_MEASURE]);
-
+        ValidateQuantity(unitOfMeasures.ElementAt(0), dto.Value);
+        ValidateQuantity(unitOfMeasures.ElementAt(1), dto.Value);
+        
         _unitOfMeasureConverterRepository.Insert(new UnitOfMeasureConverter()
         {
             SourceUnitOfMeasureId = dto.SourceUnitOfMeasureId,
@@ -124,5 +123,11 @@ public class UnitOfMeasureService : IUnitOfMeasureService
             throw new NotFoundException(_localizer[LocalizationKeys.UNIT_OF_MEASURE_NOT_FOUND]);
 
         return _mapper.Map<IEnumerable<UnitOfMeasureConverterResponseDto>>(unitOfMeasure.Converters);
+    }
+
+    public void ValidateQuantity(UnitOfMeasure unitOfMeasure, decimal quantity)
+    {
+        if(!unitOfMeasure.CanBeDecimal && !decimal.IsInteger(quantity))
+            throw new ValidationException(_localizer[LocalizationKeys.CANT_USE_DECIMAL_FOR_UNIT_OF_MEASURE]);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Localization;
+using ProcApi.Application.DTOs;
 using ProcApi.Application.DTOs.Category.Responses;
 using ProcApi.Application.DTOs.Material.Base;
 using ProcApi.Application.DTOs.Material.Request;
@@ -120,6 +121,12 @@ public class MaterialService : IMaterialService
             throw new NotFoundException(_localizer[LocalizationKeys.MATERIAL_NOT_FOUND]);
 
         await _materialRepository.DeleteByIdAsync(material);
+    }
+
+    public async Task<IEnumerable<DropDownDto<int>>> GetAllForDropDownAsync()
+    {
+        var materials = await _materialRepository.GetAllAsync();
+        return _mapper.Map<IEnumerable<DropDownDto<int>>>(materials);
     }
 
     private async Task<Category> ValidateCategory(int categoryId)

@@ -34,5 +34,6 @@ public enum Permissions
     CanChangeDashboard,
     CanViewProject,
     CanAddProject,
-    CanAddAnnualProcurement
+    CanAddAnnualProcurement,
+    CanViewAnnualProcurement
 }

@@ -17,7 +17,7 @@ namespace ProcApi.Application.Services.Concreates
             _dashboardRepository = dashboardRepository;
         }
 
-        public async Task<IEnumerable<DropDownDto<int>>> GetDashboardsForDropDownAsync()
+        public async Task<IEnumerable<DropDownDto<int>>> GetAllForDropDownAsync()
         {
             var data = await _dashboardRepository.GetAllAsync();
             return _mapper.Map<IEnumerable<DropDownDto<int>>>(data);

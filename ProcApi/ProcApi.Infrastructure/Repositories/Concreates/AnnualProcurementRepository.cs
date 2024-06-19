@@ -29,4 +29,11 @@ public class AnnualProcurementRepository : GenericRepository<AnnualProcurement>,
             .Include(ap => ap.Items)
             .SingleOrDefaultAsync(ap => ap.Id == id);
     }
+
+    public async Task<IEnumerable<AnnualProcurement>> GetAllActiveAsync()
+    {
+        return await _context.AnnualProcurements
+            .Where(ap => ap.IsActive)
+            .ToListAsync();
+    }
 }

@@ -16,6 +16,20 @@ public class AnnualProcurementController : BaseController
     {
         _annualProcurementService = annualProcurementService;
     }
+
+    [HttpGet("All")]
+    [HasPermission(Permissions.CanViewAnnualProcurement)]
+    public async Task<IActionResult> GetAllAsync()
+    {
+        return Ok(await _annualProcurementService.GetAllAsync());
+    }
+    
+    [HttpGet("AllActive")]
+    [HasPermission(Permissions.CanViewAnnualProcurement)]
+    public async Task<IActionResult> GetAllActiveAsync()
+    {
+        return Ok(await _annualProcurementService.GetAllActiveAsync());
+    }
     
     [HttpPost]
     [HasPermission(Permissions.CanAddAnnualProcurement)]
@@ -46,5 +60,12 @@ public class AnnualProcurementController : BaseController
     {
         await _annualProcurementService.DeactivateAsync(id);
         return Ok();
+    }
+    
+    [HttpPost("Item")]
+    [HasPermission(Permissions.CanAddAnnualProcurement)]
+    public async Task<IActionResult> AddItemAsync(CreateAnnualProcurementItemsRequestDto dto)
+    {
+        return Ok(await _annualProcurementService.AddItemAsync(dto));
     }
 }

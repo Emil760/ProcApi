@@ -18,7 +18,7 @@ namespace ProcApi.Presentation.Controllers
         [HttpGet("ForDropDown")]
         public async Task<IActionResult> GetDashboardsForDropDownAsync()
         {
-            var result = await _dashboardService.GetDashboardsForDropDownAsync();
+            var result = await _dashboardService.GetAllForDropDownAsync();
             return Ok(result);
         }
     }

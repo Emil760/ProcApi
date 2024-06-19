@@ -9,4 +9,7 @@ public interface IAnnualProcurementService
     Task ChangeAnnualProcurementAsync(int id);
     Task ActivateAsync(int id);
     Task DeactivateAsync(int id);
+    Task<IEnumerable<AnnualProcurementResponseDto>> GetAllAsync();
+    Task<IEnumerable<AnnualProcurementResponseDto>> GetAllActiveAsync();
+    Task<AnnualProcurementItemResponseDto> AddItemAsync(CreateAnnualProcurementItemsRequestDto dto);
 }

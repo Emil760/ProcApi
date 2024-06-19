@@ -1,11 +1,11 @@
-﻿namespace ProcApi.Application.DTOs.AnnualProcurement.Responses;
+﻿using ProcApi.Application.DTOs.AnnualProcurement.Base;
 
-public class AnnualProcurementResponseDto
+namespace ProcApi.Application.DTOs.AnnualProcurement.Responses;
+
+public class AnnualProcurementResponseDto : AnnualProcurementDto
 {
     public int Id { get; set; }
-    public string Name { get; set; }
-    public string Description { get; set; }
-    public short Year { get; set; }
     public DateTime CreationDate { get; set; }
-    public DateTime LastUpdateDate { get; set; }
+    public DateTime? LastUpdateDate { get; set; }
+    public bool IsActive { get; set; }
 }

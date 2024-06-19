@@ -4,6 +4,6 @@ namespace ProcApi.Application.Services.Abstracts
 {
     public interface IDashboardService
     {
-        Task<IEnumerable<DropDownDto<int>>> GetDashboardsForDropDownAsync();
+        Task<IEnumerable<DropDownDto<int>>> GetAllForDropDownAsync();
     }
 }

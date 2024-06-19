@@ -1,4 +1,5 @@
-﻿using ProcApi.Application.DTOs.Material.Request;
+﻿using ProcApi.Application.DTOs;
+using ProcApi.Application.DTOs.Material.Request;
 using ProcApi.Application.DTOs.Material.Responses;
 using ProcApi.Domain.Entities;
 
@@ -13,5 +14,9 @@ public class MaterialProfile : CommonProfile
         
         CreateMap<CreateMaterialRequestDto, Material>();
         CreateMap<EditMaterialRequestDto, Material>();
+        
+        CreateMap<Material, DropDownDto<int>>()
+            .ForMember(dest => dest.Key, opt => opt.MapFrom(src => src.Id))
+            .ForMember(dest => dest.Value, opt => opt.MapFrom(src => src.Name));
     }
 }

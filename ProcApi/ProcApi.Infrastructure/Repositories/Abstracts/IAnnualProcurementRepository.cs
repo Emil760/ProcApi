@@ -7,4 +7,5 @@ public interface IAnnualProcurementRepository : IGenericRepository<AnnualProcure
     Task<bool> ExistsByYearAsync(short year);
     Task<bool> ExistsByYearAndActiveAsync(short year, bool isActive);
     Task<AnnualProcurement?> GetWithItemsByIdAsync(int id);
+    Task<IEnumerable<AnnualProcurement>> GetAllActiveAsync();
 }

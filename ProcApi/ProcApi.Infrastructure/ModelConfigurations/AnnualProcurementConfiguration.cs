@@ -19,6 +19,10 @@ public class AnnualProcurementConfiguration : IEntityTypeConfiguration<AnnualPro
         builder.Property(ap => ap.CreationDate)
             .HasColumnType("date")
             .HasDefaultValue(DateTime.Now);
+        
+        builder.Property(ap => ap.LastUpdateDate)
+            .HasColumnType("date")
+            .IsRequired(false);
 
         builder.Property(ap => ap.Version)
             .HasColumnType("smallint")

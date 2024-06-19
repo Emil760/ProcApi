@@ -33,11 +33,5 @@ public class MaterialConfiguration : IEntityTypeConfiguration<Material>
             .WithMany(c => c.Materials)
             .HasForeignKey(m => m.CategoryId)
             .OnDelete(DeleteBehavior.Cascade);
-
-        builder.HasOne(m => m.UnitOfMeasure)
-            .WithMany(c => c.Materials)
-            .HasForeignKey(m => m.UnitOfMeasureId)
-            .IsRequired()
-            .OnDelete(DeleteBehavior.Cascade);
     }
 }

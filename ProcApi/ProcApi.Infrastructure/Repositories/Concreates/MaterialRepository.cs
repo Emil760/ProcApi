@@ -18,7 +18,6 @@ public class MaterialRepository : GenericRepository<Material>, IMaterialReposito
     {
         var query = _context.Materials
             .Include(m => m.Category)
-            .Include(m => m.UnitOfMeasure)
             .Where(u => u.Name.Contains(pagination.Search) || u.Description.Contains(pagination.Search))
             .AsQueryable();
 

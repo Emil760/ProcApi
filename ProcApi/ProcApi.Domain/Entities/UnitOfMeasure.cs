@@ -7,5 +7,4 @@ public class UnitOfMeasure
     public bool CanBeDecimal { get; set; }
     public bool IsActive { get; set; }
     public ICollection<UnitOfMeasureConverter> Converters { get; set; }
-    public ICollection<Material> Materials { get; set; }
 }

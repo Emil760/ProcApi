@@ -4,5 +4,4 @@ namespace ProcApi.Application.DTOs.Material.Request;
 
 public class EditMaterialRequestDto : SaveMaterialDto
 {
-    public int UnitOfMeasureId { get; set; }
 }

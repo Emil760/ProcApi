@@ -21,10 +21,5 @@ public class UnitOfMeasureConfiguration : IEntityTypeConfiguration<UnitOfMeasure
             .WithOne(umc => umc.SourceUnitOfMeasure)
             .HasForeignKey(umc => umc.SourceUnitOfMeasureId)
             .OnDelete(DeleteBehavior.NoAction);
-
-        builder.HasMany(um => um.Materials)
-            .WithOne(m => m.UnitOfMeasure)
-            .HasForeignKey(m => m.UnitOfMeasureId)
-            .OnDelete(DeleteBehavior.Cascade);
     }
 }

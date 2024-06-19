@@ -20,7 +20,6 @@ public class MaterialService : IMaterialService
 {
     private readonly IMaterialRepository _materialRepository;
     private readonly ICategoryRepository _categoryRepository;
-    private readonly IUnitOfMeasureRepository _unitOfMeasureRepository;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IStringLocalizer<SharedResource> _localizer;
     private readonly IMapper _mapper;
@@ -29,7 +28,6 @@ public class MaterialService : IMaterialService
     public MaterialService(IMaterialRepository materialRepository,
         IHttpContextAccessor httpContextAccessor,
         ICategoryRepository categoryRepository,
-        IUnitOfMeasureRepository unitOfMeasureRepository,
         IMapper mapper,
         IStringLocalizer<SharedResource> localizer,
         IUnitOfWork unitOfWork)
@@ -37,7 +35,6 @@ public class MaterialService : IMaterialService
         _materialRepository = materialRepository;
         _httpContextAccessor = httpContextAccessor;
         _categoryRepository = categoryRepository;
-        _unitOfMeasureRepository = unitOfMeasureRepository;
         _mapper = mapper;
         _localizer = localizer;
         _unitOfWork = unitOfWork;
@@ -87,12 +84,10 @@ public class MaterialService : IMaterialService
     public async Task<MaterialResponseDto> CreateMaterial(CreateMaterialRequestDto dto)
     {
         var category = await ValidateCategory(dto.CategoryId);
-        var unitOfMeasure = await ValidateUnitOfMeasure(dto.UnitOfMeasureId);
         await ValidateAddMaterial(dto);
 
         var material = _mapper.Map<Material>(dto);
         material.Category = category;
-        material.UnitOfMeasure = unitOfMeasure;
 
         await _materialRepository.InsertAsync(material);
 
@@ -102,7 +97,6 @@ public class MaterialService : IMaterialService
     public async Task<MaterialResponseDto> EditMaterial(int id, EditMaterialRequestDto dto)
     {
         var category = await ValidateCategory(dto.CategoryId);
-        var unitOfMeasure = await ValidateUnitOfMeasure(dto.UnitOfMeasureId);
         await ValidateEditMaterial(id, dto);
         
         var material = await _materialRepository.GetByIdAsync(id);
@@ -111,7 +105,6 @@ public class MaterialService : IMaterialService
 
         _mapper.Map(dto, material);
         material.Category = category;
-        material.UnitOfMeasure = unitOfMeasure;
 
         await _unitOfWork.SaveChangesAsync();
 
@@ -137,16 +130,6 @@ public class MaterialService : IMaterialService
             throw new NotFoundException(_localizer[LocalizationKeys.CATEGORY_NOT_FOUND]);
 
         return category;
-    }
-
-    private async Task<UnitOfMeasure> ValidateUnitOfMeasure(int unitOfMeasureId)
-    {
-        var unitOfMeasure = await _unitOfMeasureRepository.GetByIdAsync(unitOfMeasureId);
-
-        if (unitOfMeasure is null)
-            throw new NotFoundException(_localizer[LocalizationKeys.UNIT_OF_MEASURE_NOT_FOUND]);
-
-        return unitOfMeasure;
     }
 
     private async Task ValidateAddMaterial(SaveMaterialDto dto)

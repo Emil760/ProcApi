@@ -86,14 +86,13 @@ public class ChatMessageService : IChatMessageService
         };
     }
     
-    //TODO create loging exception
     public async Task<MarkAdReadResponseDto?> MarkAsReadAsync(int messageId, int receiverId)
     {
         var chatMessage =
             await _chatMessageRepository.GetWithChatUsersExceptCurrentUserByIdAsync(messageId, receiverId);
 
         if (chatMessage is null)
-            throw new NotFoundException("aaa");
+            throw new NotFoundException(_localizer[LocalizationKeys.CHAT_NOT_FOUND]);
 
         ReceivedInfo? receivedInfo = null;
 

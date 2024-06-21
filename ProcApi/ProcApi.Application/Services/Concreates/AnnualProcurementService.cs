@@ -128,7 +128,7 @@ public class AnnualProcurementService : IAnnualProcurementService
             throw new NotFoundException(_localizer[LocalizationKeys.UNIT_OF_MEASURE_NOT_FOUND]);
 
         var materialsIds = dto.Items.Select(i => i.MaterialId).Distinct();
-        var materials = (IEnumerable<int>)new int[] { };
+        var materials = await _materialRepository.GetByIdsAsync(materialsIds);
         if (materialsIds.Count() != materials.Count())
             throw new NotFoundException(_localizer[LocalizationKeys.MATERIAL_NOT_FOUND]);
 

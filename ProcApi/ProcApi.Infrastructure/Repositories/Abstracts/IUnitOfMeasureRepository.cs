@@ -8,5 +8,5 @@ public interface IUnitOfMeasureRepository : IGenericRepository<UnitOfMeasure>
     Task<IEnumerable<UnitOfMeasure?>> GetAllActiveAsync();
     Task<bool> ExistsAll(params int[] ids);
     Task<bool> ExistsByName(string name);
-    Task<UnitOfMeasure?> GetRulesAsync(int id);
+    Task<UnitOfMeasure?> GetRulesAsync(int id); 
 }

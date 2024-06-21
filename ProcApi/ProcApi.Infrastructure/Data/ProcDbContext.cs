@@ -46,6 +46,7 @@ namespace ProcApi.Infrastructure.Data
         public DbSet<ReleaseStrategyTemplate> ReleaseStrategyTemplates { get; set; }
         public DbSet<ControlSet> ControlSets { get; set; }
         public DbSet<DocumentAction> DocumentActions { get; set; }
+        public DbSet<Comment> Comments { get; set; }
         public DbSet<Document> Documents { get; set; }
         public DbSet<PurchaseRequest> PurchaseRequests { get; set; }
         public DbSet<PurchaseRequestItem> PurchaseRequestItems { get; set; }

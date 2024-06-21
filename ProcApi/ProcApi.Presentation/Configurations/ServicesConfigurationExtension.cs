@@ -32,6 +32,7 @@ public static class ServicesConfigurationExtension
         services.AddScoped<IApprovalsService, ApprovalsService>();
 
         services.AddScoped<IDocumentService, DocumentService>();
+        services.AddScoped<ICommentService, CommentService>();
 
         services.AddScoped<IPurchaseRequestService, PurchaseRequestService>();
         services.AddScoped<IPurchaseRequestItemsService, PurchaseRequestItemsService>();

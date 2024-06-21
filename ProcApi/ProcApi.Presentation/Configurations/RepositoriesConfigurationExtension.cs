@@ -16,6 +16,7 @@ public static class RepositoriesConfigurationExtension
         services.AddScoped<IDelegationRepository, DelegationRepository>();
         services.AddScoped<IRoleRepository, RoleRepository>();
         services.AddScoped<IDashboardRepository, DashboardRepository>();
+        services.AddScoped<IDocumentRepository, DocumentRepository>();
 
         services.AddScoped<IDepartmentRepository, DepartmentRepository>();
 

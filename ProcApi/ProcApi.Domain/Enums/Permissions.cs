@@ -35,5 +35,7 @@ public enum Permissions
     CanViewProject,
     CanAddProject,
     CanAddAnnualProcurement,
-    CanViewAnnualProcurement
+    CanViewAnnualProcurement,
+    CanAddComment,
+    CanGetComment
 }

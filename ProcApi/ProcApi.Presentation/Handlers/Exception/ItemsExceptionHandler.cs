@@ -6,6 +6,7 @@ public class ItemsExceptionHandler : IExceptionHandler
 {
     public ExceptionModel Handle(System.Exception exception)
     {
-        throw new NotImplementedException();
+        //TODO
+        return null;
     }
 }

@@ -4,11 +4,24 @@ using ProcApi.Domain.Entities;
 
 namespace ProcApi.Infrastructure.ModelConfigurations
 {
-    public class CommentConfiguration : IEntityTypeConfiguration<ControlSet>
+    public class CommentConfiguration : IEntityTypeConfiguration<Comment>
     {
-        public void Configure(EntityTypeBuilder<ControlSet> builder)
+        public void Configure(EntityTypeBuilder<Comment> builder)
         {
-            throw new NotImplementedException();
+            builder.Property(c => c.Message)
+                .HasColumnType("varchar")
+                .HasMaxLength(500)
+                .IsRequired();
+
+            builder.HasOne(c => c.Document)
+                .WithMany(d => d.Comments)
+                .HasForeignKey(c => c.DocumentId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Property(c => c.CreatedDate)
+                .HasColumnType("timestamp")
+                .HasDefaultValue(DateTime.Now)
+                .IsRequired();
         }
     }
 }

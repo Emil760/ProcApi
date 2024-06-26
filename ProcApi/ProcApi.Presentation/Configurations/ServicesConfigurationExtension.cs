@@ -74,5 +74,6 @@ public static class ServicesConfigurationExtension
         services.AddScoped<NotFoundExceptionHandler>();
         services.AddScoped<ValidationExceptionHandler>();
         services.AddScoped<MultipleExceptionHandler>();
+        services.AddScoped<ItemsExceptionHandler>();
     }
 }

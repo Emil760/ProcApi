@@ -18,7 +18,8 @@ public class AnnualProcurementConfiguration : IEntityTypeConfiguration<AnnualPro
 
         builder.Property(ap => ap.CreationDate)
             .HasColumnType("date")
-            .HasDefaultValue(DateTime.Now);
+            .HasDefaultValueSql("CURRENT_TIMESTAMP")
+            .IsRequired();
         
         builder.Property(ap => ap.LastUpdateDate)
             .HasColumnType("date")

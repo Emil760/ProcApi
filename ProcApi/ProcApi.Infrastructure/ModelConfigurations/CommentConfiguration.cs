@@ -20,7 +20,7 @@ namespace ProcApi.Infrastructure.ModelConfigurations
 
             builder.Property(c => c.CreatedDate)
                 .HasColumnType("timestamp")
-                .HasDefaultValue(DateTime.Now)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .IsRequired();
         }
     }

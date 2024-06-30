@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using ProcApi.Domain.Entities;
 using ProcApi.Domain.Enums;
 using ProcApi.Domain.Models;
+using ProcApi.Infrastructure.Enums;
 
 namespace ProcApi.Infrastructure.ModelConfigurations;
 
@@ -34,7 +35,7 @@ public class ApprovalFlowTemplateConfiguration : IEntityTypeConfiguration<Approv
     {
         var pr_requester = new ApprovalFlowTemplate()
         {
-            Id = 1,
+            Id = (int)ApprovalFlowTemplateSeedIds.PrRequester,
             DocumentTypeId = DocumentType.PurchaseRequest,
             Order = 1,
             RoleId = (int)Roles.Requester,
@@ -49,7 +50,7 @@ public class ApprovalFlowTemplateConfiguration : IEntityTypeConfiguration<Approv
 
         var pr_head_department = new ApprovalFlowTemplate()
         {
-            Id = 2,
+            Id = (int)ApprovalFlowTemplateSeedIds.PrHeadDepartment,
             DocumentTypeId = DocumentType.PurchaseRequest,
             Order = 2,
             RoleId = (int)Roles.HeadDepartment,
@@ -64,7 +65,7 @@ public class ApprovalFlowTemplateConfiguration : IEntityTypeConfiguration<Approv
 
         var pr_procurement_director = new ApprovalFlowTemplate()
         {
-            Id = 3,
+            Id = (int)ApprovalFlowTemplateSeedIds.PrProcurementDirector,
             DocumentTypeId = DocumentType.PurchaseRequest,
             Order = 3,
             RoleId = (int)Roles.ProcurementDirector,
@@ -79,7 +80,7 @@ public class ApprovalFlowTemplateConfiguration : IEntityTypeConfiguration<Approv
 
         var pr_buyer = new ApprovalFlowTemplate()
         {
-            Id = 4,
+            Id = (int)ApprovalFlowTemplateSeedIds.PrBuyer,
             DocumentTypeId = DocumentType.PurchaseRequest,
             Order = 4,
             RoleId = (int)Roles.Buyer,
@@ -97,7 +98,7 @@ public class ApprovalFlowTemplateConfiguration : IEntityTypeConfiguration<Approv
     {
         var sr_requester = new ApprovalFlowTemplate()
         {
-            Id = 5,
+            Id = (int)ApprovalFlowTemplateSeedIds.SrRequester,
             DocumentTypeId = DocumentType.ServiceRequest,
             Order = 1,
             RoleId = (int)Roles.Requester,
@@ -112,7 +113,7 @@ public class ApprovalFlowTemplateConfiguration : IEntityTypeConfiguration<Approv
 
         var sr_head_department = new ApprovalFlowTemplate()
         {
-            Id = 6,
+            Id = (int)ApprovalFlowTemplateSeedIds.SrHeadDepartment,
             DocumentTypeId = DocumentType.ServiceRequest,
             Order = 2,
             RoleId = (int)Roles.HeadDepartment,
@@ -127,7 +128,7 @@ public class ApprovalFlowTemplateConfiguration : IEntityTypeConfiguration<Approv
 
         var sr_procurement_director = new ApprovalFlowTemplate()
         {
-            Id = 7,
+            Id = (int)ApprovalFlowTemplateSeedIds.SrProcurementDirector,
             DocumentTypeId = DocumentType.ServiceRequest,
             Order = 3,
             RoleId = (int)Roles.ProcurementDirector,
@@ -142,7 +143,7 @@ public class ApprovalFlowTemplateConfiguration : IEntityTypeConfiguration<Approv
 
         var sr_buyer = new ApprovalFlowTemplate()
         {
-            Id = 8,
+            Id = (int)ApprovalFlowTemplateSeedIds.SrBuyer,
             DocumentTypeId = DocumentType.ServiceRequest,
             Order = 4,
             RoleId = (int)Roles.Buyer,
@@ -160,7 +161,7 @@ public class ApprovalFlowTemplateConfiguration : IEntityTypeConfiguration<Approv
     {
         var invoice_buyer = new ApprovalFlowTemplate()
         {
-            Id = 9,
+            Id = (int)ApprovalFlowTemplateSeedIds.InvoiceBuyer,
             DocumentTypeId = DocumentType.Invoice,
             Order = 1,
             RoleId = (int)Roles.Buyer,
@@ -175,7 +176,7 @@ public class ApprovalFlowTemplateConfiguration : IEntityTypeConfiguration<Approv
 
         var invoice_coordinator = new ApprovalFlowTemplate()
         {
-            Id = 10,
+            Id = (int)ApprovalFlowTemplateSeedIds.InvoiceCoordinator,
             DocumentTypeId = DocumentType.Invoice,
             Order = 2,
             RoleId = (int)Roles.Coordinator,
@@ -190,7 +191,7 @@ public class ApprovalFlowTemplateConfiguration : IEntityTypeConfiguration<Approv
 
         var invoice_finance = new ApprovalFlowTemplate()
         {
-            Id = 11,
+            Id = (int)ApprovalFlowTemplateSeedIds.InvoiceFinance,
             DocumentTypeId = DocumentType.Invoice,
             Order = 3,
             RoleId = (int)Roles.Finance,
@@ -205,7 +206,7 @@ public class ApprovalFlowTemplateConfiguration : IEntityTypeConfiguration<Approv
 
         var invoice_reviwer = new ApprovalFlowTemplate()
         {
-            Id = 12,
+            Id = (int)ApprovalFlowTemplateSeedIds.InvoiceReviewer,
             DocumentTypeId = DocumentType.Invoice,
             Order = 2.5f,
             RoleId = (int)Roles.Reviewer,

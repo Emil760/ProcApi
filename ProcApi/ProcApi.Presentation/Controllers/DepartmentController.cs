@@ -25,14 +25,6 @@ public class DepartmentController : BaseController
         return Ok(await _departmentService.CreateDepartmentAsync(dto));
     }
 
-    [HttpPut("ChangeUserDepartment")]
-    [HasPermission(Permissions.CanAssignUserDepartment)]
-    public async Task<IActionResult> ChangeUserDepartmentAsync([FromBody] AssignUserDepartmentDto dto)
-    {
-        await _departmentService.AssignUserToDepartment(UserInfo.UserId, dto);
-        return Ok();
-    }
-
     [HttpGet("All")]
     public async Task<IActionResult> GetAllAsync([FromQuery] PaginationModel model)
     {

@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using ProcApi.Domain.Entities;
 using ProcApi.Domain.Enums;
 using ProcApi.Domain.Models;
+using ProcApi.Infrastructure.Enums;
 
 namespace ProcApi.Infrastructure.ModelConfigurations;
 
@@ -48,7 +49,7 @@ public class ReleaseStrategyConfiguration : IEntityTypeConfiguration<ReleaseStra
             AssignStatusId = DocumentStatus.PurchaseRequestWaitingForHeadOfProcurement,
             ActionTypeId = ActionType.Approve,
             FlowCodes = FlowCodes.STANDART,
-            ApprovalFlowTemplateId = 1
+            ApprovalFlowTemplateId = (int)ApprovalFlowTemplateSeedIds.PrRequester
         };
 
         builder.HasData(pr_submit1);
@@ -60,7 +61,7 @@ public class ReleaseStrategyConfiguration : IEntityTypeConfiguration<ReleaseStra
             AssignStatusId = DocumentStatus.PurchaseRequestWaitingForProcurementDirector,
             ActionTypeId = ActionType.Approve,
             FlowCodes = FlowCodes.STANDART,
-            ApprovalFlowTemplateId = 2
+            ApprovalFlowTemplateId = (int)ApprovalFlowTemplateSeedIds.PrHeadDepartment
         };
 
         builder.HasData(pr_submit2);
@@ -72,7 +73,7 @@ public class ReleaseStrategyConfiguration : IEntityTypeConfiguration<ReleaseStra
             AssignStatusId = DocumentStatus.PurchaseRequestWaitingForBuyer,
             ActionTypeId = ActionType.Approve,
             FlowCodes = FlowCodes.STANDART,
-            ApprovalFlowTemplateId = 3
+            ApprovalFlowTemplateId = (int)ApprovalFlowTemplateSeedIds.PrProcurementDirector
         };
 
         builder.HasData(pr_submit3);
@@ -84,7 +85,7 @@ public class ReleaseStrategyConfiguration : IEntityTypeConfiguration<ReleaseStra
             AssignStatusId = DocumentStatus.PurchaseRequestDraft,
             ActionTypeId = ActionType.Return,
             FlowCodes = FlowCodes.STANDART,
-            ApprovalFlowTemplateId = 2
+            ApprovalFlowTemplateId = (int)ApprovalFlowTemplateSeedIds.PrHeadDepartment
         };
 
         builder.HasData(pr_return1);
@@ -96,7 +97,7 @@ public class ReleaseStrategyConfiguration : IEntityTypeConfiguration<ReleaseStra
             AssignStatusId = DocumentStatus.PurchaseRequestDraft,
             ActionTypeId = ActionType.Return,
             FlowCodes = FlowCodes.STANDART,
-            ApprovalFlowTemplateId = 3
+            ApprovalFlowTemplateId = (int)ApprovalFlowTemplateSeedIds.PrProcurementDirector
         };
 
         builder.HasData(pr_return2);
@@ -108,7 +109,7 @@ public class ReleaseStrategyConfiguration : IEntityTypeConfiguration<ReleaseStra
             AssignStatusId = DocumentStatus.PurchaseRequestRejected,
             ActionTypeId = ActionType.Reject,
             FlowCodes = FlowCodes.STANDART,
-            ApprovalFlowTemplateId = 2
+            ApprovalFlowTemplateId = (int)ApprovalFlowTemplateSeedIds.PrHeadDepartment
         };
 
         builder.HasData(pr_reject1);
@@ -120,7 +121,7 @@ public class ReleaseStrategyConfiguration : IEntityTypeConfiguration<ReleaseStra
             AssignStatusId = DocumentStatus.PurchaseRequestRejected,
             ActionTypeId = ActionType.Reject,
             FlowCodes = FlowCodes.STANDART,
-            ApprovalFlowTemplateId = 3
+            ApprovalFlowTemplateId = (int)ApprovalFlowTemplateSeedIds.PrProcurementDirector
         };
 
         builder.HasData(pr_reject2);
@@ -132,7 +133,7 @@ public class ReleaseStrategyConfiguration : IEntityTypeConfiguration<ReleaseStra
             AssignStatusId = DocumentStatus.PurchaseRequestCanceled,
             ActionTypeId = ActionType.Cancel,
             FlowCodes = FlowCodes.STANDART,
-            ApprovalFlowTemplateId = 1
+            ApprovalFlowTemplateId = (int)ApprovalFlowTemplateSeedIds.PrRequester
         };
 
         builder.HasData(pr_cancel1);
@@ -148,7 +149,7 @@ public class ReleaseStrategyConfiguration : IEntityTypeConfiguration<ReleaseStra
             AssignStatusId = DocumentStatus.PurchaseRequestWaitingForHeadOfProcurement,
             ActionTypeId = ActionType.Approve,
             FlowCodes = FlowCodes.STANDART_BUYER,
-            ApprovalFlowTemplateId = 1
+            ApprovalFlowTemplateId = (int)ApprovalFlowTemplateSeedIds.PrRequester
         };
 
         builder.HasData(pr_submit4);
@@ -160,7 +161,7 @@ public class ReleaseStrategyConfiguration : IEntityTypeConfiguration<ReleaseStra
             AssignStatusId = DocumentStatus.PurchaseRequestWaitingForProcurementDirector,
             ActionTypeId = ActionType.Approve,
             FlowCodes = FlowCodes.STANDART_BUYER,
-            ApprovalFlowTemplateId = 2
+            ApprovalFlowTemplateId = (int)ApprovalFlowTemplateSeedIds.PrHeadDepartment
         };
 
         builder.HasData(pr_submit5);
@@ -172,7 +173,7 @@ public class ReleaseStrategyConfiguration : IEntityTypeConfiguration<ReleaseStra
             AssignStatusId = DocumentStatus.PurchaseRequestWaitingForBuyer,
             ActionTypeId = ActionType.Approve,
             FlowCodes = FlowCodes.STANDART_BUYER,
-            ApprovalFlowTemplateId = 3
+            ApprovalFlowTemplateId = (int)ApprovalFlowTemplateSeedIds.PrProcurementDirector
         };
 
         builder.HasData(pr_submit6);
@@ -184,7 +185,7 @@ public class ReleaseStrategyConfiguration : IEntityTypeConfiguration<ReleaseStra
             AssignStatusId = DocumentStatus.PurchaseRequestApproved,
             ActionTypeId = ActionType.Submit,
             FlowCodes = FlowCodes.STANDART_BUYER,
-            ApprovalFlowTemplateId = 4
+            ApprovalFlowTemplateId = (int)ApprovalFlowTemplateSeedIds.PrBuyer
         };
 
         builder.HasData(pr_submit7);
@@ -196,7 +197,7 @@ public class ReleaseStrategyConfiguration : IEntityTypeConfiguration<ReleaseStra
             AssignStatusId = DocumentStatus.PurchaseRequestDraft,
             ActionTypeId = ActionType.Return,
             FlowCodes = FlowCodes.STANDART_BUYER,
-            ApprovalFlowTemplateId = 2
+            ApprovalFlowTemplateId = (int)ApprovalFlowTemplateSeedIds.PrHeadDepartment
         };
 
         builder.HasData(pr_return3);
@@ -208,7 +209,7 @@ public class ReleaseStrategyConfiguration : IEntityTypeConfiguration<ReleaseStra
             AssignStatusId = DocumentStatus.PurchaseRequestDraft,
             ActionTypeId = ActionType.Return,
             FlowCodes = FlowCodes.STANDART_BUYER,
-            ApprovalFlowTemplateId = 3
+            ApprovalFlowTemplateId = (int)ApprovalFlowTemplateSeedIds.PrProcurementDirector
         };
 
         builder.HasData(pr_return4);
@@ -220,7 +221,7 @@ public class ReleaseStrategyConfiguration : IEntityTypeConfiguration<ReleaseStra
             AssignStatusId = DocumentStatus.PurchaseRequestRejected,
             ActionTypeId = ActionType.Reject,
             FlowCodes = FlowCodes.STANDART_BUYER,
-            ApprovalFlowTemplateId = 2
+            ApprovalFlowTemplateId = (int)ApprovalFlowTemplateSeedIds.PrHeadDepartment
         };
 
         builder.HasData(pr_reject3);
@@ -232,7 +233,7 @@ public class ReleaseStrategyConfiguration : IEntityTypeConfiguration<ReleaseStra
             AssignStatusId = DocumentStatus.PurchaseRequestRejected,
             ActionTypeId = ActionType.Reject,
             FlowCodes = FlowCodes.STANDART_BUYER,
-            ApprovalFlowTemplateId = 3
+            ApprovalFlowTemplateId = (int)ApprovalFlowTemplateSeedIds.PrProcurementDirector
         };
 
         builder.HasData(pr_reject4);
@@ -244,7 +245,7 @@ public class ReleaseStrategyConfiguration : IEntityTypeConfiguration<ReleaseStra
             AssignStatusId = DocumentStatus.PurchaseRequestCanceled,
             ActionTypeId = ActionType.Cancel,
             FlowCodes = FlowCodes.STANDART,
-            ApprovalFlowTemplateId = 1
+            ApprovalFlowTemplateId = (int)ApprovalFlowTemplateSeedIds.PrRequester
         };
 
         builder.HasData(pr_cancel2);
@@ -263,7 +264,7 @@ public class ReleaseStrategyConfiguration : IEntityTypeConfiguration<ReleaseStra
             AssignStatusId = DocumentStatus.ServiceRequestWaitingForHeadOfProcurement,
             ActionTypeId = ActionType.Approve,
             FlowCodes = FlowCodes.STANDART,
-            ApprovalFlowTemplateId = 5
+            ApprovalFlowTemplateId = (int)ApprovalFlowTemplateSeedIds.SrRequester
         };
 
         builder.HasData(sr_submit1);
@@ -275,7 +276,7 @@ public class ReleaseStrategyConfiguration : IEntityTypeConfiguration<ReleaseStra
             AssignStatusId = DocumentStatus.ServiceRequestWaitingForProcurementDirector,
             ActionTypeId = ActionType.Approve,
             FlowCodes = FlowCodes.STANDART,
-            ApprovalFlowTemplateId = 6
+            ApprovalFlowTemplateId = (int)ApprovalFlowTemplateSeedIds.SrHeadDepartment
         };
 
         builder.HasData(sr_submit2);
@@ -287,7 +288,7 @@ public class ReleaseStrategyConfiguration : IEntityTypeConfiguration<ReleaseStra
             AssignStatusId = DocumentStatus.ServiceRequestWaitingForBuyer,
             ActionTypeId = ActionType.Approve,
             FlowCodes = FlowCodes.STANDART,
-            ApprovalFlowTemplateId = 7
+            ApprovalFlowTemplateId = (int)ApprovalFlowTemplateSeedIds.SrProcurementDirector
         };
 
         builder.HasData(sr_submit3);
@@ -299,7 +300,7 @@ public class ReleaseStrategyConfiguration : IEntityTypeConfiguration<ReleaseStra
             AssignStatusId = DocumentStatus.ServiceRequestDraft,
             ActionTypeId = ActionType.Return,
             FlowCodes = FlowCodes.STANDART,
-            ApprovalFlowTemplateId = 6
+            ApprovalFlowTemplateId = (int)ApprovalFlowTemplateSeedIds.SrHeadDepartment
         };
 
         builder.HasData(sr_return1);
@@ -311,7 +312,7 @@ public class ReleaseStrategyConfiguration : IEntityTypeConfiguration<ReleaseStra
             AssignStatusId = DocumentStatus.PurchaseRequestDraft,
             ActionTypeId = ActionType.Return,
             FlowCodes = FlowCodes.STANDART,
-            ApprovalFlowTemplateId = 7
+            ApprovalFlowTemplateId = (int)ApprovalFlowTemplateSeedIds.SrProcurementDirector
         };
 
         builder.HasData(sr_return2);
@@ -323,7 +324,7 @@ public class ReleaseStrategyConfiguration : IEntityTypeConfiguration<ReleaseStra
             AssignStatusId = DocumentStatus.ServiceRequestRejected,
             ActionTypeId = ActionType.Reject,
             FlowCodes = FlowCodes.STANDART,
-            ApprovalFlowTemplateId = 6
+            ApprovalFlowTemplateId = (int)ApprovalFlowTemplateSeedIds.SrHeadDepartment
         };
 
         builder.HasData(sr_reject1);
@@ -335,7 +336,7 @@ public class ReleaseStrategyConfiguration : IEntityTypeConfiguration<ReleaseStra
             AssignStatusId = DocumentStatus.ServiceRequestRejected,
             ActionTypeId = ActionType.Reject,
             FlowCodes = FlowCodes.STANDART,
-            ApprovalFlowTemplateId = 7
+            ApprovalFlowTemplateId = (int)ApprovalFlowTemplateSeedIds.SrProcurementDirector
         };
 
         builder.HasData(sr_reject2);
@@ -347,7 +348,7 @@ public class ReleaseStrategyConfiguration : IEntityTypeConfiguration<ReleaseStra
             AssignStatusId = DocumentStatus.ServiceRequestCanceled,
             ActionTypeId = ActionType.Cancel,
             FlowCodes = FlowCodes.STANDART,
-            ApprovalFlowTemplateId = 5
+            ApprovalFlowTemplateId = (int)ApprovalFlowTemplateSeedIds.SrRequester
         };
 
         builder.HasData(sr_cancel1);
@@ -363,7 +364,7 @@ public class ReleaseStrategyConfiguration : IEntityTypeConfiguration<ReleaseStra
             AssignStatusId = DocumentStatus.ServiceRequestWaitingForHeadOfProcurement,
             ActionTypeId = ActionType.Approve,
             FlowCodes = FlowCodes.STANDART_BUYER,
-            ApprovalFlowTemplateId = 5
+            ApprovalFlowTemplateId = (int)ApprovalFlowTemplateSeedIds.SrRequester
         };
 
         builder.HasData(sr_submit4);
@@ -375,7 +376,7 @@ public class ReleaseStrategyConfiguration : IEntityTypeConfiguration<ReleaseStra
             AssignStatusId = DocumentStatus.ServiceRequestWaitingForProcurementDirector,
             ActionTypeId = ActionType.Approve,
             FlowCodes = FlowCodes.STANDART_BUYER,
-            ApprovalFlowTemplateId = 6
+            ApprovalFlowTemplateId = (int)ApprovalFlowTemplateSeedIds.SrHeadDepartment
         };
 
         builder.HasData(sr_submit5);
@@ -387,7 +388,7 @@ public class ReleaseStrategyConfiguration : IEntityTypeConfiguration<ReleaseStra
             AssignStatusId = DocumentStatus.ServiceRequestWaitingForBuyer,
             ActionTypeId = ActionType.Approve,
             FlowCodes = FlowCodes.STANDART_BUYER,
-            ApprovalFlowTemplateId = 7
+            ApprovalFlowTemplateId = (int)ApprovalFlowTemplateSeedIds.SrProcurementDirector
         };
 
         builder.HasData(sr_submit6);
@@ -399,7 +400,7 @@ public class ReleaseStrategyConfiguration : IEntityTypeConfiguration<ReleaseStra
             AssignStatusId = DocumentStatus.ServiceRequestWaitingForBuyer,
             ActionTypeId = ActionType.Submit,
             FlowCodes = FlowCodes.STANDART_BUYER,
-            ApprovalFlowTemplateId = 8
+            ApprovalFlowTemplateId = (int)ApprovalFlowTemplateSeedIds.SrBuyer
         };
 
         builder.HasData(sr_submit7);
@@ -411,7 +412,7 @@ public class ReleaseStrategyConfiguration : IEntityTypeConfiguration<ReleaseStra
             AssignStatusId = DocumentStatus.ServiceRequestDraft,
             ActionTypeId = ActionType.Return,
             FlowCodes = FlowCodes.STANDART_BUYER,
-            ApprovalFlowTemplateId = 6
+            ApprovalFlowTemplateId = (int)ApprovalFlowTemplateSeedIds.SrHeadDepartment
         };
 
         builder.HasData(sr_return3);
@@ -423,7 +424,7 @@ public class ReleaseStrategyConfiguration : IEntityTypeConfiguration<ReleaseStra
             AssignStatusId = DocumentStatus.PurchaseRequestDraft,
             ActionTypeId = ActionType.Return,
             FlowCodes = FlowCodes.STANDART_BUYER,
-            ApprovalFlowTemplateId = 7
+            ApprovalFlowTemplateId = (int)ApprovalFlowTemplateSeedIds.SrProcurementDirector
         };
 
         builder.HasData(sr_return4);
@@ -435,7 +436,7 @@ public class ReleaseStrategyConfiguration : IEntityTypeConfiguration<ReleaseStra
             AssignStatusId = DocumentStatus.ServiceRequestRejected,
             ActionTypeId = ActionType.Reject,
             FlowCodes = FlowCodes.STANDART_BUYER,
-            ApprovalFlowTemplateId = 6
+            ApprovalFlowTemplateId = (int)ApprovalFlowTemplateSeedIds.SrHeadDepartment
         };
 
         builder.HasData(sr_reject3);
@@ -447,7 +448,7 @@ public class ReleaseStrategyConfiguration : IEntityTypeConfiguration<ReleaseStra
             AssignStatusId = DocumentStatus.ServiceRequestRejected,
             ActionTypeId = ActionType.Reject,
             FlowCodes = FlowCodes.STANDART_BUYER,
-            ApprovalFlowTemplateId = 7
+            ApprovalFlowTemplateId = (int)ApprovalFlowTemplateSeedIds.SrProcurementDirector
         };
 
         builder.HasData(sr_reject4);
@@ -459,7 +460,7 @@ public class ReleaseStrategyConfiguration : IEntityTypeConfiguration<ReleaseStra
             AssignStatusId = DocumentStatus.ServiceRequestCanceled,
             ActionTypeId = ActionType.Cancel,
             FlowCodes = FlowCodes.STANDART_BUYER,
-            ApprovalFlowTemplateId = 5
+            ApprovalFlowTemplateId = (int)ApprovalFlowTemplateSeedIds.SrRequester
         };
 
         builder.HasData(sr_cancel2);
@@ -478,7 +479,7 @@ public class ReleaseStrategyConfiguration : IEntityTypeConfiguration<ReleaseStra
             AssignStatusId = DocumentStatus.InvoiceWaitingForCoordinator,
             ActionTypeId = ActionType.Approve,
             FlowCodes = FlowCodes.STANDART,
-            ApprovalFlowTemplateId = 9
+            ApprovalFlowTemplateId = (int)ApprovalFlowTemplateSeedIds.InvoiceBuyer
         };
 
         builder.HasData(invoice_approve1);
@@ -490,7 +491,7 @@ public class ReleaseStrategyConfiguration : IEntityTypeConfiguration<ReleaseStra
             AssignStatusId = DocumentStatus.InvoiceWaitingForFinance,
             ActionTypeId = ActionType.Approve,
             FlowCodes = FlowCodes.STANDART,
-            ApprovalFlowTemplateId = 10
+            ApprovalFlowTemplateId = (int)ApprovalFlowTemplateSeedIds.InvoiceCoordinator
         };
 
         builder.HasData(invoice_approve2);
@@ -502,7 +503,7 @@ public class ReleaseStrategyConfiguration : IEntityTypeConfiguration<ReleaseStra
             AssignStatusId = DocumentStatus.InvoiceApproved,
             ActionTypeId = ActionType.Submit,
             FlowCodes = FlowCodes.STANDART,
-            ApprovalFlowTemplateId = 11
+            ApprovalFlowTemplateId = (int)ApprovalFlowTemplateSeedIds.InvoiceFinance
         };
 
         builder.HasData(invoice_approve3);
@@ -514,7 +515,7 @@ public class ReleaseStrategyConfiguration : IEntityTypeConfiguration<ReleaseStra
             AssignStatusId = DocumentStatus.InvoiceCanceled,
             ActionTypeId = ActionType.Cancel,
             FlowCodes = FlowCodes.STANDART,
-            ApprovalFlowTemplateId = 9
+            ApprovalFlowTemplateId = (int)ApprovalFlowTemplateSeedIds.InvoiceBuyer
         };
 
         builder.HasData(invoice_cancel1);
@@ -526,7 +527,7 @@ public class ReleaseStrategyConfiguration : IEntityTypeConfiguration<ReleaseStra
             AssignStatusId = DocumentStatus.InvoiceDraft,
             ActionTypeId = ActionType.Return,
             FlowCodes = FlowCodes.STANDART,
-            ApprovalFlowTemplateId = 10
+            ApprovalFlowTemplateId = (int)ApprovalFlowTemplateSeedIds.InvoiceCoordinator
         };
 
         builder.HasData(invoice_return1);
@@ -538,7 +539,7 @@ public class ReleaseStrategyConfiguration : IEntityTypeConfiguration<ReleaseStra
             AssignStatusId = DocumentStatus.InvoiceDraft,
             ActionTypeId = ActionType.Return,
             FlowCodes = FlowCodes.STANDART,
-            ApprovalFlowTemplateId = 11
+            ApprovalFlowTemplateId = (int)ApprovalFlowTemplateSeedIds.InvoiceFinance
         };
 
         builder.HasData(invoice_return2);
@@ -550,7 +551,7 @@ public class ReleaseStrategyConfiguration : IEntityTypeConfiguration<ReleaseStra
             AssignStatusId = DocumentStatus.InvoiceRejected,
             ActionTypeId = ActionType.Reject,
             FlowCodes = FlowCodes.STANDART,
-            ApprovalFlowTemplateId = 10
+            ApprovalFlowTemplateId = (int)ApprovalFlowTemplateSeedIds.InvoiceCoordinator
         };
 
         builder.HasData(invoice_reject1);
@@ -562,7 +563,7 @@ public class ReleaseStrategyConfiguration : IEntityTypeConfiguration<ReleaseStra
             AssignStatusId = DocumentStatus.InvoiceRejected,
             ActionTypeId = ActionType.Reject,
             FlowCodes = FlowCodes.STANDART,
-            ApprovalFlowTemplateId = 11
+            ApprovalFlowTemplateId = (int)ApprovalFlowTemplateSeedIds.InvoiceFinance
         };
 
         builder.HasData(invoice_reject2);
@@ -578,7 +579,7 @@ public class ReleaseStrategyConfiguration : IEntityTypeConfiguration<ReleaseStra
             AssignStatusId = DocumentStatus.InvoiceWaitingForCoordinator,
             ActionTypeId = ActionType.Approve,
             FlowCodes = FlowCodes.STANDART_REVIEWER,
-            ApprovalFlowTemplateId = 9
+            ApprovalFlowTemplateId = (int)ApprovalFlowTemplateSeedIds.InvoiceBuyer
         };
 
         builder.HasData(invoice_approve4);
@@ -590,7 +591,7 @@ public class ReleaseStrategyConfiguration : IEntityTypeConfiguration<ReleaseStra
             AssignStatusId = DocumentStatus.InvoiceWaitingForReviewer,
             FlowCodes = FlowCodes.STANDART_REVIEWER,
             ActionTypeId = ActionType.Approve,
-            ApprovalFlowTemplateId = 10
+            ApprovalFlowTemplateId = (int)ApprovalFlowTemplateSeedIds.InvoiceCoordinator
         };
 
         builder.HasData(invoice_approve5);
@@ -602,7 +603,7 @@ public class ReleaseStrategyConfiguration : IEntityTypeConfiguration<ReleaseStra
             AssignStatusId = DocumentStatus.InvoiceApproved,
             ActionTypeId = ActionType.Submit,
             FlowCodes = FlowCodes.STANDART_REVIEWER,
-            ApprovalFlowTemplateId = 11
+            ApprovalFlowTemplateId = (int)ApprovalFlowTemplateSeedIds.InvoiceFinance
         };
 
         builder.HasData(invoice_approve6);
@@ -614,7 +615,7 @@ public class ReleaseStrategyConfiguration : IEntityTypeConfiguration<ReleaseStra
             AssignStatusId = DocumentStatus.InvoiceCanceled,
             ActionTypeId = ActionType.Cancel,
             FlowCodes = FlowCodes.STANDART_REVIEWER,
-            ApprovalFlowTemplateId = 9
+            ApprovalFlowTemplateId = (int)ApprovalFlowTemplateSeedIds.InvoiceBuyer
         };
 
         builder.HasData(invoice_cancel2);
@@ -626,7 +627,7 @@ public class ReleaseStrategyConfiguration : IEntityTypeConfiguration<ReleaseStra
             AssignStatusId = DocumentStatus.InvoiceDraft,
             ActionTypeId = ActionType.Return,
             FlowCodes = FlowCodes.STANDART_REVIEWER,
-            ApprovalFlowTemplateId = 10
+            ApprovalFlowTemplateId = (int)ApprovalFlowTemplateSeedIds.InvoiceCoordinator
         };
 
         builder.HasData(invoice_return4);
@@ -638,7 +639,7 @@ public class ReleaseStrategyConfiguration : IEntityTypeConfiguration<ReleaseStra
             AssignStatusId = DocumentStatus.InvoiceDraft,
             ActionTypeId = ActionType.Return,
             FlowCodes = FlowCodes.STANDART_REVIEWER,
-            ApprovalFlowTemplateId = 11
+            ApprovalFlowTemplateId = (int)ApprovalFlowTemplateSeedIds.InvoiceFinance
         };
 
         builder.HasData(invoice_return5);
@@ -650,7 +651,7 @@ public class ReleaseStrategyConfiguration : IEntityTypeConfiguration<ReleaseStra
             AssignStatusId = DocumentStatus.InvoiceDraft,
             ActionTypeId = ActionType.Return,
             FlowCodes = FlowCodes.STANDART_REVIEWER,
-            ApprovalFlowTemplateId = 12
+            ApprovalFlowTemplateId = (int)ApprovalFlowTemplateSeedIds.InvoiceReviewer
         };
 
         builder.HasData(invoice_return6);
@@ -662,7 +663,7 @@ public class ReleaseStrategyConfiguration : IEntityTypeConfiguration<ReleaseStra
             AssignStatusId = DocumentStatus.InvoiceRejected,
             ActionTypeId = ActionType.Reject,
             FlowCodes = FlowCodes.STANDART_REVIEWER,
-            ApprovalFlowTemplateId = 10
+            ApprovalFlowTemplateId = (int)ApprovalFlowTemplateSeedIds.InvoiceCoordinator
         };
 
         builder.HasData(invoice_reject3);
@@ -674,7 +675,7 @@ public class ReleaseStrategyConfiguration : IEntityTypeConfiguration<ReleaseStra
             AssignStatusId = DocumentStatus.InvoiceRejected,
             ActionTypeId = ActionType.Reject,
             FlowCodes = FlowCodes.STANDART_REVIEWER,
-            ApprovalFlowTemplateId = 11
+            ApprovalFlowTemplateId = (int)ApprovalFlowTemplateSeedIds.InvoiceFinance
         };
 
         builder.HasData(invoice_reject4);
@@ -686,7 +687,7 @@ public class ReleaseStrategyConfiguration : IEntityTypeConfiguration<ReleaseStra
             AssignStatusId = DocumentStatus.InvoiceRejected,
             ActionTypeId = ActionType.Reject,
             FlowCodes = FlowCodes.STANDART_REVIEWER,
-            ApprovalFlowTemplateId = 12
+            ApprovalFlowTemplateId = (int)ApprovalFlowTemplateSeedIds.InvoiceReviewer
         };
 
         builder.HasData(invoice_reject5);

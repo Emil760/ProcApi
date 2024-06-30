@@ -12,7 +12,8 @@ public class ExceptionHandlerCoordinator
         NotFoundExceptionHandler notFoundExceptionHandler,
         ValidationExceptionHandler validationExceptionHandler,
         UnauthorizedExceptionHandler unauthorizedExceptionHandler,
-        MultipleExceptionHandler multipleExceptionHandler)
+        MultipleExceptionHandler multipleExceptionHandler,
+        ItemsExceptionHandler itemsExceptionHandler)
     {
         _generalExceptionHandler = generalExceptionHandler;
 
@@ -21,6 +22,8 @@ public class ExceptionHandlerCoordinator
         _handlers[typeof(ValidationException)] = validationExceptionHandler;
         _handlers[typeof(UnauthorizedException)] = unauthorizedExceptionHandler;
         _handlers[typeof(MultipleException)] = multipleExceptionHandler;
+        _handlers[typeof(ItemsException<int>)] = itemsExceptionHandler;
+        _handlers[typeof(ItemsException<Guid>)] = itemsExceptionHandler;
     }
 
     public ExceptionModel Handle(System.Exception exception)

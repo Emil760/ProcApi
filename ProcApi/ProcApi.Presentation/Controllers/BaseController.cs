@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using ProcApi.Infrastructure.Utility;
 using ProcApi.Domain.Models;
-using ProcApi.Infrastructure.Constants;
+using ProcApi.Domain.Constants;
 
 namespace ProcApi.Presentation.Controllers;
 

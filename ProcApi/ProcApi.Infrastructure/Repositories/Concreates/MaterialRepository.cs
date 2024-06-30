@@ -24,6 +24,13 @@ public class MaterialRepository : GenericRepository<Material>, IMaterialReposito
         return await Paginator<Material>.FromQuery(query, pagination.PageNumber, pagination.PageSize);
     }
 
+    public async Task<IEnumerable<Material>> GetByIdsAsync(IEnumerable<int> ids)
+    {
+        return await _context.Materials
+               .Where(m => ids.Contains(m.Id))
+               .ToListAsync();
+    }
+
     public async Task<bool> ExistsByCode(string code)
     {
         return await _context.Materials.AnyAsync(m => m.Code == code);
@@ -52,4 +59,5 @@ public class MaterialRepository : GenericRepository<Material>, IMaterialReposito
         return await _context.GetMaterialWithCategories(id)
             .ToListAsync();
     }
+
 }

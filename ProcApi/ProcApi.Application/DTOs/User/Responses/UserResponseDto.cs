@@ -1,7 +1,8 @@
-﻿namespace ProcApi.Application.DTOs.User.Responses;
+﻿using ProcApi.Application.DTOs.User.Base;
 
-public class UserResponseDto
+namespace ProcApi.Application.DTOs.User.Responses;
+
+public class UserResponseDto : UserDto
 {
     public int Id { get; set; }
-    public string FirstName { get; set; }
 }

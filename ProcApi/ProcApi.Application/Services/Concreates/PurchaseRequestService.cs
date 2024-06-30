@@ -6,6 +6,7 @@ using ProcApi.Application.DTOs.PurchaseRequest.Requests;
 using ProcApi.Application.DTOs.PurchaseRequest.Response;
 using ProcApi.Application.Enums;
 using ProcApi.Application.Services.Abstracts;
+using ProcApi.Domain.Constants;
 using ProcApi.Domain.Entities;
 using ProcApi.Domain.Enums;
 using ProcApi.Domain.Exceptions;
@@ -66,11 +67,11 @@ public class PurchaseRequestService : IPurchaseRequestService
     {
         var item = await _purchaseRequestItemsRepository.GetByIdAsync(dto.ItemId);
         if (item is null)
-            throw new NotFoundException(_localizer["ItemNotFound"]);
+            throw new NotFoundException(_localizer[LocalizationKeys.ITEM_NOT_FOUND]);
 
         var user = await _userRepository.GetByIdAndRoleId(dto.UserId, Roles.Buyer);
         if (user is null)
-            throw new NotFoundException(_localizer["UserNotFoundOrNotInRole"]);
+            throw new NotFoundException(_localizer[LocalizationKeys.USER_NOT_FOUND_OR_NOT_IN_ROLE]);
 
         item.Buyer = user;
 
@@ -92,7 +93,7 @@ public class PurchaseRequestService : IPurchaseRequestService
         var pr = await _purchaseRequestRepository.GetWithDocumentAndItemsByDocId(dto.DocumentId);
 
         if (pr.Document.DocumentStatusId != DocumentStatus.PurchaseRequestDraft)
-            throw new ValidationException(_localizer["CantChangeNonDraftDocument"]);
+            throw new ValidationException(_localizer[LocalizationKeys.CANT_CHANGE_NON_DRAFT_DOCUMENT]);
 
         _mapper.Map(dto, pr);
 

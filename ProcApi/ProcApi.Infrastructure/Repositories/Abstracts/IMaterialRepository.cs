@@ -8,6 +8,7 @@ namespace ProcApi.Infrastructure.Repositories.Abstracts;
 public interface IMaterialRepository : IGenericRepository<Material>
 {
     Task<Paginator<Material>> GetAllPaginated(PaginationModel pagination);
+    Task<IEnumerable<Material>> GetByIdsAsync(IEnumerable<int> ids);
     Task<Material?> FindByCodeAndNameExceptCurrent(int id, string name, string code);
     Task<Material?> FindByCodeOrName(string name, string code);
     Task<IEnumerable<MaterialResultSet>> GetWithCategories(int id);

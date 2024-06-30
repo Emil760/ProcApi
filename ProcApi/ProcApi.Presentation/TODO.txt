@@ -1,0 +1,5 @@
+﻿DefaultCombinationReportColumns
+ex_Comments
+make Exists generic repository
+add everywhere ValidateQuantity
+make ItemsException more flexible in ExceptionHandlerCoordinator

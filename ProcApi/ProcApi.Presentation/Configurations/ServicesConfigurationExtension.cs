@@ -19,6 +19,7 @@ public static class ServicesConfigurationExtension
         services.AddScoped<IUserCachedService, UserCachedService>();
 
         services.AddScoped<IDepartmentService, DepartmentService>();
+        services.AddScoped<IDashboardService, DashboardService>();
 
         services.AddSingleton<IConnectedUsersService, ConnectedUserService>();
         services.AddScoped<IChatService, ChatService>();
@@ -31,6 +32,7 @@ public static class ServicesConfigurationExtension
         services.AddScoped<IApprovalsService, ApprovalsService>();
 
         services.AddScoped<IDocumentService, DocumentService>();
+        services.AddScoped<ICommentService, CommentService>();
 
         services.AddScoped<IPurchaseRequestService, PurchaseRequestService>();
         services.AddScoped<IPurchaseRequestItemsService, PurchaseRequestItemsService>();
@@ -48,6 +50,8 @@ public static class ServicesConfigurationExtension
         services.AddScoped<InvoiceRejectHandler>();
         services.AddScoped<InvoiceReturnHandler>();
         services.AddScoped<InvoiceSubmitHandler>();
+
+        services.AddScoped<IGoodIssueNoteService, GoodIssueNoteService>();
         
         services.AddScoped<IDocumentValidatorHandler, DocumentValidatorHandler>();
         services.AddScoped<PurchaseRequestValidator>();
@@ -55,9 +59,12 @@ public static class ServicesConfigurationExtension
 
         services.AddScoped<ISupplierService, SupplierService>();
 
+        services.AddScoped<IProjectService, ProjectService>();
         services.AddScoped<ICategoryService, CategoryService>();
         services.AddScoped<IMaterialService, MaterialService>();
         services.AddScoped<IUnitOfMeasureService, UnitOfMeasureService>();
+
+        services.AddScoped<IAnnualProcurementService, AnnualProcurementService>();
 
         services.AddScoped<IFileService, FileService>();
 
@@ -67,5 +74,6 @@ public static class ServicesConfigurationExtension
         services.AddScoped<NotFoundExceptionHandler>();
         services.AddScoped<ValidationExceptionHandler>();
         services.AddScoped<MultipleExceptionHandler>();
+        services.AddScoped<ItemsExceptionHandler>();
     }
 }

@@ -4,6 +4,7 @@ using ProcApi.Application.DTOs;
 using ProcApi.Application.DTOs.UnitOfMeasure.Requests;
 using ProcApi.Application.DTOs.UnitOfMeasure.Responses;
 using ProcApi.Application.Services.Abstracts;
+using ProcApi.Domain.Constants;
 using ProcApi.Domain.Entities;
 using ProcApi.Domain.Exceptions;
 using ProcApi.Infrastructure.Repositories.Abstracts;
@@ -58,7 +59,7 @@ public class UnitOfMeasureService : IUnitOfMeasureService
     {
         var exists = await _unitOfMeasureRepository.ExistsByName(dto.Name);
         if (exists)
-            throw new ValidationException(_localizer["UnitOfMeasureAlreadyExistsByName"]);
+            throw new ValidationException(_localizer[LocalizationKeys.UNIT_OF_MEASURE_NAME_ALREADY_EXISTS]);
 
         var unitOfMeasure = new UnitOfMeasure()
         {
@@ -75,7 +76,7 @@ public class UnitOfMeasureService : IUnitOfMeasureService
     {
         var unitOfMeasure = await _unitOfMeasureRepository.GetByIdAsync(dto.Id);
         if (unitOfMeasure is null)
-            throw new NotFoundException(_localizer["UnitOfMeasureNotFound"]);
+            throw new NotFoundException(_localizer[LocalizationKeys.UNIT_OF_MEASURE_NOT_FOUND]);
 
         unitOfMeasure.IsActive = dto.IsActivate;
 
@@ -84,20 +85,19 @@ public class UnitOfMeasureService : IUnitOfMeasureService
 
     public async Task CreateConversationRuleAsync(CreateUnitOfMeasureConversationRuleRequestDto dto)
     {
-        var unitOfMeasures = await _unitOfMeasureRepository.GetByIds(
+        var unitOfMeasures = await _unitOfMeasureRepository.GetByIdsAsync(
             new[] { dto.SourceUnitOfMeasureId, dto.TargetUnitOfMeasureId });
         if (unitOfMeasures.Count() < 2)
-            throw new NotFoundException(_localizer["UnitOfMeasureNotFound"]);
+            throw new NotFoundException(_localizer[LocalizationKeys.UNIT_OF_MEASURE_NOT_FOUND]);
 
         var alreadyHasRule = await _unitOfMeasureConverterRepository.ExistsBySourceAndTargetId(
             dto.SourceUnitOfMeasureId, dto.TargetUnitOfMeasureId);
         if (alreadyHasRule)
-            throw new ValidationException(_localizer["UnitOfMeasureAlreadyExists"]);
+            throw new ValidationException(_localizer[LocalizationKeys.UNIT_OF_MEASURE_ALREADY_EXISTS]);
 
-        if ((!unitOfMeasures.ElementAt(0).CanBeDecimal || !unitOfMeasures.ElementAt(0).CanBeDecimal) &&
-            !decimal.IsInteger(dto.Value))
-            throw new ValidationException(_localizer["CantUseDecimalForUnitOfMeasure"]);
-
+        ValidateQuantity(unitOfMeasures.ElementAt(0), dto.Value);
+        ValidateQuantity(unitOfMeasures.ElementAt(1), dto.Value);
+        
         _unitOfMeasureConverterRepository.Insert(new UnitOfMeasureConverter()
         {
             SourceUnitOfMeasureId = dto.SourceUnitOfMeasureId,
@@ -120,8 +120,14 @@ public class UnitOfMeasureService : IUnitOfMeasureService
         var unitOfMeasure = await _unitOfMeasureRepository.GetRulesAsync(id);
 
         if (unitOfMeasure is null)
-            throw new NotFoundException(_localizer["UnitOfMeasureNotFound"]);
+            throw new NotFoundException(_localizer[LocalizationKeys.UNIT_OF_MEASURE_NOT_FOUND]);
 
         return _mapper.Map<IEnumerable<UnitOfMeasureConverterResponseDto>>(unitOfMeasure.Converters);
+    }
+
+    public void ValidateQuantity(UnitOfMeasure unitOfMeasure, decimal quantity)
+    {
+        if(!unitOfMeasure.CanBeDecimal && !decimal.IsInteger(quantity))
+            throw new ValidationException(_localizer[LocalizationKeys.CANT_USE_DECIMAL_FOR_UNIT_OF_MEASURE]);
     }
 }

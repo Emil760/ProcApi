@@ -24,6 +24,14 @@ public class UserRepository : GenericRepository<User>, IUserRepository
         return await GetById(_context, id);
     }
 
+    public async Task<User?> GetAllInfoByIdAsync(int id)
+    {
+        return await _context.Users
+            .Include(u => u.Department)
+            .Include(u => u.Dashboard)
+            .SingleOrDefaultAsync(u => u.Id == id);
+    }
+
     public async Task<IEnumerable<User>> GetAllWithRoles(string search)
     {
         return await _context.Users
@@ -46,10 +54,10 @@ public class UserRepository : GenericRepository<User>, IUserRepository
             .ToListAsync();
     }
 
-    public async Task<IEnumerable<User>> GetByIdsAsync(params int[] userIds)
+    public async Task<IEnumerable<User>> GetByIdsAsync(params int[] ids)
     {
         return await _context.Users
-            .Where(u => userIds.Contains(u.Id))
+            .Where(u => ids.Contains(u.Id))
             .ToListAsync();
     }
 
@@ -144,6 +152,14 @@ public class UserRepository : GenericRepository<User>, IUserRepository
             .AsQueryable();
 
         return await Paginator<User>.FromQuery(query, pagination.PageNumber, pagination.PageSize);
+    }
+
+    public async Task<IEnumerable<User>> GetAllInfosAsync()
+    {
+        return await _context.Users
+            .Include(u => u.Dashboard)
+            .Include(u => u.Department)
+            .ToListAsync();
     }
 
     public async Task<User?> GetByIdAndRoleId(int userId, Roles role)

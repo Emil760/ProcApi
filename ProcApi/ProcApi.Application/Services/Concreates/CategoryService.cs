@@ -4,6 +4,7 @@ using ProcApi.Application.DTOs.Category.Base;
 using ProcApi.Application.DTOs.Category.Requests;
 using ProcApi.Application.DTOs.Category.Responses;
 using ProcApi.Application.Services.Abstracts;
+using ProcApi.Domain.Constants;
 using ProcApi.Domain.Entities;
 using ProcApi.Domain.Exceptions;
 using ProcApi.Infrastructure.Repositories.Abstracts;
@@ -34,7 +35,7 @@ public class CategoryService : ICategoryService
                 .ExistsByNameAndParentCategoryId(dto.ParentCategoryId.Value, dto.Name);
 
             if (exists)
-                throw new ValidationException(_localizer["CategoryNameAlreadyUsed"]);
+                throw new ValidationException(_localizer[LocalizationKeys.CATEGORY_NAME_ALREADY_EXISTS]);
         }
 
         var category = _mapper.Map<Category>(dto);

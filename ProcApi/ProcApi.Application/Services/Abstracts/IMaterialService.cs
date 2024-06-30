@@ -1,4 +1,5 @@
-﻿using ProcApi.Application.DTOs.Material.Request;
+﻿using ProcApi.Application.DTOs;
+using ProcApi.Application.DTOs.Material.Request;
 using ProcApi.Application.DTOs.Material.Responses;
 using ProcApi.Domain.Models;
 
@@ -11,4 +12,5 @@ public interface IMaterialService
     Task<MaterialResponseDto> CreateMaterial(CreateMaterialRequestDto dto);
     Task<MaterialResponseDto> EditMaterial(int id, EditMaterialRequestDto dto);
     Task DeleteMaterial(int id);
+    Task<IEnumerable<DropDownDto<int>>> GetAllForDropDownAsync();
 }

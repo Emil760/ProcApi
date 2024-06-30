@@ -3,10 +3,12 @@ using Microsoft.Extensions.Localization;
 using Moq;
 using ProcApi.Application.DTOs.Department.Requests;
 using ProcApi.Application.DTOs.Department.Responses;
+using ProcApi.Application.DTOs.User.Requests;
 using ProcApi.Application.Services.Concreates;
 using ProcApi.Domain.Entities;
 using ProcApi.Domain.Enums;
 using ProcApi.Domain.Exceptions;
+using ProcApi.Infrastructure.Repositories.Abstracts;
 using ProcApi.Infrastructure.Repositories.Concreates;
 using ProcApi.Infrastructure.Resources;
 using Xunit;
@@ -16,8 +18,11 @@ namespace TestProject.UnitTest;
 public class DepartmentTest : BaseTest
 {
     private readonly UserRepository _userRepository;
+    private readonly IDashboardRepository _dashboardRepository;
     private readonly DepartmentRepository _departmentRepository;
+    private readonly IRoleRepository _roleRepository;
     private readonly DepartmentService _departmentService;
+    private readonly UserService _userService;
 
     private readonly int _headUserId = 2;
 
@@ -27,8 +32,9 @@ public class DepartmentTest : BaseTest
         var accessor = new Mock<IHttpContextAccessor>();
 
         _userRepository = new UserRepository(_context);
-
         _departmentRepository = new DepartmentRepository(_context);
+        _dashboardRepository = new DashboardRepository(_context);
+        _roleRepository = new RoleRepository(_context);
 
         _departmentService = new DepartmentService(_departmentRepository,
             _userRepository,
@@ -36,6 +42,14 @@ public class DepartmentTest : BaseTest
             localizer.Object,
             accessor.Object,
             _unitOfWork);
+
+        _userService = new UserService(_userRepository,
+            _dashboardRepository,
+            _departmentRepository,
+            _roleRepository,
+            _mapper,
+            _unitOfWork,
+            localizer.Object);
 
         SeedData();
         SeedDepartments();
@@ -141,37 +155,37 @@ public class DepartmentTest : BaseTest
     [Fact]
     public async Task Throw_When_User_Not_Found_While_Assign_To_Department()
     {
-        var dto = new AssignUserDepartmentDto()
+        var dto = new AssignDepartmentRequestDto()
         {
             UserId = 3,
             DepartmentId = 1
         };
 
-        await Assert.ThrowsAsync<NotFoundException>(() => _departmentService.AssignUserToDepartment(_headUserId, dto));
+        await Assert.ThrowsAsync<NotFoundException>(() => _userService.AssignDepartmentAsync(dto));
     }
 
     [Fact]
     public async Task Throw_When_Department_Not_Found_While_Assign_User()
     {
-        var dto = new AssignUserDepartmentDto()
+        var dto = new AssignDepartmentRequestDto()
         {
             UserId = 1,
             DepartmentId = 3
         };
 
-        await Assert.ThrowsAsync<NotFoundException>(() => _departmentService.AssignUserToDepartment(_headUserId, dto));
+        await Assert.ThrowsAsync<NotFoundException>(() => _userService.AssignDepartmentAsync(dto));
     }
 
     [Fact]
     public async Task Assign_User_To_Department_Success()
     {
-        var dto = new AssignUserDepartmentDto()
+        var dto = new AssignDepartmentRequestDto()
         {
             UserId = 1,
             DepartmentId = 1
         };
 
-        await _departmentService.AssignUserToDepartment(_headUserId, dto);
+        await _userService.AssignDepartmentAsync(dto);
 
         var user = await _userRepository.GetByIdAsync(dto.UserId);
         if (user is null)

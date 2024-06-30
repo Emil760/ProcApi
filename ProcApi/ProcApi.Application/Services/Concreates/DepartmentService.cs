@@ -8,7 +8,7 @@ using ProcApi.Domain.Entities;
 using ProcApi.Domain.Enums;
 using ProcApi.Domain.Exceptions;
 using ProcApi.Domain.Models;
-using ProcApi.Infrastructure.Constants;
+using ProcApi.Domain.Constants;
 using ProcApi.Infrastructure.Repositories.Abstracts;
 using ProcApi.Infrastructure.Repositories.UnitOfWork;
 using ProcApi.Infrastructure.Resources;
@@ -44,11 +44,11 @@ public class DepartmentService : IDepartmentService
     {
         var user = await _userRepository.GetByIdAndRoleId(dto.HeadUserId, Roles.HeadDepartment);
         if (user is null)
-            throw new NotFoundException(_localizer["UserNotFound"]);
+            throw new NotFoundException(_localizer[LocalizationKeys.USER_NOT_FOUND]);
 
         var departmentExists = await _departmentRepository.ExistsByName(dto.Name);
         if (departmentExists)
-            throw new ValidationException(_localizer["DepartmentNameAlreadyExists"]);
+            throw new ValidationException(_localizer[LocalizationKeys.DEPARTMENT_ALREADY_EXISTS]);
 
         var department = _mapper.Map<Department>(dto);
         user.Department = department;
@@ -58,25 +58,6 @@ public class DepartmentService : IDepartmentService
         await _unitOfWork.SaveChangesAsync();
 
         return _mapper.Map<DepartmentResponseDto>(department);
-    }
-
-    public async Task AssignUserToDepartment(int userId, AssignUserDepartmentDto dto)
-    {
-        var department = await _departmentRepository.GetByIdAsync(dto.DepartmentId);
-
-        if (department is null)
-            throw new NotFoundException(_localizer["DepartmentNotFound"]);
-
-        if (department.HeadUserId != userId)
-            throw new ValidationException(_localizer["UserDontBelongToDepartment"]);
-
-        var user = await _userRepository.GetByIdAsync(dto.UserId);
-        if (user is null)
-            throw new NotFoundException(_localizer["UserNotFound"]);
-
-        user.Department = department;
-
-        await _unitOfWork.SaveChangesAsync();
     }
 
     public async Task<IEnumerable<DepartmentListResponseDto>> GetAllAsync(PaginationModel pagination)

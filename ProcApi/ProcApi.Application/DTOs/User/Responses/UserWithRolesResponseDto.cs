@@ -1,6 +1,6 @@
 ﻿namespace ProcApi.Application.DTOs.User.Responses;
 
-public class UserWithRolesResponseDto : UserInfoResponseDto
+public class UserWithRolesResponseDto : UserResponseDto
 {
     public string Roles { get; set; }
 }

@@ -9,9 +9,11 @@ namespace ProcApi.Infrastructure.Repositories.Abstracts;
 public interface IUserRepository : IGenericRepository<User>
 {
     Task<User> GetByIdCompiled(int id);
-    Task<IEnumerable<User>> GetByIdsAsync(params int[] userIds);
+    Task<User?> GetAllInfoByIdAsync(int id);
+    Task<IEnumerable<User>> GetByIdsAsync(params int[] ids);
     Task<IEnumerable<User>> GetAllAsync(IEnumerable<int> userIds);
     Task<Paginator<User>> GetAllPaginated(PaginationModel dto);
+    Task<IEnumerable<User>> GetAllInfosAsync();
     Task<User?> GetWithRolesById(int id);
     Task<IEnumerable<User>> GetAllWithRoles(string search);
     Task<IEnumerable<User>> GetAllByRoleAsync(int roleId);

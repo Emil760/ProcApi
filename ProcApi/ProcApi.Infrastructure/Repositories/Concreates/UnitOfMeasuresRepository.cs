@@ -11,7 +11,7 @@ public class UnitOfMeasuresRepository : GenericRepository<UnitOfMeasure>, IUnitO
     {
     }
 
-    public async Task<IEnumerable<UnitOfMeasure?>> GetByIds(IEnumerable<int> ids)
+    public async Task<IEnumerable<UnitOfMeasure?>> GetByIdsAsync(IEnumerable<int> ids)
     {
         return await _context.UnitOfMeasures
             .Where(uom => ids.Contains(uom.Id))

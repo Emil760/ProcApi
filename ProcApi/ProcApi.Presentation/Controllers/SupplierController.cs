@@ -34,14 +34,14 @@ public class SupplierController : BaseController
 
     [HttpPost]
     [HasPermission(Permissions.CanCreateSupplier)]
-    public async Task<IActionResult> CreateAsync(CreateSupplierRequestDto dto)
+    public async Task<IActionResult> CreateAsync(CreateSupplierRequest dto)
     {
         return Ok(await _supplierService.CreateSupplierAsync(dto));
     }
 
     [HttpPut]
     [HasPermission(Permissions.CanCreateSupplier)]
-    public async Task<IActionResult> UpdateAsync(UpdateSupplierRequestDto dto)
+    public async Task<IActionResult> UpdateAsync(UpdateSupplierRequest dto)
     {
         return Ok(await _supplierService.UpdateSupplierAsync(dto));
     }

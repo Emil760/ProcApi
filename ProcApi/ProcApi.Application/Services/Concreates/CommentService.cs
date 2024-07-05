@@ -1,4 +1,4 @@
-﻿using ProcApi.Application.DTOs.Comment.Requestes;
+﻿using ProcApi.Application.DTOs.Comment.Requests;
 using ProcApi.Application.DTOs.Comment.Responses;
 using ProcApi.Application.Services.Abstracts;
 using ProcApi.Infrastructure.Repositories.Abstracts;
@@ -14,7 +14,7 @@ namespace ProcApi.Application.Services.Concreates
             _commentRepository = commentRepository;
         }
 
-        public Task<CommentResponseDto> AddDocumentCommentAsync(AddCommentRequestDto dto)
+        public Task<CommentResponse> AddDocumentCommentAsync(AddCommentRequest dto)
         {
             throw new NotImplementedException();
         }
@@ -24,12 +24,12 @@ namespace ProcApi.Application.Services.Concreates
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<CommentResponseDto>> GetDocumentCommentsAsync(int documentId)
+        public Task<IEnumerable<CommentResponse>> GetDocumentCommentsAsync(int documentId)
         {
             throw new NotImplementedException();
         }
 
-        public Task<CommentResponseDto> UpdateDocumentCommentAsync(int id)
+        public Task<CommentResponse> UpdateDocumentCommentAsync(int id)
         {
             throw new NotImplementedException();
         }

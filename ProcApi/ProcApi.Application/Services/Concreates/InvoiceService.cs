@@ -47,11 +47,11 @@ public class InvoiceService : IInvoiceService
         _unitOfMeasureConverterRepository = unitOfMeasureConverterRepository;
     }
 
-    public async Task<InvoiceResponseDto> GetDocumentAsync(int docId)
+    public async Task<InvoiceResponse> GetDocumentAsync(int docId)
     {
         var document = await _invoiceRepository.GetWithDocumentAndActionsAndItemsByDocId(docId);
 
-        return _mapper.Map<InvoiceResponseDto>(document);
+        return _mapper.Map<InvoiceResponse>(document);
     }
 
     public async Task<DocumentResponseDto> CreateInvoice(UserInfoModel userInfo)
@@ -76,7 +76,7 @@ public class InvoiceService : IInvoiceService
         return await _invoiceRepository.GetUnusedPurchaseRequestItemsAsync(model);
     }
 
-    public async Task<SaveInvoiceResponseDto> SaveInvoiceAsync(SaveInvoiceRequestDto dto)
+    public async Task<SaveInvoiceResponse> SaveInvoiceAsync(SaveInvoiceRequest dto)
     {
         var invoice = await _invoiceRepository.GetWithDocumentAndItemsByDocId(dto.DocumentId);
 
@@ -105,7 +105,7 @@ public class InvoiceService : IInvoiceService
 
         await _unitOfWork.SaveChangesAsync();
 
-        return _mapper.Map<SaveInvoiceResponseDto>(invoice);
+        return _mapper.Map<SaveInvoiceResponse>(invoice);
     }
 
     private async Task<IEnumerable<InvoiceItem>> CheckAndApplyPriceItems(
@@ -175,14 +175,14 @@ public class InvoiceService : IInvoiceService
         await _unitOfWork.SaveChangesAsync();
     }
 
-    public async Task ChangeUnitOfMeasureItem(ChangeUnitOfMeasureItemDto dto)
+    public async Task ChangeUnitOfMeasureItem(ChangeUnitOfMeasureItemRequest request)
     {
-        var item = await _invoiceItemRepository.GetWithUnitOfMeasureByIdAsync(dto.ItemId);
+        var item = await _invoiceItemRepository.GetWithUnitOfMeasureByIdAsync(request.ItemId);
         if (item is null)
             throw new NotFoundException(_localizer[LocalizationKeys.ITEM_NOT_FOUND]);
 
         var rule = await _unitOfMeasureConverterRepository.GetBySourceIdAndTargetId(
-            item.UnitOfMeasureId, dto.UnitOfMeasureId);
+            item.UnitOfMeasureId, request.UnitOfMeasureId);
 
         if (rule is null)
             throw new NotFoundException(_localizer[LocalizationKeys.UNIT_MEASURE_RULE_NOT_FOUND]);
@@ -195,19 +195,19 @@ public class InvoiceService : IInvoiceService
         if (!item.UnitOfMeasure.CanBeDecimal && !decimal.IsInteger(quantity))
             throw new ValidationException(_localizer[LocalizationKeys.QUANTITY_MUST_BE_INTEGER]);
 
-        item.UnitOfMeasureId = dto.UnitOfMeasureId;
+        item.UnitOfMeasureId = request.UnitOfMeasureId;
         item.Quantity = quantity;
 
         await _unitOfWork.SaveChangesAsync();
     }
 
-    public async Task<InvoiceItemResponseDto> GetItemAsync(int id)
+    public async Task<InvoiceItemResponse> GetItemAsync(int id)
     {
         var item = await _invoiceItemRepository.GetByIdAsync(id);
         if (item is null)
             throw new NotFoundException(_localizer[LocalizationKeys.ITEM_NOT_FOUND]);
 
-        return _mapper.Map<InvoiceItemResponseDto>(item);
+        return _mapper.Map<InvoiceItemResponse>(item);
     }
 
     private void RecalculateTotalItemsPrice(Invoice document,
@@ -218,7 +218,7 @@ public class InvoiceService : IInvoiceService
     }
 
     private ICollection<InvoiceItem> AddItems(ICollection<InvoiceItem> items,
-        IEnumerable<CreateInvoiceItemRequestDto> itemsToAdd)
+        IEnumerable<CreateInvoiceItemRequest> itemsToAdd)
     {
         foreach (var itemToAdd in itemsToAdd)
         {
@@ -229,7 +229,7 @@ public class InvoiceService : IInvoiceService
     }
 
     private ICollection<InvoiceItem> UpdateItems(ICollection<InvoiceItem> items,
-        IEnumerable<CreateInvoiceItemRequestDto> itemsToUpdate)
+        IEnumerable<CreateInvoiceItemRequest> itemsToUpdate)
     {
         foreach (var itemToUpdate in itemsToUpdate)
         {
@@ -242,7 +242,7 @@ public class InvoiceService : IInvoiceService
     }
 
     private ICollection<InvoiceItem> DeleteItems(ICollection<InvoiceItem> items,
-        IEnumerable<CreateInvoiceItemRequestDto> itemsToDelete)
+        IEnumerable<CreateInvoiceItemRequest> itemsToDelete)
     {
         foreach (var itemToUpdate in itemsToDelete)
         {

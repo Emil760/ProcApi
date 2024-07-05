@@ -42,14 +42,14 @@ public class AuthenticationService : IAuthenticationService
         _context = context;
     }
 
-    public async Task Register(RegistrationDto dto)
+    public async Task Register(RegistrationRequest request)
     {
-        var isAlreadyExists = await _userRepository.ExistsByLogin(dto.Login);
+        var isAlreadyExists = await _userRepository.ExistsByLogin(request.Login);
 
         if (isAlreadyExists)
             throw new ValidationException(_localizer[LocalizationKeys.USER_ALREADY_EXISTS]);
 
-        var hashPassword = PasswordUtility.GenerateHashPassword(dto.Password, out var salt, _passwordOptions);
+        var hashPassword = PasswordUtility.GenerateHashPassword(request.Password, out var salt, _passwordOptions);
 
         var passwordModel = new UserPassword
         {
@@ -73,9 +73,9 @@ public class AuthenticationService : IAuthenticationService
 
         var user = new User
         {
-            Login = dto.Login,
-            FirstName = dto.FirstName,
-            Gender = dto.Gender,
+            Login = request.Login,
+            FirstName = request.FirstName,
+            Gender = request.Gender,
             UserPassword = passwordModel,
             Roles = roles,
             UserSetting = userSetting
@@ -84,14 +84,14 @@ public class AuthenticationService : IAuthenticationService
         await _userRepository.InsertAsync(user);
     }
 
-    public async Task<string> Login(LoginDto dto)
+    public async Task<string> Login(LoginRequest request)
     {
-        var user = await _userRepository.GetWithPasswordHashByLogin(dto.Login);
+        var user = await _userRepository.GetWithPasswordHashByLogin(request.Login);
 
         if (user is null)
             throw new ValidationException(_localizer[LocalizationKeys.USER_NOT_FOUND]);
 
-        var passwordMatch = PasswordUtility.VerifyPassword(dto.Password, user.UserPassword, _passwordOptions);
+        var passwordMatch = PasswordUtility.VerifyPassword(request.Password, user.UserPassword, _passwordOptions);
 
         if (!passwordMatch)
             throw new ValidationException(_localizer[LocalizationKeys.WRONG_PASSWORD]);

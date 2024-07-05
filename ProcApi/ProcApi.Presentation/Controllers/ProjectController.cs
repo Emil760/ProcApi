@@ -42,7 +42,7 @@ namespace ProcApi.Presentation.Controllers
 
         [HttpPost]
         [HasPermission(Permissions.CanAddProject)]
-        public async Task<IActionResult> CreateProjectAsync(CreateProjectRequestDto dto)
+        public async Task<IActionResult> CreateProjectAsync(CreateProjectRequest dto)
         {
             var project = await _projectService.CreateProjectAsync(dto);
             return Ok(project);
@@ -50,9 +50,9 @@ namespace ProcApi.Presentation.Controllers
         
         [HttpPut]
         [HasPermission(Permissions.CanAddProject)]
-        public async Task<IActionResult> UpdateProjectAsync(UpdateProjectRequestDto dto)
+        public async Task<IActionResult> UpdateProjectAsync(UpdateProjectRequest d)
         {
-            var project = await _projectService.UpdateProjectAsync(dto);
+            var project = await _projectService.UpdateProjectAsync(d);
             return Ok(project);
         }
     }

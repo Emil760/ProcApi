@@ -34,7 +34,7 @@ public class DelegationService : IDelegationService
         _mapper = mapper;
     }
 
-    public async Task CreateDelegationAsync(CreateDelegationRequestDto dto)
+    public async Task CreateDelegationAsync(CreateDelegationRequest dto)
     {
         var users = await _userRepository.GetByIdsAsync(dto.FromUserId, dto.ToUserId);
 
@@ -46,12 +46,12 @@ public class DelegationService : IDelegationService
         await _delegationRepository.InsertAsync(delegation);
     }
 
-    public async Task<IEnumerable<DelegationResponseDto>> GetDelegations(PaginationModel model)
+    public async Task<IEnumerable<DelegationResponse>> GetDelegations(PaginationModel model)
     {
         var delegationPaginated = await _delegationRepository.GetAllPaginated(model);
         
         _httpContextAccessor.HttpContext!.Response.Headers.Add(HeaderKeys.XPagination, delegationPaginated.ToString());
 
-        return _mapper.Map<IEnumerable<DelegationResponseDto>>(delegationPaginated.ResultSet);
+        return _mapper.Map<IEnumerable<DelegationResponse>>(delegationPaginated.ResultSet);
     }
 }

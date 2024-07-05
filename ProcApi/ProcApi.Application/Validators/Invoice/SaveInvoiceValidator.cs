@@ -6,7 +6,7 @@ using ProcApi.Infrastructure.Resources;
 
 namespace ProcApi.Application.Validators.Invoice;
 
-public class SaveInvoiceValidator : AbstractValidator<SaveInvoiceRequestDto>
+public class SaveInvoiceValidator : AbstractValidator<SaveInvoiceRequest>
 {
     public SaveInvoiceValidator(IStringLocalizer<SharedResource> localizer)
     {

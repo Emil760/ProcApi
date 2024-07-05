@@ -4,7 +4,7 @@ using ProcApi.Infrastructure.Resources;
 
 namespace ProcApi.Application.Validators.Material;
 
-public class CreateMaterialValidator : SaveMaterialValidator<CreateMaterialRequestDto>
+public class CreateMaterialValidator : SaveMaterialValidator<CreateMaterialRequest>
 {
     public CreateMaterialValidator(IStringLocalizer<SharedResource> localizer) : base(localizer)
     {

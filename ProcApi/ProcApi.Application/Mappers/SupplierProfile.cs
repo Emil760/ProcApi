@@ -8,8 +8,8 @@ public class SupplierProfile : CommonProfile
 {
     public SupplierProfile()
     {
-        CreateMap<Supplier, SupplierResponseDto>();
-        CreateMap<CreateSupplierRequestDto, Supplier>();
-        CreateMap<UpdateSupplierRequestDto, Supplier>();
+        CreateMap<Supplier, SupplierResponse>();
+        CreateMap<CreateSupplierRequest, Supplier>();
+        CreateMap<UpdateSupplierRequest, Supplier>();
     }
 }

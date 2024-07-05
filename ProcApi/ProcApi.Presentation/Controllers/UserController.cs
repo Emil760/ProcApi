@@ -51,14 +51,14 @@ public class UserController : BaseController
 
     [HttpPost]
     [HasPermission(Permissions.CanCreateUser)]
-    public async Task<IActionResult> CreateUser([FromBody] AddUserDto dto)
+    public async Task<IActionResult> CreateUser([FromBody] AddUserRequest request)
     {
-        return Ok(await _userService.AddUserAsync(dto));
+        return Ok(await _userService.AddUserAsync(request));
     }
 
     [HttpPost("GrantRole")]
     [HasPermission(Permissions.CanGrantRole)]
-    public async Task<IActionResult> GrantRoleAsync([FromBody] GrantRoleRequestDto dto)
+    public async Task<IActionResult> GrantRoleAsync([FromBody] GrantRoleRequest dto)
     {
         await _userService.GrantRoleAsync(dto);
         return Ok();
@@ -66,7 +66,7 @@ public class UserController : BaseController
 
     [HttpDelete("RemoveRole")]
     [HasPermission(Permissions.CanRemoveRole)]
-    public async Task<IActionResult> RemoveRoleAsync([FromBody] RemoveRoleRequestDto dto)
+    public async Task<IActionResult> RemoveRoleAsync([FromBody] RemoveRoleRequest dto)
     {
         await _userService.RemoveRoleAsync(dto);
         return Ok();
@@ -100,7 +100,7 @@ public class UserController : BaseController
 
     [HttpPut("AssignDashboard")]
     [HasPermission(Permissions.CanChangeDashboard)]
-    public async Task<IActionResult> AssignDashboardAsync(AssignDashboardRequestDto dto)
+    public async Task<IActionResult> AssignDashboardAsync(AssignDashboardRequest dto)
     {
         await _userService.AssignDashboardAsync(dto);
         return Ok();
@@ -108,9 +108,9 @@ public class UserController : BaseController
     
     [HttpPut("AssignDepartment")]
     [HasPermission(Permissions.CanChangeDashboard)]
-    public async Task<IActionResult> AssignDepartmentAsync(AssignDepartmentRequestDto requestDto)
+    public async Task<IActionResult> AssignDepartmentAsync(AssignDepartmentRequest request)
     {
-        await _userService.AssignDepartmentAsync(requestDto);
+        await _userService.AssignDepartmentAsync(request);
         return Ok();
     }
 }

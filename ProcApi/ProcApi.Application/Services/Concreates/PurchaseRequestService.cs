@@ -3,7 +3,7 @@ using Microsoft.Extensions.Localization;
 using ProcApi.Application.DTOs.Documents.Requests;
 using ProcApi.Application.DTOs.Documents.Responses;
 using ProcApi.Application.DTOs.PurchaseRequest.Requests;
-using ProcApi.Application.DTOs.PurchaseRequest.Response;
+using ProcApi.Application.DTOs.PurchaseRequest.Responses;
 using ProcApi.Application.Enums;
 using ProcApi.Application.Services.Abstracts;
 using ProcApi.Domain.Constants;
@@ -63,32 +63,32 @@ public class PurchaseRequestService : IPurchaseRequestService
         return _mapper.Map<DocumentResponseDto>(document);
     }
 
-    public async Task AssignBuyerToItemAsync(AssignUserToItemDto dto)
+    public async Task AssignBuyerToItemAsync(AssignUserToItemRequest request)
     {
-        var item = await _purchaseRequestItemsRepository.GetByIdAsync(dto.ItemId);
+        var item = await _purchaseRequestItemsRepository.GetByIdAsync(request.ItemId);
         if (item is null)
             throw new NotFoundException(_localizer[LocalizationKeys.ITEM_NOT_FOUND]);
 
-        var user = await _userRepository.GetByIdAndRoleId(dto.UserId, Roles.Buyer);
+        var user = await _userRepository.GetByIdAndRoleId(request.UserId, Roles.Buyer);
         if (user is null)
             throw new NotFoundException(_localizer[LocalizationKeys.USER_NOT_FOUND_OR_NOT_IN_ROLE]);
 
         item.Buyer = user;
 
         await _approvalsService.AddMultipleApprovalToDocument(
-            dto.DocumentId, dto.UserId, Roles.Buyer, DocumentType.PurchaseRequest);
+            request.DocumentId, request.UserId, Roles.Buyer, DocumentType.PurchaseRequest);
 
         await _unitOfWork.SaveChangesAsync();
     }
 
-    public async Task<PRResponseDto> GetDocumentAsync(int docId)
+    public async Task<PRResponse> GetDocumentAsync(int docId)
     {
         var document = await _purchaseRequestRepository.GetWithDocumentAndActionsAndItemsByDocId(docId);
 
-        return _mapper.Map<PRResponseDto>(document);
+        return _mapper.Map<PRResponse>(document);
     }
 
-    public async Task<SavePRResponseDto> SavePurchaseRequest(SavePRRequestDto dto)
+    public async Task<SavePRResponse> SavePurchaseRequest(SavePRRequest dto)
     {
         var pr = await _purchaseRequestRepository.GetWithDocumentAndItemsByDocId(dto.DocumentId);
 
@@ -110,11 +110,11 @@ public class PurchaseRequestService : IPurchaseRequestService
 
         await _unitOfWork.SaveChangesAsync();
 
-        return _mapper.Map<SavePRResponseDto>(pr);
+        return _mapper.Map<SavePRResponse>(pr);
     }
 
     private ICollection<PurchaseRequestItem> AddItems(ICollection<PurchaseRequestItem> items,
-        IEnumerable<CreatePRItemRequestDto> itemsToAdd)
+        IEnumerable<CreatePRItemRequest> itemsToAdd)
     {
         foreach (var itemToAdd in itemsToAdd)
         {
@@ -125,7 +125,7 @@ public class PurchaseRequestService : IPurchaseRequestService
     }
 
     private ICollection<PurchaseRequestItem> UpdateItems(ICollection<PurchaseRequestItem> items,
-        IEnumerable<CreatePRItemRequestDto> itemsToUpdate)
+        IEnumerable<CreatePRItemRequest> itemsToUpdate)
     {
         foreach (var itemToUpdate in itemsToUpdate)
         {
@@ -138,7 +138,7 @@ public class PurchaseRequestService : IPurchaseRequestService
     }
 
     private ICollection<PurchaseRequestItem> DeleteItems(ICollection<PurchaseRequestItem> items,
-        IEnumerable<CreatePRItemRequestDto> itemsToDelete)
+        IEnumerable<CreatePRItemRequest> itemsToDelete)
     {
         foreach (var itemToUpdate in itemsToDelete)
         {

@@ -8,6 +8,6 @@ public interface IChatService
 {
     Task ConnectAsync(int userId, string connectionId);
     Task<Chat> CreateChatBetweenUsersAsync(IEnumerable<int> userIds);
-    Task<IEnumerable<ChatUserResponseDto>> GetUsersAsync(PaginationModel pagination);
-    Task<IEnumerable<ChatResponseDto>> GetChatsAsync(int userId);
+    Task<IEnumerable<ChatUserResponse>> GetUsersAsync(PaginationModel pagination);
+    Task<IEnumerable<ChatResponse>> GetChatsAsync(int userId);
 }

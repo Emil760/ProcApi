@@ -56,5 +56,8 @@ public static class RepositoriesConfigurationExtension
 
         services.AddScoped<IAnnualProcurementRepository, AnnualProcurementRepository>();
         services.AddScoped<IAnnualProcurementItemRepository, AnnualProcurementItemRepository>();
+
+        services.AddScoped<IDropDownSourceRepository, DropDownSourceRepository>();
+        services.AddScoped<IDropDownItemRepository, DropDownItemRepository>();
     }
 }

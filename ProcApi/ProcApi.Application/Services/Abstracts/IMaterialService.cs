@@ -7,10 +7,10 @@ namespace ProcApi.Application.Services.Abstracts;
 
 public interface IMaterialService
 {
-    Task<IEnumerable<MaterialResponseDto>> GetAllAsync(PaginationModel pagination);
-    Task<TreeMaterialResponseDto> GetAsync(int id);
-    Task<MaterialResponseDto> CreateMaterial(CreateMaterialRequestDto dto);
-    Task<MaterialResponseDto> EditMaterial(int id, EditMaterialRequestDto dto);
+    Task<IEnumerable<MaterialResponse>> GetAllAsync(PaginationModel pagination);
+    Task<TreeMaterialResponse> GetAsync(int id);
+    Task<MaterialResponse> CreateMaterial(CreateMaterialRequest dto);
+    Task<MaterialResponse> EditMaterial(int id, EditMaterialRequest dto);
     Task DeleteMaterial(int id);
     Task<IEnumerable<DropDownDto<int>>> GetAllForDropDownAsync();
 }

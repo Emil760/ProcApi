@@ -9,9 +9,9 @@ namespace ProcApi.Application.Mappers
     {
         public ProjectProfile()
         {
-            CreateMap<CreateProjectRequestDto, Project>();
-            CreateMap<Project, ProjectResponseDto>();
-            CreateMap<UpdateProjectRequestDto, Project>();
+            CreateMap<CreateProjectRequest, Project>();
+            CreateMap<Project, ProjectResponse>();
+            CreateMap<UpdateProjectRequest, Project>();
             
             CreateMap<Project, DropDownDto<int>>()
                 .ForMember(dest => dest.Key, opt => opt.MapFrom(src => src.Id))

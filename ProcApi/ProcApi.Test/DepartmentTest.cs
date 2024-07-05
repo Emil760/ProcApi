@@ -118,7 +118,7 @@ public class DepartmentTest : BaseTest
     [Fact]
     public async Task Throw_When_Create_Department_With_Not_Head_Department_User()
     {
-        var dto = new CreateDepartmentDto()
+        var dto = new CreateDepartmentRequest()
         {
             HeadUserId = 1,
             Name = "dep3"
@@ -130,7 +130,7 @@ public class DepartmentTest : BaseTest
     [Fact]
     public async Task Throw_When_Department_Name_Already_Exists()
     {
-        var dto = new CreateDepartmentDto()
+        var dto = new CreateDepartmentRequest()
         {
             HeadUserId = 2,
             Name = "dep1"
@@ -142,20 +142,20 @@ public class DepartmentTest : BaseTest
     [Fact]
     public async Task Create_Department_Success()
     {
-        var dto = new CreateDepartmentDto()
+        var dto = new CreateDepartmentRequest()
         {
             HeadUserId = 2,
             Name = "dep3"
         };
 
         var response = await _departmentService.CreateDepartmentAsync(dto);
-        Assert.IsType<DepartmentResponseDto>(response);
+        Assert.IsType<DepartmentResponse>(response);
     }
 
     [Fact]
     public async Task Throw_When_User_Not_Found_While_Assign_To_Department()
     {
-        var dto = new AssignDepartmentRequestDto()
+        var dto = new AssignDepartmentRequest()
         {
             UserId = 3,
             DepartmentId = 1
@@ -167,7 +167,7 @@ public class DepartmentTest : BaseTest
     [Fact]
     public async Task Throw_When_Department_Not_Found_While_Assign_User()
     {
-        var dto = new AssignDepartmentRequestDto()
+        var dto = new AssignDepartmentRequest()
         {
             UserId = 1,
             DepartmentId = 3
@@ -179,7 +179,7 @@ public class DepartmentTest : BaseTest
     [Fact]
     public async Task Assign_User_To_Department_Success()
     {
-        var dto = new AssignDepartmentRequestDto()
+        var dto = new AssignDepartmentRequest()
         {
             UserId = 1,
             DepartmentId = 1

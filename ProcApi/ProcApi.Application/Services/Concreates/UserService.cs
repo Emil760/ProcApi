@@ -41,15 +41,15 @@ public class UserService : IUserService
         _localizer = localizer;
     }
 
-    public async Task<UserResponseDto> AddUserAsync(AddUserDto dto)
+    public async Task<UserResponse> AddUserAsync(AddUserRequest request)
     {
-        var user = _mapper.Map<User>(dto);
+        var user = _mapper.Map<User>(request);
 
         _userRepository.Insert(user);
 
         await _unitOfWork.SaveChangesAsync();
 
-        return _mapper.Map<UserResponseDto>(user);
+        return _mapper.Map<UserResponse>(user);
     }
 
     public async Task<IEnumerable<string>> GetAllRoleNames(int userId)
@@ -66,49 +66,49 @@ public class UserService : IUserService
         return await _userRepository.GetPermissionsUnionDelegatedPermissions(userId);
     }
 
-    public async Task<UserInfoResponseDto> GetByIdAsync(int id)
+    public async Task<UserInfoResponse> GetByIdAsync(int id)
     {
         var user = await _userRepository.GetAllInfoByIdAsync(id);
 
         if (user is null)
             throw new NotFoundException(_localizer[LocalizationKeys.USER_NOT_FOUND]);
 
-        return _mapper.Map<UserInfoResponseDto>(user);
+        return _mapper.Map<UserInfoResponse>(user);
     }
 
-    public async Task<IEnumerable<UserInfoResponseDto>> GetAllInfosAsync()
+    public async Task<IEnumerable<UserInfoResponse>> GetAllInfosAsync()
     {
         var users = await _userRepository.GetAllInfosAsync();
 
         users = users.OrderByDescending(u => u.Gender, new GenderComparer());
 
-        return _mapper.Map<IEnumerable<UserInfoResponseDto>>(users);
+        return _mapper.Map<IEnumerable<UserInfoResponse>>(users);
     }
 
-    public async Task<IEnumerable<UserWithRolesResponseDto>> GetUsersWithRolesAsync(string? search)
+    public async Task<IEnumerable<UserWithRolesResponse>> GetUsersWithRolesAsync(string? search)
     {
         search ??= "";
 
         var users = await _userRepository.GetAllWithRoles(search);
 
-        return _mapper.Map<IEnumerable<UserWithRolesResponseDto>>(users);
+        return _mapper.Map<IEnumerable<UserWithRolesResponse>>(users);
     }
 
-    public async Task<IEnumerable<UserResponseDto>> GetAllByRoleAsync(int roleId)
+    public async Task<IEnumerable<UserResponse>> GetAllByRoleAsync(int roleId)
     {
         var users = await _userRepository.GetAllByRoleAsync(roleId);
 
-        return _mapper.Map<IEnumerable<UserResponseDto>>(users);
+        return _mapper.Map<IEnumerable<UserResponse>>(users);
     }
 
-    public async Task<IEnumerable<UserResponseDto>> GetAllByRoleNameAsync(string name)
+    public async Task<IEnumerable<UserResponse>> GetAllByRoleNameAsync(string name)
     {
         var users = await _userRepository.GetAllByRoleNameAsync(name);
 
-        return _mapper.Map<IEnumerable<UserResponseDto>>(users);
+        return _mapper.Map<IEnumerable<UserResponse>>(users);
     }
 
-    public async Task GrantRoleAsync(GrantRoleRequestDto dto)
+    public async Task GrantRoleAsync(GrantRoleRequest dto)
     {
         var user = await _userRepository.GetWithRolesById(dto.UserId);
         if (user is null)
@@ -125,7 +125,7 @@ public class UserService : IUserService
         await _unitOfWork.SaveChangesAsync();
     }
 
-    public async Task RemoveRoleAsync(RemoveRoleRequestDto dto)
+    public async Task RemoveRoleAsync(RemoveRoleRequest dto)
     {
         var user = await _userRepository.GetWithRolesById(dto.UserId);
         if (user is null)
@@ -139,7 +139,7 @@ public class UserService : IUserService
         await _unitOfWork.SaveChangesAsync();
     }
 
-    public async Task AssignDashboardAsync(AssignDashboardRequestDto dto)
+    public async Task AssignDashboardAsync(AssignDashboardRequest dto)
     {
         var user = await _userRepository.GetWithRolesById(dto.UserId);
         if (user is null)
@@ -153,7 +153,7 @@ public class UserService : IUserService
         await _unitOfWork.SaveChangesAsync();
     }
 
-    public async Task AssignDepartmentAsync(AssignDepartmentRequestDto dto)
+    public async Task AssignDepartmentAsync(AssignDepartmentRequest dto)
     {
         var user = await _userRepository.GetByIdAsync(dto.UserId);
         if (user is null)

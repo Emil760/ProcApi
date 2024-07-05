@@ -6,6 +6,6 @@ namespace ProcApi.Application.Services.Abstracts;
 
 public interface IDepartmentService
 {
-    Task<DepartmentResponseDto> CreateDepartmentAsync(CreateDepartmentDto dto);
-    Task<IEnumerable<DepartmentListResponseDto>> GetAllAsync(PaginationModel pagination);
+    Task<DepartmentResponse> CreateDepartmentAsync(CreateDepartmentRequest request);
+    Task<IEnumerable<DepartmentListResponse>> GetAllAsync(PaginationModel pagination);
 }

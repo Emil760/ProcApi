@@ -18,10 +18,10 @@ public class UserCachedService : IUserCachedService
         _cache = cache;
     }
 
-    public async Task<UserInfoResponseDto> GetByIdAsync(int id)
+    public async Task<UserInfoResponse> GetByIdAsync(int id)
     {
         var key = CacheKeys.GetUserKey(id);
-        var user = await _cache.GetAsync<UserInfoResponseDto>(key);
+        var user = await _cache.GetAsync<UserInfoResponse>(key);
 
         if (user is null)
         {

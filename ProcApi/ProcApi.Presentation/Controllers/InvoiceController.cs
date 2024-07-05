@@ -53,16 +53,16 @@ public class InvoiceController : BaseController
 
     [HttpPost("Save")]
     [HasPermission(Permissions.CanCreateInvoice)]
-    public async Task<IActionResult> SaveAsync([FromBody] SaveInvoiceRequestDto dto)
+    public async Task<IActionResult> SaveAsync([FromBody] SaveInvoiceRequest dto)
     {
         return Ok(await _invoiceService.SaveInvoiceAsync(dto));
     }
 
     [HttpPost("PerformAction")]
-    public async Task<IActionResult> PerformAction([FromBody] ActionPerformRequestDto requestDto)
+    public async Task<IActionResult> PerformAction([FromBody] ActionPerformRequest request)
     {
-        await _documentValidatorHandler.ValidateDocumentAsync(requestDto.DocId, typeof(InvoiceValidator));
-        await _invoiceApprovalService.PerformAction(requestDto, UserInfo);
+        await _documentValidatorHandler.ValidateDocumentAsync(request.DocId, typeof(InvoiceValidator));
+        await _invoiceApprovalService.PerformAction(request, UserInfo);
         return Ok();
     }
 
@@ -75,7 +75,7 @@ public class InvoiceController : BaseController
 
     [HttpPost("AddReviewer")]
     [HasPermission(Permissions.CanChangeReviewer)]
-    public async Task<IActionResult> AddReviewerAsync([FromBody] AddReviewerRequestDto dto)
+    public async Task<IActionResult> AddReviewerAsync([FromBody] AddReviewerRequest dto)
     {
         await _approvalsService.AddApprovalToDocument(
             dto.DocumentId, dto.ReviewerId, Roles.Reviewer, DocumentType.Invoice);
@@ -84,7 +84,7 @@ public class InvoiceController : BaseController
 
     [HttpPut("RemoveReviewer")]
     [HasPermission(Permissions.CanChangeReviewer)]
-    public async Task<IActionResult> RemoveReviewerAsync([FromQuery] RemoveReviewerRequestDto dto)
+    public async Task<IActionResult> RemoveReviewerAsync([FromQuery] RemoveReviewerRequest dto)
     {
         await _approvalsService.RemoveApprovalFromDocument(
             dto.DocumentId, dto.ReviewerId, Roles.Reviewer, DocumentType.Invoice);
@@ -93,9 +93,9 @@ public class InvoiceController : BaseController
 
     [HttpPut("ChangeUnitOfMeasureItem")]
     [HasPermission(Permissions.CanCreateInvoice)]
-    public async Task<IActionResult> ChangeUnitOfMeasureItemAsync([FromBody] ChangeUnitOfMeasureItemDto dto)
+    public async Task<IActionResult> ChangeUnitOfMeasureItemAsync([FromBody] ChangeUnitOfMeasureItemRequest request)
     {
-        await _invoiceService.ChangeUnitOfMeasureItem(dto);
+        await _invoiceService.ChangeUnitOfMeasureItem(request);
         return Ok();
     }
 

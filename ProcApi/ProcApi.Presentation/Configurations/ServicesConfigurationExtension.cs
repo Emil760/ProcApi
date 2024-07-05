@@ -68,6 +68,8 @@ public static class ServicesConfigurationExtension
 
         services.AddScoped<IFileService, FileService>();
 
+        services.AddScoped<IDropDownService, DropDownService>();
+
         services.AddScoped<ExceptionHandlerCoordinator>();
         services.AddScoped<GeneralExceptionHandler>();
         services.AddScoped<UnauthorizedExceptionHandler>();

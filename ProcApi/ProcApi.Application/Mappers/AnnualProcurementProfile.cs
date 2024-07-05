@@ -9,6 +9,6 @@ public class AnnualProcurementProfile : CommonProfile
     public AnnualProcurementProfile()
     {
         CreateMap<AnnualProcurement, AnnualProcurementResponseDto>();
-        CreateMap<CreateAnnualProcurementRequestDto, AnnualProcurement>();
+        CreateMap<CreateAnnualProcurementRequest, AnnualProcurement>();
     }
 }

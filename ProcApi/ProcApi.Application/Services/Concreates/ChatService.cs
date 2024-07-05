@@ -64,26 +64,26 @@ public class ChatService : IChatService
         return chat;
     }
 
-    public async Task<IEnumerable<ChatUserResponseDto>> GetUsersAsync(PaginationModel pagination)
+    public async Task<IEnumerable<ChatUserResponse>> GetUsersAsync(PaginationModel pagination)
     {
         var usersPaginated = await _userRepository.GetAllPaginated(pagination);
 
         _httpContextAccessor.HttpContext!.Response.Headers.Add(HeaderKeys.XPagination, usersPaginated.ToString());
 
-        return _mapper.Map<IEnumerable<ChatUserResponseDto>>(usersPaginated.ResultSet);
+        return _mapper.Map<IEnumerable<ChatUserResponse>>(usersPaginated.ResultSet);
     }
 
-    public async Task<IEnumerable<ChatResponseDto>> GetChatsAsync(int userId)
+    public async Task<IEnumerable<ChatResponse>> GetChatsAsync(int userId)
     {
         var userTask = _chatUserRepository.GetAllWithLastMessageByUserIdAsync(userId);
         var groupTask = _groupRepository.GetAllWithLastMessageByUserId(userId);
 
         await Task.WhenAll(userTask, groupTask);
 
-        var chats = new List<ChatResponseDto>();
+        var chats = new List<ChatResponse>();
 
-        chats.AddRange(_mapper.Map<IEnumerable<ChatResponseDto>>(userTask.Result));
-        chats.AddRange(_mapper.Map<IEnumerable<ChatResponseDto>>(groupTask.Result));
+        chats.AddRange(_mapper.Map<IEnumerable<ChatResponse>>(userTask.Result));
+        chats.AddRange(_mapper.Map<IEnumerable<ChatResponse>>(groupTask.Result));
 
         return chats;
     }

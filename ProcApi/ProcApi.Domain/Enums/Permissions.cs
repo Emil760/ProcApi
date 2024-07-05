@@ -37,5 +37,7 @@ public enum Permissions
     CanAddAnnualProcurement,
     CanViewAnnualProcurement,
     CanAddComment,
-    CanGetComment
+    CanGetComment,
+    CanCreateDropDown,
+    CanGetDropDown
 }

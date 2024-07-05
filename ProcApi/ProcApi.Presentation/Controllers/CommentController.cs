@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ProcApi.Application.DTOs.Comment.Requestes;
+using ProcApi.Application.DTOs.Comment.Requests;
 using ProcApi.Application.Services.Abstracts;
 using ProcApi.Domain.Enums;
 using ProcApi.Presentation.Attributes;
@@ -26,7 +26,7 @@ namespace ProcApi.Presentation.Controllers
 
         [HttpPost]
         [HasPermission(Permissions.CanAddComment)]
-        public async Task<IActionResult> AddDocumentCommentAsync([FromBody] AddCommentRequestDto dto)
+        public async Task<IActionResult> AddDocumentCommentAsync([FromBody] AddCommentRequest dto)
         {
             return Ok(await _commentService.AddDocumentCommentAsync(dto));
         }

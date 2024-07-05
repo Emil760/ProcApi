@@ -35,37 +35,37 @@ public class SupplierService : ISupplierService
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<SupplierResponseDto> GetSupplierAsync(int id)
+    public async Task<SupplierResponse> GetSupplierAsync(int id)
     {
         var supplier = await _supplierRepository.GetByIdAsync(id);
 
         if (supplier is null)
             throw new ValidationException(_localizer[LocalizationKeys.SUPPLIER_NOT_FOUND]);
 
-        return _mapper.Map<SupplierResponseDto>(supplier);
+        return _mapper.Map<SupplierResponse>(supplier);
     }
 
-    public async Task<IEnumerable<SupplierResponseDto>> GetAllSupplierAsync(PaginationModel pagination)
+    public async Task<IEnumerable<SupplierResponse>> GetAllSupplierAsync(PaginationModel pagination)
     {
         var materialsPaginated = await _supplierRepository.GetAllPaginated(pagination);
 
         _httpContextAccessor.HttpContext!.Response.Headers.Add(HeaderKeys.XPagination, materialsPaginated.ToString());
 
-        return _mapper.Map<IEnumerable<SupplierResponseDto>>(materialsPaginated.ResultSet);
+        return _mapper.Map<IEnumerable<SupplierResponse>>(materialsPaginated.ResultSet);
     }
 
-    public async Task<SupplierResponseDto> CreateSupplierAsync(CreateSupplierRequestDto requestDto)
+    public async Task<SupplierResponse> CreateSupplierAsync(CreateSupplierRequest request)
     {
-        await ValidateCreateSupplierAsync(requestDto);
+        await ValidateCreateSupplierAsync(request);
 
-        var supplier = _mapper.Map<Supplier>(requestDto);
+        var supplier = _mapper.Map<Supplier>(request);
 
         await _supplierRepository.InsertAsync(supplier);
 
-        return _mapper.Map<SupplierResponseDto>(supplier);
+        return _mapper.Map<SupplierResponse>(supplier);
     }
 
-    public async Task<SupplierResponseDto> UpdateSupplierAsync(UpdateSupplierRequestDto dto)
+    public async Task<SupplierResponse> UpdateSupplierAsync(UpdateSupplierRequest dto)
     {
         var supplier = await _supplierRepository.GetByIdAsync(dto.Id);
 
@@ -78,7 +78,7 @@ public class SupplierService : ISupplierService
 
         await _unitOfWork.SaveChangesAsync();
 
-        return _mapper.Map<SupplierResponseDto>(supplier);
+        return _mapper.Map<SupplierResponse>(supplier);
     }
 
     public async Task<bool> ActivateSupplier(int id, bool isActive)
@@ -95,7 +95,7 @@ public class SupplierService : ISupplierService
         return isActive;
     }
 
-    private async Task ValidateCreateSupplierAsync(CreateSupplierRequestDto dto)
+    private async Task ValidateCreateSupplierAsync(CreateSupplierRequest dto)
     {
         var supplier = await _supplierRepository.GetSupplierByNameAndTaxIdAsync(dto.Name, dto.TaxId);
 
@@ -109,7 +109,7 @@ public class SupplierService : ISupplierService
             throw new ValidationException(_localizer[LocalizationKeys.SUPPLIER_TAX_ID_ALREADY_EXISTS]);
     }
 
-    private async Task ValidateUpdateSupplierAsync(UpdateSupplierRequestDto dto)
+    private async Task ValidateUpdateSupplierAsync(UpdateSupplierRequest dto)
     {
         var supplier =
             await _supplierRepository.GetSupplierExceptCurrentByNameAndTaxIdAsync(dto.Id, dto.Name, dto.TaxId);

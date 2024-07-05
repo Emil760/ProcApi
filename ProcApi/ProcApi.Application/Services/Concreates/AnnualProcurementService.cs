@@ -39,7 +39,7 @@ public class AnnualProcurementService : IAnnualProcurementService
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<AnnualProcurementResponseDto> CreateAnnualProcurementAsync(CreateAnnualProcurementRequestDto dto)
+    public async Task<AnnualProcurementResponseDto> CreateAnnualProcurementAsync(CreateAnnualProcurementRequest dto)
     {
         var isExists = await _annualProcurementRepository.ExistsByYearAsync(dto.Year);
         if (isExists)
@@ -116,7 +116,7 @@ public class AnnualProcurementService : IAnnualProcurementService
         return _mapper.Map<IEnumerable<AnnualProcurementResponseDto>>(annualProcurements);
     }
 
-    public async Task<AnnualProcurementItemResponseDto> AddItemAsync(CreateAnnualProcurementItemsRequestDto dto)
+    public async Task<AnnualProcurementItemResponseDto> AddItemAsync(CreateAnnualProcurementItemsRequest dto)
     {
         var annualProcurement = await _annualProcurementRepository.GetByIdAsync(dto.AnnualProcurementId);
         if (annualProcurement is null)

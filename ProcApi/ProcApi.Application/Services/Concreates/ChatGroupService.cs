@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.Localization;
-using ProcApi.Application.DTOs.Chat.Request;
+using ProcApi.Application.DTOs.Chat.Requests;
 using ProcApi.Application.DTOs.Chat.Responses;
 using ProcApi.Application.Services.Abstracts;
 using ProcApi.Domain.Constants;
@@ -40,7 +40,7 @@ public class ChatGroupService : IChatGroupService
         _localizer = localizer;
     }
 
-    public async Task<CreatedGroupResponseDto> CreateGroupAsync(int creatorUserId, CreateGroupRequestDto dto)
+    public async Task<CreatedGroupResponse> CreateGroupAsync(int creatorUserId, CreateGroupRequest dto)
     {
         var chat = new Chat
         {
@@ -73,7 +73,7 @@ public class ChatGroupService : IChatGroupService
 
         _groupChatSignalService.SignalGroupCreatedAsync(creatorUserId, group);
 
-        return _mapper.Map<CreatedGroupResponseDto>(group);
+        return _mapper.Map<CreatedGroupResponse>(group);
     }
 
     public async Task GiveAdminAsync(int currentUserId, int groupId, int userId)

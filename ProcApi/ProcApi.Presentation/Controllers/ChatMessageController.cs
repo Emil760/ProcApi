@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ProcApi.Application.DTOs.Chat.Request;
+using ProcApi.Application.DTOs.Chat.Requests;
 using ProcApi.Application.Services.Abstracts;
 
 namespace ProcApi.Presentation.Controllers;
@@ -16,14 +16,14 @@ public class ChatMessageController : BaseController
     }
 
     [HttpPost("SendUserChatMessage")]
-    public async Task<IActionResult> SendUserAsync([FromBody] SendChatUserMessageRequestDto dto)
+    public async Task<IActionResult> SendUserAsync([FromBody] SendChatUserMessageRequest dto)
     {
         await _chatMessageService.SendMessageToUserAsync(UserInfo.UserId, dto);
         return Ok();
     }
     
     [HttpPost("SendGroupMessage")]
-    public async Task<IActionResult> SendGroupAsync([FromBody] SendGroupMessageRequestDto dto)
+    public async Task<IActionResult> SendGroupAsync([FromBody] SendGroupMessageRequest dto)
     {
         await _chatMessageService.SendMessageToGroupAsync(UserInfo.UserId, dto);
         return Ok();

@@ -1,13 +1,13 @@
-﻿using ProcApi.Application.DTOs.Comment.Requestes;
+﻿using ProcApi.Application.DTOs.Comment.Requests;
 using ProcApi.Application.DTOs.Comment.Responses;
 
 namespace ProcApi.Application.Services.Abstracts
 {
     public interface ICommentService
     {
-        Task<CommentResponseDto> AddDocumentCommentAsync(AddCommentRequestDto dto);
+        Task<CommentResponse> AddDocumentCommentAsync(AddCommentRequest dto);
         Task DeleteDocumentCommentAsync(int id);
-        Task<IEnumerable<CommentResponseDto>> GetDocumentCommentsAsync(int documentId);
-        Task<CommentResponseDto> UpdateDocumentCommentAsync(int id);
+        Task<IEnumerable<CommentResponse>> GetDocumentCommentsAsync(int documentId);
+        Task<CommentResponse> UpdateDocumentCommentAsync(int id);
     }
 }

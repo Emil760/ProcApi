@@ -5,7 +5,7 @@ using ProcApi.Infrastructure.Resources;
 
 namespace ProcApi.Application.Validators.Department;
 
-public class CreateDepartmentValidator : AbstractValidator<CreateDepartmentDto>
+public class CreateDepartmentValidator : AbstractValidator<CreateDepartmentRequest>
 {
     public CreateDepartmentValidator(IStringLocalizer<SharedResource> localizer)
     {

@@ -5,11 +5,11 @@ namespace ProcApi.Application.Services.Abstracts;
 
 public interface IAnnualProcurementService
 {
-    Task<AnnualProcurementResponseDto> CreateAnnualProcurementAsync(CreateAnnualProcurementRequestDto dto);
+    Task<AnnualProcurementResponseDto> CreateAnnualProcurementAsync(CreateAnnualProcurementRequest dto);
     Task ChangeAnnualProcurementAsync(int id);
     Task ActivateAsync(int id);
     Task DeactivateAsync(int id);
     Task<IEnumerable<AnnualProcurementResponseDto>> GetAllAsync();
     Task<IEnumerable<AnnualProcurementResponseDto>> GetAllActiveAsync();
-    Task<AnnualProcurementItemResponseDto> AddItemAsync(CreateAnnualProcurementItemsRequestDto dto);
+    Task<AnnualProcurementItemResponseDto> AddItemAsync(CreateAnnualProcurementItemsRequest dto);
 }

@@ -67,6 +67,8 @@ namespace ProcApi.Infrastructure.Data
         public DbSet<Material> Materials { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
+        public DbSet<DropDownSource> DropDownSources { get; set; }
+        public DbSet<DropDownItem> DropDownItems { get; set; }
         public DbSet<DocumentValidationConfiguration> DocumentValidationConfigurations { get; set; }
         public DbSet<FeatureConfiguration> FeatureConfigurations { get; set; }
     }

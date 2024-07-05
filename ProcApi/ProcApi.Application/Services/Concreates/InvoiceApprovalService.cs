@@ -26,7 +26,7 @@ public class InvoiceApprovalService : IInvoiceApprovalService
         };
     }
 
-    public async Task PerformAction(ActionPerformRequestDto dto, UserInfoModel userInfo)
+    public async Task PerformAction(ActionPerformRequest dto, UserInfoModel userInfo)
     {
         var action = _actionHandlers[dto.ActionType];
 

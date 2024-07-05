@@ -34,11 +34,11 @@ public class UnitOfMeasureService : IUnitOfMeasureService
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<IEnumerable<UnitOfMeasureResponseDto>> GetAllAsync()
+    public async Task<IEnumerable<UnitOfMeasureResponse>> GetAllAsync()
     {
         var data = await _unitOfMeasureRepository.GetAllAsync();
 
-        return _mapper.Map<IEnumerable<UnitOfMeasureResponseDto>>(data);
+        return _mapper.Map<IEnumerable<UnitOfMeasureResponse>>(data);
     }
 
     public async Task<IEnumerable<DropDownDto<int>>> GetActiveForDropDownAsync()
@@ -55,7 +55,7 @@ public class UnitOfMeasureService : IUnitOfMeasureService
         return _mapper.Map<IEnumerable<DropDownDto<int>>>(data);
     }
 
-    public async Task<UnitOfMeasureResponseDto> CreateAsync(CreateUnitOfMeasureRequestDto dto)
+    public async Task<UnitOfMeasureResponse> CreateAsync(CreateUnitOfMeasureRequest dto)
     {
         var exists = await _unitOfMeasureRepository.ExistsByName(dto.Name);
         if (exists)
@@ -69,10 +69,10 @@ public class UnitOfMeasureService : IUnitOfMeasureService
 
         await _unitOfMeasureRepository.InsertAsync(unitOfMeasure);
 
-        return _mapper.Map<UnitOfMeasureResponseDto>(unitOfMeasure);
+        return _mapper.Map<UnitOfMeasureResponse>(unitOfMeasure);
     }
 
-    public async Task ActivateAsync(ActivateUnitOfMeasureRequestDto dto)
+    public async Task ActivateAsync(ActivateUnitOfMeasureRequest dto)
     {
         var unitOfMeasure = await _unitOfMeasureRepository.GetByIdAsync(dto.Id);
         if (unitOfMeasure is null)
@@ -83,7 +83,7 @@ public class UnitOfMeasureService : IUnitOfMeasureService
         await _unitOfWork.SaveChangesAsync();
     }
 
-    public async Task CreateConversationRuleAsync(CreateUnitOfMeasureConversationRuleRequestDto dto)
+    public async Task CreateConversationRuleAsync(CreateUnitOfMeasureConversationRuleRequest dto)
     {
         var unitOfMeasures = await _unitOfMeasureRepository.GetByIdsAsync(
             new[] { dto.SourceUnitOfMeasureId, dto.TargetUnitOfMeasureId });
@@ -115,14 +115,14 @@ public class UnitOfMeasureService : IUnitOfMeasureService
         await _unitOfWork.SaveChangesAsync();
     }
 
-    public async Task<IEnumerable<UnitOfMeasureConverterResponseDto>> GetRulesAsync(int id)
+    public async Task<IEnumerable<UnitOfMeasureConverterResponse>> GetRulesAsync(int id)
     {
         var unitOfMeasure = await _unitOfMeasureRepository.GetRulesAsync(id);
 
         if (unitOfMeasure is null)
             throw new NotFoundException(_localizer[LocalizationKeys.UNIT_OF_MEASURE_NOT_FOUND]);
 
-        return _mapper.Map<IEnumerable<UnitOfMeasureConverterResponseDto>>(unitOfMeasure.Converters);
+        return _mapper.Map<IEnumerable<UnitOfMeasureConverterResponse>>(unitOfMeasure.Converters);
     }
 
     public void ValidateQuantity(UnitOfMeasure unitOfMeasure, decimal quantity)

@@ -33,9 +33,9 @@ public class AnnualProcurementController : BaseController
     
     [HttpPost]
     [HasPermission(Permissions.CanAddAnnualProcurement)]
-    public async Task<IActionResult> CreateAnnualProcurementAsync([FromBody] CreateAnnualProcurementRequestDto requestDto)
+    public async Task<IActionResult> CreateAnnualProcurementAsync([FromBody] CreateAnnualProcurementRequest request)
     {
-        return Ok(await _annualProcurementService.CreateAnnualProcurementAsync(requestDto));
+        return Ok(await _annualProcurementService.CreateAnnualProcurementAsync(request));
     }
     
     [HttpPut]
@@ -64,7 +64,7 @@ public class AnnualProcurementController : BaseController
     
     [HttpPost("Item")]
     [HasPermission(Permissions.CanAddAnnualProcurement)]
-    public async Task<IActionResult> AddItemAsync(CreateAnnualProcurementItemsRequestDto dto)
+    public async Task<IActionResult> AddItemAsync(CreateAnnualProcurementItemsRequest dto)
     {
         return Ok(await _annualProcurementService.AddItemAsync(dto));
     }

@@ -52,16 +52,16 @@ public class PurchaseRequestController : BaseController
 
     [HttpPost("Save")]
     [HasPermission(Permissions.CanCreatePurchaseRequest)]
-    public async Task<IActionResult> SaveAsync([FromBody] SavePRRequestDto dto)
+    public async Task<IActionResult> SaveAsync([FromBody] SavePRRequest dto)
     {
         return Ok(await _purchaseRequestService.SavePurchaseRequest(dto));
     }
 
     [HttpPost("PerformAction")]
-    public async Task<IActionResult> PerformAction([FromBody] ActionPerformRequestDto requestDto)
+    public async Task<IActionResult> PerformAction([FromBody] ActionPerformRequest request)
     {
-        await _documentValidatorHandler.ValidateDocumentAsync(requestDto.DocId, typeof(PurchaseRequestValidator));
-        await _purchaseRequestApprovalService.PerformAction(requestDto, UserInfo);
+        await _documentValidatorHandler.ValidateDocumentAsync(request.DocId, typeof(PurchaseRequestValidator));
+        await _purchaseRequestApprovalService.PerformAction(request, UserInfo);
         return Ok();
     }
 
@@ -74,9 +74,9 @@ public class PurchaseRequestController : BaseController
 
     [HttpPut("AssignBuyer")]
     [HasPermission(Permissions.CanAssignBuyer)]
-    public async Task<IActionResult> AssignBuyerToItemAsync([FromBody] AssignUserToItemDto dto)
+    public async Task<IActionResult> AssignBuyerToItemAsync([FromBody] AssignUserToItemRequest request)
     {
-        await _purchaseRequestService.AssignBuyerToItemAsync(dto);
+        await _purchaseRequestService.AssignBuyerToItemAsync(request);
         return Ok();
     }
 }

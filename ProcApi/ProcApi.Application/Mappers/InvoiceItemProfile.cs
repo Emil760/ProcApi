@@ -9,9 +9,9 @@ public class InvoiceItemProfile : CommonProfile
 {
     public InvoiceItemProfile()
     {
-        CreateMap<InvoiceItem, InvoiceItemResponseDto>();
+        CreateMap<InvoiceItem, InvoiceItemResponse>();
         
-        CreateMap<CreateInvoiceItemRequestDto, InvoiceItem>();
+        CreateMap<CreateInvoiceItemRequest, InvoiceItem>();
 
         CreateMap<InvoiceItemDto, InvoiceItem>().ReverseMap();
     }

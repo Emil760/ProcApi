@@ -100,7 +100,7 @@ public class ApprovalsService : IApprovalsService
         };
     }
 
-    public async Task CanPerformAction(ActionPerformRequestDto dto, int userId)
+    public async Task CanPerformAction(ActionPerformRequest dto, int userId)
     {
         var document = await _documentRepository.GetWithActionsAsync(dto.DocId);
 
@@ -140,7 +140,7 @@ public class ApprovalsService : IApprovalsService
             throw new ValidationException(_localizer[LocalizationKeys.USER_CAN_PERFORME_ACTION]);
     }
 
-    public async Task ApproveDocumentAsync(ActionPerformRequestDto dto, int userId)
+    public async Task ApproveDocumentAsync(ActionPerformRequest dto, int userId)
     {
         var document = await _documentRepository.GetWithActionsAsync(dto.DocId);
 
@@ -177,7 +177,7 @@ public class ApprovalsService : IApprovalsService
         await _unitOfWork.SaveChangesAsync();
     }
 
-    public async Task ReturnDocumentAsync(ActionPerformRequestDto dto)
+    public async Task ReturnDocumentAsync(ActionPerformRequest dto)
     {
         var document = await _documentRepository.GetWithActionsAsync(dto.DocId);
 
@@ -196,7 +196,7 @@ public class ApprovalsService : IApprovalsService
         await _unitOfWork.SaveChangesAsync();
     }
 
-    public async Task RejectDocumentAsync(ActionPerformRequestDto dto)
+    public async Task RejectDocumentAsync(ActionPerformRequest dto)
     {
         var document = await _documentRepository.GetByIdAsync(dto.DocId);
 

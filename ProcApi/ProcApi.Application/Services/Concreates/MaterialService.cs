@@ -41,27 +41,27 @@ public class MaterialService : IMaterialService
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<IEnumerable<MaterialResponseDto>> GetAllAsync(PaginationModel pagination)
+    public async Task<IEnumerable<MaterialResponse>> GetAllAsync(PaginationModel pagination)
     {
         var materialsPaginated = await _materialRepository.GetAllPaginated(pagination);
 
         _httpContextAccessor.HttpContext!.Response.Headers.Add(HeaderKeys.XPagination, materialsPaginated.ToString());
 
-        return _mapper.Map<IEnumerable<MaterialResponseDto>>(materialsPaginated.ResultSet);
+        return _mapper.Map<IEnumerable<MaterialResponse>>(materialsPaginated.ResultSet);
     }
 
-    public async Task<TreeMaterialResponseDto> GetAsync(int id)
+    public async Task<TreeMaterialResponse> GetAsync(int id)
     {
         var materialResultSets = (await _materialRepository.GetWithCategories(id)).ToList();
 
         if (!materialResultSets.Any())
             throw new NotFoundException(_localizer[LocalizationKeys.MATERIAL_NOT_FOUND]);
 
-        var categories = new List<TreeCategoryResponseDto>();
+        var categories = new List<TreeCategoryResponse>();
 
         foreach (var item in materialResultSets)
         {
-            categories.Add(new TreeCategoryResponseDto
+            categories.Add(new TreeCategoryResponse
             {
                 Id = item.CategoryId,
                 Name = item.CategoryName,
@@ -71,7 +71,7 @@ public class MaterialService : IMaterialService
 
         var materialResultSet = materialResultSets.First();
 
-        var material = new TreeMaterialResponseDto
+        var material = new TreeMaterialResponse
         {
             Id = materialResultSet.Id,
             Code = materialResultSet.Code,
@@ -82,7 +82,7 @@ public class MaterialService : IMaterialService
         return material;
     }
 
-    public async Task<MaterialResponseDto> CreateMaterial(CreateMaterialRequestDto dto)
+    public async Task<MaterialResponse> CreateMaterial(CreateMaterialRequest dto)
     {
         var category = await ValidateCategory(dto.CategoryId);
         await ValidateAddMaterial(dto);
@@ -92,10 +92,10 @@ public class MaterialService : IMaterialService
 
         await _materialRepository.InsertAsync(material);
 
-        return _mapper.Map<MaterialResponseDto>(material);
+        return _mapper.Map<MaterialResponse>(material);
     }
 
-    public async Task<MaterialResponseDto> EditMaterial(int id, EditMaterialRequestDto dto)
+    public async Task<MaterialResponse> EditMaterial(int id, EditMaterialRequest dto)
     {
         var category = await ValidateCategory(dto.CategoryId);
         await ValidateEditMaterial(id, dto);
@@ -109,7 +109,7 @@ public class MaterialService : IMaterialService
 
         await _unitOfWork.SaveChangesAsync();
 
-        return _mapper.Map<MaterialResponseDto>(material);
+        return _mapper.Map<MaterialResponse>(material);
     }
 
     //TODO delete validation

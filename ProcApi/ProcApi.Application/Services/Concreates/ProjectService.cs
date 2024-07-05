@@ -31,30 +31,30 @@ namespace ProcApi.Application.Services.Concreates
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<ProjectResponseDto> CreateProjectAsync(CreateProjectRequestDto dto)
+        public async Task<ProjectResponse> CreateProjectAsync(CreateProjectRequest dto)
         {
             var isExists = await _projectRepository.ExistsByNameAsync(dto.Name);
             if (isExists)
                 throw new ValidationException(_localizer[LocalizationKeys.PROJECT_NAME_ALREADY_EXISTS]);
 
-            var project = _mapper.Map<CreateProjectRequestDto, Project>(dto);
+            var project = _mapper.Map<CreateProjectRequest, Project>(dto);
             await _projectRepository.InsertAsync(project);
-            return _mapper.Map<ProjectResponseDto>(project);
+            return _mapper.Map<ProjectResponse>(project);
         }
 
-        public async Task<IEnumerable<ProjectResponseDto>> GetProjectsAsync()
+        public async Task<IEnumerable<ProjectResponse>> GetProjectsAsync()
         {
             var data = await _projectRepository.GetAllAsync();
-            return _mapper.Map<IEnumerable<ProjectResponseDto>>(data);
+            return _mapper.Map<IEnumerable<ProjectResponse>>(data);
         }
 
-        public async Task<ProjectResponseDto> GetProjectAsync(int id)
+        public async Task<ProjectResponse> GetProjectAsync(int id)
         {
             var project = await _projectRepository.GetByIdAsync(id);
             if (project is null)
                 throw new NotFoundException(_localizer[LocalizationKeys.PROJECT_NOT_FOUND]);
 
-            return _mapper.Map<ProjectResponseDto>(project);
+            return _mapper.Map<ProjectResponse>(project);
         }
 
         public async Task<IEnumerable<DropDownDto<int>>> GetProjectsForDropDownAsync()
@@ -63,19 +63,19 @@ namespace ProcApi.Application.Services.Concreates
             return _mapper.Map<IEnumerable<DropDownDto<int>>>(data);
         }
 
-        public async Task<ProjectResponseDto> UpdateProjectAsync(UpdateProjectRequestDto dto)
+        public async Task<ProjectResponse> UpdateProjectAsync(UpdateProjectRequest d)
         {
-            var project = await _projectRepository.GetByIdAsync(dto.Id);
+            var project = await _projectRepository.GetByIdAsync(d.Id);
             if (project is null)
                 throw new NotFoundException(_localizer[LocalizationKeys.PROJECT_NOT_FOUND]);
 
-            var exists = await _projectRepository.ExistsByNameExceptCurrentAsync(dto.Id, dto.Name);
+            var exists = await _projectRepository.ExistsByNameExceptCurrentAsync(d.Id, d.Name);
             if (exists)
                 throw new ValidationException(_localizer[LocalizationKeys.PROJECT_NAME_ALREADY_EXISTS]);
 
-            _mapper.Map(dto, project);
+            _mapper.Map(d, project);
             await _unitOfWork.SaveChangesAsync();
-            return _mapper.Map<ProjectResponseDto>(project);
+            return _mapper.Map<ProjectResponse>(project);
         }
     }
 }

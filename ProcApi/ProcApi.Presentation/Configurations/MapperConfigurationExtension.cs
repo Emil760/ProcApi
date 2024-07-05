@@ -23,6 +23,7 @@ public static class MapperConfigurationExtension
         cfg.AddProfile(new DashboardProfile());
         cfg.AddProfile(new ProjectProfile());
         cfg.AddProfile(new AnnualProcurementProfile());
+        cfg.AddProfile(new DropDownProfile());
     }).CreateMapper();
 
     public static void AddAutoMapper(this IServiceCollection services)

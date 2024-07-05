@@ -20,9 +20,9 @@ public class DepartmentController : BaseController
 
     [HttpPost]
     [HasPermission(Permissions.CanCreateDepartment)]
-    public async Task<IActionResult> CreateDepartmentAsync(CreateDepartmentDto dto)
+    public async Task<IActionResult> CreateDepartmentAsync(CreateDepartmentRequest request)
     {
-        return Ok(await _departmentService.CreateDepartmentAsync(dto));
+        return Ok(await _departmentService.CreateDepartmentAsync(request));
     }
 
     [HttpGet("All")]

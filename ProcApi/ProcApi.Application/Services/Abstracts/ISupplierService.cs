@@ -6,9 +6,9 @@ namespace ProcApi.Application.Services.Abstracts;
 
 public interface ISupplierService
 {
-    Task<SupplierResponseDto> GetSupplierAsync(int id);
-    Task<IEnumerable<SupplierResponseDto>> GetAllSupplierAsync(PaginationModel pagination);
-    Task<SupplierResponseDto> CreateSupplierAsync(CreateSupplierRequestDto requestDto);
-    Task<SupplierResponseDto> UpdateSupplierAsync(UpdateSupplierRequestDto dto);
+    Task<SupplierResponse> GetSupplierAsync(int id);
+    Task<IEnumerable<SupplierResponse>> GetAllSupplierAsync(PaginationModel pagination);
+    Task<SupplierResponse> CreateSupplierAsync(CreateSupplierRequest request);
+    Task<SupplierResponse> UpdateSupplierAsync(UpdateSupplierRequest dto);
     Task<bool> ActivateSupplier(int id, bool isActive);
 }

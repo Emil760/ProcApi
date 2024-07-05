@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.Localization;
-using ProcApi.Application.DTOs.Chat.Request;
+using ProcApi.Application.DTOs.Chat.Requests;
 using ProcApi.Application.DTOs.Chat.Responses;
 using ProcApi.Application.Services.Abstracts;
 using ProcApi.Domain.Constants;
@@ -39,7 +39,7 @@ public class ChatMessageService : IChatMessageService
         _mapper = mapper;
     }
 
-    public async Task SendMessageToUserAsync(int senderUserId, SendChatUserMessageRequestDto dto)
+    public async Task SendMessageToUserAsync(int senderUserId, SendChatUserMessageRequest dto)
     {
         var userIds = new[] { senderUserId, dto.ReceiverUserId };
 
@@ -57,7 +57,7 @@ public class ChatMessageService : IChatMessageService
         _chatMessageSignalService.SendUserSignalMessageAsync(chatMessage, new List<int> { dto.ReceiverUserId });
     }
 
-    public async Task SendMessageToGroupAsync(int senderUserId, SendGroupMessageRequestDto dto)
+    public async Task SendMessageToGroupAsync(int senderUserId, SendGroupMessageRequest dto)
     {
         var chat = await _chatRepository.FindWithChatUsersExceptCurrUserByChatIdAsync(dto.ChatId, senderUserId);
 
@@ -86,7 +86,7 @@ public class ChatMessageService : IChatMessageService
         };
     }
     
-    public async Task<MarkAdReadResponseDto?> MarkAsReadAsync(int messageId, int receiverId)
+    public async Task<MarkAdReadResponse?> MarkAsReadAsync(int messageId, int receiverId)
     {
         var chatMessage =
             await _chatMessageRepository.GetWithChatUsersExceptCurrentUserByIdAsync(messageId, receiverId);
@@ -117,6 +117,6 @@ public class ChatMessageService : IChatMessageService
 
         _chatMessageSignalService.SignalMarkAsReadAsync(receiverInfo, chatMessage);
 
-        return _mapper.Map<MarkAdReadResponseDto>((chatMessage, receiverInfo));
+        return _mapper.Map<MarkAdReadResponse>((chatMessage, receiverInfo));
     }
 }

@@ -19,9 +19,9 @@ public class CategoryController : BaseController
 
     [HttpPost]
     [HasPermission(Permissions.CanViewMaterial)]
-    public async Task<IActionResult> CreateCategory([FromBody] CreateCategoryDto dto)
+    public async Task<IActionResult> CreateCategory([FromBody] CreateCategoryRequest request)
     {
-        return Ok(await _categoryService.CreateCategory(dto));
+        return Ok(await _categoryService.CreateCategory(request));
     }
 
     [HttpGet("GetByLevel")]

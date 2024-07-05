@@ -8,7 +8,7 @@ using ProcApi.Domain.Entities;
 using ProcApi.Domain.Enums;
 using ProcApi.Domain.Exceptions;
 using ProcApi.Domain.Models;
-using ProcApi.Infrastructure.Constants;
+using ProcApi.Domain.Constants;
 using ProcApi.Infrastructure.Repositories.Abstracts;
 using ProcApi.Infrastructure.Repositories.UnitOfWork;
 using ProcApi.Infrastructure.Resources;
@@ -40,51 +40,32 @@ public class DepartmentService : IDepartmentService
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<DepartmentResponseDto> CreateDepartmentAsync(CreateDepartmentDto dto)
+    public async Task<DepartmentResponse> CreateDepartmentAsync(CreateDepartmentRequest request)
     {
-        var user = await _userRepository.GetByIdAndRoleId(dto.HeadUserId, Roles.HeadDepartment);
+        var user = await _userRepository.GetByIdAndRoleId(request.HeadUserId, Roles.HeadDepartment);
         if (user is null)
-            throw new NotFoundException(_localizer["UserNotFound"]);
+            throw new NotFoundException(_localizer[LocalizationKeys.USER_NOT_FOUND]);
 
-        var departmentExists = await _departmentRepository.ExistsByName(dto.Name);
+        var departmentExists = await _departmentRepository.ExistsByName(request.Name);
         if (departmentExists)
-            throw new ValidationException(_localizer["DepartmentNameAlreadyExists"]);
+            throw new ValidationException(_localizer[LocalizationKeys.DEPARTMENT_ALREADY_EXISTS]);
 
-        var department = _mapper.Map<Department>(dto);
+        var department = _mapper.Map<Department>(request);
         user.Department = department;
 
         _departmentRepository.Insert(department);
 
         await _unitOfWork.SaveChangesAsync();
 
-        return _mapper.Map<DepartmentResponseDto>(department);
+        return _mapper.Map<DepartmentResponse>(department);
     }
 
-    public async Task AssignUserToDepartment(int userId, AssignUserDepartmentDto dto)
-    {
-        var department = await _departmentRepository.GetByIdAsync(dto.DepartmentId);
-
-        if (department is null)
-            throw new NotFoundException(_localizer["DepartmentNotFound"]);
-
-        if (department.HeadUserId != userId)
-            throw new ValidationException(_localizer["UserDontBelongToDepartment"]);
-
-        var user = await _userRepository.GetByIdAsync(dto.UserId);
-        if (user is null)
-            throw new NotFoundException(_localizer["UserNotFound"]);
-
-        user.Department = department;
-
-        await _unitOfWork.SaveChangesAsync();
-    }
-
-    public async Task<IEnumerable<DepartmentListResponseDto>> GetAllAsync(PaginationModel pagination)
+    public async Task<IEnumerable<DepartmentListResponse>> GetAllAsync(PaginationModel pagination)
     {
         var departmentPaginated = await _departmentRepository.GetAllPaginated(pagination);
 
         _httpContextAccessor.HttpContext!.Response.Headers.Add(HeaderKeys.XPagination, departmentPaginated.ToString());
 
-        return _mapper.Map<IEnumerable<DepartmentListResponseDto>>(departmentPaginated.ResultSet);
+        return _mapper.Map<IEnumerable<DepartmentListResponse>>(departmentPaginated.ResultSet);
     }
 }

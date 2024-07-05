@@ -20,7 +20,7 @@ public class DelegationController : BaseController
 
     [HttpPost]
     [HasPermission(Permissions.CanCreateDelegation)]
-    public async Task<IActionResult> CreateDelegationAsync(CreateDelegationRequestDto dto)
+    public async Task<IActionResult> CreateDelegationAsync(CreateDelegationRequest dto)
     {
         await _delegationService.CreateDelegationAsync(dto);
         return Ok();

@@ -16,17 +16,17 @@ public class AuthenticationController : BaseController
     
     [AllowAnonymous]
     [HttpPost("Login")]
-    public async Task<IActionResult> Login([FromBody] LoginDto dto)
+    public async Task<IActionResult> Login([FromBody] LoginRequest request)
     {
-        var token = await _authenticationService.Login(dto);
+        var token = await _authenticationService.Login(request);
         return Ok(token);
     }
 
     [AllowAnonymous]
     [HttpPost("Register")]
-    public async Task<IActionResult> Register([FromBody] RegistrationDto dto)
+    public async Task<IActionResult> Register([FromBody] RegistrationRequest request)
     {
-        await _authenticationService.Register(dto);
+        await _authenticationService.Register(request);
         return Ok();
     }
 }

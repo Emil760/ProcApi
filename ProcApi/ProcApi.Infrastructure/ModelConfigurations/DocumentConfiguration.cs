@@ -14,14 +14,19 @@ public class DocumentConfiguration : IEntityTypeConfiguration<Document>
             .HasColumnType("varchar")
             .HasMaxLength(30);
 
-        builder.HasMany(d => d.Actions)
-            .WithOne(da => da.Document)
-            .HasForeignKey(da => da.DocumentId)
-            .OnDelete(DeleteBehavior.Cascade);
-
         builder.Property(d => d.FlowCodes)
             .HasColumnType("varchar")
             .HasMaxLength(300)
             .IsRequired();
+        
+        builder.HasMany(d => d.Actions)
+            .WithOne(da => da.Document)
+            .HasForeignKey(da => da.DocumentId)
+            .OnDelete(DeleteBehavior.Cascade);
+        
+        builder.HasMany(c => c.Comments)
+            .WithOne(d => d.Document)
+            .HasForeignKey(d => d.DocumentId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

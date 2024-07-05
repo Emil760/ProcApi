@@ -15,7 +15,7 @@ public class InvoiceRepository : GenericRepository<Invoice>, IInvoiceRepository
 
     public async Task<Invoice?> GetWithDocumentAndActionsAndItemsByDocId(int docId)
     {
-        return await _context.InvoiceDocuments
+        return await _context.Invoices
             .Include(id => id.Document)
             .Include(d => d.Document.Actions)
             .ThenInclude(d => d.Assigner)
@@ -27,7 +27,7 @@ public class InvoiceRepository : GenericRepository<Invoice>, IInvoiceRepository
 
     public async Task<Invoice?> GetWithDocumentAndItemsByDocId(int docId)
     {
-        return await _context.InvoiceDocuments
+        return await _context.Invoices
             .Include(i => i.Items)
             .Include(i => i.Document)
             .SingleOrDefaultAsync(i => i.DocumentId == docId);

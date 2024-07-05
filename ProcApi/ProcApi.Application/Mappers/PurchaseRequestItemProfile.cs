@@ -1,6 +1,6 @@
 ﻿using ProcApi.Application.DTOs.PurchaseRequest.Base;
 using ProcApi.Application.DTOs.PurchaseRequest.Requests;
-using ProcApi.Application.DTOs.PurchaseRequest.Response;
+using ProcApi.Application.DTOs.PurchaseRequest.Responses;
 using ProcApi.Domain.Entities;
 
 namespace ProcApi.Application.Mappers;
@@ -9,7 +9,7 @@ public class PurchaseRequestItemProfile : CommonProfile
 {
     public PurchaseRequestItemProfile()
     {
-        CreateMap<PurchaseRequestItem, PRItemResponseDto>()
+        CreateMap<PurchaseRequestItem, PRItemResponse>()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
             .ForMember(dest => dest.MaterialId, opt => opt.MapFrom(src => src.MaterialId))
             .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price))
@@ -17,7 +17,7 @@ public class PurchaseRequestItemProfile : CommonProfile
             .ForMember(dest => dest.BuyerId, opt => opt.MapFrom(src => src.Buyer.Id))
             .ForMember(dest => dest.BuyerName, opt => opt.MapFrom(src => src.Buyer.FirstName));
 
-        CreateMap<CreatePRItemRequestDto, PurchaseRequestItem>()
+        CreateMap<CreatePRItemRequest, PurchaseRequestItem>()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
             .ForMember(dest => dest.MaterialId, opt => opt.MapFrom(src => src.MaterialId))
             .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price))

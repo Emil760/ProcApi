@@ -20,17 +20,9 @@ public class DepartmentController : BaseController
 
     [HttpPost]
     [HasPermission(Permissions.CanCreateDepartment)]
-    public async Task<IActionResult> CreateDepartmentAsync(CreateDepartmentDto dto)
+    public async Task<IActionResult> CreateDepartmentAsync(CreateDepartmentRequest request)
     {
-        return Ok(await _departmentService.CreateDepartmentAsync(dto));
-    }
-
-    [HttpPut("ChangeUserDepartment")]
-    [HasPermission(Permissions.CanAssignUserDepartment)]
-    public async Task<IActionResult> ChangeUserDepartmentAsync([FromBody] AssignUserDepartmentDto dto)
-    {
-        await _departmentService.AssignUserToDepartment(UserInfo.UserId, dto);
-        return Ok();
+        return Ok(await _departmentService.CreateDepartmentAsync(request));
     }
 
     [HttpGet("All")]

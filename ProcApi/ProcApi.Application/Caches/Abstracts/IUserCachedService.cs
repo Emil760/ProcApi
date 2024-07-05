@@ -4,5 +4,5 @@ namespace ProcApi.Application.Caches.Abstracts;
 
 public interface IUserCachedService
 {
-    Task<UserInfoResponseDto> GetByIdAsync(int id);
+    Task<UserInfoResponse> GetByIdAsync(int id);
 }

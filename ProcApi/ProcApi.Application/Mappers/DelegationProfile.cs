@@ -8,9 +8,9 @@ public class DelegationProfile : CommonProfile
 {
     public DelegationProfile()
     {
-        CreateMap<CreateDelegationRequestDto, Delegation>();
+        CreateMap<CreateDelegationRequest, Delegation>();
 
-        CreateMap<Delegation, DelegationResponseDto>()
+        CreateMap<Delegation, DelegationResponse>()
             .ForMember(dest => dest.FromUserName, opt => opt.MapFrom(src => src.FromUser.FirstName))
             .ForMember(dest => dest.ToUserName, opt => opt.MapFrom(src => src.ToUser.FirstName))
             .ForMember(dest => dest.StartDate, opt => opt.MapFrom(src => src.StartDate))

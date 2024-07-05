@@ -13,4 +13,5 @@ public class Document
     public DocumentStatus DocumentStatusId { get; set; }
     public string FlowCodes { get; set; }
     public ICollection<DocumentAction> Actions { get; set; }
+    public ICollection<Comment> Comments { get; set; }
 }

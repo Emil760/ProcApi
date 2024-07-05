@@ -24,6 +24,13 @@ public class MaterialController : BaseController
     {
         return Ok(await _materialService.GetAllAsync(pagination));
     }
+    
+    [HttpGet("ForDropDown")]
+    [HasPermission(Permissions.CanViewMaterial)]
+    public async Task<IActionResult> GetAllForDropDownAsync()
+    {
+        return Ok(await _materialService.GetAllForDropDownAsync());
+    }
 
     [HttpGet]
     [HasPermission(Permissions.CanViewMaterial)]
@@ -34,14 +41,14 @@ public class MaterialController : BaseController
 
     [HttpPost]
     [HasPermission(Permissions.CanCreateMaterial)]
-    public async Task<IActionResult> CreateAsync([FromBody] CreateMaterialRequestDto dto)
+    public async Task<IActionResult> CreateAsync([FromBody] CreateMaterialRequest dto)
     {
         return Ok(await _materialService.CreateMaterial(dto));
     }
 
     [HttpPut]
     [HasPermission(Permissions.CanCreateMaterial)]
-    public async Task<IActionResult> EditAsync([FromQuery] int id, [FromBody] EditMaterialRequestDto dto)
+    public async Task<IActionResult> EditAsync([FromQuery] int id, [FromBody] EditMaterialRequest dto)
     {
         return Ok(await _materialService.EditMaterial(id, dto));
     }

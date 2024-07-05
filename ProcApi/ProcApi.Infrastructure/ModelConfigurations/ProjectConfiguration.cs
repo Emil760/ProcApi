@@ -12,5 +12,10 @@ public class ProjectConfiguration : IEntityTypeConfiguration<Project>
             .HasColumnType("varchar")
             .HasMaxLength(300)
             .IsRequired();
+
+        builder.Property(p => p.Budget)
+            .HasColumnType("decimal")
+            .HasDefaultValue(0)
+            .IsRequired();
     }
 }

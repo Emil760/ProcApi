@@ -8,11 +8,11 @@ namespace ProcApi.Application.Services.Abstracts;
 
 public interface IInvoiceService
 {
-    Task<InvoiceResponseDto> GetDocumentAsync(int docId);
+    Task<InvoiceResponse> GetDocumentAsync(int docId);
     Task<DocumentResponseDto> CreateInvoice(UserInfoModel userInfo);
     Task<IEnumerable<UnusedPRItemInfoResultSet>> GetUnusedPurchaseRequestItemsAsync(PaginationModel model);
-    Task<SaveInvoiceResponseDto> SaveInvoiceAsync(SaveInvoiceRequestDto dto);
+    Task<SaveInvoiceResponse> SaveInvoiceAsync(SaveInvoiceRequest dto);
     Task ChangePurchaseRequestItemStatuses(int invoiceId);
-    Task ChangeUnitOfMeasureItem(ChangeUnitOfMeasureItemDto dto);
-    Task<InvoiceItemResponseDto> GetItemAsync(int id);
+    Task ChangeUnitOfMeasureItem(ChangeUnitOfMeasureItemRequest request);
+    Task<InvoiceItemResponse> GetItemAsync(int id);
 }

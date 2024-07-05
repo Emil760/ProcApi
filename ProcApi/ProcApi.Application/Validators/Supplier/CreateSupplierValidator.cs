@@ -4,7 +4,7 @@ using ProcApi.Infrastructure.Resources;
 
 namespace ProcApi.Application.Validators.Supplier;
 
-public class CreateSupplierValidator : SaveSupportValidator<CreateSupplierRequestDto>
+public class CreateSupplierValidator : SaveSupportValidator<CreateSupplierRequest>
 {
     public CreateSupplierValidator(IStringLocalizer<SharedResource> localizer) : base(localizer)
     {

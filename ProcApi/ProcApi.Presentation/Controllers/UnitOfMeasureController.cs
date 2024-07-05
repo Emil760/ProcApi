@@ -38,14 +38,14 @@ public class UnitOfMeasureController : BaseController
 
     [HttpPost]
     [HasPermission(Permissions.CanCreateUnitOfMeasure)]
-    public async Task<IActionResult> CreateAsync(CreateUnitOfMeasureRequestDto dto)
+    public async Task<IActionResult> CreateAsync(CreateUnitOfMeasureRequest dto)
     {
         return Ok(await _unitOfMeasureService.CreateAsync(dto));
     }
 
     [HttpPut("Activate")]
     [HasPermission(Permissions.CanCreateUnitOfMeasure)]
-    public async Task<IActionResult> ActivateAsync(ActivateUnitOfMeasureRequestDto dto)
+    public async Task<IActionResult> ActivateAsync(ActivateUnitOfMeasureRequest dto)
     {
         await _unitOfMeasureService.ActivateAsync(dto);
         return Ok();
@@ -53,7 +53,7 @@ public class UnitOfMeasureController : BaseController
 
     [HttpPost("Rule")]
     [HasPermission(Permissions.CanCreateUnitOfMeasure)]
-    public async Task<IActionResult> CreateRuleAsync(CreateUnitOfMeasureConversationRuleRequestDto dto)
+    public async Task<IActionResult> CreateRuleAsync(CreateUnitOfMeasureConversationRuleRequest dto)
     {
         await _unitOfMeasureService.CreateConversationRuleAsync(dto);
         return Ok();

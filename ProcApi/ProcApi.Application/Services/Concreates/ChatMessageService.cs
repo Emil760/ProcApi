@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.Localization;
-using ProcApi.Application.DTOs.Chat.Request;
+using ProcApi.Application.DTOs.Chat.Requests;
 using ProcApi.Application.DTOs.Chat.Responses;
 using ProcApi.Application.Services.Abstracts;
+using ProcApi.Domain.Constants;
 using ProcApi.Domain.Entities;
 using ProcApi.Domain.Exceptions;
 using ProcApi.Infrastructure.Repositories.Abstracts;
@@ -38,7 +39,7 @@ public class ChatMessageService : IChatMessageService
         _mapper = mapper;
     }
 
-    public async Task SendMessageToUserAsync(int senderUserId, SendChatUserMessageRequestDto dto)
+    public async Task SendMessageToUserAsync(int senderUserId, SendChatUserMessageRequest dto)
     {
         var userIds = new[] { senderUserId, dto.ReceiverUserId };
 
@@ -56,12 +57,12 @@ public class ChatMessageService : IChatMessageService
         _chatMessageSignalService.SendUserSignalMessageAsync(chatMessage, new List<int> { dto.ReceiverUserId });
     }
 
-    public async Task SendMessageToGroupAsync(int senderUserId, SendGroupMessageRequestDto dto)
+    public async Task SendMessageToGroupAsync(int senderUserId, SendGroupMessageRequest dto)
     {
         var chat = await _chatRepository.FindWithChatUsersExceptCurrUserByChatIdAsync(dto.ChatId, senderUserId);
 
         if (chat is null)
-            throw new ValidationException(_localizer["ChatNotFound"]);
+            throw new NotFoundException(_localizer[LocalizationKeys.CHAT_NOT_FOUND]);
 
         var chatMessage = CreateMessage(chat, senderUserId, dto.Message);
 
@@ -84,14 +85,14 @@ public class ChatMessageService : IChatMessageService
             SenderId = senderUserId
         };
     }
-
-    public async Task<MarkAdReadResponseDto?> MarkAsReadAsync(int messageId, int receiverId)
+    
+    public async Task<MarkAdReadResponse?> MarkAsReadAsync(int messageId, int receiverId)
     {
         var chatMessage =
             await _chatMessageRepository.GetWithChatUsersExceptCurrentUserByIdAsync(messageId, receiverId);
 
         if (chatMessage is null)
-            throw new Exception("Message not found");
+            throw new NotFoundException(_localizer[LocalizationKeys.CHAT_NOT_FOUND]);
 
         ReceivedInfo? receivedInfo = null;
 
@@ -116,6 +117,6 @@ public class ChatMessageService : IChatMessageService
 
         _chatMessageSignalService.SignalMarkAsReadAsync(receiverInfo, chatMessage);
 
-        return _mapper.Map<MarkAdReadResponseDto>((chatMessage, receiverInfo));
+        return _mapper.Map<MarkAdReadResponse>((chatMessage, receiverInfo));
     }
 }

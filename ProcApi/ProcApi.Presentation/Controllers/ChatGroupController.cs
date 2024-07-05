@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ProcApi.Application.DTOs.Chat.Request;
+using ProcApi.Application.DTOs.Chat.Requests;
 using ProcApi.Application.Services.Abstracts;
 
 namespace ProcApi.Presentation.Controllers;
@@ -16,7 +16,7 @@ public class ChatGroupController : BaseController
     }
 
     [HttpPost("CreateGroup")]
-    public async Task<IActionResult> CreateGroupAsync([FromBody] CreateGroupRequestDto dto)
+    public async Task<IActionResult> CreateGroupAsync([FromBody] CreateGroupRequest dto)
     {
         return Ok(await _chatGroupService.CreateGroupAsync(UserInfo.UserId, dto));
     }

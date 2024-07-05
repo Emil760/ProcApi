@@ -6,6 +6,6 @@ namespace ProcApi.Application.Services.Abstracts;
 
 public interface ICategoryService
 {
-    Task<CategoryResponseDto> CreateCategory(CreateCategoryDto dto);
+    Task<CategoryResponse> CreateCategory(CreateCategoryRequest request);
     Task<IEnumerable<CategoryDto>> GetByLevelAsync(int level);
 }

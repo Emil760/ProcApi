@@ -8,11 +8,11 @@ public class DepartmentProfile : CommonProfile
 {
     public DepartmentProfile()
     {
-        CreateMap<CreateDepartmentDto, Department>();
+        CreateMap<CreateDepartmentRequest, Department>();
 
-        CreateMap<Department, DepartmentResponseDto>();
+        CreateMap<Department, DepartmentResponse>();
 
-        CreateMap<Department, DepartmentListResponseDto>()
+        CreateMap<Department, DepartmentListResponse>()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
             .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
             .ForMember(dest => dest.HeadUserName, opt => opt.MapFrom(src => src.HeadUser.FirstName));

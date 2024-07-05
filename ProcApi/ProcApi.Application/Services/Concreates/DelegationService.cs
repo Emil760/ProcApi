@@ -7,7 +7,7 @@ using ProcApi.Application.Services.Abstracts;
 using ProcApi.Domain.Entities;
 using ProcApi.Domain.Exceptions;
 using ProcApi.Domain.Models;
-using ProcApi.Infrastructure.Constants;
+using ProcApi.Domain.Constants;
 using ProcApi.Infrastructure.Repositories.Abstracts;
 using ProcApi.Infrastructure.Resources;
 
@@ -34,24 +34,24 @@ public class DelegationService : IDelegationService
         _mapper = mapper;
     }
 
-    public async Task CreateDelegationAsync(CreateDelegationRequestDto dto)
+    public async Task CreateDelegationAsync(CreateDelegationRequest dto)
     {
         var users = await _userRepository.GetByIdsAsync(dto.FromUserId, dto.ToUserId);
 
         if (users.Count() != 2)
-            throw new NotFoundException(_localizer["UserNotFound"]);
+            throw new NotFoundException(_localizer[LocalizationKeys.USER_NOT_FOUND]);
 
         var delegation = _mapper.Map<Delegation>(dto);
 
         await _delegationRepository.InsertAsync(delegation);
     }
 
-    public async Task<IEnumerable<DelegationResponseDto>> GetDelegations(PaginationModel model)
+    public async Task<IEnumerable<DelegationResponse>> GetDelegations(PaginationModel model)
     {
         var delegationPaginated = await _delegationRepository.GetAllPaginated(model);
         
         _httpContextAccessor.HttpContext!.Response.Headers.Add(HeaderKeys.XPagination, delegationPaginated.ToString());
 
-        return _mapper.Map<IEnumerable<DelegationResponseDto>>(delegationPaginated.ResultSet);
+        return _mapper.Map<IEnumerable<DelegationResponse>>(delegationPaginated.ResultSet);
     }
 }

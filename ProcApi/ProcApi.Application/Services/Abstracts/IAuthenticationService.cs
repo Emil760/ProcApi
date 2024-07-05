@@ -4,7 +4,7 @@ namespace ProcApi.Application.Services.Abstracts;
 
 public interface IAuthenticationService
 {
-    Task Register(RegistrationDto dto);
+    Task Register(RegistrationRequest request);
 
-    Task<string> Login(LoginDto dto);
+    Task<string> Login(LoginRequest request);
 }

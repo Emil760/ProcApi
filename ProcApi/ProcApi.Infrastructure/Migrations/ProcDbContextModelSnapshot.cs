@@ -24,6 +24,79 @@ namespace ProcApi.Infrastructure.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("ProcApi.Domain.Entities.AnnualProcurement", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreationDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("date")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("varchar");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime?>("LastUpdateDate")
+                        .HasColumnType("date");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("varchar");
+
+                    b.Property<short>("Version")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("smallint")
+                        .HasDefaultValue((short)1);
+
+                    b.Property<short>("Year")
+                        .HasColumnType("smallint");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AnnualProcurements");
+                });
+
+            modelBuilder.Entity("ProcApi.Domain.Entities.AnnualProcurementItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AnnualProcurementId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("MaterialId")
+                        .HasColumnType("integer");
+
+                    b.Property<decimal>("Quantity")
+                        .HasColumnType("numeric");
+
+                    b.Property<int>("UnitOfMeasureId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AnnualProcurementId");
+
+                    b.HasIndex("MaterialId");
+
+                    b.HasIndex("UnitOfMeasureId");
+
+                    b.ToTable("AnnualProcurementItems");
+                });
+
             modelBuilder.Entity("ProcApi.Domain.Entities.ApprovalFlowTemplate", b =>
                 {
                     b.Property<int>("Id")
@@ -308,6 +381,37 @@ namespace ProcApi.Infrastructure.Migrations
                     b.ToTable("ChatUsers");
                 });
 
+            modelBuilder.Entity("ProcApi.Domain.Entities.Comment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<int>("DocumentId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("LastUpdateDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("varchar");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DocumentId");
+
+                    b.ToTable("Comments");
+                });
+
             modelBuilder.Entity("ProcApi.Domain.Entities.ControlSet", b =>
                 {
                     b.Property<int>("Id")
@@ -357,6 +461,24 @@ namespace ProcApi.Infrastructure.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("ControlSets");
+                });
+
+            modelBuilder.Entity("ProcApi.Domain.Entities.Dashboard", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("varchar");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Dashboards");
                 });
 
             modelBuilder.Entity("ProcApi.Domain.Entities.Delegation", b =>
@@ -551,6 +673,50 @@ namespace ProcApi.Infrastructure.Migrations
                         });
                 });
 
+            modelBuilder.Entity("ProcApi.Domain.Entities.DropDownItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("DropDownSourceId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("varchar");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DropDownSourceId");
+
+                    b.ToTable("DropDownItems");
+                });
+
+            modelBuilder.Entity("ProcApi.Domain.Entities.DropDownSource", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Key")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("varchar");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Key")
+                        .IsUnique();
+
+                    b.ToTable("DropDownSources");
+                });
+
             modelBuilder.Entity("ProcApi.Domain.Entities.FeatureConfiguration", b =>
                 {
                     b.Property<int>("Id")
@@ -558,6 +724,9 @@ namespace ProcApi.Infrastructure.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ConfigurationType")
+                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .HasMaxLength(300)
@@ -573,9 +742,70 @@ namespace ProcApi.Infrastructure.Migrations
                         .HasMaxLength(300)
                         .HasColumnType("varchar");
 
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("varchar");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Configurations");
+                    b.ToTable("FeatureConfiguration");
+                });
+
+            modelBuilder.Entity("ProcApi.Domain.Entities.GoodIssueNote", b =>
+                {
+                    b.Property<int>("DocumentId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("DocumentId");
+
+                    b.ToTable("GoodIssueNotes");
+                });
+
+            modelBuilder.Entity("ProcApi.Domain.Entities.GoodIssueNoteItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("GoodIssueNoteId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GoodIssueNoteId");
+
+                    b.ToTable("GoodIssueNoteItems");
+                });
+
+            modelBuilder.Entity("ProcApi.Domain.Entities.GoodReceiptNote", b =>
+                {
+                    b.Property<int>("DocumentId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("DocumentId");
+
+                    b.ToTable("GoodReceiptNotes");
+                });
+
+            modelBuilder.Entity("ProcApi.Domain.Entities.GoodReceiptNoteItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("GoodReceiptNoteId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GoodReceiptNoteId");
+
+                    b.ToTable("GoodReceiptNoteItems");
                 });
 
             modelBuilder.Entity("ProcApi.Domain.Entities.Group", b =>
@@ -644,7 +874,7 @@ namespace ProcApi.Infrastructure.Migrations
 
                     b.HasIndex("SupplierId");
 
-                    b.ToTable("InvoiceDocuments");
+                    b.ToTable("Invoices");
                 });
 
             modelBuilder.Entity("ProcApi.Domain.Entities.InvoiceItem", b =>
@@ -678,7 +908,7 @@ namespace ProcApi.Infrastructure.Migrations
 
                     b.HasIndex("UnitOfMeasureId");
 
-                    b.ToTable("InvoiceDocumentItems");
+                    b.ToTable("InvoiceItems");
                 });
 
             modelBuilder.Entity("ProcApi.Domain.Entities.Material", b =>
@@ -884,6 +1114,51 @@ namespace ProcApi.Infrastructure.Migrations
                         {
                             Id = 29,
                             Name = "CanCreateUnitOfMeasure"
+                        },
+                        new
+                        {
+                            Id = 30,
+                            Name = "CanChangeDashboard"
+                        },
+                        new
+                        {
+                            Id = 31,
+                            Name = "CanViewProject"
+                        },
+                        new
+                        {
+                            Id = 32,
+                            Name = "CanAddProject"
+                        },
+                        new
+                        {
+                            Id = 33,
+                            Name = "CanAddAnnualProcurement"
+                        },
+                        new
+                        {
+                            Id = 34,
+                            Name = "CanViewAnnualProcurement"
+                        },
+                        new
+                        {
+                            Id = 35,
+                            Name = "CanAddComment"
+                        },
+                        new
+                        {
+                            Id = 36,
+                            Name = "CanGetComment"
+                        },
+                        new
+                        {
+                            Id = 37,
+                            Name = "CanCreateDropDown"
+                        },
+                        new
+                        {
+                            Id = 38,
+                            Name = "CanGetDropDown"
                         });
                 });
 
@@ -894,6 +1169,11 @@ namespace ProcApi.Infrastructure.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Budget")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("decimal")
+                        .HasDefaultValue(0m);
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -1729,6 +2009,51 @@ namespace ProcApi.Infrastructure.Migrations
                         },
                         new
                         {
+                            RoleId = 2,
+                            PermissionId = 30
+                        },
+                        new
+                        {
+                            RoleId = 2,
+                            PermissionId = 31
+                        },
+                        new
+                        {
+                            RoleId = 2,
+                            PermissionId = 32
+                        },
+                        new
+                        {
+                            RoleId = 2,
+                            PermissionId = 33
+                        },
+                        new
+                        {
+                            RoleId = 2,
+                            PermissionId = 34
+                        },
+                        new
+                        {
+                            RoleId = 2,
+                            PermissionId = 35
+                        },
+                        new
+                        {
+                            RoleId = 2,
+                            PermissionId = 36
+                        },
+                        new
+                        {
+                            RoleId = 2,
+                            PermissionId = 37
+                        },
+                        new
+                        {
+                            RoleId = 2,
+                            PermissionId = 38
+                        },
+                        new
+                        {
                             RoleId = 1,
                             PermissionId = 4
                         },
@@ -1898,6 +2223,9 @@ namespace ProcApi.Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("DashboardId")
+                        .HasColumnType("integer");
+
                     b.Property<int?>("DepartmentId")
                         .HasColumnType("integer");
 
@@ -1915,6 +2243,8 @@ namespace ProcApi.Infrastructure.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DashboardId");
 
                     b.HasIndex("DepartmentId");
 
@@ -2065,6 +2395,33 @@ namespace ProcApi.Infrastructure.Migrations
                     b.ToFunction("get_user_roles_with_delegated_roles");
                 });
 
+            modelBuilder.Entity("ProcApi.Domain.Entities.AnnualProcurementItem", b =>
+                {
+                    b.HasOne("ProcApi.Domain.Entities.AnnualProcurement", "AnnualProcurement")
+                        .WithMany("Items")
+                        .HasForeignKey("AnnualProcurementId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ProcApi.Domain.Entities.Material", "Material")
+                        .WithMany()
+                        .HasForeignKey("MaterialId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ProcApi.Domain.Entities.UnitOfMeasure", "UnitOfMeasure")
+                        .WithMany()
+                        .HasForeignKey("UnitOfMeasureId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AnnualProcurement");
+
+                    b.Navigation("Material");
+
+                    b.Navigation("UnitOfMeasure");
+                });
+
             modelBuilder.Entity("ProcApi.Domain.Entities.ApprovalFlowTemplate", b =>
                 {
                     b.HasOne("ProcApi.Domain.Entities.Role", "Role")
@@ -2127,6 +2484,17 @@ namespace ProcApi.Infrastructure.Migrations
                     b.Navigation("Chat");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("ProcApi.Domain.Entities.Comment", b =>
+                {
+                    b.HasOne("ProcApi.Domain.Entities.Document", "Document")
+                        .WithMany("Comments")
+                        .HasForeignKey("DocumentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Document");
                 });
 
             modelBuilder.Entity("ProcApi.Domain.Entities.ControlSet", b =>
@@ -2213,6 +2581,61 @@ namespace ProcApi.Infrastructure.Migrations
                     b.Navigation("Performer");
 
                     b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("ProcApi.Domain.Entities.DropDownItem", b =>
+                {
+                    b.HasOne("ProcApi.Domain.Entities.DropDownSource", "DropDownSource")
+                        .WithMany("Items")
+                        .HasForeignKey("DropDownSourceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("DropDownSource");
+                });
+
+            modelBuilder.Entity("ProcApi.Domain.Entities.GoodIssueNote", b =>
+                {
+                    b.HasOne("ProcApi.Domain.Entities.Document", "Document")
+                        .WithOne()
+                        .HasForeignKey("ProcApi.Domain.Entities.GoodIssueNote", "DocumentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Document");
+                });
+
+            modelBuilder.Entity("ProcApi.Domain.Entities.GoodIssueNoteItem", b =>
+                {
+                    b.HasOne("ProcApi.Domain.Entities.GoodIssueNote", "GoodIssueNote")
+                        .WithMany("Items")
+                        .HasForeignKey("GoodIssueNoteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("GoodIssueNote");
+                });
+
+            modelBuilder.Entity("ProcApi.Domain.Entities.GoodReceiptNote", b =>
+                {
+                    b.HasOne("ProcApi.Domain.Entities.Document", "Document")
+                        .WithOne()
+                        .HasForeignKey("ProcApi.Domain.Entities.GoodReceiptNote", "DocumentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Document");
+                });
+
+            modelBuilder.Entity("ProcApi.Domain.Entities.GoodReceiptNoteItem", b =>
+                {
+                    b.HasOne("ProcApi.Domain.Entities.GoodReceiptNote", "GoodReceiptNote")
+                        .WithMany("Items")
+                        .HasForeignKey("GoodReceiptNoteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("GoodReceiptNote");
                 });
 
             modelBuilder.Entity("ProcApi.Domain.Entities.Group", b =>
@@ -2411,10 +2834,17 @@ namespace ProcApi.Infrastructure.Migrations
 
             modelBuilder.Entity("ProcApi.Domain.Entities.User", b =>
                 {
+                    b.HasOne("ProcApi.Domain.Entities.Dashboard", "Dashboard")
+                        .WithMany("Users")
+                        .HasForeignKey("DashboardId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
                     b.HasOne("ProcApi.Domain.Entities.Department", "Department")
                         .WithMany("Users")
                         .HasForeignKey("DepartmentId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("Dashboard");
 
                     b.Navigation("Department");
                 });
@@ -2460,6 +2890,11 @@ namespace ProcApi.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("ProcApi.Domain.Entities.AnnualProcurement", b =>
+                {
+                    b.Navigation("Items");
+                });
+
             modelBuilder.Entity("ProcApi.Domain.Entities.Category", b =>
                 {
                     b.Navigation("Materials");
@@ -2472,6 +2907,11 @@ namespace ProcApi.Infrastructure.Migrations
                     b.Navigation("ChatUsers");
                 });
 
+            modelBuilder.Entity("ProcApi.Domain.Entities.Dashboard", b =>
+                {
+                    b.Navigation("Users");
+                });
+
             modelBuilder.Entity("ProcApi.Domain.Entities.Department", b =>
                 {
                     b.Navigation("Users");
@@ -2480,6 +2920,23 @@ namespace ProcApi.Infrastructure.Migrations
             modelBuilder.Entity("ProcApi.Domain.Entities.Document", b =>
                 {
                     b.Navigation("Actions");
+
+                    b.Navigation("Comments");
+                });
+
+            modelBuilder.Entity("ProcApi.Domain.Entities.DropDownSource", b =>
+                {
+                    b.Navigation("Items");
+                });
+
+            modelBuilder.Entity("ProcApi.Domain.Entities.GoodIssueNote", b =>
+                {
+                    b.Navigation("Items");
+                });
+
+            modelBuilder.Entity("ProcApi.Domain.Entities.GoodReceiptNote", b =>
+                {
+                    b.Navigation("Items");
                 });
 
             modelBuilder.Entity("ProcApi.Domain.Entities.Group", b =>

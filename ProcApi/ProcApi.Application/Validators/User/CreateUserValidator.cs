@@ -5,17 +5,13 @@ using ProcApi.Infrastructure.Resources;
 
 namespace ProcApi.Application.Validators.User;
 
-public class CreateUserValidator : AbstractValidator<AddUserDto>
+public class CreateUserValidator : AbstractValidator<AddUserRequest>
 {
     public CreateUserValidator(IStringLocalizer<SharedResource> localizer)
     {
         RuleFor(u => u.FirstName)
             .NotEmpty()
             .WithMessage(localizer["FirstNameCantBeEmpty"]);
-
-        RuleFor(u => u.LastName)
-            .NotEmpty()
-            .WithMessage("last name cant be empty");
 
         RuleFor(u => u.Age)
             .GreaterThan(17)

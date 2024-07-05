@@ -5,7 +5,7 @@ using ProcApi.Infrastructure.Resources;
 
 namespace ProcApi.Application.Validators.Delegation;
 
-public class CreateDelegationValidator : AbstractValidator<CreateDelegationRequestDto>
+public class CreateDelegationValidator : AbstractValidator<CreateDelegationRequest>
 {
     public CreateDelegationValidator(IStringLocalizer<SharedResource> localizer)
     {

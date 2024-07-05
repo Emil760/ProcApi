@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.Localization;
-using ProcApi.Application.DTOs.Chat.Request;
+using ProcApi.Application.DTOs.Chat.Requests;
 using ProcApi.Application.DTOs.Chat.Responses;
 using ProcApi.Application.Services.Abstracts;
+using ProcApi.Domain.Constants;
 using ProcApi.Domain.Entities;
 using ProcApi.Domain.Enums;
 using ProcApi.Domain.Exceptions;
@@ -39,7 +40,7 @@ public class ChatGroupService : IChatGroupService
         _localizer = localizer;
     }
 
-    public async Task<CreatedGroupResponseDto> CreateGroupAsync(int creatorUserId, CreateGroupRequestDto dto)
+    public async Task<CreatedGroupResponse> CreateGroupAsync(int creatorUserId, CreateGroupRequest dto)
     {
         var chat = new Chat
         {
@@ -72,7 +73,7 @@ public class ChatGroupService : IChatGroupService
 
         _groupChatSignalService.SignalGroupCreatedAsync(creatorUserId, group);
 
-        return _mapper.Map<CreatedGroupResponseDto>(group);
+        return _mapper.Map<CreatedGroupResponse>(group);
     }
 
     public async Task GiveAdminAsync(int currentUserId, int groupId, int userId)
@@ -80,12 +81,12 @@ public class ChatGroupService : IChatGroupService
         var currUser = await _groupUserRepository.FindByGroupIdAndUserIdAndRole(groupId, currentUserId, ChatRole.Admin);
 
         if (currUser is null)
-            throw new ValidationException(_localizer["UserIsNotAdmin"]);
+            throw new ValidationException(_localizer[LocalizationKeys.USER_IS_NOT_ADMIN]);
 
         var user = await _groupUserRepository.FindByGroupIdAndUserId(groupId, userId);
 
         if (user is null)
-            throw new FluentValidation.ValidationException(_localizer["UserNotFoundInGroup"]);
+            throw new FluentValidation.ValidationException(_localizer[LocalizationKeys.USER_NOT_FOUND_IN_GROUP]);
 
         user.ChatRole = ChatRole.Admin;
 
@@ -99,12 +100,12 @@ public class ChatGroupService : IChatGroupService
         var currUser = await _groupUserRepository.FindByGroupIdAndUserIdAndRole(groupId, currentUserId, ChatRole.Admin);
 
         if (currUser is null)
-            throw new ValidationException(_localizer["UserIsNotAdmin"]);
+            throw new ValidationException(_localizer[LocalizationKeys.USER_IS_NOT_ADMIN]);
 
         var user = await _groupUserRepository.FindByGroupIdAndUserId(groupId, userId);
 
         if (user is null)
-            throw new FluentValidation.ValidationException(_localizer["UserNotFoundInGroup"]);
+            throw new FluentValidation.ValidationException(_localizer[LocalizationKeys.USER_NOT_FOUND_IN_GROUP]);
 
         user.ChatRole = ChatRole.User;
 
@@ -118,7 +119,7 @@ public class ChatGroupService : IChatGroupService
         var user = await _groupUserRepository.FindByGroupIdAndUserId(groupId, userId);
 
         if (user is null)
-            throw new FluentValidation.ValidationException(_localizer["UserNotFoundInGroup"]);
+            throw new FluentValidation.ValidationException(_localizer[LocalizationKeys.USER_NOT_FOUND_IN_GROUP]);
 
         user.IsLeaved = true;
 

@@ -1,11 +1,11 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.Localization;
-using ProcApi.Application.DTOs.Chat.Request;
+using ProcApi.Application.DTOs.Chat.Requests;
 using ProcApi.Infrastructure.Resources;
 
 namespace ProcApi.Application.Validators.Chat;
 
-public class CreateGroupValidator : AbstractValidator<CreateGroupRequestDto>
+public class CreateGroupValidator : AbstractValidator<CreateGroupRequest>
 {
     public CreateGroupValidator(IStringLocalizer<SharedResource> localizer)
     {

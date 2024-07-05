@@ -4,6 +4,7 @@ using ProcApi.Application.DTOs;
 using ProcApi.Application.DTOs.UnitOfMeasure.Requests;
 using ProcApi.Application.DTOs.UnitOfMeasure.Responses;
 using ProcApi.Application.Services.Abstracts;
+using ProcApi.Domain.Constants;
 using ProcApi.Domain.Entities;
 using ProcApi.Domain.Exceptions;
 using ProcApi.Infrastructure.Repositories.Abstracts;
@@ -33,11 +34,11 @@ public class UnitOfMeasureService : IUnitOfMeasureService
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<IEnumerable<UnitOfMeasureResponseDto>> GetAllAsync()
+    public async Task<IEnumerable<UnitOfMeasureResponse>> GetAllAsync()
     {
         var data = await _unitOfMeasureRepository.GetAllAsync();
 
-        return _mapper.Map<IEnumerable<UnitOfMeasureResponseDto>>(data);
+        return _mapper.Map<IEnumerable<UnitOfMeasureResponse>>(data);
     }
 
     public async Task<IEnumerable<DropDownDto<int>>> GetActiveForDropDownAsync()
@@ -54,11 +55,11 @@ public class UnitOfMeasureService : IUnitOfMeasureService
         return _mapper.Map<IEnumerable<DropDownDto<int>>>(data);
     }
 
-    public async Task<UnitOfMeasureResponseDto> CreateAsync(CreateUnitOfMeasureRequestDto dto)
+    public async Task<UnitOfMeasureResponse> CreateAsync(CreateUnitOfMeasureRequest dto)
     {
         var exists = await _unitOfMeasureRepository.ExistsByName(dto.Name);
         if (exists)
-            throw new ValidationException(_localizer["UnitOfMeasureAlreadyExistsByName"]);
+            throw new ValidationException(_localizer[LocalizationKeys.UNIT_OF_MEASURE_NAME_ALREADY_EXISTS]);
 
         var unitOfMeasure = new UnitOfMeasure()
         {
@@ -68,36 +69,35 @@ public class UnitOfMeasureService : IUnitOfMeasureService
 
         await _unitOfMeasureRepository.InsertAsync(unitOfMeasure);
 
-        return _mapper.Map<UnitOfMeasureResponseDto>(unitOfMeasure);
+        return _mapper.Map<UnitOfMeasureResponse>(unitOfMeasure);
     }
 
-    public async Task ActivateAsync(ActivateUnitOfMeasureRequestDto dto)
+    public async Task ActivateAsync(ActivateUnitOfMeasureRequest dto)
     {
         var unitOfMeasure = await _unitOfMeasureRepository.GetByIdAsync(dto.Id);
         if (unitOfMeasure is null)
-            throw new NotFoundException(_localizer["UnitOfMeasureNotFound"]);
+            throw new NotFoundException(_localizer[LocalizationKeys.UNIT_OF_MEASURE_NOT_FOUND]);
 
         unitOfMeasure.IsActive = dto.IsActivate;
 
         await _unitOfWork.SaveChangesAsync();
     }
 
-    public async Task CreateConversationRuleAsync(CreateUnitOfMeasureConversationRuleRequestDto dto)
+    public async Task CreateConversationRuleAsync(CreateUnitOfMeasureConversationRuleRequest dto)
     {
-        var unitOfMeasures = await _unitOfMeasureRepository.GetByIds(
+        var unitOfMeasures = await _unitOfMeasureRepository.GetByIdsAsync(
             new[] { dto.SourceUnitOfMeasureId, dto.TargetUnitOfMeasureId });
         if (unitOfMeasures.Count() < 2)
-            throw new NotFoundException(_localizer["UnitOfMeasureNotFound"]);
+            throw new NotFoundException(_localizer[LocalizationKeys.UNIT_OF_MEASURE_NOT_FOUND]);
 
         var alreadyHasRule = await _unitOfMeasureConverterRepository.ExistsBySourceAndTargetId(
             dto.SourceUnitOfMeasureId, dto.TargetUnitOfMeasureId);
         if (alreadyHasRule)
-            throw new ValidationException(_localizer["UnitOfMeasureAlreadyExists"]);
+            throw new ValidationException(_localizer[LocalizationKeys.UNIT_OF_MEASURE_ALREADY_EXISTS]);
 
-        if ((!unitOfMeasures.ElementAt(0).CanBeDecimal || !unitOfMeasures.ElementAt(0).CanBeDecimal) &&
-            !decimal.IsInteger(dto.Value))
-            throw new ValidationException(_localizer["CantUseDecimalForUnitOfMeasure"]);
-
+        ValidateQuantity(unitOfMeasures.ElementAt(0), dto.Value);
+        ValidateQuantity(unitOfMeasures.ElementAt(1), dto.Value);
+        
         _unitOfMeasureConverterRepository.Insert(new UnitOfMeasureConverter()
         {
             SourceUnitOfMeasureId = dto.SourceUnitOfMeasureId,
@@ -115,13 +115,19 @@ public class UnitOfMeasureService : IUnitOfMeasureService
         await _unitOfWork.SaveChangesAsync();
     }
 
-    public async Task<IEnumerable<UnitOfMeasureConverterResponseDto>> GetRulesAsync(int id)
+    public async Task<IEnumerable<UnitOfMeasureConverterResponse>> GetRulesAsync(int id)
     {
         var unitOfMeasure = await _unitOfMeasureRepository.GetRulesAsync(id);
 
         if (unitOfMeasure is null)
-            throw new NotFoundException(_localizer["UnitOfMeasureNotFound"]);
+            throw new NotFoundException(_localizer[LocalizationKeys.UNIT_OF_MEASURE_NOT_FOUND]);
 
-        return _mapper.Map<IEnumerable<UnitOfMeasureConverterResponseDto>>(unitOfMeasure.Converters);
+        return _mapper.Map<IEnumerable<UnitOfMeasureConverterResponse>>(unitOfMeasure.Converters);
+    }
+
+    public void ValidateQuantity(UnitOfMeasure unitOfMeasure, decimal quantity)
+    {
+        if(!unitOfMeasure.CanBeDecimal && !decimal.IsInteger(quantity))
+            throw new ValidationException(_localizer[LocalizationKeys.CANT_USE_DECIMAL_FOR_UNIT_OF_MEASURE]);
     }
 }

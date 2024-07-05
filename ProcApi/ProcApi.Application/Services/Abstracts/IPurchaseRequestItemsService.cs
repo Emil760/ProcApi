@@ -1,8 +1,8 @@
-﻿using ProcApi.Application.DTOs.PurchaseRequest.Response;
+﻿using ProcApi.Application.DTOs.PurchaseRequest.Responses;
 
 namespace ProcApi.Application.Services.Abstracts;
 
 public interface IPurchaseRequestItemsService
 {
-    Task<IEnumerable<PRItemResponseDto>> GetAllItemsAsync(int docId);
+    Task<IEnumerable<PRItemResponse>> GetAllItemsAsync(int docId);
 }

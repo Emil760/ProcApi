@@ -6,6 +6,6 @@ namespace ProcApi.Application.Services.Abstracts;
 
 public interface IDelegationService
 {
-    Task CreateDelegationAsync(CreateDelegationRequestDto dto);
-    Task<IEnumerable<DelegationResponseDto>> GetDelegations(PaginationModel model);
+    Task CreateDelegationAsync(CreateDelegationRequest dto);
+    Task<IEnumerable<DelegationResponse>> GetDelegations(PaginationModel model);
 }

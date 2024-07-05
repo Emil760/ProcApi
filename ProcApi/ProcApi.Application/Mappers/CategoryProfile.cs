@@ -10,8 +10,8 @@ public class CategoryProfile : CommonProfile
 {
     public CategoryProfile()
     {
-        CreateMap<CreateCategoryDto, Category>();
-        CreateMap<Category, CategoryResponseDto>();
+        CreateMap<CreateCategoryRequest, Category>();
+        CreateMap<Category, CategoryResponse>();
         CreateMap<CategoryResultSet, CategoryDto>();
     }
 }

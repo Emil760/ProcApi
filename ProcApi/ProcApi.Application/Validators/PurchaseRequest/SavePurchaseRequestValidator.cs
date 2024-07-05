@@ -6,7 +6,7 @@ using ProcApi.Infrastructure.Resources;
 
 namespace ProcApi.Application.Validators.PurchaseRequest;
 
-public class SavePurchaseRequestValidator : AbstractValidator<SavePRRequestDto>
+public class SavePurchaseRequestValidator : AbstractValidator<SavePRRequest>
 {
     public SavePurchaseRequestValidator(IStringLocalizer<SharedResource> localizer)
     {

@@ -19,11 +19,8 @@
     </ItemGroup>
 
 
-
-
     <ItemGroup>
-      <Folder Include="DTOs\UnitOfMeasure\Base\" />
-      <Folder Include="DTOs\User\Base\" />
+      <Folder Include="DTOs\DropDown\Base\" />
     </ItemGroup>
 
 </Project>

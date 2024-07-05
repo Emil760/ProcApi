@@ -15,6 +15,8 @@ public static class RepositoriesConfigurationExtension
         services.AddScoped<IUserSettingRepository, UserSettingRepository>();
         services.AddScoped<IDelegationRepository, DelegationRepository>();
         services.AddScoped<IRoleRepository, RoleRepository>();
+        services.AddScoped<IDashboardRepository, DashboardRepository>();
+        services.AddScoped<IDocumentRepository, DocumentRepository>();
 
         services.AddScoped<IDepartmentRepository, DepartmentRepository>();
 
@@ -24,12 +26,19 @@ public static class RepositoriesConfigurationExtension
         services.AddScoped<IDocumentActionRepository, DocumentActionRepository>();
         services.AddScoped<IApprovalFlowTemplateRepository, ApprovalFlowTemplateRepository>();
         services.AddScoped<IReleaseStrategyTemplateRepository, ReleaseStrategyTemplateTemplatesRepository>();
+        services.AddScoped<ICommentRepository, CommentRepository>();
 
         services.AddScoped<IPurchaseRequestRepository, PurchaseRequestRepository>();
         services.AddScoped<IPurchaseRequestItemsRepository, PurchaseRequestItemsRepository>();
 
         services.AddScoped<IInvoiceRepository, InvoiceRepository>();
         services.AddScoped<IInvoiceItemRepository, InvoiceItemRepository>();
+
+        services.AddScoped<IGoodIssueNoteRepository, GoodIssueNoteRepository>();
+        services.AddScoped<IGoodIssueNoteItemRepository, GoodIssueNoteItemRepository>();
+
+        services.AddScoped<IGoodReceiptNoteRepository, GoodReceiptNoteRepository>();
+        services.AddScoped<IGoodReceiptNoteItemRepository, GoodReceiptNoteItemRepository>();
 
         services.AddScoped<ISupplierRepository, SupplierRepository>();
 
@@ -44,5 +53,11 @@ public static class RepositoriesConfigurationExtension
         services.AddScoped<IProjectRepository, ProjectRepository>();
         services.AddScoped<IUnitOfMeasureRepository, UnitOfMeasuresRepository>();
         services.AddScoped<IUnitOfMeasureConverterRepository, UnitOfMeasureConverterRepository>();
+
+        services.AddScoped<IAnnualProcurementRepository, AnnualProcurementRepository>();
+        services.AddScoped<IAnnualProcurementItemRepository, AnnualProcurementItemRepository>();
+
+        services.AddScoped<IDropDownSourceRepository, DropDownSourceRepository>();
+        services.AddScoped<IDropDownItemRepository, DropDownItemRepository>();
     }
 }

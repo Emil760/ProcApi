@@ -8,11 +8,11 @@ public class ChatProfile : CommonProfile
 {
     public ChatProfile()
     {
-        CreateMap<User, ChatUserResponseDto>();
+        CreateMap<User, ChatUserResponse>();
 
         CreateMap<ChatMessage, SendMessageSignalDto>();
 
-        CreateMap<(ChatMessage ChatMessage, ReceivedInfo ReceivedInfo), MarkAdReadResponseDto>()
+        CreateMap<(ChatMessage ChatMessage, ReceivedInfo ReceivedInfo), MarkAdReadResponse>()
             .ForMember(dest => dest.MessageId, opt => opt.MapFrom(src => src.ChatMessage.Id))
             .ForMember(dest => dest.ReceiverId, opt => opt.MapFrom(src => src.ReceivedInfo.ReceiverId))
             .ForMember(dest => dest.ReadTime, opt => opt.MapFrom(src => src.ReceivedInfo.ReadTime))
@@ -25,13 +25,13 @@ public class ChatProfile : CommonProfile
             .ForMember(dest => dest.ReadTime, opt => opt.MapFrom(src => src.ReceivedInfo.ReadTime))
             .ForMember(dest => dest.IsRead, opt => opt.MapFrom(src => src.ReceivedInfo.IsRead));
 
-        CreateMap<GroupUser, GroupUserResponseDto>()
+        CreateMap<GroupUser, GroupUserResponse>()
             .ForMember(dest => dest.ChatUserId, opt => opt.MapFrom(src => src.ChatUserId))
             .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.ChatUser.UserId))
             .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.ChatUser.User.FirstName))
             .ForMember(dest => dest.ChatRole, opt => opt.MapFrom(src => src.ChatRole));
 
-        CreateMap<Group, CreatedGroupResponseDto>()
+        CreateMap<Group, CreatedGroupResponse>()
             .ForMember(dest => dest.ChatId, opt => opt.MapFrom(src => src.ChatId))
             .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
             .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
@@ -40,7 +40,7 @@ public class ChatProfile : CommonProfile
         CreateMap<Group, GroupCreatedSignalDto>()
             .ForMember(dest => dest.Users, opt => opt.MapFrom(src => src.GroupUsers));
 
-        CreateMap<ChatUser, ChatResponseDto>()
+        CreateMap<ChatUser, ChatResponse>()
             .ForMember(dest => dest.ChatId, opt => opt.MapFrom(src => src.ChatId))
             .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.User.FirstName))
             .ForMember(dest => dest.LastMessage, opt => opt.MapFrom(src =>
@@ -49,7 +49,7 @@ public class ChatProfile : CommonProfile
                     : src.Chat.ChatMessages.FirstOrDefault()))
             .ForMember(dest => dest.ChatType, opt => opt.MapFrom(src => src.Chat.ChatTypeId));
 
-        CreateMap<Group, ChatResponseDto>()
+        CreateMap<Group, ChatResponse>()
             .ForMember(dest => dest.ChatId, opt => opt.MapFrom(src => src.ChatId))
             .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
             .ForMember(dest => dest.LastMessage, opt => opt.MapFrom(src =>

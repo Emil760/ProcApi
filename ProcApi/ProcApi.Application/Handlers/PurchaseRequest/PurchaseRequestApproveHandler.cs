@@ -12,7 +12,7 @@ public class PurchaseRequestApproveHandler : IActionHandler
         _approvalsService = approvalsService;
     }
 
-    public async Task PerformAction(ActionPerformRequestDto dto, int userId)
+    public async Task PerformAction(ActionPerformRequest dto, int userId)
     {
         await _approvalsService.CanPerformAction(dto, userId);
 

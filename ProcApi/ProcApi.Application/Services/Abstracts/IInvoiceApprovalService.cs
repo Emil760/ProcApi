@@ -5,5 +5,5 @@ namespace ProcApi.Application.Services.Abstracts;
 
 public interface IInvoiceApprovalService
 {
-    Task PerformAction(ActionPerformRequestDto dto, UserInfoModel userInfo);
+    Task PerformAction(ActionPerformRequest dto, UserInfoModel userInfo);
 }

@@ -49,6 +49,10 @@ public class DropDownService : IDropDownService
         var source = await _dropDownSourceRepository.GetByIdAsync(dto.DropDownSourceId);
         if (source is null)
             throw new NotFoundException(_localizer[LocalizationKeys.DROP_DOWN_SOURCE_NOT_FOUND]);
+        
+        var exists = await _dropDownItemRepository.ExistsByKey(source.Id, dto.Value);
+        if (exists)
+            throw new ValidationException(_localizer[LocalizationKeys.DROP_DOWN_ITEM_NAME_ALREADY_EXISTS]);
 
         var item = _mapper.Map<DropDownItem>(dto);
         item.DropDownSource = source;
@@ -78,7 +82,7 @@ public class DropDownService : IDropDownService
 
         var exists = await _dropDownItemRepository.ExistsByKeyNotThis(entity.Id, entity.DropDownSourceId, dto.Value);
         if (exists)
-            throw new ValidationException(_localizer[LocalizationKeys.DROP_DOWN_SOURCE_NAME_ALREADY_EXISTS]);
+            throw new ValidationException(_localizer[LocalizationKeys.DROP_DOWN_ITEM_NAME_ALREADY_EXISTS]);
 
         _mapper.Map(entity, dto);
         await _unitOfWork.SaveChangesAsync();
@@ -86,7 +90,7 @@ public class DropDownService : IDropDownService
 
     public async Task<IEnumerable<DropDownSourceResponse>> GetAllSources()
     {
-        var items = await _dropDownItemRepository.GetAllAsync();
+        var items = await _dropDownSourceRepository.GetAllAsync();
         return _mapper.Map<IEnumerable<DropDownSourceResponse>>(items);
     }
 

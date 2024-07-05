@@ -56,6 +56,8 @@
 
         public static string PROJECT_NOT_FOUND = "ProjectNotFound";
         public static string PROJECT_NAME_ALREADY_EXISTS = "ProjectNameAlreadyExists";
+
+        public static string DROP_DOWN_ITEM_NAME_ALREADY_EXISTS = "DropDownItemNameAlreadyExists";
         public static string DROP_DOWN_SOURCE_NAME_ALREADY_EXISTS = "DropDownSourceNameAlreadyExists";
         public static string DROP_DOWN_SOURCE_NOT_FOUND = "DropDownSourceNotFound";
         public static string DROP_DOWN_ITEM_SOURCE_NOT_FOUND = "DropDownItemNotFound";

@@ -1,5 +1,7 @@
 ﻿using ProcApi.Application.Caches.Abstracts;
 using ProcApi.Application.Caches.Concreates;
+using ProcApi.Application.DocumentValidator;
+using ProcApi.Application.Handlers;
 using ProcApi.Application.Handlers.Document;
 using ProcApi.Application.Handlers.Invoice;
 using ProcApi.Application.Handlers.PurchaseRequest;
@@ -35,8 +37,7 @@ public static class ServicesConfigurationExtension
         services.AddScoped<ICommentService, CommentService>();
 
         services.AddScoped<IPurchaseRequestService, PurchaseRequestService>();
-        services.AddScoped<IPurchaseRequestItemsService, PurchaseRequestItemsService>();
-        services.AddScoped<IPurchaseRequestApprovalService, PurchaseRequestApprovalService>();
+        services.AddScoped<IApprovalCoordinator, ApprovalCoordinator>();
 
         services.AddScoped<PurchaseRequestApproveHandler>();
         services.AddScoped<PurchaseRequestRejectHandler>();

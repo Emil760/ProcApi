@@ -1,4 +1,4 @@
-﻿namespace ProcApi.Application.Services.Abstracts;
+﻿namespace ProcApi.Application.DocumentValidator;
 
 public interface IDocumentValidator
 {

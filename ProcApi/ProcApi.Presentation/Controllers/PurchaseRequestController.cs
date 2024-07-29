@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ProcApi.Application.DocumentValidator;
 using ProcApi.Application.DTOs.Documents.Requests;
 using ProcApi.Application.DTOs.PurchaseRequest.Requests;
+using ProcApi.Application.Handlers;
 using ProcApi.Application.Handlers.Document;
 using ProcApi.Application.Services.Abstracts;
-using ProcApi.Application.Services.Concreates;
 using ProcApi.Domain.Enums;
 using ProcApi.Presentation.Attributes;
 using ProcApi.Presentation.Filters;
@@ -15,18 +16,15 @@ namespace ProcApi.Presentation.Controllers;
 public class PurchaseRequestController : BaseController
 {
     private readonly IPurchaseRequestService _purchaseRequestService;
-    private readonly IPurchaseRequestItemsService _purchaseRequestItemsService;
-    private readonly IPurchaseRequestApprovalService _purchaseRequestApprovalService;
+    private readonly IApprovalCoordinator _approvalCoordinator;
     private readonly IDocumentValidatorHandler _documentValidatorHandler;
 
     public PurchaseRequestController(IPurchaseRequestService purchaseRequestService,
-        IPurchaseRequestApprovalService purchaseRequestApprovalService,
-        IPurchaseRequestItemsService purchaseRequestItemsService,
+        IApprovalCoordinator approvalCoordinator,
         IDocumentValidatorHandler documentValidatorHandler)
     {
         _purchaseRequestService = purchaseRequestService;
-        _purchaseRequestApprovalService = purchaseRequestApprovalService;
-        _purchaseRequestItemsService = purchaseRequestItemsService;
+        _approvalCoordinator = approvalCoordinator;
         _documentValidatorHandler = documentValidatorHandler;
     }
 
@@ -61,7 +59,7 @@ public class PurchaseRequestController : BaseController
     public async Task<IActionResult> PerformAction([FromBody] ActionPerformRequest request)
     {
         await _documentValidatorHandler.ValidateDocumentAsync(request.DocId, typeof(PurchaseRequestValidator));
-        await _purchaseRequestApprovalService.PerformAction(request, UserInfo);
+        await _approvalCoordinator.PerformAction(request, UserInfo);
         return Ok();
     }
 
@@ -69,7 +67,7 @@ public class PurchaseRequestController : BaseController
     [HasPermission(Permissions.CanViewPurchaseRequest)]
     public async Task<IActionResult> GetItems([FromQuery] int docId)
     {
-        return Ok(await _purchaseRequestItemsService.GetAllItemsAsync(docId));
+        return Ok(await _purchaseRequestService.GetAllItemsAsync(docId));
     }
 
     [HttpPut("AssignBuyer")]

@@ -112,6 +112,13 @@ public class PurchaseRequestService : IPurchaseRequestService
 
         return _mapper.Map<SavePRResponse>(pr);
     }
+    
+    public async Task<IEnumerable<PRItemResponse>> GetAllItemsAsync(int docId)
+    {
+        var items = await _purchaseRequestItemsRepository.GetAllByDocIdAsync(docId);
+
+        return _mapper.Map<IEnumerable<PRItemResponse>>(items);
+    }
 
     private ICollection<PurchaseRequestItem> AddItems(ICollection<PurchaseRequestItem> items,
         IEnumerable<CreatePRItemRequest> itemsToAdd)

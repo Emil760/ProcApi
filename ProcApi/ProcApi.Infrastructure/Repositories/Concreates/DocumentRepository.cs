@@ -12,18 +12,26 @@ public class DocumentRepository : GenericRepository<Document>, IDocumentReposito
     {
     }
 
-    public async Task<Document?> GetWithActionsAsync(int docId)
+    public async Task<Document?> GetWithActionsAsync(int id)
     {
         return await _context.Documents
             .Include(d => d.Actions)
-            .SingleOrDefaultAsync(d => d.Id == docId);
+            .SingleOrDefaultAsync(d => d.Id == id);
     }
 
-    public async Task<DocumentStatus> GetStatus(int docId)
+    public async Task<DocumentStatus?> GetStatusAsync(int docId)
     {
         return await _context.Documents
             .Where(doc => doc.Id == docId)
             .Select(doc => doc.DocumentStatusId)
+            .SingleOrDefaultAsync();
+    }
+
+    public async Task<DocumentType?> GetTypeAsync(int id)
+    {
+        return await _context.Documents
+            .Where(doc => doc.Id == id)
+            .Select(doc => doc.DocumentTypeId)
             .SingleOrDefaultAsync();
     }
 }

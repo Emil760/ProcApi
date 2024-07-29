@@ -12,4 +12,5 @@ public interface IPurchaseRequestService
     Task<SavePRResponse> SavePurchaseRequest(SavePRRequest dto);
     Task<DocumentResponseDto> CreatePurchaseRequest(UserInfoModel userInfo);
     Task AssignBuyerToItemAsync(AssignUserToItemRequest request);
+    Task<IEnumerable<PRItemResponse>> GetAllItemsAsync(int docId);
 }

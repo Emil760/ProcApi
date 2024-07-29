@@ -1,12 +1,11 @@
 ﻿using Microsoft.Extensions.Localization;
-using ProcApi.Application.Services.Abstracts;
 using ProcApi.Domain.Constants;
 using ProcApi.Domain.Entities;
 using ProcApi.Domain.Exceptions;
 using ProcApi.Infrastructure.Repositories.Abstracts;
 using ProcApi.Infrastructure.Resources;
 
-namespace ProcApi.Application.Services.Concreates;
+namespace ProcApi.Application.DocumentValidator;
 
 public class InvoiceValidator : IDocumentValidator
 {

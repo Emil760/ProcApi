@@ -4,5 +4,6 @@ namespace ProcApi.Infrastructure.Repositories.Abstracts;
 
 public interface IGoodReceiptNoteRepository : IGenericRepository<GoodReceiptNote>
 {
-    
+    Task<GoodReceiptNote?> GetWithDocumentAndActionsAndItemsByDocId(int docId);
+    Task<GoodReceiptNote?> GetWithDocumentAndItemsByDocId(int docId);
 }

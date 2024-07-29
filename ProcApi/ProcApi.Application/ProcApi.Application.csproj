@@ -21,6 +21,9 @@
 
     <ItemGroup>
       <Folder Include="DTOs\DropDown\Base\" />
+      <Folder Include="DTOs\GoodReceiptNote\Base\" />
+      <Folder Include="DTOs\GoodReceiptNote\Responses\" />
+      <Folder Include="DTOs\GoodReceiptNote\Requests\" />
     </ItemGroup>
 
 </Project>

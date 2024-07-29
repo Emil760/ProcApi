@@ -39,5 +39,9 @@ public enum Permissions
     CanAddComment,
     CanGetComment,
     CanCreateDropDown,
-    CanGetDropDown
+    CanGetDropDown,
+    CanReturnGoodReceiptNote,
+    CanRejectGoodReceiptNote,
+    CanViewGoodReceiptNote,
+    CanCreateGoodReceiptNote
 }

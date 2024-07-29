@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ProcApi.Application.DocumentValidator;
 using ProcApi.Application.DTOs.Documents.Requests;
 using ProcApi.Application.DTOs.Invoice.Requests;
 using ProcApi.Application.Handlers.Document;
 using ProcApi.Application.Services.Abstracts;
-using ProcApi.Application.Services.Concreates;
 using ProcApi.Domain.Enums;
 using ProcApi.Domain.Models;
 using ProcApi.Presentation.Attributes;
@@ -77,8 +77,7 @@ public class InvoiceController : BaseController
     [HasPermission(Permissions.CanChangeReviewer)]
     public async Task<IActionResult> AddReviewerAsync([FromBody] AddReviewerRequest dto)
     {
-        await _approvalsService.AddApprovalToDocument(
-            dto.DocumentId, dto.ReviewerId, Roles.Reviewer, DocumentType.Invoice);
+        await _approvalsService.AddApprovalToDocument(dto.DocumentId, dto.ReviewerId, Roles.Reviewer, DocumentType.Invoice);
         return Ok();
     }
 

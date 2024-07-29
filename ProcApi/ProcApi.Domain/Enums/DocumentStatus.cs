@@ -36,7 +36,19 @@ public enum DocumentStatus
     InvoiceWaitingForReviewer,
     InvoiceApproved,
     InvoiceRejected,
-    InvoiceCanceled
+    InvoiceCanceled,
+
+    #endregion
+
+    #region GoodReceiptNote
+
+    GoodReceiptNoteDraft = 400,
+
+    #endregion
+
+    #region GoodIssueNote
+
+    GoodIssueNoteDraft = 500,
 
     #endregion
 }

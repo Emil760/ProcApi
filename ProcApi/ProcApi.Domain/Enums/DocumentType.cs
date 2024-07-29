@@ -4,5 +4,7 @@ public enum DocumentType
 {
     PurchaseRequest = 1,
     ServiceRequest,
-    Invoice
+    Invoice,
+    GoodReceiptNote,
+    GoodIssueNote
 }

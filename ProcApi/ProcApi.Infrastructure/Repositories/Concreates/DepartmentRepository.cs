@@ -7,7 +7,7 @@ using ProcApi.Infrastructure.Utility;
 
 namespace ProcApi.Infrastructure.Repositories.Concreates;
 
-public class DepartmentRepository : GenericRepository<Department>, IDepartmentRepository
+public class DepartmentRepository : GenericRepository<Department, int>, IDepartmentRepository
 {
     public DepartmentRepository(ProcDbContext context) : base(context)
     {

@@ -3,7 +3,7 @@ using ProcApi.Domain.ResultSets;
 
 namespace ProcApi.Infrastructure.Repositories.Abstracts;
 
-public interface ICategoryRepository : IGenericRepository<Category>
+public interface ICategoryRepository : IGenericRepository<Category, int>
 {
     Task<bool> ExistsByNameAndParentCategoryId(int parentId, string name);
     Task<IEnumerable<CategoryResultSet>> GetCategoriesByLevel(int level);

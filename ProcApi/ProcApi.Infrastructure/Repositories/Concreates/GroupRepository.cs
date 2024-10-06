@@ -5,7 +5,7 @@ using ProcApi.Infrastructure.Repositories.Abstracts;
 
 namespace ProcApi.Infrastructure.Repositories.Concreates;
 
-public class GroupRepository : GenericRepository<Group>, IGroupRepository
+public class GroupRepository : GenericRepository<Group, int>, IGroupRepository
 {
     public GroupRepository(ProcDbContext context) : base(context)
     {

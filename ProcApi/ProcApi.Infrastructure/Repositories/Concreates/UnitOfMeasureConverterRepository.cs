@@ -5,7 +5,7 @@ using ProcApi.Infrastructure.Repositories.Abstracts;
 
 namespace ProcApi.Infrastructure.Repositories.Concreates;
 
-public class UnitOfMeasureConverterRepository : GenericRepository<UnitOfMeasureConverter>,
+public class UnitOfMeasureConverterRepository : GenericRepository<UnitOfMeasureConverter, int>,
     IUnitOfMeasureConverterRepository
 {
     public UnitOfMeasureConverterRepository(ProcDbContext context) : base(context)

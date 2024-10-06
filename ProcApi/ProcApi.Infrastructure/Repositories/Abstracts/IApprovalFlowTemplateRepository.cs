@@ -3,7 +3,7 @@ using ProcApi.Domain.Enums;
 
 namespace ProcApi.Infrastructure.Repositories.Abstracts;
 
-public interface IApprovalFlowTemplateRepository : IGenericRepository<ApprovalFlowTemplate>
+public interface IApprovalFlowTemplateRepository : IGenericRepository<ApprovalFlowTemplate, int>
 {
     Task<IEnumerable<ApprovalFlowTemplate>> GetInitialWithUserByDocumentType(DocumentType type);
 

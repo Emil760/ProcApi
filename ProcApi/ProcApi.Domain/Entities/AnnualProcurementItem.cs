@@ -1,6 +1,8 @@
-﻿namespace ProcApi.Domain.Entities;
+﻿using ProcApi.Domain.Interfaces;
 
-public class AnnualProcurementItem : ICloneable
+namespace ProcApi.Domain.Entities;
+
+public class AnnualProcurementItem : IEntity<int>, ICloneable
 {
     public int Id { get; set; }
     public int AnnualProcurementId { get; set; }

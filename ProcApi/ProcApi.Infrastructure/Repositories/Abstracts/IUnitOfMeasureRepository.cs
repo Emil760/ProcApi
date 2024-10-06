@@ -2,7 +2,7 @@
 
 namespace ProcApi.Infrastructure.Repositories.Abstracts;
 
-public interface IUnitOfMeasureRepository : IGenericRepository<UnitOfMeasure>
+public interface IUnitOfMeasureRepository : IGenericRepository<UnitOfMeasure, int>
 {
     Task<IEnumerable<UnitOfMeasure?>> GetByIdsAsync(IEnumerable<int> ids);
     Task<IEnumerable<UnitOfMeasure?>> GetAllActiveAsync();

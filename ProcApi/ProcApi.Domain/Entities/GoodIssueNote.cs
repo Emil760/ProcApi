@@ -1,8 +1,10 @@
-﻿namespace ProcApi.Domain.Entities;
+﻿using ProcApi.Domain.Interfaces;
 
-public class GoodIssueNote
+namespace ProcApi.Domain.Entities;
+
+public class GoodIssueNote : IEntity<int>
 {
-    public int DocumentId { get; set; }
+    public int Id { get; set; }
     public Document Document { get; set; }
     public ICollection<GoodIssueNoteItem> Items { get; set; }
 }

@@ -1,8 +1,9 @@
 ﻿using ProcApi.Domain.Enums;
+using ProcApi.Domain.Interfaces;
 
 namespace ProcApi.Domain.Entities;
 
-public class Chat
+public class Chat : IEntity<int>
 {
     public int Id { get; set; }
     public ChatType ChatTypeId { get; set; }

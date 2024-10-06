@@ -6,7 +6,7 @@ using ProcApi.Infrastructure.Utility;
 
 namespace ProcApi.Infrastructure.Repositories.Abstracts;
 
-public interface IUserRepository : IGenericRepository<User>
+public interface IUserRepository : IGenericRepository<User, int>
 {
     Task<User> GetByIdCompiled(int id);
     Task<User?> GetAllInfoByIdAsync(int id);

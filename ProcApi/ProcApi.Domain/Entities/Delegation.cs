@@ -1,6 +1,8 @@
-﻿namespace ProcApi.Domain.Entities;
+﻿using ProcApi.Domain.Interfaces;
 
-public class Delegation
+namespace ProcApi.Domain.Entities;
+
+public class Delegation : IEntity<int>
 {
     public int Id { get; set; }
     public int FromUserId { get; set; }

@@ -2,6 +2,6 @@
 
 namespace ProcApi.Infrastructure.Repositories.Abstracts;
 
-public interface IAnnualProcurementItemRepository : IGenericRepository<AnnualProcurementItem>
+public interface IAnnualProcurementItemRepository : IGenericRepository<AnnualProcurementItem, int>
 {
 }

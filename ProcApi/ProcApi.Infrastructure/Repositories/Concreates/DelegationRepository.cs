@@ -7,7 +7,7 @@ using ProcApi.Infrastructure.Utility;
 
 namespace ProcApi.Infrastructure.Repositories.Concreates;
 
-public class DelegationRepository : GenericRepository<Delegation>, IDelegationRepository
+public class DelegationRepository : GenericRepository<Delegation, int>, IDelegationRepository
 {
     public DelegationRepository(ProcDbContext context) : base(context)
     {

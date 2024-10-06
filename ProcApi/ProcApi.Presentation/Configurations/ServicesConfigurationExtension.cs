@@ -71,6 +71,8 @@ public static class ServicesConfigurationExtension
 
         services.AddScoped<IDropDownService, DropDownService>();
 
+        services.AddScoped<IReservedItemService, ReservedItemService>();
+
         services.AddScoped<ExceptionHandlerCoordinator>();
         services.AddScoped<GeneralExceptionHandler>();
         services.AddScoped<UnauthorizedExceptionHandler>();

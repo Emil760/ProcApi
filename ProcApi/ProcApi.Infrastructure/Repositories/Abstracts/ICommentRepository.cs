@@ -2,7 +2,7 @@
 
 namespace ProcApi.Infrastructure.Repositories.Abstracts
 {
-    public interface ICommentRepository : IGenericRepository<Comment>
+    public interface ICommentRepository : IGenericRepository<Comment, int>
     {
     }
 }

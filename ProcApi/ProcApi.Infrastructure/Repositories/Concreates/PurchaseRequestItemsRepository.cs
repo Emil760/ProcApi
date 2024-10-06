@@ -5,7 +5,7 @@ using ProcApi.Infrastructure.Repositories.Abstracts;
 
 namespace ProcApi.Infrastructure.Repositories.Concreates;
 
-public class PurchaseRequestItemsRepository : GenericRepository<PurchaseRequestItem>,
+public class PurchaseRequestItemsRepository : GenericRepository<PurchaseRequestItem, int>,
     IPurchaseRequestItemsRepository
 {
     public PurchaseRequestItemsRepository(ProcDbContext context) : base(context)

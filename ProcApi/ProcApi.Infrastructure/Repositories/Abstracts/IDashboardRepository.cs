@@ -2,7 +2,7 @@
 
 namespace ProcApi.Infrastructure.Repositories.Abstracts
 {
-    public interface IDashboardRepository : IGenericRepository<Dashboard>
+    public interface IDashboardRepository : IGenericRepository<Dashboard, int>
     {
     }
 }

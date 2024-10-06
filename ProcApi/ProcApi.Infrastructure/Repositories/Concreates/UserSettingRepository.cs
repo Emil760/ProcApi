@@ -5,7 +5,7 @@ using ProcApi.Infrastructure.Repositories.Abstracts;
 
 namespace ProcApi.Infrastructure.Repositories.Concreates;
 
-public class UserSettingRepository : GenericRepository<UserSetting>, IUserSettingRepository
+public class UserSettingRepository : GenericRepository<UserSetting, int>, IUserSettingRepository
 {
     public UserSettingRepository(ProcDbContext context) : base(context)
     {
@@ -14,6 +14,6 @@ public class UserSettingRepository : GenericRepository<UserSetting>, IUserSettin
     public async Task<UserSetting> GetByUserId(int userId)
     {
         return await _context.UserSettings
-            .SingleAsync(us => us.UserId == userId);
+            .SingleAsync(us => us.Id == userId);
     }
 }

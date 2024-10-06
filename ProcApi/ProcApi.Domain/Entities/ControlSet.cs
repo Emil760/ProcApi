@@ -1,8 +1,9 @@
 ﻿using ProcApi.Domain.Enums;
+using ProcApi.Domain.Interfaces;
 
 namespace ProcApi.Domain.Entities;
 
-public class ControlSet
+public class ControlSet : IEntity<int>
 {
     public int Id { get; set; }
     public string Name { get; set; }

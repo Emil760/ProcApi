@@ -9,6 +9,7 @@ public class InvoiceProfile : CommonProfile
     public InvoiceProfile()
     {
         CreateMap<SaveInvoiceRequest, Invoice>()
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.DocumentId))
             .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
             .ForMember(dest => dest.SupplierId, opt => opt.MapFrom(src => src.SupplierId))
             .ForMember(dest => dest.Items, opt => opt.Ignore());

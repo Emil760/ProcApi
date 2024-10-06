@@ -6,7 +6,7 @@ using ProcApi.Infrastructure.Repositories.Abstracts;
 
 namespace ProcApi.Infrastructure.Repositories.Concreates;
 
-public class ApprovalFlowTemplateRepository : GenericRepository<ApprovalFlowTemplate>, IApprovalFlowTemplateRepository
+public class ApprovalFlowTemplateRepository : GenericRepository<ApprovalFlowTemplate, int>, IApprovalFlowTemplateRepository
 {
     public ApprovalFlowTemplateRepository(ProcDbContext context) : base(context)
     {

@@ -61,5 +61,9 @@
         public static string DROP_DOWN_SOURCE_NAME_ALREADY_EXISTS = "DropDownSourceNameAlreadyExists";
         public static string DROP_DOWN_SOURCE_NOT_FOUND = "DropDownSourceNotFound";
         public static string DROP_DOWN_ITEM_SOURCE_NOT_FOUND = "DropDownItemNotFound";
+
+        public static string RESERVED_ITEM_NOT_FOUND = "ReservedItemNotFound";
+
+        public static string GOOD_RECEIPT_NOTE_ITEM_NOT_FOUND = "GoodReceiptNoteItemNotFound";
     }
 }

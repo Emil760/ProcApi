@@ -9,7 +9,7 @@ using ProcApi.Infrastructure.Utility;
 
 namespace ProcApi.Infrastructure.Repositories.Concreates;
 
-public class UserRepository : GenericRepository<User>, IUserRepository
+public class UserRepository : GenericRepository<User, int>, IUserRepository
 {
     private static readonly Func<ProcDbContext, int, Task<User>> GetById =
         EF.CompileAsyncQuery((ProcDbContext context, int id) =>

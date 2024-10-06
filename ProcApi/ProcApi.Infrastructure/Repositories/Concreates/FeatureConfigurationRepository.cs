@@ -6,7 +6,7 @@ using ProcApi.Infrastructure.Repositories.Abstracts;
 
 namespace ProcApi.Infrastructure.Repositories.Concreates
 {
-    public class FeatureConfigurationRepository : GenericRepository<FeatureConfiguration>, IFeatureConfigurationRepository
+    public class FeatureConfigurationRepository : GenericRepository<FeatureConfiguration, int>, IFeatureConfigurationRepository
     {
         public FeatureConfigurationRepository(ProcDbContext context) : base(context)
         {
@@ -17,7 +17,7 @@ namespace ProcApi.Infrastructure.Repositories.Concreates
             return await _context.FeatureConfigurations
                 .Where(fc => fc.ConfigurationType == type && fc.Name == name)
                 .Select(fc => fc.Value)
-                .SingleOrDefaultAsync();
+                .SingleAsync();
         }
     }
 }

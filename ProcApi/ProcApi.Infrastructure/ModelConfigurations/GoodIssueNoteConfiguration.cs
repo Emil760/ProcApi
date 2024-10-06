@@ -8,14 +8,14 @@ public class GoodIssueNoteConfiguration : IEntityTypeConfiguration<GoodIssueNote
 {
     public void Configure(EntityTypeBuilder<GoodIssueNote> builder)
     {
-        builder.HasKey(gi => gi.DocumentId);
+        builder.HasKey(gi => gi.Id);
 
-        builder.Property(gi => gi.DocumentId)
+        builder.Property(gi => gi.Id)
             .ValueGeneratedNever();
 
         builder.HasOne(gi => gi.Document)
             .WithOne()
-            .HasForeignKey<GoodIssueNote>(gi => gi.DocumentId)
+            .HasForeignKey<GoodIssueNote>(gi => gi.Id)
             .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasMany(gi => gi.Items)

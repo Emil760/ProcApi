@@ -1,6 +1,8 @@
-﻿namespace ProcApi.Domain.Entities;
+﻿using ProcApi.Domain.Interfaces;
 
-public class Category
+namespace ProcApi.Domain.Entities;
+
+public class Category : IEntity<int>
 {
     public int Id { get; set; }
     public string Name { get; set; }

@@ -12,7 +12,7 @@ public class GoodReceiptNoteItemConfiguration : IEntityTypeConfiguration<GoodRec
             .WithMany(grn => grn.Items)
             .HasForeignKey(grni => grni.GoodReceiptNoteId)
             .OnDelete(DeleteBehavior.Cascade);
-        
+
         builder.HasOne(grni => grni.Material)
             .WithMany()
             .HasForeignKey(grni => grni.MaterialId)
@@ -22,5 +22,10 @@ public class GoodReceiptNoteItemConfiguration : IEntityTypeConfiguration<GoodRec
             .WithMany()
             .HasForeignKey(grni => grni.UnitOfMeasureId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        builder.Property(grni => grni.UsedQuantity)
+            .HasColumnType("decimal")
+            .IsRequired()
+            .HasDefaultValue(0);
     }
 }

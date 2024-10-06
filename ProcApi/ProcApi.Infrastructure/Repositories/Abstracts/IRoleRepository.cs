@@ -2,7 +2,7 @@
 
 namespace ProcApi.Infrastructure.Repositories.Abstracts;
 
-public interface IRoleRepository : IGenericRepository<Role>
+public interface IRoleRepository : IGenericRepository<Role, int>
 {
     
 }

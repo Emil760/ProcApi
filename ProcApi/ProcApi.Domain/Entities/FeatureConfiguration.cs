@@ -1,8 +1,9 @@
 ﻿using ProcApi.Domain.Enums;
+using ProcApi.Domain.Interfaces;
 
 namespace ProcApi.Domain.Entities;
 
-public class FeatureConfiguration
+public class FeatureConfiguration : IEntity<int>
 {
     public int Id { get; set; }
     public ConfigurationType ConfigurationType { get; set; }

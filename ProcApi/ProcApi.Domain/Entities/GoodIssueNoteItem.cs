@@ -1,6 +1,8 @@
-﻿namespace ProcApi.Domain.Entities;
+﻿using ProcApi.Domain.Interfaces;
 
-public class GoodIssueNoteItem
+namespace ProcApi.Domain.Entities;
+
+public class GoodIssueNoteItem : IEntity<int>
 {
     public int Id { get; set; }
     public int GoodIssueNoteId { get; set; }
@@ -11,4 +13,6 @@ public class GoodIssueNoteItem
     public UnitOfMeasure UnitOfMeasure { get; set; }
     public decimal Quantity { get; set; }
     public decimal Price { get; set; }
+
+    public ICollection<ReservedItem> ReservedItems { get; set; }
 }

@@ -1,8 +1,10 @@
-﻿namespace ProcApi.Domain.Entities;
+﻿using ProcApi.Domain.Interfaces;
 
-public class GoodReceiptNote
+namespace ProcApi.Domain.Entities;
+
+public class GoodReceiptNote : IEntity<int>
 {
-    public int DocumentId { get; set; }
+    public int Id { get; set; }
     public Document Document { get; set; }
     public decimal TotalItemsPrice { get; set; }
     public ICollection<GoodReceiptNoteItem> Items { get; set; }

@@ -143,7 +143,7 @@ public class AnnualProcurementService : IAnnualProcurementService
             {
                 _unitOfMeasureService.ValidateQuantity(unitOfMeasure, createItem.Quantity);
             }
-            catch (ValidationException ex)
+            catch (ValidationException)
             {
                 exceptionIds.Add(createItem.UnitOfMeasureId);
                 throw;

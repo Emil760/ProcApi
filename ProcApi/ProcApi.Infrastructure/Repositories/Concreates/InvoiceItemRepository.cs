@@ -6,7 +6,7 @@ using ProcApi.Infrastructure.Repositories.Abstracts;
 
 namespace ProcApi.Infrastructure.Repositories.Concreates;
 
-public class InvoiceItemRepository : GenericRepository<InvoiceItem>, IInvoiceItemRepository
+public class InvoiceItemRepository : GenericRepository<InvoiceItem, int>, IInvoiceItemRepository
 {
     public InvoiceItemRepository(ProcDbContext context) : base(context)
     {

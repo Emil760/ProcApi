@@ -6,7 +6,7 @@ using ProcApi.Infrastructure.Repositories.Abstracts;
 
 namespace ProcApi.Infrastructure.Repositories.Concreates;
 
-public class DocumentValidationConfigurationRepository : GenericRepository<DocumentValidationConfiguration>,
+public class DocumentValidationConfigurationRepository : GenericRepository<DocumentValidationConfiguration, int>,
     IDocumentValidationConfigurationRepository
 
 {

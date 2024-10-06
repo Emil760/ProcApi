@@ -9,6 +9,7 @@ public class PurchaseRequestProfile : CommonProfile
     public PurchaseRequestProfile()
     {
         CreateMap<SavePRRequest, PurchaseRequest>()
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.DocumentId))
             .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
             .ForMember(dest => dest.DeliveryAddress, opt => opt.MapFrom(src => src.DeliveryAddress))
             .ForMember(dest => dest.RequestedForDepartmentId, opt => opt.MapFrom(src => src.DepartmentId))

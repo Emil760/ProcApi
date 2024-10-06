@@ -8,7 +8,7 @@ using ProcApi.Infrastructure.Utility;
 
 namespace ProcApi.Infrastructure.Repositories.Concreates;
 
-public class MaterialRepository : GenericRepository<Material>, IMaterialRepository
+public class MaterialRepository : GenericRepository<Material, int>, IMaterialRepository
 {
     public MaterialRepository(ProcDbContext context) : base(context)
     {

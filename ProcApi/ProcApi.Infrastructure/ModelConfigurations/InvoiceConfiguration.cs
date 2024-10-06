@@ -8,14 +8,14 @@ public class InvoiceConfiguration : IEntityTypeConfiguration<Invoice>
 {
     public void Configure(EntityTypeBuilder<Invoice> builder)
     {
-        builder.HasKey(prd => prd.DocumentId);
+        builder.HasKey(prd => prd.Id);
 
-        builder.Property(prd => prd.DocumentId)
+        builder.Property(prd => prd.Id)
             .ValueGeneratedNever();
 
         builder.HasOne(id => id.Document)
             .WithOne()
-            .HasForeignKey<Invoice>(id => id.DocumentId)
+            .HasForeignKey<Invoice>(id => id.Id)
             .OnDelete(DeleteBehavior.Cascade);
 
         builder.Property(id => id.Description)

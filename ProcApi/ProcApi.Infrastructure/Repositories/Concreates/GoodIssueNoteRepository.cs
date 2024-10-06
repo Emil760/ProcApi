@@ -4,7 +4,7 @@ using ProcApi.Infrastructure.Repositories.Abstracts;
 
 namespace ProcApi.Infrastructure.Repositories.Concreates;
 
-public class GoodIssueNoteRepository : GenericRepository<GoodIssueNote>, IGoodIssueNoteRepository
+public class GoodIssueNoteRepository : GenericRepository<GoodIssueNote, int>, IGoodIssueNoteRepository
 {
     public GoodIssueNoteRepository(ProcDbContext context) : base(context)
     {

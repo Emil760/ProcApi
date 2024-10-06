@@ -1,6 +1,8 @@
-﻿namespace ProcApi.Domain.Entities;
+﻿using ProcApi.Domain.Interfaces;
 
-public class InvoiceItem
+namespace ProcApi.Domain.Entities;
+
+public class InvoiceItem : IEntity<int>
 {
     public int Id { get; set; }
     public int InvoiceId { get; set; }

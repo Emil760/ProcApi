@@ -1,6 +1,8 @@
-﻿namespace ProcApi.Domain.Entities;
+﻿using ProcApi.Domain.Interfaces;
 
-public class UnitOfMeasure
+namespace ProcApi.Domain.Entities;
+
+public class UnitOfMeasure : IEntity<int>
 {
     public int Id { get; set; }
     public string Name { get; set; }

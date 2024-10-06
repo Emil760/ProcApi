@@ -1,6 +1,8 @@
-﻿namespace ProcApi.Domain.Entities;
+﻿using ProcApi.Domain.Interfaces;
 
-public class Project
+namespace ProcApi.Domain.Entities;
+
+public class Project : IEntity<int>
 {
     public int Id { get; set; }
     public string Name { get; set; }

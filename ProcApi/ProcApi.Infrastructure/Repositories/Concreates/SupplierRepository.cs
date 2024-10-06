@@ -7,7 +7,7 @@ using ProcApi.Infrastructure.Utility;
 
 namespace ProcApi.Infrastructure.Repositories.Concreates;
 
-public class SupplierRepository : GenericRepository<Supplier>, ISupplierRepository
+public class SupplierRepository : GenericRepository<Supplier, int>, ISupplierRepository
 {
     public SupplierRepository(ProcDbContext context) : base(context)
     {

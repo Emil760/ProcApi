@@ -4,7 +4,7 @@ using ProcApi.Infrastructure.Repositories.Abstracts;
 
 namespace ProcApi.Infrastructure.Repositories.Concreates;
 
-public class AnnualProcurementItemRepository : GenericRepository<AnnualProcurementItem>, IAnnualProcurementItemRepository
+public class AnnualProcurementItemRepository : GenericRepository<AnnualProcurementItem, int>, IAnnualProcurementItemRepository
 {
     public AnnualProcurementItemRepository(ProcDbContext context) : base(context)
     {

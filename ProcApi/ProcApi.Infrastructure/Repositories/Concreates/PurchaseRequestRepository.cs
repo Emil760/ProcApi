@@ -5,7 +5,7 @@ using ProcApi.Infrastructure.Repositories.Abstracts;
 
 namespace ProcApi.Infrastructure.Repositories.Concreates;
 
-public class PurchaseRequestRepository : GenericRepository<PurchaseRequest>,
+public class PurchaseRequestRepository : GenericRepository<PurchaseRequest, int>,
     IPurchaseRequestRepository
 {
     public PurchaseRequestRepository(ProcDbContext context) : base(context)
@@ -17,7 +17,7 @@ public class PurchaseRequestRepository : GenericRepository<PurchaseRequest>,
         return await _context.PurchaseRequests
             .Include(prd => prd.Items)
             .Include(prd => prd.Document)
-            .SingleOrDefaultAsync(prd => prd.DocumentId == docId);
+            .SingleOrDefaultAsync(prd => prd.Id == docId);
     }
 
     public async Task<PurchaseRequest?> GetWithDocumentAndActionsAndItemsByDocId(int docId)
@@ -30,6 +30,6 @@ public class PurchaseRequestRepository : GenericRepository<PurchaseRequest>,
             .ThenInclude(d => d.Performer)
             .Include(prd => prd.Items)
             .ThenInclude(i => i.Buyer)
-            .SingleOrDefaultAsync(prd => prd.DocumentId == docId);
+            .SingleOrDefaultAsync(prd => prd.Id == docId);
     }
 }

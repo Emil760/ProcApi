@@ -6,7 +6,7 @@ using ProcApi.Infrastructure.Repositories.Abstracts;
 
 namespace ProcApi.Infrastructure.Repositories.Concreates;
 
-public class GroupUserRepository : GenericRepository<GroupUser>, IGroupUserRepository
+public class GroupUserRepository : GenericRepository<GroupUser, int>, IGroupUserRepository
 {
     public GroupUserRepository(ProcDbContext context) : base(context)
     {

@@ -2,7 +2,7 @@
 
 namespace ProcApi.Infrastructure.Repositories.Abstracts;
 
-public interface IPurchaseRequestItemsRepository : IGenericRepository<PurchaseRequestItem>
+public interface IPurchaseRequestItemsRepository : IGenericRepository<PurchaseRequestItem, int>
 {
     Task<IEnumerable<PurchaseRequestItem>> GetAllByDocIdAsync(int docId);
     Task<IEnumerable<PurchaseRequestItem>> GetByIdsAsync(IEnumerable<int> itemIds);

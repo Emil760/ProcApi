@@ -3,7 +3,7 @@ using ProcApi.Domain.Enums;
 
 namespace ProcApi.Infrastructure.Repositories.Abstracts;
 
-public interface IInvoiceItemRepository : IGenericRepository<InvoiceItem>
+public interface IInvoiceItemRepository : IGenericRepository<InvoiceItem, int>
 {
     Task<IEnumerable<InvoiceItem>> GetByDocIdAsync(int docId);
 

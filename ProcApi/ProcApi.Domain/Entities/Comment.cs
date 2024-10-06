@@ -1,6 +1,8 @@
-﻿namespace ProcApi.Domain.Entities
+﻿using ProcApi.Domain.Interfaces;
+
+namespace ProcApi.Domain.Entities
 {
-    public class Comment
+    public class Comment : IEntity<int>
     {
         public int Id { get; set; }
         public int DocumentId { get; set; }

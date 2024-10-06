@@ -1,8 +1,9 @@
 ﻿using ProcApi.Domain.Enums;
+using ProcApi.Domain.Interfaces;
 
 namespace ProcApi.Domain.Entities;
 
-public class ReleaseStrategyTemplate
+public class ReleaseStrategyTemplate : IEntity<int>
 {
     public int Id { get; set; }
     public string FlowCodes { get; set; }

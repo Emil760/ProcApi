@@ -7,7 +7,7 @@ using ProcApi.Infrastructure.Repositories.Abstracts;
 
 namespace ProcApi.Infrastructure.Repositories.Concreates;
 
-public class InvoiceRepository : GenericRepository<Invoice>, IInvoiceRepository
+public class InvoiceRepository : GenericRepository<Invoice, int>, IInvoiceRepository
 {
     public InvoiceRepository(ProcDbContext context) : base(context)
     {
@@ -22,7 +22,7 @@ public class InvoiceRepository : GenericRepository<Invoice>, IInvoiceRepository
             .Include(d => d.Document.Actions)
             .ThenInclude(d => d.Performer)
             .Include(id => id.Items)
-            .SingleOrDefaultAsync(id => id.DocumentId == docId);
+            .SingleOrDefaultAsync(id => id.Id == docId);
     }
 
     public async Task<Invoice?> GetWithDocumentAndItemsByDocId(int docId)
@@ -30,7 +30,7 @@ public class InvoiceRepository : GenericRepository<Invoice>, IInvoiceRepository
         return await _context.Invoices
             .Include(i => i.Items)
             .Include(i => i.Document)
-            .SingleOrDefaultAsync(i => i.DocumentId == docId);
+            .SingleOrDefaultAsync(i => i.Id == docId);
     }
 
     public async Task<IEnumerable<UnusedPRItemInfoResultSet>> GetUnusedPurchaseRequestItemsAsync(

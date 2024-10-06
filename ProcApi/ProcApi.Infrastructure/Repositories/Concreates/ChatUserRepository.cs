@@ -5,7 +5,7 @@ using ProcApi.Infrastructure.Repositories.Abstracts;
 
 namespace ProcApi.Infrastructure.Repositories.Concreates;
 
-public class ChatUserRepository : GenericRepository<ChatUser>, IChatUserRepository
+public class ChatUserRepository : GenericRepository<ChatUser, int>, IChatUserRepository
 {
     public ChatUserRepository(ProcDbContext context) : base(context)
     {

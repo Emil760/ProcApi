@@ -6,7 +6,7 @@ using ProcApi.Infrastructure.Repositories.Abstracts;
 
 namespace ProcApi.Infrastructure.Repositories.Concreates;
 
-public class DocumentRepository : GenericRepository<Document>, IDocumentRepository
+public class DocumentRepository : GenericRepository<Document, int>, IDocumentRepository
 {
     public DocumentRepository(ProcDbContext context) : base(context)
     {

@@ -3,7 +3,7 @@ using ProcApi.Domain.Enums;
 
 namespace ProcApi.Infrastructure.Repositories.Abstracts;
 
-public interface IDocumentValidationConfigurationRepository : IGenericRepository<DocumentValidationConfiguration>
+public interface IDocumentValidationConfigurationRepository : IGenericRepository<DocumentValidationConfiguration, int>
 {
     Task<IEnumerable<DocumentValidationConfiguration>> GetActiveByTypeAndStatusAsync(
         DocumentType type,

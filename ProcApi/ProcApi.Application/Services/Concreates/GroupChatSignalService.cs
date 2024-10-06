@@ -29,8 +29,8 @@ public class GroupChatSignalService : IGroupChatSignalService
     public async Task SignalGroupCreatedAsync(int creatorUserId, Group group)
     {
         var userIds = group.GroupUsers
-            .Where(gu => gu.ChatUserId != creatorUserId)
-            .Select(gu => gu.ChatUserId);
+            .Where(gu => gu.Id != creatorUserId)
+            .Select(gu => gu.Id);
         
         var connectionIds = await _connectedUsersService.GetConnectionsAsync(userIds);
 

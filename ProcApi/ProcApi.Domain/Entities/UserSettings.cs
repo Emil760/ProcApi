@@ -1,8 +1,10 @@
-﻿namespace ProcApi.Domain.Entities;
+﻿using ProcApi.Domain.Interfaces;
 
-public class UserSetting
+namespace ProcApi.Domain.Entities;
+
+public class UserSetting : IEntity<int>
 {
-    public int UserId { get; set; }
+    public int Id { get; set; }
     public User User { get; set; }
     public string Language { get; set; }
 }

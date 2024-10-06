@@ -1,6 +1,8 @@
-﻿namespace ProcApi.Domain.Entities
+﻿using ProcApi.Domain.Interfaces;
+
+namespace ProcApi.Domain.Entities
 {
-    public class Dashboard
+    public class Dashboard : IEntity<int>
     {
         public int Id { get; set; }
         public string Name { get; set; }

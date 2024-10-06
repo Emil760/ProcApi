@@ -1,8 +1,10 @@
-﻿namespace ProcApi.Domain.Entities;
+﻿using ProcApi.Domain.Interfaces;
 
-public class Invoice
+namespace ProcApi.Domain.Entities;
+
+public class Invoice : IEntity<int>
 {
-    public int DocumentId { get; set; }
+    public int Id { get; set; }
     public Document Document { get; set; }
     public string? Description { get; set; }
     public int? SupplierId { get; set; }

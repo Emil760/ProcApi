@@ -3,7 +3,7 @@ using ProcApi.Domain.Enums;
 
 namespace ProcApi.Infrastructure.Repositories.Abstracts;
 
-public interface IDocumentRepository : IGenericRepository<Document>
+public interface IDocumentRepository : IGenericRepository<Document, int>
 {
     Task<Document?> GetWithActionsAsync(int id);
     Task<DocumentStatus?> GetStatusAsync(int id);

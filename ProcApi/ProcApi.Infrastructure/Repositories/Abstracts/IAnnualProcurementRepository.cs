@@ -2,7 +2,7 @@
 
 namespace ProcApi.Infrastructure.Repositories.Abstracts;
 
-public interface IAnnualProcurementRepository : IGenericRepository<AnnualProcurement>
+public interface IAnnualProcurementRepository : IGenericRepository<AnnualProcurement, int>
 {
     Task<bool> ExistsByYearAsync(short year);
     Task<bool> ExistsByYearAndActiveAsync(short year, bool isActive);

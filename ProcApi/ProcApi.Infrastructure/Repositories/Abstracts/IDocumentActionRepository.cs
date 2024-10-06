@@ -3,7 +3,7 @@ using ProcApi.Domain.Enums;
 
 namespace ProcApi.Infrastructure.Repositories.Abstracts;
 
-public interface IDocumentActionRepository : IGenericRepository<DocumentAction>
+public interface IDocumentActionRepository : IGenericRepository<DocumentAction, int>
 {
     Task<bool> ExistsByDocIdAndAssignerId(int docId, int userId);
     Task<bool> ExistsByDocIdAndAssignerIdOrHasDelegation(int docId, int userId);

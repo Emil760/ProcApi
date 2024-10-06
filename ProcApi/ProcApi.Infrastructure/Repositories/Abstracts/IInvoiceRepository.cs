@@ -4,7 +4,7 @@ using ProcApi.Domain.ResultSets;
 
 namespace ProcApi.Infrastructure.Repositories.Abstracts;
 
-public interface IInvoiceRepository : IGenericRepository<Invoice>
+public interface IInvoiceRepository : IGenericRepository<Invoice, int>
 {
     Task<Invoice?> GetWithDocumentAndActionsAndItemsByDocId(int docId);
     Task<Invoice?> GetWithDocumentAndItemsByDocId(int docId);

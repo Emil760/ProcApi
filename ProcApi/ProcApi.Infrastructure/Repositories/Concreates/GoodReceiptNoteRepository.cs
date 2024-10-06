@@ -5,7 +5,7 @@ using ProcApi.Infrastructure.Repositories.Abstracts;
 
 namespace ProcApi.Infrastructure.Repositories.Concreates;
 
-public class GoodReceiptNoteRepository : GenericRepository<GoodReceiptNote>, IGoodReceiptNoteRepository
+public class GoodReceiptNoteRepository : GenericRepository<GoodReceiptNote, int>, IGoodReceiptNoteRepository
 {
     public GoodReceiptNoteRepository(ProcDbContext context) : base(context)
     {
@@ -20,7 +20,7 @@ public class GoodReceiptNoteRepository : GenericRepository<GoodReceiptNote>, IGo
             .Include(d => d.Document.Actions)
             .ThenInclude(d => d.Performer)
             .Include(grn => grn.Items)
-            .SingleOrDefaultAsync(grn => grn.DocumentId == docId);
+            .SingleOrDefaultAsync(grn => grn.Id == docId);
     }
 
     public async Task<GoodReceiptNote?> GetWithDocumentAndItemsByDocId(int docId)
@@ -28,6 +28,6 @@ public class GoodReceiptNoteRepository : GenericRepository<GoodReceiptNote>, IGo
         return await _context.GoodReceiptNotes
             .Include(grn => grn.Items)
             .Include(grn => grn.Document)
-            .SingleOrDefaultAsync(prd => prd.DocumentId == docId);
+            .SingleOrDefaultAsync(prd => prd.Id == docId);
     }
 }

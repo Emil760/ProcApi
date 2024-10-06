@@ -6,7 +6,7 @@ using ProcApi.Infrastructure.Repositories.Abstracts;
 
 namespace ProcApi.Infrastructure.Repositories.Concreates;
 
-public class ReleaseStrategyTemplateTemplatesRepository : GenericRepository<ReleaseStrategyTemplate>,
+public class ReleaseStrategyTemplateTemplatesRepository : GenericRepository<ReleaseStrategyTemplate, int>,
     IReleaseStrategyTemplateRepository
 {
     public ReleaseStrategyTemplateTemplatesRepository(ProcDbContext context) : base(context)

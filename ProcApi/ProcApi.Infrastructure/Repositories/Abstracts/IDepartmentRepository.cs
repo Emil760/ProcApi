@@ -4,7 +4,7 @@ using ProcApi.Infrastructure.Utility;
 
 namespace ProcApi.Infrastructure.Repositories.Abstracts;
 
-public interface IDepartmentRepository : IGenericRepository<Department>
+public interface IDepartmentRepository : IGenericRepository<Department, int>
 {
     Task<bool> ExistsByName(string name);
     Task<Paginator<Department>> GetAllPaginated(PaginationModel pagination);

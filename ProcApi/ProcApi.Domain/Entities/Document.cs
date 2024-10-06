@@ -1,8 +1,9 @@
 ﻿using ProcApi.Domain.Enums;
+using ProcApi.Domain.Interfaces;
 
 namespace ProcApi.Domain.Entities;
 
-public class Document
+public class Document : IEntity<int>
 {
     public int Id { get; set; }
     public DocumentType DocumentTypeId { get; set; }

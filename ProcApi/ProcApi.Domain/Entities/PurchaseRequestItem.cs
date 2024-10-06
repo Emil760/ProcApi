@@ -1,8 +1,9 @@
 ﻿using ProcApi.Domain.Enums;
+using ProcApi.Domain.Interfaces;
 
 namespace ProcApi.Domain.Entities;
 
-public class PurchaseRequestItem
+public class PurchaseRequestItem : IEntity<int>
 {
     public int Id { get; set; }
     public int PurchaseRequestId { get; set; }

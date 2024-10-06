@@ -754,10 +754,10 @@ namespace ProcApi.Infrastructure.Migrations
 
             modelBuilder.Entity("ProcApi.Domain.Entities.GoodIssueNote", b =>
                 {
-                    b.Property<int>("DocumentId")
+                    b.Property<int>("Id")
                         .HasColumnType("integer");
 
-                    b.HasKey("DocumentId");
+                    b.HasKey("Id");
 
                     b.ToTable("GoodIssueNotes");
                 });
@@ -773,19 +773,38 @@ namespace ProcApi.Infrastructure.Migrations
                     b.Property<int>("GoodIssueNoteId")
                         .HasColumnType("integer");
 
+                    b.Property<int>("MaterialId")
+                        .HasColumnType("integer");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("numeric");
+
+                    b.Property<decimal>("Quantity")
+                        .HasColumnType("numeric");
+
+                    b.Property<int>("UnitOfMeasureId")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
                     b.HasIndex("GoodIssueNoteId");
+
+                    b.HasIndex("MaterialId");
+
+                    b.HasIndex("UnitOfMeasureId");
 
                     b.ToTable("GoodIssueNoteItems");
                 });
 
             modelBuilder.Entity("ProcApi.Domain.Entities.GoodReceiptNote", b =>
                 {
-                    b.Property<int>("DocumentId")
+                    b.Property<int>("Id")
                         .HasColumnType("integer");
 
-                    b.HasKey("DocumentId");
+                    b.Property<decimal>("TotalItemsPrice")
+                        .HasColumnType("numeric");
+
+                    b.HasKey("Id");
 
                     b.ToTable("GoodReceiptNotes");
                 });
@@ -801,16 +820,37 @@ namespace ProcApi.Infrastructure.Migrations
                     b.Property<int>("GoodReceiptNoteId")
                         .HasColumnType("integer");
 
+                    b.Property<int>("MaterialId")
+                        .HasColumnType("integer");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("numeric");
+
+                    b.Property<decimal>("Quantity")
+                        .HasColumnType("numeric");
+
+                    b.Property<int>("UnitOfMeasureId")
+                        .HasColumnType("integer");
+
+                    b.Property<decimal>("UsedQuantity")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("decimal")
+                        .HasDefaultValue(0m);
+
                     b.HasKey("Id");
 
                     b.HasIndex("GoodReceiptNoteId");
+
+                    b.HasIndex("MaterialId");
+
+                    b.HasIndex("UnitOfMeasureId");
 
                     b.ToTable("GoodReceiptNoteItems");
                 });
 
             modelBuilder.Entity("ProcApi.Domain.Entities.Group", b =>
                 {
-                    b.Property<int>("ChatId")
+                    b.Property<int>("Id")
                         .HasColumnType("integer");
 
                     b.Property<string>("Description")
@@ -825,14 +865,14 @@ namespace ProcApi.Infrastructure.Migrations
                         .HasMaxLength(300)
                         .HasColumnType("varchar");
 
-                    b.HasKey("ChatId");
+                    b.HasKey("Id");
 
                     b.ToTable("Groups");
                 });
 
             modelBuilder.Entity("ProcApi.Domain.Entities.GroupUser", b =>
                 {
-                    b.Property<int>("ChatUserId")
+                    b.Property<int>("Id")
                         .HasColumnType("integer");
 
                     b.Property<int>("ChatRole")
@@ -846,7 +886,7 @@ namespace ProcApi.Infrastructure.Migrations
                         .HasColumnType("boolean")
                         .HasDefaultValue(false);
 
-                    b.HasKey("ChatUserId");
+                    b.HasKey("Id");
 
                     b.HasIndex("GroupId");
 
@@ -855,7 +895,7 @@ namespace ProcApi.Infrastructure.Migrations
 
             modelBuilder.Entity("ProcApi.Domain.Entities.Invoice", b =>
                 {
-                    b.Property<int>("DocumentId")
+                    b.Property<int>("Id")
                         .HasColumnType("integer");
 
                     b.Property<string>("Description")
@@ -870,7 +910,7 @@ namespace ProcApi.Infrastructure.Migrations
                         .HasColumnType("decimal")
                         .HasDefaultValue(0m);
 
-                    b.HasKey("DocumentId");
+                    b.HasKey("Id");
 
                     b.HasIndex("SupplierId");
 
@@ -1118,22 +1158,22 @@ namespace ProcApi.Infrastructure.Migrations
                         new
                         {
                             Id = 30,
-                            Name = "CanChangeDashboard"
+                            Name = "CanReturnGoodReceiptNote"
                         },
                         new
                         {
                             Id = 31,
-                            Name = "CanViewProject"
+                            Name = "CanRejectGoodReceiptNote"
                         },
                         new
                         {
                             Id = 32,
-                            Name = "CanAddProject"
+                            Name = "CanViewGoodReceiptNote"
                         },
                         new
                         {
                             Id = 33,
-                            Name = "CanAddAnnualProcurement"
+                            Name = "CanCreateGoodReceiptNote"
                         },
                         new
                         {
@@ -1143,22 +1183,42 @@ namespace ProcApi.Infrastructure.Migrations
                         new
                         {
                             Id = 35,
-                            Name = "CanAddComment"
+                            Name = "CanAddAnnualProcurement"
                         },
                         new
                         {
                             Id = 36,
-                            Name = "CanGetComment"
-                        },
-                        new
-                        {
-                            Id = 37,
                             Name = "CanCreateDropDown"
                         },
                         new
                         {
+                            Id = 37,
+                            Name = "CanGetComment"
+                        },
+                        new
+                        {
                             Id = 38,
+                            Name = "CanAddComment"
+                        },
+                        new
+                        {
+                            Id = 39,
+                            Name = "CanViewProject"
+                        },
+                        new
+                        {
+                            Id = 40,
+                            Name = "CanChangeDashboard"
+                        },
+                        new
+                        {
+                            Id = 41,
                             Name = "CanGetDropDown"
+                        },
+                        new
+                        {
+                            Id = 42,
+                            Name = "CanAddProject"
                         });
                 });
 
@@ -1187,7 +1247,7 @@ namespace ProcApi.Infrastructure.Migrations
 
             modelBuilder.Entity("ProcApi.Domain.Entities.PurchaseRequest", b =>
                 {
-                    b.Property<int>("DocumentId")
+                    b.Property<int>("Id")
                         .HasColumnType("integer");
 
                     b.Property<string>("DeliveryAddress")
@@ -1209,7 +1269,7 @@ namespace ProcApi.Infrastructure.Migrations
                         .HasColumnType("decimal")
                         .HasDefaultValue(0m);
 
-                    b.HasKey("DocumentId");
+                    b.HasKey("Id");
 
                     b.HasIndex("ProjectId");
 
@@ -1762,6 +1822,50 @@ namespace ProcApi.Infrastructure.Migrations
                         });
                 });
 
+            modelBuilder.Entity("ProcApi.Domain.Entities.ReservedItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime?>("EndDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<int?>("GoodIssueNoteItemId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("GoodReceiptNoteItemId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("GoodReceiptNoteNumber")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bool")
+                        .HasDefaultValue(true);
+
+                    b.Property<decimal>("Quantity")
+                        .HasColumnType("decimal");
+
+                    b.Property<int>("UnitOfMeasureId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GoodIssueNoteItemId");
+
+                    b.HasIndex("GoodReceiptNoteItemId")
+                        .IsUnique();
+
+                    b.HasIndex("UnitOfMeasureId");
+
+                    b.ToTable("ReservedItems");
+                });
+
             modelBuilder.Entity("ProcApi.Domain.Entities.Role", b =>
                 {
                     b.Property<int>("Id")
@@ -2054,6 +2158,26 @@ namespace ProcApi.Infrastructure.Migrations
                         },
                         new
                         {
+                            RoleId = 2,
+                            PermissionId = 39
+                        },
+                        new
+                        {
+                            RoleId = 2,
+                            PermissionId = 40
+                        },
+                        new
+                        {
+                            RoleId = 2,
+                            PermissionId = 41
+                        },
+                        new
+                        {
+                            RoleId = 2,
+                            PermissionId = 42
+                        },
+                        new
+                        {
                             RoleId = 1,
                             PermissionId = 4
                         },
@@ -2253,7 +2377,7 @@ namespace ProcApi.Infrastructure.Migrations
 
             modelBuilder.Entity("ProcApi.Domain.Entities.UserPassword", b =>
                 {
-                    b.Property<int>("UserId")
+                    b.Property<int>("Id")
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("LastModified")
@@ -2267,7 +2391,7 @@ namespace ProcApi.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.HasKey("UserId");
+                    b.HasKey("Id");
 
                     b.ToTable("UserPassword");
                 });
@@ -2280,6 +2404,9 @@ namespace ProcApi.Infrastructure.Migrations
                     b.Property<int>("RoleId")
                         .HasColumnType("integer");
 
+                    b.Property<int>("Id")
+                        .HasColumnType("integer");
+
                     b.HasKey("UserId", "RoleId");
 
                     b.HasIndex("RoleId");
@@ -2289,14 +2416,14 @@ namespace ProcApi.Infrastructure.Migrations
 
             modelBuilder.Entity("ProcApi.Domain.Entities.UserSetting", b =>
                 {
-                    b.Property<int>("UserId")
+                    b.Property<int>("Id")
                         .HasColumnType("integer");
 
                     b.Property<string>("Language")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.HasKey("UserId");
+                    b.HasKey("Id");
 
                     b.ToTable("UserSettings");
                 });
@@ -2598,7 +2725,7 @@ namespace ProcApi.Infrastructure.Migrations
                 {
                     b.HasOne("ProcApi.Domain.Entities.Document", "Document")
                         .WithOne()
-                        .HasForeignKey("ProcApi.Domain.Entities.GoodIssueNote", "DocumentId")
+                        .HasForeignKey("ProcApi.Domain.Entities.GoodIssueNote", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -2613,14 +2740,30 @@ namespace ProcApi.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("ProcApi.Domain.Entities.Material", "Material")
+                        .WithMany()
+                        .HasForeignKey("MaterialId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ProcApi.Domain.Entities.UnitOfMeasure", "UnitOfMeasure")
+                        .WithMany()
+                        .HasForeignKey("UnitOfMeasureId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("GoodIssueNote");
+
+                    b.Navigation("Material");
+
+                    b.Navigation("UnitOfMeasure");
                 });
 
             modelBuilder.Entity("ProcApi.Domain.Entities.GoodReceiptNote", b =>
                 {
                     b.HasOne("ProcApi.Domain.Entities.Document", "Document")
                         .WithOne()
-                        .HasForeignKey("ProcApi.Domain.Entities.GoodReceiptNote", "DocumentId")
+                        .HasForeignKey("ProcApi.Domain.Entities.GoodReceiptNote", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -2635,14 +2778,30 @@ namespace ProcApi.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("ProcApi.Domain.Entities.Material", "Material")
+                        .WithMany()
+                        .HasForeignKey("MaterialId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ProcApi.Domain.Entities.UnitOfMeasure", "UnitOfMeasure")
+                        .WithMany()
+                        .HasForeignKey("UnitOfMeasureId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("GoodReceiptNote");
+
+                    b.Navigation("Material");
+
+                    b.Navigation("UnitOfMeasure");
                 });
 
             modelBuilder.Entity("ProcApi.Domain.Entities.Group", b =>
                 {
                     b.HasOne("ProcApi.Domain.Entities.Chat", "Chat")
                         .WithOne()
-                        .HasForeignKey("ProcApi.Domain.Entities.Group", "ChatId")
+                        .HasForeignKey("ProcApi.Domain.Entities.Group", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -2651,15 +2810,15 @@ namespace ProcApi.Infrastructure.Migrations
 
             modelBuilder.Entity("ProcApi.Domain.Entities.GroupUser", b =>
                 {
-                    b.HasOne("ProcApi.Domain.Entities.ChatUser", "ChatUser")
-                        .WithOne()
-                        .HasForeignKey("ProcApi.Domain.Entities.GroupUser", "ChatUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("ProcApi.Domain.Entities.Group", "Group")
                         .WithMany("GroupUsers")
                         .HasForeignKey("GroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ProcApi.Domain.Entities.ChatUser", "ChatUser")
+                        .WithOne()
+                        .HasForeignKey("ProcApi.Domain.Entities.GroupUser", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -2672,7 +2831,7 @@ namespace ProcApi.Infrastructure.Migrations
                 {
                     b.HasOne("ProcApi.Domain.Entities.Document", "Document")
                         .WithOne()
-                        .HasForeignKey("ProcApi.Domain.Entities.Invoice", "DocumentId")
+                        .HasForeignKey("ProcApi.Domain.Entities.Invoice", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -2728,7 +2887,7 @@ namespace ProcApi.Infrastructure.Migrations
                 {
                     b.HasOne("ProcApi.Domain.Entities.Document", "Document")
                         .WithOne()
-                        .HasForeignKey("ProcApi.Domain.Entities.PurchaseRequest", "DocumentId")
+                        .HasForeignKey("ProcApi.Domain.Entities.PurchaseRequest", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -2794,6 +2953,29 @@ namespace ProcApi.Infrastructure.Migrations
                     b.Navigation("ApprovalFlowTemplate");
                 });
 
+            modelBuilder.Entity("ProcApi.Domain.Entities.ReservedItem", b =>
+                {
+                    b.HasOne("ProcApi.Domain.Entities.GoodIssueNoteItem", null)
+                        .WithMany("ReservedItems")
+                        .HasForeignKey("GoodIssueNoteItemId");
+
+                    b.HasOne("ProcApi.Domain.Entities.GoodReceiptNoteItem", "GoodReceiptNoteItem")
+                        .WithOne("ReservedItem")
+                        .HasForeignKey("ProcApi.Domain.Entities.ReservedItem", "GoodReceiptNoteItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ProcApi.Domain.Entities.UnitOfMeasure", "UnitOfMeasure")
+                        .WithMany()
+                        .HasForeignKey("UnitOfMeasureId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("GoodReceiptNoteItem");
+
+                    b.Navigation("UnitOfMeasure");
+                });
+
             modelBuilder.Entity("ProcApi.Domain.Entities.RolePermission", b =>
                 {
                     b.HasOne("ProcApi.Domain.Entities.Permission", "Permission")
@@ -2853,7 +3035,7 @@ namespace ProcApi.Infrastructure.Migrations
                 {
                     b.HasOne("ProcApi.Domain.Entities.User", "User")
                         .WithOne("UserPassword")
-                        .HasForeignKey("ProcApi.Domain.Entities.UserPassword", "UserId")
+                        .HasForeignKey("ProcApi.Domain.Entities.UserPassword", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -2883,7 +3065,7 @@ namespace ProcApi.Infrastructure.Migrations
                 {
                     b.HasOne("ProcApi.Domain.Entities.User", "User")
                         .WithOne("UserSetting")
-                        .HasForeignKey("ProcApi.Domain.Entities.UserSetting", "UserId")
+                        .HasForeignKey("ProcApi.Domain.Entities.UserSetting", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -2934,9 +3116,20 @@ namespace ProcApi.Infrastructure.Migrations
                     b.Navigation("Items");
                 });
 
+            modelBuilder.Entity("ProcApi.Domain.Entities.GoodIssueNoteItem", b =>
+                {
+                    b.Navigation("ReservedItems");
+                });
+
             modelBuilder.Entity("ProcApi.Domain.Entities.GoodReceiptNote", b =>
                 {
                     b.Navigation("Items");
+                });
+
+            modelBuilder.Entity("ProcApi.Domain.Entities.GoodReceiptNoteItem", b =>
+                {
+                    b.Navigation("ReservedItem")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("ProcApi.Domain.Entities.Group", b =>

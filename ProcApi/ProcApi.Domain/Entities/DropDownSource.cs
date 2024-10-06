@@ -1,6 +1,8 @@
-﻿namespace ProcApi.Domain.Entities;
+﻿using ProcApi.Domain.Interfaces;
 
-public class DropDownSource
+namespace ProcApi.Domain.Entities;
+
+public class DropDownSource : IEntity<int>
 {
     public int Id { get; set; }
     public string Key { get; set; }

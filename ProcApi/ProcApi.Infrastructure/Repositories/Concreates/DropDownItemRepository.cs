@@ -5,7 +5,7 @@ using ProcApi.Infrastructure.Repositories.Abstracts;
 
 namespace ProcApi.Infrastructure.Repositories.Concreates;
 
-public class DropDownItemRepository : GenericRepository<DropDownItem>, IDropDownItemRepository
+public class DropDownItemRepository : GenericRepository<DropDownItem, int>, IDropDownItemRepository
 {
     public DropDownItemRepository(ProcDbContext context) : base(context)
     {

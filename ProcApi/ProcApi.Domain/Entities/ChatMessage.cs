@@ -1,6 +1,8 @@
-﻿namespace ProcApi.Domain.Entities;
+﻿using ProcApi.Domain.Interfaces;
 
-public class ChatMessage
+namespace ProcApi.Domain.Entities;
+
+public class ChatMessage : IEntity<int>
 {
     public int Id { get; set; }
     public int ChatId { get; set; }

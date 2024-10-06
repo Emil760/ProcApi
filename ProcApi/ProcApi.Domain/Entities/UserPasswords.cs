@@ -1,8 +1,10 @@
-﻿namespace ProcApi.Domain.Entities;
+﻿using ProcApi.Domain.Interfaces;
 
-public class UserPassword
+namespace ProcApi.Domain.Entities;
+
+public class UserPassword : IEntity<int>
 {
-    public int UserId { get; set; }
+    public int Id { get; set; }
     public User User { get; set; }
     public string PasswordHash { get; set; }
     public string Salt { get; set; }

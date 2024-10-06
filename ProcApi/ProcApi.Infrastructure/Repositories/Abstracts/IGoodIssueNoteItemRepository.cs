@@ -2,7 +2,7 @@
 
 namespace ProcApi.Infrastructure.Repositories.Abstracts;
 
-public interface IGoodIssueNoteItemRepository : IGenericRepository<GoodIssueNoteItem>
+public interface IGoodIssueNoteItemRepository : IGenericRepository<GoodIssueNoteItem, int>
 {
     
 }

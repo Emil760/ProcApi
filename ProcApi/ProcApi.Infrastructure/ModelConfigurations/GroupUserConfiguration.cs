@@ -8,11 +8,14 @@ public class GroupUserConfiguration : IEntityTypeConfiguration<GroupUser>
 {
     public void Configure(EntityTypeBuilder<GroupUser> builder)
     {
-        builder.HasKey(gu => gu.ChatUserId);
+        builder.HasKey(gu => gu.Id);
+
+        builder.Property(gu => gu.Id)
+            .ValueGeneratedNever();
 
         builder.HasOne(gu => gu.ChatUser)
             .WithOne()
-            .HasForeignKey<GroupUser>(gu => gu.ChatUserId)
+            .HasForeignKey<GroupUser>(gu => gu.Id)
             .OnDelete(DeleteBehavior.Cascade);
 
         builder.Property(gu => gu.IsLeaved)

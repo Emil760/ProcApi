@@ -59,5 +59,7 @@ public static class RepositoriesConfigurationExtension
 
         services.AddScoped<IDropDownSourceRepository, DropDownSourceRepository>();
         services.AddScoped<IDropDownItemRepository, DropDownItemRepository>();
+
+        services.AddScoped<IReservedItemRepository, ReservedItemRepository>();
     }
 }

@@ -1,6 +1,8 @@
-﻿namespace ProcApi.Domain.Entities;
+﻿using ProcApi.Domain.Interfaces;
 
-public class AnnualProcurement
+namespace ProcApi.Domain.Entities;
+
+public class AnnualProcurement : IEntity<int>
 {
     public int Id { get; set; }
     public string Name { get; set; }

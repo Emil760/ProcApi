@@ -6,7 +6,7 @@ using ProcApi.Infrastructure.Repositories.Abstracts;
 
 namespace ProcApi.Infrastructure.Repositories.Concreates;
 
-public class CategoryRepository : GenericRepository<Category>, ICategoryRepository
+public class CategoryRepository : GenericRepository<Category, int>, ICategoryRepository
 {
     public CategoryRepository(ProcDbContext context) : base(context)
     {

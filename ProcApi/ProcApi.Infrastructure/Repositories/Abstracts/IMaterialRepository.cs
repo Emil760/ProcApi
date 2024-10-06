@@ -5,7 +5,7 @@ using ProcApi.Infrastructure.Utility;
 
 namespace ProcApi.Infrastructure.Repositories.Abstracts;
 
-public interface IMaterialRepository : IGenericRepository<Material>
+public interface IMaterialRepository : IGenericRepository<Material, int>
 {
     Task<Paginator<Material>> GetAllPaginated(PaginationModel pagination);
     Task<IEnumerable<Material>> GetByIdsAsync(IEnumerable<int> ids);

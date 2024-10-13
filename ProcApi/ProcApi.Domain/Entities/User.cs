@@ -16,7 +16,6 @@ public class User : IEntity<int>
     public int? DepartmentId { get; set; }
     public Department? Department { get; set; }
     public int? DashboardId { get; set; }
-    public Dashboard? Dashboard { get; set; }
     public ICollection<Role> Roles { get; set; }
 
     public ICollection<Delegation> FromDelegations { get; set; }

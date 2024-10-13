@@ -18,14 +18,12 @@ public class UserService : IUserService
 {
     private readonly IUserRepository _userRepository;
     private readonly IRoleRepository _roleRepository;
-    private readonly IDashboardRepository _dashboardRepository;
     private readonly IDepartmentRepository _departmentRepository;
     private readonly IMapper _mapper;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IStringLocalizer<SharedResource> _localizer;
 
     public UserService(IUserRepository userRepository,
-        IDashboardRepository dashboardRepository,
         IDepartmentRepository departmentRepository,
         IRoleRepository roleRepository,
         IMapper mapper,
@@ -33,7 +31,6 @@ public class UserService : IUserService
         IStringLocalizer<SharedResource> localizer)
     {
         _userRepository = userRepository;
-        _dashboardRepository = dashboardRepository;
         _roleRepository = roleRepository;
         _departmentRepository = departmentRepository;
         _mapper = mapper;
@@ -136,20 +133,6 @@ public class UserService : IUserService
             throw new NotFoundException(_localizer[LocalizationKeys.ROLE_NOT_FOUND]);
 
         user.Roles.Remove(role);
-        await _unitOfWork.SaveChangesAsync();
-    }
-
-    public async Task AssignDashboardAsync(AssignDashboardRequest dto)
-    {
-        var user = await _userRepository.GetWithRolesById(dto.UserId);
-        if (user is null)
-            throw new NotFoundException(_localizer[LocalizationKeys.USER_NOT_FOUND]);
-
-        var dashboard = await _dashboardRepository.GetByIdAsync(dto.DashboardId);
-        if (dashboard is null)
-            throw new NotFoundException(_localizer[LocalizationKeys.DASHBOARD_NOT_FOUND]);
-
-        user.Dashboard = dashboard;
         await _unitOfWork.SaveChangesAsync();
     }
 

@@ -17,7 +17,7 @@ namespace ProcApi.Presentation.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreatePatternAsync(CreateDocumentNumberPatternRequest dto)
+        public async Task<IActionResult> CreatePatternAsync([FromBody] CreateDocumentNumberPatternRequest dto)
         {
             return Ok(await _documentNumberPatternService.CreatePatternAsync(dto));
         }
@@ -29,27 +29,27 @@ namespace ProcApi.Presentation.Controllers
         }
 
         [HttpPut("Activate")]
-        public async Task<IActionResult> ActivatePatternAsync(ActivateDocumentNumberPatternRequest dto)
+        public async Task<IActionResult> ActivatePatternAsync([FromBody] ActivateDocumentNumberPatternRequest dto)
         {
             await _documentNumberPatternService.ActivatePatternAsync(dto);
             return Ok();
         }
 
         [HttpPut]
-        public async Task<IActionResult> ChnageDocumentNumberPatterAsync(ChangeDocumentNumberPatternRequest dto)
+        public async Task<IActionResult> ChnageDocumentNumberPatterAsync([FromBody] ChangeDocumentNumberPatternRequest dto)
         {
             await _documentNumberPatternService.ChnageDocumentNumberPatterAsync(dto);
             return Ok();
         }
 
         [HttpPost("Section")]
-        public async Task<IActionResult> AddSectionAsync(CreateDocumentNumberSectionRequest dto)
+        public async Task<IActionResult> AddSectionAsync([FromBody] CreateDocumentNumberSectionRequest dto)
         {
             return Ok(await _documentNumberPatternService.AddSectionAsync(dto));
         }
 
         [HttpGet("Sections")]
-        public async Task<IActionResult> GetSectionAsync(int documentDocumentPatterId)
+        public async Task<IActionResult> GetSectionAsync([FromQuery] int documentDocumentPatterId)
         {
             return Ok(await _documentNumberPatternService.GetSectionAsync(documentDocumentPatterId));
         }

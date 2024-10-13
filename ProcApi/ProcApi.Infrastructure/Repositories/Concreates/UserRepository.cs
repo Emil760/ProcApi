@@ -28,7 +28,6 @@ public class UserRepository : GenericRepository<User, int>, IUserRepository
     {
         return await _context.Users
             .Include(u => u.Department)
-            .Include(u => u.Dashboard)
             .SingleOrDefaultAsync(u => u.Id == id);
     }
 
@@ -157,7 +156,6 @@ public class UserRepository : GenericRepository<User, int>, IUserRepository
     public async Task<IEnumerable<User>> GetAllInfosAsync()
     {
         return await _context.Users
-            .Include(u => u.Dashboard)
             .Include(u => u.Department)
             .ToListAsync();
     }

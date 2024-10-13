@@ -13,6 +13,7 @@ public interface IGenericRepository<T1, T2> where T1 : IEntity<T2>
     void Insert(T1 entity);
     void Insert(IEnumerable<T1> entities);
     void Delete(T1 entity);
+    void Delete(IEnumerable<T1> entities);
     Task DeleteAsync(T1 entity);
     Task DeleteByIdAsync(T2 id);
     Task<bool> ExistsByIdAsync(T2 id);

@@ -11,7 +11,6 @@ public class UserProfile : CommonProfile
         CreateMap<User, UserResponse>();
 
         CreateMap<User, UserInfoResponse>()
-            .ForMember(dest => dest.DashboardName, opt => opt.MapFrom(src => src.Dashboard == null ? "" : src.Dashboard.Name))
             .ForMember(dest => dest.DepartmentName, opt => opt.MapFrom(src => src.Department == null ? "" : src.Department.Name));
 
         CreateMap<User, UserWithRolesResponse>()

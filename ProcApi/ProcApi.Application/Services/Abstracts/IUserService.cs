@@ -15,6 +15,5 @@ public interface IUserService
     Task<IEnumerable<UserResponse>> GetAllByRoleNameAsync(string name);
     Task GrantRoleAsync(GrantRoleRequest dto);
     Task RemoveRoleAsync(RemoveRoleRequest dto);
-    Task AssignDashboardAsync(AssignDashboardRequest dto);
     Task AssignDepartmentAsync(AssignDepartmentRequest request);
 }

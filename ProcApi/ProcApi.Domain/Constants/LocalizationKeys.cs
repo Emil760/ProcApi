@@ -12,6 +12,7 @@
         public const string USER_NOT_FOUND_OR_NOT_IN_ROLE = "UserNotFoundOrNotInRole";
         public const string USER_HAS_NOT_ROLE_FOR_OPERATION = "UserHasNoRoleForOperation";
         public const string USER_IS_NOT_ADMIN = "UserIsNotAdmin";
+        public const string USER_DASHBOARD_NOT_FOUND = "UserDashboardNotFound";
 
         public const string USER_NOT_FOUND_IN_GROUP = "UserNotFoundInGroup";
         public const string CHAT_NOT_FOUND = "ChatNotFound";

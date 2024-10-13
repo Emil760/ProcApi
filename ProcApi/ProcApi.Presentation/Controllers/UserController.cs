@@ -97,14 +97,6 @@ public class UserController : BaseController
     {
         return Ok(await _userService.GetAllByRoleNameAsync(name));
     }
-
-    [HttpPut("AssignDashboard")]
-    [HasPermission(Permissions.CanChangeDashboard)]
-    public async Task<IActionResult> AssignDashboardAsync(AssignDashboardRequest dto)
-    {
-        await _userService.AssignDashboardAsync(dto);
-        return Ok();
-    }
     
     [HttpPut("AssignDepartment")]
     [HasPermission(Permissions.CanChangeDashboard)]

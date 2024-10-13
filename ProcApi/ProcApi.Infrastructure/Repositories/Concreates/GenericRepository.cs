@@ -16,7 +16,7 @@ public class GenericRepository<T1, T2> : IGenericRepository<T1, T2> where T1 : c
     }
 
     public virtual async Task<T1?> GetByIdAsync(T2 id)
-    { 
+    {
         return await _context.Set<T1>().FindAsync(id);
     }
 
@@ -61,6 +61,14 @@ public class GenericRepository<T1, T2> : IGenericRepository<T1, T2> where T1 : c
     public void Delete(T1 entity)
     {
         _context.Entry(entity).State = EntityState.Deleted;
+    }
+
+    public void Delete(IEnumerable<T1> entities)
+    {
+        foreach (var entity in entities)
+        {
+            _context.Entry(entity).State = EntityState.Deleted;
+        }
     }
 
     public async Task DeleteAsync(T1 entity)

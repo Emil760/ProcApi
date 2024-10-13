@@ -20,7 +20,6 @@ public static class MapperConfigurationExtension
         cfg.AddProfile(new DelegationProfile());
         cfg.AddProfile(new DepartmentProfile());
         cfg.AddProfile(new UnitOfMeasureProfile());
-        cfg.AddProfile(new DashboardProfile());
         cfg.AddProfile(new ProjectProfile());
         cfg.AddProfile(new AnnualProcurementProfile());
         cfg.AddProfile(new DropDownProfile());

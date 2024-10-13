@@ -24,6 +24,8 @@ public class PurchaseRequestService : IPurchaseRequestService
     private readonly IPurchaseRequestRepository _purchaseRequestRepository;
     private readonly IPurchaseRequestItemsRepository _purchaseRequestItemsRepository;
     private readonly IUserRepository _userRepository;
+    private readonly IDocumentNumberGenerator _documentNumberGenerator;
+    private readonly IDepartmentRepository _departmentRepository;
     private readonly IMapper _mapper;
     private readonly IStringLocalizer<SharedResource> _localizer;
     private readonly IUnitOfWork _unitOfWork;
@@ -33,6 +35,8 @@ public class PurchaseRequestService : IPurchaseRequestService
         IPurchaseRequestRepository purchaseRequestRepository,
         IPurchaseRequestItemsRepository purchaseRequestItemsRepository,
         IUserRepository userRepository,
+        IDocumentNumberGenerator documentNumberGenerator,
+        IDepartmentRepository departmentRepository,
         IMapper mapper,
         IStringLocalizer<SharedResource> localizer,
         IUnitOfWork unitOfWork)
@@ -42,6 +46,8 @@ public class PurchaseRequestService : IPurchaseRequestService
         _purchaseRequestRepository = purchaseRequestRepository;
         _purchaseRequestItemsRepository = purchaseRequestItemsRepository;
         _userRepository = userRepository;
+        _documentNumberGenerator = documentNumberGenerator;
+        _departmentRepository = departmentRepository;
         _mapper = mapper;
         _localizer = localizer;
         _unitOfWork = unitOfWork;
@@ -95,6 +101,9 @@ public class PurchaseRequestService : IPurchaseRequestService
         if (pr.Document.DocumentStatusId != DocumentStatus.PurchaseRequestDraft)
             throw new ValidationException(_localizer[LocalizationKeys.CANT_CHANGE_NON_DRAFT_DOCUMENT]);
 
+        if (!await _departmentRepository.ExistsByIdAsync(dto.DepartmentId))
+            throw new NotFoundException(_localizer[LocalizationKeys.DEPARTMENT_NOT_FOUND]);
+
         _mapper.Map(dto, pr);
 
         var itemsToAdd = dto.Items.Where(i => i.State == ActionState.Added);
@@ -108,11 +117,14 @@ public class PurchaseRequestService : IPurchaseRequestService
 
         RecalculateTotalItemsPrice(pr, pr.Items);
 
+        var number = await _documentNumberGenerator.GenerateDocumentNumber(pr.Document.Id, pr.Document.DocumentTypeId);
+        pr.Document.Number = number;
+
         await _unitOfWork.SaveChangesAsync();
 
         return _mapper.Map<SavePRResponse>(pr);
     }
-    
+
     public async Task<IEnumerable<PRItemResponse>> GetAllItemsAsync(int docId)
     {
         var items = await _purchaseRequestItemsRepository.GetAllByDocIdAsync(docId);

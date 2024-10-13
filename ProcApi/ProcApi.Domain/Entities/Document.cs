@@ -13,6 +13,8 @@ public class Document : IEntity<int>
     public string? Number { get; set; }
     public DocumentStatus DocumentStatusId { get; set; }
     public string FlowCodes { get; set; }
+    public int DocumentNumberPatternId { get; set; }
+    public DocumentNumberPattern DocumentNumberPattern { get; set; }
     public ICollection<DocumentAction> Actions { get; set; }
     public ICollection<Comment> Comments { get; set; }
 }

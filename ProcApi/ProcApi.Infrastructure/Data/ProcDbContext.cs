@@ -1,8 +1,7 @@
-﻿using System.Reflection;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using ProcApi.Domain.Entities;
-using ProcApi.Domain.ResultSets;
+using System.Reflection;
 
 namespace ProcApi.Infrastructure.Data
 {
@@ -67,10 +66,12 @@ namespace ProcApi.Infrastructure.Data
         public DbSet<Material> Materials { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
+        public DbSet<ReservedItem> ReservedItems { get; set; }
+        public DbSet<DocumentNumberPattern> DocumentNumberPatterns { get; set; }
+        public DbSet<DocumentNumberSection> DocumentNumberSections { get; set; }
         public DbSet<DropDownSource> DropDownSources { get; set; }
         public DbSet<DropDownItem> DropDownItems { get; set; }
         public DbSet<DocumentValidationConfiguration> DocumentValidationConfigurations { get; set; }
         public DbSet<FeatureConfiguration> FeatureConfigurations { get; set; }
-        public DbSet<ReservedItem> ReservedItems { get; set; }
     }
 }

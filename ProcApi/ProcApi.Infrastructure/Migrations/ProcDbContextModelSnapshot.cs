@@ -550,6 +550,9 @@ namespace ProcApi.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("timestamp without time zone");
 
+                    b.Property<int>("DocumentNumberPatternId")
+                        .HasColumnType("integer");
+
                     b.Property<int>("DocumentStatusId")
                         .HasColumnType("integer");
 
@@ -568,6 +571,8 @@ namespace ProcApi.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CreatedById");
+
+                    b.HasIndex("DocumentNumberPatternId");
 
                     b.ToTable("Documents");
                 });
@@ -622,6 +627,69 @@ namespace ProcApi.Infrastructure.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("DocumentActions");
+                });
+
+            modelBuilder.Entity("ProcApi.Domain.Entities.DocumentNumberPattern", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<int>("DocumentType")
+                        .HasColumnType("integer");
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(true);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("varchar(300)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DocumentNumberPatterns");
+                });
+
+            modelBuilder.Entity("ProcApi.Domain.Entities.DocumentNumberSection", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Delimiter")
+                        .HasColumnType("varchar(300)");
+
+                    b.Property<int>("DocumentNumberPatternId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Format")
+                        .HasColumnType("varchar(300)");
+
+                    b.Property<short>("Order")
+                        .HasColumnType("smallint");
+
+                    b.Property<int>("SectionType")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("varchar(300)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DocumentNumberPatternId");
+
+                    b.ToTable("DocumentNumberSections");
                 });
 
             modelBuilder.Entity("ProcApi.Domain.Entities.DocumentValidationConfiguration", b =>
@@ -2355,12 +2423,16 @@ namespace ProcApi.Infrastructure.Migrations
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("varchar(300)");
 
                     b.Property<int>("Gender")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasDefaultValue(2);
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("varchar(300)");
 
                     b.Property<string>("Login")
                         .IsRequired()
@@ -2673,7 +2745,15 @@ namespace ProcApi.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
+                    b.HasOne("ProcApi.Domain.Entities.DocumentNumberPattern", "DocumentNumberPattern")
+                        .WithMany("Documents")
+                        .HasForeignKey("DocumentNumberPatternId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("CreatedBy");
+
+                    b.Navigation("DocumentNumberPattern");
                 });
 
             modelBuilder.Entity("ProcApi.Domain.Entities.DocumentAction", b =>
@@ -2708,6 +2788,17 @@ namespace ProcApi.Infrastructure.Migrations
                     b.Navigation("Performer");
 
                     b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("ProcApi.Domain.Entities.DocumentNumberSection", b =>
+                {
+                    b.HasOne("ProcApi.Domain.Entities.DocumentNumberPattern", "DocumentNumberPattern")
+                        .WithMany("DocumentNumberSections")
+                        .HasForeignKey("DocumentNumberPatternId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("DocumentNumberPattern");
                 });
 
             modelBuilder.Entity("ProcApi.Domain.Entities.DropDownItem", b =>
@@ -3104,6 +3195,13 @@ namespace ProcApi.Infrastructure.Migrations
                     b.Navigation("Actions");
 
                     b.Navigation("Comments");
+                });
+
+            modelBuilder.Entity("ProcApi.Domain.Entities.DocumentNumberPattern", b =>
+                {
+                    b.Navigation("DocumentNumberSections");
+
+                    b.Navigation("Documents");
                 });
 
             modelBuilder.Entity("ProcApi.Domain.Entities.DropDownSource", b =>

@@ -27,6 +27,7 @@ public class PurchaseRequestProfile : CommonProfile
             .ForMember(dest => dest.DeliveryAddress, opt => opt.MapFrom(src => src.DeliveryAddress))
             .ForMember(dest => dest.DepartmentId, opt => opt.MapFrom(src => src.RequestedForDepartmentId))
             .ForMember(dest => dest.Items, opt => opt.MapFrom(src => src.Items))
-            .ForMember(dest => dest.TotalItemsPrice, opt => opt.MapFrom(src => src.TotalItemsPrice));
+            .ForMember(dest => dest.TotalItemsPrice, opt => opt.MapFrom(src => src.TotalItemsPrice))
+            .ForMember(dest => dest.Number, opt => opt.MapFrom(src => src.Document.Number));
     }
 }

@@ -38,7 +38,7 @@ public class ApprovalsService : IApprovalsService
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<IEnumerable<DocumentAction>> InitApprovals(int documentId, int userId, DocumentType type)
+    public async Task<IEnumerable<DocumentAction>> InitApprovals(int userId, DocumentType type)
     {
         var flowTemplates = await _flowTemplateRepository.GetInitialWithUserByDocumentType(type);
         if (!flowTemplates.Any())
@@ -273,7 +273,7 @@ public class ApprovalsService : IApprovalsService
         var documentAction = document.Actions.SingleOrDefault(da => da.RoleId == (int)role && da.AssignerId == userId);
 
         if (documentAction is not null)
-            _documentActionRepository.DeleteById(documentAction);
+            _documentActionRepository.Delete(documentAction);
 
         await _unitOfWork.SaveChangesAsync();
     }

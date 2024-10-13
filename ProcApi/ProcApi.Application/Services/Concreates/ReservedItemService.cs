@@ -75,10 +75,10 @@ namespace ProcApi.Application.Services.Concreates
         {
             var reserveItem = _mapper.Map<ReservedItem>(request);
 
-            if (!await _goodReceiptNoteItemRepository.ExistsById(reserveItem.GoodReceiptNoteItemId))
+            if (!await _goodReceiptNoteItemRepository.ExistsByIdAsync(reserveItem.GoodReceiptNoteItemId))
                 throw new NotFoundException(_localizer[LocalizationKeys.GOOD_RECEIPT_NOTE_ITEM_NOT_FOUND]);
 
-            if (!await _unitOfMeasureRepository.ExistsById(reserveItem.UnitOfMeasureId))
+            if (!await _unitOfMeasureRepository.ExistsByIdAsync(reserveItem.UnitOfMeasureId))
                 throw new NotFoundException(_localizer[LocalizationKeys.UNIT_OF_MEASURE_NOT_FOUND]);
 
             await _reservedItemRepository.InsertAsync(reserveItem);

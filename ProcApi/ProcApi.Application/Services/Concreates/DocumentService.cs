@@ -1,9 +1,13 @@
-﻿using ProcApi.Application.Services.Abstracts;
+﻿using Microsoft.Extensions.Localization;
+using ProcApi.Application.Services.Abstracts;
+using ProcApi.Domain.Constants;
 using ProcApi.Domain.Entities;
 using ProcApi.Domain.Enums;
+using ProcApi.Domain.Exceptions;
 using ProcApi.Domain.Models;
 using ProcApi.Infrastructure.Repositories.Abstracts;
 using ProcApi.Infrastructure.Repositories.UnitOfWork;
+using ProcApi.Infrastructure.Resources;
 
 namespace ProcApi.Application.Services.Concreates;
 
@@ -11,22 +15,28 @@ public class DocumentService : IDocumentService
 {
     private readonly IApprovalsService _approvalsService;
     private readonly IDocumentRepository _documentRepository;
+    private readonly IDocumentNumberPatterRepository _documentNumberPatterRepository;
     private readonly IFeatureConfigurationRepository _featureConfigurationRepository;
     private readonly IUnitOfWork _unitOfWork;
-    private readonly string _mask = "0000000";
+    private readonly IStringLocalizer<SharedResource> _localizer;
 
     public DocumentService(IApprovalsService approvalsService,
         IDocumentRepository documentRepository,
         IFeatureConfigurationRepository featureConfigurationRepository,
-        IUnitOfWork unitOfWork)
+        IDocumentNumberPatterRepository documentNumberPatterRepository,
+        IUnitOfWork unitOfWork,
+        IStringLocalizer<SharedResource> localizer)
     {
         _approvalsService = approvalsService;
         _documentRepository = documentRepository;
         _featureConfigurationRepository = featureConfigurationRepository;
+        _documentNumberPatterRepository = documentNumberPatterRepository;
         _unitOfWork = unitOfWork;
+        _localizer = localizer;
     }
 
-    public async Task<Document> CreateDocumentWithApprovalsAsync(UserInfoModel userInfo,
+    public async Task<Document> CreateDocumentWithApprovalsAsync(
+        UserInfoModel userInfo,
         DocumentType type,
         DocumentStatus status)
     {
@@ -39,21 +49,18 @@ public class DocumentService : IDocumentService
             FlowCodes = FlowCodes.STANDART
         };
 
-        await _documentRepository.InsertAsync(document);
-
-        var documentActions = await _approvalsService.InitApprovals(document.Id, userInfo.UserId, type);
+        var documentActions = await _approvalsService.InitApprovals(userInfo.UserId, type);
 
         document.Actions = documentActions.ToList();
 
-        await _unitOfWork.SaveChangesAsync();
+        var documentNumberPatter = await _documentNumberPatterRepository.GetActiveByDocumentType(type);
+        if (documentNumberPatter is null)
+            throw new NotFoundException(_localizer[LocalizationKeys.ACTIVE_DOCUMENT_NUMBER_PATTERN_NOT_FOUND]);
+
+        document.DocumentNumberPattern = documentNumberPatter;
+
+        await _documentRepository.InsertAsync(document);
 
         return document;
-    }
-
-    public async Task<string> CreateDocumentNumber(DocumentType documentType)
-    {
-        var lastDocCount = await _featureConfigurationRepository.GetByTypeAndNameAsync(ConfigurationType.DocumentNumberCounts, documentType.ToString());
-
-        return "";
     }
 }

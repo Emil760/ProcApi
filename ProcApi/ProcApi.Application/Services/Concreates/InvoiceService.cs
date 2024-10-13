@@ -24,6 +24,7 @@ public class InvoiceService : IInvoiceService
     private readonly IInvoiceItemRepository _invoiceItemRepository;
     private readonly IPurchaseRequestItemsRepository _purchaseRequestItemsRepository;
     private readonly IUnitOfMeasureConverterRepository _unitOfMeasureConverterRepository;
+    private readonly IDocumentNumberGenerator _documentNumberGenerator;
     private readonly IStringLocalizer<SharedResource> _localizer;
     private readonly IMapper _mapper;
     private readonly IUnitOfWork _unitOfWork;
@@ -33,6 +34,7 @@ public class InvoiceService : IInvoiceService
         IInvoiceItemRepository invoiceItemRepository,
         IPurchaseRequestItemsRepository purchaseRequestItemsRepository,
         IUnitOfMeasureConverterRepository unitOfMeasureConverterRepository,
+        IDocumentNumberGenerator documentNumberGenerator,
         IStringLocalizer<SharedResource> localizer,
         IMapper mapper,
         IUnitOfWork unitOfWork)
@@ -41,10 +43,11 @@ public class InvoiceService : IInvoiceService
         _invoiceRepository = invoiceRepository;
         _invoiceItemRepository = invoiceItemRepository;
         _purchaseRequestItemsRepository = purchaseRequestItemsRepository;
+        _unitOfMeasureConverterRepository = unitOfMeasureConverterRepository;
+        _documentNumberGenerator = documentNumberGenerator;
         _localizer = localizer;
         _mapper = mapper;
         _unitOfWork = unitOfWork;
-        _unitOfMeasureConverterRepository = unitOfMeasureConverterRepository;
     }
 
     public async Task<InvoiceResponse> GetDocumentAsync(int docId)
@@ -102,6 +105,9 @@ public class InvoiceService : IInvoiceService
         invoice.Items = (ICollection<InvoiceItem>)await CheckAndApplyPriceItems(invoice.Items, prItemIds);
 
         RecalculateTotalItemsPrice(invoice, invoice.Items);
+
+        var number = await _documentNumberGenerator.GenerateDocumentNumber(invoice.Document.Id, invoice.Document.DocumentTypeId);
+        invoice.Document.Number = number;
 
         await _unitOfWork.SaveChangesAsync();
 

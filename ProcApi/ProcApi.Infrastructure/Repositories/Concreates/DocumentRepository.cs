@@ -34,4 +34,18 @@ public class DocumentRepository : GenericRepository<Document, int>, IDocumentRep
             .Select(doc => doc.DocumentTypeId)
             .SingleOrDefaultAsync();
     }
+
+    public async Task<int> GetCountByTypeAsync(DocumentType documentType)
+    {
+        return await _context.Documents
+            .Where(x => x.DocumentTypeId == documentType)
+            .CountAsync();
+    }
+
+    public async Task<bool> HasByDocumentNumberPatternId(int documentNumberPatterId)
+    {
+        return await _context.Documents
+            .Where(d => d.DocumentNumberPatternId == documentNumberPatterId)
+            .AnyAsync();
+    }
 }

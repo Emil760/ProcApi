@@ -120,7 +120,7 @@ public class MaterialService : IMaterialService
         if (material is null)
             throw new NotFoundException(_localizer[LocalizationKeys.MATERIAL_NOT_FOUND]);
 
-        await _materialRepository.DeleteByIdAsync(material);
+        await _materialRepository.DeleteAsync(material);
     }
 
     public async Task<IEnumerable<DropDownDto<int>>> GetAllForDropDownAsync()

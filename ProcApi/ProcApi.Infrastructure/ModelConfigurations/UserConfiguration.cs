@@ -9,6 +9,14 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
 {
     public void Configure(EntityTypeBuilder<User> builder)
     {
+        builder.Property(u => u.FirstName)
+            .HasColumnType("varchar(300)")
+            .IsRequired();
+
+        builder.Property(u => u.LastName)
+            .HasColumnType("varchar(300)")
+            .IsRequired();
+
         builder.Property(u => u.Gender)
             .HasColumnType("int")
             .IsRequired()

@@ -20,18 +20,21 @@ public class GoodReceiptNoteService : IGoodReceiptNoteService
 {
     private readonly IDocumentService _documentService;
     private readonly IGoodReceiptNoteRepository _goodReceiptNoteRepository;
+    private readonly IDocumentNumberGenerator _documentNumberGenerator;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
     private readonly IStringLocalizer<SharedResource> _localizer;
 
     public GoodReceiptNoteService(IDocumentService documentService,
         IGoodReceiptNoteRepository goodReceiptNoteRepository,
+        IDocumentNumberGenerator documentNumberGenerator,
         IUnitOfWork unitOfWork,
         IMapper mapper,
         IStringLocalizer<SharedResource> localizer)
     {
         _documentService = documentService;
         _goodReceiptNoteRepository = goodReceiptNoteRepository;
+        _documentNumberGenerator = documentNumberGenerator;
         _unitOfWork = unitOfWork;
         _mapper = mapper;
         _localizer = localizer;
@@ -84,6 +87,9 @@ public class GoodReceiptNoteService : IGoodReceiptNoteService
         grn.Items = DeleteItems(grn.Items, itemsToDelete);
 
         RecalculateTotalItemsPrice(grn, grn.Items);
+
+        var number = await _documentNumberGenerator.GenerateDocumentNumber(grn.Document.Id, grn.Document.DocumentTypeId);
+        grn.Document.Number = number;
 
         await _unitOfWork.SaveChangesAsync();
 

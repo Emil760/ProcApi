@@ -26,5 +26,6 @@ public interface IUserRepository : IGenericRepository<User, int>
     Task<IEnumerable<int>> GetRolesUnionDelegatedRoles(int id);
     Task<bool> HasRoleAsync(int id, Roles role);
     Task<User?> GetByIdAndRoleId(int userId, Roles role);
+    Task<User?> GetDocumentAuthor(int docId);
     Task<IEnumerable<UserRoleResultSet>> GetUserRolesWithDelegatedRoles(int id, int delegatedUserId);
 }

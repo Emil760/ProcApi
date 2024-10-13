@@ -27,6 +27,8 @@ public static class RepositoriesConfigurationExtension
         services.AddScoped<IApprovalFlowTemplateRepository, ApprovalFlowTemplateRepository>();
         services.AddScoped<IReleaseStrategyTemplateRepository, ReleaseStrategyTemplateTemplatesRepository>();
         services.AddScoped<ICommentRepository, CommentRepository>();
+        services.AddScoped<IDocumentNumberPatterRepository, DocumentNumberPatternRepository>();
+        services.AddScoped<IDocumentNumberSectionRepository, DocumentNumberSectionRepository>();
 
         services.AddScoped<IPurchaseRequestRepository, PurchaseRequestRepository>();
         services.AddScoped<IPurchaseRequestItemsRepository, PurchaseRequestItemsRepository>();

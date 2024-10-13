@@ -177,6 +177,13 @@ public class UserRepository : GenericRepository<User, int>, IUserRepository
             .ToListAsync();
     }
 
+    public async Task<User?> GetDocumentAuthor(int docId)
+    {
+        return await _context.Users
+            .Where(x => x.Documents.Any(d => d.Id == docId))
+            .FirstOrDefaultAsync();
+    }
+
     public async Task<IEnumerable<UserRoleResultSet>> GetUserRolesWithDelegatedRoles(int id, int delegatedUserId)
     {
         return await _context.GetUserRolesWithDelegatedRoles(id, delegatedUserId)

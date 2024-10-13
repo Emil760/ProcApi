@@ -58,18 +58,25 @@ public class GenericRepository<T1, T2> : IGenericRepository<T1, T2> where T1 : c
             _context.Add(entity);
     }
 
-    public void DeleteById(T1 entity)
+    public void Delete(T1 entity)
     {
         _context.Entry(entity).State = EntityState.Deleted;
     }
 
-    public async Task DeleteByIdAsync(T1 entity)
+    public async Task DeleteAsync(T1 entity)
     {
         _context.Entry(entity).State = EntityState.Deleted;
         await _context.SaveChangesAsync();
     }
 
-    public async Task<bool> ExistsById(T2 id)
+    public async Task DeleteByIdAsync(T2 id)
+    {
+        var entity = GetByIdAsync(id);
+        _context.Entry(entity).State = EntityState.Deleted;
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task<bool> ExistsByIdAsync(T2 id)
     {
         return await _context.Set<T1>().AnyAsync(x => x.Id!.Equals(id));
     }

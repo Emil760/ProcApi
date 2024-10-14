@@ -18,6 +18,7 @@ public static class RepositoriesConfigurationExtension
         services.AddScoped<IUserDashboardRepository, UserDashboardRepository>();
         services.AddScoped<IDashboardSectionRepository, DashboardSectionRepository>();
         services.AddScoped<IDocumentRepository, DocumentRepository>();
+        services.AddScoped<IDocumentTypeStatusRepository, DocumentTypeStatusRepository>();
 
         services.AddScoped<IDepartmentRepository, DepartmentRepository>();
 

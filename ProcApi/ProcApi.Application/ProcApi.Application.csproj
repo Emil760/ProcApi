@@ -6,6 +6,12 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <Compile Remove="DTOs\GoodReceiptNote\**" />
+      <EmbeddedResource Remove="DTOs\GoodReceiptNote\**" />
+      <None Remove="DTOs\GoodReceiptNote\**" />
+    </ItemGroup>
+
 
     <ItemGroup>
       <ProjectReference Include="..\ProcApi.Domain\ProcApi.Domain.csproj" />
@@ -21,9 +27,6 @@
 
     <ItemGroup>
       <Folder Include="DTOs\DropDown\Base\" />
-      <Folder Include="DTOs\GoodReceiptNote\Base\" />
-      <Folder Include="DTOs\GoodReceiptNote\Responses\" />
-      <Folder Include="DTOs\GoodReceiptNote\Requests\" />
       <Folder Include="DTOs\ReservedItem\Base\" />
     </ItemGroup>
 

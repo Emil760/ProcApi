@@ -17,5 +17,13 @@ namespace ProcApi.Infrastructure.Repositories.Concreates
                 .Where(x => x.UserDashboardId == userDashboardId)
                 .ToListAsync();
         }
+
+        public async Task<IEnumerable<int>> GetIdsByDashboardIdAsync(int userDashboardId)
+        {
+            return await _context.DashboardSections
+                .Where(x => x.UserDashboardId == userDashboardId)
+                .Select(x => x.Id)
+                .ToListAsync();
+        }
     }
 }

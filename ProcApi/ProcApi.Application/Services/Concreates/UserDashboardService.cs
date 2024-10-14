@@ -5,7 +5,6 @@ using ProcApi.Application.DTOs.Dashboard.Responses;
 using ProcApi.Application.Services.Abstracts;
 using ProcApi.Domain.Constants;
 using ProcApi.Domain.Entities;
-using ProcApi.Domain.Enums;
 using ProcApi.Domain.Exceptions;
 using ProcApi.Infrastructure.Repositories.Abstracts;
 using ProcApi.Infrastructure.Repositories.UnitOfWork;
@@ -17,6 +16,7 @@ namespace ProcApi.Application.Services.Concreates
     {
         private readonly IUserDashboardRepository _userDashboardRepository;
         private readonly IDashboardSectionRepository _dashboardSectionRepository;
+        private readonly IDocumentTypeStatusRepository _documentTypeStatusRepository;
         private readonly IUserRepository _userRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
@@ -63,33 +63,49 @@ namespace ProcApi.Application.Services.Concreates
             if (userDashboard is null)
                 throw new NotFoundException(_localizer[LocalizationKeys.USER_DASHBOARD_NOT_FOUND]);
 
-            AddSections(userDashboard, dto.DocumentStatuses);
+            var allDocumentTypeStatuses = await _documentTypeStatusRepository.GetAllAsync();
 
-            RemoveSections(userDashboard, dto.DocumentStatuses);
+            AddSections(userDashboard, allDocumentTypeStatuses, dto.DocumentTypeStatusIds);
+
+            RemoveSections(userDashboard, dto.DocumentTypeStatusIds);
 
             await _unitOfWork.SaveChangesAsync();
         }
 
-        public void AddSections(UserDashboard userDashboard, IEnumerable<DocumentStatus> requestStatuses)
+        private void AddSections(UserDashboard userDashboard,
+            IEnumerable<DocumentTypeStatus> documentTypeStatuses,
+            IEnumerable<int> requestDocumentTypeStatusIds)
         {
-            var sectionsToAdd = requestStatuses.Where(x => !userDashboard.Sections
-                                                           .Select(s => s.DocumentStatus)
+            var sectionsToAdd = requestDocumentTypeStatusIds.Where(x => !userDashboard.Sections
+                                                           .Select(s => s.Id)
                                                            .Contains(x));
 
             foreach (var sectionToAdd in sectionsToAdd)
             {
+                var documentTypeStatus = documentTypeStatuses.FirstOrDefault(x => x.Id == sectionToAdd);
+
+                if (documentTypeStatus is null)
+                    continue;
+
                 userDashboard.Sections.Add(new DashboardSection()
                 {
-                    DocumentStatus = sectionToAdd
+                    UserDashboard = userDashboard,
+                    DocumentTypeStatus = documentTypeStatus
                 });
             }
         }
 
-        public void RemoveSections(UserDashboard userDashboard, IEnumerable<DocumentStatus> requestStatuses)
+        private void RemoveSections(UserDashboard userDashboard,
+            IEnumerable<int> requestDocumentTypeStatusIds)
         {
-            var sectionsToRemove = userDashboard.Sections.Where(s => !requestStatuses.Contains(s.DocumentStatus));
+            var sectionsToRemove = userDashboard.Sections.Where(s => !requestDocumentTypeStatusIds.Contains(s.DocumentTypeStatusId));
 
             _dashboardSectionRepository.Delete(sectionsToRemove);
+        }
+
+        public async Task<IEnumerable<int>> GetSelectedSectionsAsync(int userDashboardId)
+        {
+            return await _dashboardSectionRepository.GetIdsByDashboardIdAsync(userDashboardId);
         }
     }
 }

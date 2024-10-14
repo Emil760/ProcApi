@@ -1,9 +1,9 @@
 ﻿using Microsoft.Extensions.Localization;
 using ProcApi.Application.Services.Abstracts;
-using ProcApi.Application.Utility;
 using ProcApi.Domain.Constants;
 using ProcApi.Domain.Enums;
 using ProcApi.Domain.Exceptions;
+using ProcApi.Domain.Utility;
 using ProcApi.Infrastructure.Repositories.Abstracts;
 using ProcApi.Infrastructure.Resources;
 using System.Text;

@@ -1,5 +1,4 @@
-﻿using ProcApi.Domain.Enums;
-using ProcApi.Domain.Interfaces;
+﻿using ProcApi.Domain.Interfaces;
 
 namespace ProcApi.Domain.Entities
 {
@@ -8,6 +7,7 @@ namespace ProcApi.Domain.Entities
         public int Id { get; set; }
         public int UserDashboardId { get; set; }
         public UserDashboard UserDashboard { get; set; }
-        public DocumentStatus DocumentStatus { get; set; }
+        public int DocumentTypeStatusId { get; set; }
+        public DocumentTypeStatus DocumentTypeStatus { get; set; }
     }
 }

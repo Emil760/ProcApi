@@ -4,6 +4,6 @@ public class GoodIssueNoteProfile : CommonProfile
 {
     public GoodIssueNoteProfile()
     {
-        
+
     }
 }

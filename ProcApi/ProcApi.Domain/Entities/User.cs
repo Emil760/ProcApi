@@ -22,6 +22,7 @@ public class User : IEntity<int>
     public ICollection<Delegation> ToDelegations { get; set; }
 
     public ICollection<Document> Documents { get; set; }
+    public ICollection<UserDashboard> UserDashboards { get; set; }
 
     public ICollection<ChatUser> ChatUsers { get; set; }
     public ICollection<ChatMessage> ChatMessages { get; set; }

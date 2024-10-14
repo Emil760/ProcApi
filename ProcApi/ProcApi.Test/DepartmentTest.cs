@@ -18,7 +18,6 @@ namespace TestProject.UnitTest;
 public class DepartmentTest : BaseTest
 {
     private readonly UserRepository _userRepository;
-    private readonly IDashboardRepository _dashboardRepository;
     private readonly DepartmentRepository _departmentRepository;
     private readonly IRoleRepository _roleRepository;
     private readonly DepartmentService _departmentService;
@@ -33,7 +32,6 @@ public class DepartmentTest : BaseTest
 
         _userRepository = new UserRepository(_context);
         _departmentRepository = new DepartmentRepository(_context);
-        _dashboardRepository = new DashboardRepository(_context);
         _roleRepository = new RoleRepository(_context);
 
         _departmentService = new DepartmentService(_departmentRepository,
@@ -44,7 +42,6 @@ public class DepartmentTest : BaseTest
             _unitOfWork);
 
         _userService = new UserService(_userRepository,
-            _dashboardRepository,
             _departmentRepository,
             _roleRepository,
             _mapper,

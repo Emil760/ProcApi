@@ -1,5 +1,5 @@
 ﻿using ProcApi.Application.DTOs.DocumentPattern.Base;
-using ProcApi.Application.Utility;
+using ProcApi.Domain.Utility;
 
 namespace ProcApi.Application.DTOs.DocumentPattern.Responses
 {

@@ -27,17 +27,17 @@ namespace ProcApi.Presentation.Controllers
             return Ok(await _userDashboardService.GetAllByUserIdAsync(UserInfo.UserId));
         }
 
+        [HttpGet("SelectedSections")]
+        public async Task<IActionResult> GetSelectedSectionsAsync([FromQuery] int userDashboardId)
+        {
+            return Ok(await _userDashboardService.GetSelectedSectionsAsync(userDashboardId));
+        }
+
         [HttpPost("ManageSection")]
         public async Task<IActionResult> ManageSectionAsync([FromBody] ManageSectionRequest dto)
         {
             await _userDashboardService.ManageSectionAsync(dto);
             return Ok();
-        }
-
-        [HttpGet("Sections")]
-        public async Task<IActionResult> GetSectionsAsync([FromQuery] int userDashboardId)
-        {
-            return Ok(await _userDashboardService.GetSectionsAsync(userDashboardId));
         }
     }
 }

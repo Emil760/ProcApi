@@ -48,6 +48,7 @@ namespace ProcApi.Infrastructure.Data
         public DbSet<DocumentAction> DocumentActions { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Document> Documents { get; set; }
+        public DbSet<DocumentTypeStatus> DocumentTypeStatuses { get; set; }
         public DbSet<PurchaseRequest> PurchaseRequests { get; set; }
         public DbSet<PurchaseRequestItem> PurchaseRequestItems { get; set; }
         public DbSet<Invoice> Invoices { get; set; }

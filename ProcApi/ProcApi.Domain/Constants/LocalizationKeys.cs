@@ -27,6 +27,7 @@
         public const string HAS_USED_DOCUMENTS = "HasUsedDocuments";
         public const string DOCUMENT_NUMBER_SECTION_WITH_SAME_ORDER = "DocumentNumberSectionWithSameOrder";
         public const string ACTIVE_DOCUMENT_NUMBER_PATTERN_NOT_FOUND = "ActiveDocumentNumberPatterNotFound";
+        public const string DOCUMENT_TYPE_STATUS_ALREADY_EXISTS = "DocumentTypeStatusAlreadyExists";
 
         public const string USER_ALREADY_HAS_DEPARTMENT = "UserAlreadyHasDepartment";
         public const string USER_NOT_BELONGS_TO_DEPARTMENT = "UserDontBelongToDepartment";

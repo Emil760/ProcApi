@@ -37,6 +37,7 @@ public static class ServicesConfigurationExtension
         services.AddScoped<ICommentService, CommentService>();
         services.AddScoped<IDocumentNumberGenerator, DocumentNumberGenerator>();
         services.AddScoped<IDocumentNumberPatternService, DocumentNumberPatternService>();
+        services.AddScoped<IDocumentTypeStatusService, DocumentTypeStatusService>();
 
         services.AddScoped<IPurchaseRequestService, PurchaseRequestService>();
         services.AddScoped<IApprovalCoordinator, ApprovalCoordinator>();
@@ -55,7 +56,7 @@ public static class ServicesConfigurationExtension
         services.AddScoped<InvoiceSubmitHandler>();
 
         services.AddScoped<IGoodIssueNoteService, GoodIssueNoteService>();
-        
+
         services.AddScoped<IDocumentValidatorHandler, DocumentValidatorHandler>();
         services.AddScoped<PurchaseRequestValidator>();
         services.AddScoped<InvoiceValidator>();

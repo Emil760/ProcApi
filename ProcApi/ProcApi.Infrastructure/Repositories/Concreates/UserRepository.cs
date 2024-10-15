@@ -11,7 +11,7 @@ namespace ProcApi.Infrastructure.Repositories.Concreates;
 
 public class UserRepository : GenericRepository<User, int>, IUserRepository
 {
-    private static readonly Func<ProcDbContext, int, Task<User>> GetById =
+    private static readonly Func<ProcDbContext, int, Task<User?>> GetById =
         EF.CompileAsyncQuery((ProcDbContext context, int id) =>
             context.Set<User>().FirstOrDefault(u => u.Id == id));
 

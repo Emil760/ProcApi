@@ -15,11 +15,11 @@ public class DocumentValidationConfigurationConfiguration : IEntityTypeConfigura
 
     private IEnumerable<DocumentValidationConfiguration> SeedData()
     {
-        List<DocumentValidationConfiguration> list = new List<DocumentValidationConfiguration>();
+        var list = new List<DocumentValidationConfiguration>();
 
         #region PurchaseRequest
 
-        list.Add(new DocumentValidationConfiguration()
+        list.Add(new DocumentValidationConfiguration
         {
             Id = 1,
             DocumentTypeId = DocumentType.PurchaseRequest,
@@ -33,7 +33,7 @@ public class DocumentValidationConfigurationConfiguration : IEntityTypeConfigura
 
         #region Invoice
 
-        list.Add(new DocumentValidationConfiguration()
+        list.Add(new DocumentValidationConfiguration
         {
             Id = 2,
             DocumentTypeId = DocumentType.Invoice,

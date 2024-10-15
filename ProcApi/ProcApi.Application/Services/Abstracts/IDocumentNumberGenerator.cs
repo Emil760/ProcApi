@@ -1,9 +1,8 @@
 ﻿using ProcApi.Domain.Enums;
 
-namespace ProcApi.Application.Services.Abstracts
+namespace ProcApi.Application.Services.Abstracts;
+
+public interface IDocumentNumberGenerator
 {
-    public interface IDocumentNumberGenerator
-    {
-        Task<string> GenerateDocumentNumber(int docId, DocumentType documentType);
-    }
+    Task<string> GenerateDocumentNumber(int docId, DocumentType documentType);
 }

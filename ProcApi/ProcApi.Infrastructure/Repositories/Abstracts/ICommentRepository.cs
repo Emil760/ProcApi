@@ -1,8 +1,7 @@
 ﻿using ProcApi.Domain.Entities;
 
-namespace ProcApi.Infrastructure.Repositories.Abstracts
+namespace ProcApi.Infrastructure.Repositories.Abstracts;
+
+public interface ICommentRepository : IGenericRepository<Comment, int>
 {
-    public interface ICommentRepository : IGenericRepository<Comment, int>
-    {
-    }
 }

@@ -63,7 +63,7 @@ public class InvoiceService : IInvoiceService
             DocumentType.Invoice,
             DocumentStatus.InvoiceDraft);
 
-        var invoice = new Invoice()
+        var invoice = new Invoice
         {
             Document = document
         };
@@ -118,21 +118,21 @@ public class InvoiceService : IInvoiceService
         IEnumerable<InvoiceItem> invoiceItems,
         IEnumerable<int> prItemIds)
     {
-        var unusedPRItems =
+        var unusedPrItems =
             await _invoiceRepository.GetUnusedPurchaseRequestItemsByIdsAsync(prItemIds.ToArray());
 
         foreach (var invoiceItem in invoiceItems)
         {
-            var unusedPRItem = unusedPRItems
+            var unusedPrItem = unusedPrItems
                 .SingleOrDefault(i => i.PurchaseRequestItemId == invoiceItem.PurchaseRequestItemId);
 
-            if (unusedPRItem is null)
+            if (unusedPrItem is null)
                 throw new NotFoundException(_localizer[LocalizationKeys.ITEM_NOT_FOUND]);
 
-            if (invoiceItem.Quantity > unusedPRItem.UnusedCount)
+            if (invoiceItem.Quantity > unusedPrItem.UnusedCount)
                 throw new ValidationException(_localizer[LocalizationKeys.ITEM_COUNT_EXTENDED]);
 
-            invoiceItem.Price = unusedPRItem.Price;
+            invoiceItem.Price = unusedPrItem.Price;
         }
 
         return invoiceItems;

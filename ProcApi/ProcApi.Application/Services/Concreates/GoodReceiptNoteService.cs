@@ -51,7 +51,7 @@ public class GoodReceiptNoteService : IGoodReceiptNoteService
             DocumentType.GoodReceiptNote,
             DocumentStatus.GoodReceiptNoteDraft);
 
-        var goodReceiptNote = new GoodReceiptNote()
+        var goodReceiptNote = new GoodReceiptNote
         {
             Document = document
         };

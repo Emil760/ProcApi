@@ -36,13 +36,13 @@ public class DocumentValidatorHandler : IDocumentValidatorHandler
             document.DocumentTypeId,
             document.DocumentStatusId);
 
-        var documentValidator = _httpContextAccessor.HttpContext.RequestServices.GetRequiredService(validatorType);
+        var documentValidator = _httpContextAccessor.HttpContext?.RequestServices.GetRequiredService(validatorType);
 
         var initMethod = validatorType.GetMethod("InitAsync");
-        var task = (Task)initMethod.Invoke(documentValidator, new object[] { documentId });
+        var task = (Task)initMethod.Invoke(documentValidator, [documentId]);
         await task.ConfigureAwait(true);
 
-        List<string> errors = new List<string>();
+        var errors = new List<string>();
 
         foreach (var validation in validations)
         {
@@ -53,7 +53,7 @@ public class DocumentValidatorHandler : IDocumentValidatorHandler
                 errors.Add(errorMessage);
         }
 
-        if (errors.Any())
+        if (errors.Count == 0)
             throw new MultipleException(errors);
     }
 }

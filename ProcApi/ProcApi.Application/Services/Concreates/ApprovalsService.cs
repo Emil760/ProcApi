@@ -144,9 +144,15 @@ public class ApprovalsService : IApprovalsService
     {
         var document = await _documentRepository.GetWithActionsAsync(dto.DocId);
 
+        if (document is null)
+            throw new NotFoundException(_localizer[LocalizationKeys.DOCUMENT_NOT_FOUND]);
+
         var releaseStrategy =
             await _releaseStrategyTemplateRepository.GetWithFlowTemplateByStatusAndTypeAndConfigurationAsync(
                 document.FlowCodes, document.DocumentStatusId, dto.ActionType);
+
+        if (releaseStrategy is null)
+            throw new Exception("Flow exception");
 
         var performedCount = document.Actions.Count(da => da.IsPerformed);
 

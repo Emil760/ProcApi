@@ -61,10 +61,10 @@ public class UnitOfMeasureService : IUnitOfMeasureService
         if (exists)
             throw new ValidationException(_localizer[LocalizationKeys.UNIT_OF_MEASURE_NAME_ALREADY_EXISTS]);
 
-        var unitOfMeasure = new UnitOfMeasure()
+        var unitOfMeasure = new UnitOfMeasure
         {
             Name = dto.Name,
-            CanBeDecimal = dto.CanBeDecimal,
+            CanBeDecimal = dto.CanBeDecimal
         };
 
         await _unitOfMeasureRepository.InsertAsync(unitOfMeasure);
@@ -98,18 +98,18 @@ public class UnitOfMeasureService : IUnitOfMeasureService
         ValidateQuantity(unitOfMeasures.ElementAt(0), dto.Value);
         ValidateQuantity(unitOfMeasures.ElementAt(1), dto.Value);
         
-        _unitOfMeasureConverterRepository.Insert(new UnitOfMeasureConverter()
+        _unitOfMeasureConverterRepository.Insert(new UnitOfMeasureConverter
         {
             SourceUnitOfMeasureId = dto.SourceUnitOfMeasureId,
             TargetUnitOfMeasureId = dto.TargetUnitOfMeasureId,
             Value = dto.Value,
         });
 
-        _unitOfMeasureConverterRepository.Insert(new UnitOfMeasureConverter()
+        _unitOfMeasureConverterRepository.Insert(new UnitOfMeasureConverter
         {
             SourceUnitOfMeasureId = dto.TargetUnitOfMeasureId,
             TargetUnitOfMeasureId = dto.SourceUnitOfMeasureId,
-            Value = 1 / dto.Value,
+            Value = 1 / dto.Value
         });
 
         await _unitOfWork.SaveChangesAsync();

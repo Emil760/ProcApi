@@ -6,8 +6,8 @@ namespace ProcApi.Infrastructure.Utility;
 
 public class Paginator<TEntity>
 {
-    private const int defaultPage = 1;
-    private const int defaultPageSize = 20;
+    private const int DEFAULT_PAGE = 1;
+    private const int DEFAULT_PAGE_SIZE = 20;
 
     [JsonIgnore] 
     public IEnumerable<TEntity> ResultSet { get; set; }
@@ -30,12 +30,12 @@ public class Paginator<TEntity>
 
     private static int GetPageNumber(int? pageNumber)
     {
-        return pageNumber ?? defaultPage;
+        return pageNumber ?? DEFAULT_PAGE;
     }
 
     private static int GetPageSize(int? pageSize)
     {
-        return pageSize ?? defaultPageSize;
+        return pageSize ?? DEFAULT_PAGE_SIZE;
     }
 
     public override string ToString()

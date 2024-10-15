@@ -29,12 +29,11 @@ public class GoodReceiptNoteController : BaseController
     }
 
     [HttpGet]
-    [DocumentAccessFilter(new[]
-    {
+    [DocumentAccessFilter([
         Permissions.CanViewAll,
         Permissions.CanReturnGoodReceiptNote,
         Permissions.CanRejectGoodReceiptNote
-    })]
+    ])]
     [HasPermission(Permissions.CanViewGoodReceiptNote)]
     public async Task<IActionResult> GetDocumentAsync([FromQuery] int docId)
     {

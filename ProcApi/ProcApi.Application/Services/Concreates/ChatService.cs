@@ -68,7 +68,7 @@ public class ChatService : IChatService
     {
         var usersPaginated = await _userRepository.GetAllPaginated(pagination);
 
-        _httpContextAccessor.HttpContext!.Response.Headers.Add(HeaderKeys.XPagination, usersPaginated.ToString());
+        _httpContextAccessor.HttpContext!.Response.Headers.Append(HeaderKeys.XPagination, usersPaginated.ToString());
 
         return _mapper.Map<IEnumerable<ChatUserResponse>>(usersPaginated.ResultSet);
     }

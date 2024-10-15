@@ -61,7 +61,7 @@ public class AnnualProcurementService : IAnnualProcurementService
         currentAnnualProcurement.IsActive = false;
         currentAnnualProcurement.LastUpdateDate = DateTime.Now;
 
-        var newAnnualProcurement = new AnnualProcurement()
+        var newAnnualProcurement = new AnnualProcurement
         {
             Name = currentAnnualProcurement.Name,
             Description = currentAnnualProcurement.Description,
@@ -116,6 +116,7 @@ public class AnnualProcurementService : IAnnualProcurementService
         return _mapper.Map<IEnumerable<AnnualProcurementResponseDto>>(annualProcurements);
     }
 
+    //TODO
     public async Task<AnnualProcurementItemResponseDto> AddItemAsync(CreateAnnualProcurementItemsRequest dto)
     {
         var annualProcurement = await _annualProcurementRepository.GetByIdAsync(dto.AnnualProcurementId);
@@ -132,7 +133,6 @@ public class AnnualProcurementService : IAnnualProcurementService
         if (materialsIds.Count() != materials.Count())
             throw new NotFoundException(_localizer[LocalizationKeys.MATERIAL_NOT_FOUND]);
 
-        var itemsException = new ItemsException<int>();
         var exceptionIds = new List<int>();
 
         foreach (var createItem in dto.Items)
@@ -149,15 +149,6 @@ public class AnnualProcurementService : IAnnualProcurementService
                 throw;
             }
         }
-
-        // var material = await _materialRepository.GetByIdAsync(dto.MaterialId);
-        // if (material is null)
-        //     throw new NotFoundException(_localizer[LocalizationKeys.MATERIAL_NOT_FOUND]);
-        //
-        // var unitOfMeasure = await _unitOfMeasureRepository.GetByIdAsync(dto.UnitOfMeasureId);
-        // if (unitOfMeasure is null)
-        //     throw new NotFoundException(_localizer[LocalizationKeys.UNIT_OF_MEASURE_NOT_FOUND]);
-        // _unitOfMeasureService.ValidateQuantity(unitOfMeasure, dto.Quantity);
 
         return null;
     }

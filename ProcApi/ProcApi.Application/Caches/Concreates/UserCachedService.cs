@@ -23,11 +23,11 @@ public class UserCachedService : IUserCachedService
         var key = CacheKeys.GetUserKey(id);
         var user = await _cache.GetAsync<UserInfoResponse>(key);
 
-        if (user is null)
-        {
-            user = await _userService.GetByIdAsync(id);
-            await _cache.SetAsync(key, user);
-        }
+        if (user is not null) 
+            return user;
+        
+        user = await _userService.GetByIdAsync(id);
+        await _cache.SetAsync(key, user);
 
         return user;
     }

@@ -16,20 +16,17 @@ public class DocumentService : IDocumentService
     private readonly IApprovalsService _approvalsService;
     private readonly IDocumentRepository _documentRepository;
     private readonly IDocumentNumberPatterRepository _documentNumberPatterRepository;
-    private readonly IFeatureConfigurationRepository _featureConfigurationRepository;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IStringLocalizer<SharedResource> _localizer;
 
     public DocumentService(IApprovalsService approvalsService,
         IDocumentRepository documentRepository,
-        IFeatureConfigurationRepository featureConfigurationRepository,
         IDocumentNumberPatterRepository documentNumberPatterRepository,
         IUnitOfWork unitOfWork,
         IStringLocalizer<SharedResource> localizer)
     {
         _approvalsService = approvalsService;
         _documentRepository = documentRepository;
-        _featureConfigurationRepository = featureConfigurationRepository;
         _documentNumberPatterRepository = documentNumberPatterRepository;
         _unitOfWork = unitOfWork;
         _localizer = localizer;

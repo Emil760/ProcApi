@@ -45,7 +45,7 @@ public class MaterialService : IMaterialService
     {
         var materialsPaginated = await _materialRepository.GetAllPaginated(pagination);
 
-        _httpContextAccessor.HttpContext!.Response.Headers.Add(HeaderKeys.XPagination, materialsPaginated.ToString());
+        _httpContextAccessor.HttpContext!.Response.Headers.Append(HeaderKeys.XPagination, materialsPaginated.ToString());
 
         return _mapper.Map<IEnumerable<MaterialResponse>>(materialsPaginated.ResultSet);
     }
@@ -54,7 +54,7 @@ public class MaterialService : IMaterialService
     {
         var materialResultSets = (await _materialRepository.GetWithCategories(id)).ToList();
 
-        if (!materialResultSets.Any())
+        if (materialResultSets.Count == 0)
             throw new NotFoundException(_localizer[LocalizationKeys.MATERIAL_NOT_FOUND]);
 
         var categories = new List<TreeCategoryResponse>();

@@ -64,7 +64,7 @@ public class DepartmentService : IDepartmentService
     {
         var departmentPaginated = await _departmentRepository.GetAllPaginated(pagination);
 
-        _httpContextAccessor.HttpContext!.Response.Headers.Add(HeaderKeys.XPagination, departmentPaginated.ToString());
+        _httpContextAccessor.HttpContext!.Response.Headers.Append(HeaderKeys.XPagination, departmentPaginated.ToString());
 
         return _mapper.Map<IEnumerable<DepartmentListResponse>>(departmentPaginated.ResultSet);
     }

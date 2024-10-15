@@ -29,12 +29,11 @@ public class PurchaseRequestController : BaseController
     }
 
     [HttpGet]
-    [DocumentAccessFilter(new[]
-    {
+    [DocumentAccessFilter([
         Permissions.CanViewAll,
         Permissions.CanReturnPurchaseRequest,
         Permissions.CanRejectPurchaseRequest
-    })]
+    ])]
     [HasPermission(Permissions.CanViewPurchaseRequest)]
     public async Task<IActionResult> GetDocumentAsync([FromQuery] int docId)
     {

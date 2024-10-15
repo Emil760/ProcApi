@@ -12,7 +12,7 @@ public class MultipleExceptionHandler : IExceptionHandler
         var errors = ((MultipleException)exception).Errors;
         var json = JsonConvert.SerializeObject(errors);
 
-        return new ExceptionModel()
+        return new ExceptionModel
         {
             ContentType = MediaTypeNames.Application.Json,
             StatusCode = 400,

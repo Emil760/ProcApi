@@ -59,7 +59,7 @@ public class PurchaseRequestService : IPurchaseRequestService
             DocumentType.PurchaseRequest,
             DocumentStatus.PurchaseRequestDraft);
 
-        var purchaseRequest = new PurchaseRequest()
+        var purchaseRequest = new PurchaseRequest
         {
             Document = document
         };

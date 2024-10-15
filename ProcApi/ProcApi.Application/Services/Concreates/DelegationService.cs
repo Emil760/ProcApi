@@ -50,7 +50,7 @@ public class DelegationService : IDelegationService
     {
         var delegationPaginated = await _delegationRepository.GetAllPaginated(model);
         
-        _httpContextAccessor.HttpContext!.Response.Headers.Add(HeaderKeys.XPagination, delegationPaginated.ToString());
+        _httpContextAccessor.HttpContext!.Response.Headers.Append(HeaderKeys.XPagination, delegationPaginated.ToString());
 
         return _mapper.Map<IEnumerable<DelegationResponse>>(delegationPaginated.ResultSet);
     }

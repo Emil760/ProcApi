@@ -37,7 +37,7 @@ public static class DistributedCacheExtensions
         return true;
     }
 
-    private static JsonSerializerOptions _serializerOptions = new JsonSerializerOptions
+    private static readonly JsonSerializerOptions _serializerOptions = new JsonSerializerOptions
     {
         PropertyNamingPolicy = null,
         WriteIndented = true,
@@ -45,7 +45,7 @@ public static class DistributedCacheExtensions
         DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
     };
 
-    private static DistributedCacheEntryOptions _distributedCacheEntryOptions = new DistributedCacheEntryOptions
+    private static readonly DistributedCacheEntryOptions _distributedCacheEntryOptions = new DistributedCacheEntryOptions
     {
         SlidingExpiration = TimeSpan.FromHours(1)
     };

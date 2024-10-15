@@ -48,7 +48,7 @@ public class GeneralExceptionHandler : IExceptionHandler
         };
     }
 
-    private string GetFailedRequestMessage(HttpContext context, System.Exception exception)
+    private static string GetFailedRequestMessage(HttpContext context, System.Exception exception)
     {
         return "Failed Request\n" +
                $"\tSchema: {context.Request.Scheme}\n" +

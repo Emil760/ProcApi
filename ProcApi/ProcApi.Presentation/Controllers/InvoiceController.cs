@@ -32,12 +32,11 @@ public class InvoiceController : BaseController
     }
 
     [HttpGet]
-    [DocumentAccessFilter(new[]
-    {
+    [DocumentAccessFilter([
         Permissions.CanViewAll,
         Permissions.CanReturnInvoice,
         Permissions.CanRejectInvoice
-    })]
+    ])]
     [HasPermission(Permissions.CanViewInvoice)]
     public async Task<IActionResult> GetDocumentAsync([FromQuery] int docId)
     {

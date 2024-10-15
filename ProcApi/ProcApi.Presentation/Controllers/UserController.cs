@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ProcApi.Application.Caches.Abstracts;
-using ProcApi.Application.DTOs.Department.Requests;
 using ProcApi.Application.DTOs.User.Requests;
 using ProcApi.Application.Services.Abstracts;
 using ProcApi.Domain.Enums;
@@ -35,7 +34,7 @@ public class UserController : BaseController
         return Ok(await _userService.GetUsersWithRolesAsync(search));
     }
 
-    [HttpGet("GetById/{id}")]
+    [HttpGet("GetById/{id:int}")]
     [HasPermission(Permissions.CanViewUser)]
     public async Task<IActionResult> GetAllAsync([FromRoute] int id)
     {

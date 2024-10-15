@@ -49,7 +49,7 @@ public class SupplierService : ISupplierService
     {
         var materialsPaginated = await _supplierRepository.GetAllPaginated(pagination);
 
-        _httpContextAccessor.HttpContext!.Response.Headers.Add(HeaderKeys.XPagination, materialsPaginated.ToString());
+        _httpContextAccessor.HttpContext!.Response.Headers.Append(HeaderKeys.XPagination, materialsPaginated.ToString());
 
         return _mapper.Map<IEnumerable<SupplierResponse>>(materialsPaginated.ResultSet);
     }

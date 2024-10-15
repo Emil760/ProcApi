@@ -102,7 +102,7 @@ public class UnitOfMeasureService : IUnitOfMeasureService
         {
             SourceUnitOfMeasureId = dto.SourceUnitOfMeasureId,
             TargetUnitOfMeasureId = dto.TargetUnitOfMeasureId,
-            Value = dto.Value,
+            Value = dto.Value
         });
 
         _unitOfMeasureConverterRepository.Insert(new UnitOfMeasureConverter

@@ -26,6 +26,7 @@ namespace ProcApi.Application.Services.Concreates
         public UserDashboardService(IUserDashboardRepository userDashboardRepository,
             IDashboardSectionRepository dashboardSectionRepository,
             IUserRepository userRepository,
+            IDocumentTypeStatusRepository documentTypeStatusRepository,
             IUnitOfWork unitOfWork,
             IMapper mapper,
             IStringLocalizer<SharedResource> localizer)
@@ -33,6 +34,7 @@ namespace ProcApi.Application.Services.Concreates
             _userDashboardRepository = userDashboardRepository;
             _dashboardSectionRepository = dashboardSectionRepository;
             _userRepository = userRepository;
+            _documentTypeStatusRepository = documentTypeStatusRepository;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _localizer = localizer;

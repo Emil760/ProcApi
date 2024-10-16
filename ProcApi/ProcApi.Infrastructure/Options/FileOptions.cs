@@ -2,5 +2,5 @@
 
 public class FileOptions
 {
-    public int CommonMaxLenght { get; set; }
+    public int CommonMaxLength { get; set; }
 }
